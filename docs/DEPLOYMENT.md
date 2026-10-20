@@ -6,7 +6,7 @@ This guide covers deploying the Shreeji server 24/7 with zero-downtime reloads, 
 
 ## 🏛️ Recommended Production Architecture
 
-```
+```text
 [ Clients (Web, iOS, Android) ]
               │
               ▼
@@ -28,12 +28,14 @@ This guide covers deploying the Shreeji server 24/7 with zero-downtime reloads, 
 ### Option 1: Cloud VPS (DigitalOcean, Hetzner, AWS EC2, Linode)
 
 1. **Clone repository on the server**:
+
    ```bash
    git clone https://github.com/founder-svg/Shreeji.git
    cd Shreeji/server
    ```
 
 2. **Configure Production Environment (`.env`)**:
+
    ```env
    NODE_ENV=production
    PORT=5000
@@ -52,12 +54,14 @@ This guide covers deploying the Shreeji server 24/7 with zero-downtime reloads, 
    ```
 
 3. **Install Dependencies & Start PM2**:
+
    ```bash
    npm ci --omit=dev
    npm run prod:start
    ```
 
 4. **Persist Across Server Reboots**:
+
    ```bash
    npx pm2 save
    npx pm2 startup

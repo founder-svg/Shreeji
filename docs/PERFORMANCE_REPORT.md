@@ -11,7 +11,7 @@
 ## 🎯 PRD Acceptance Targets vs Actual Measurements
 
 | Performance Metric | PRD Target Requirement | Actual Measured Result | Status |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | **Concurrent Active Users** | 100 virtual users | **100 virtual users** | ✅ PASS |
 | **Throughput (req/sec)** | High availability | **~4,600 req/sec** | ✅ EXCEEDED |
 | **Total Requests Handled** | Bounded duration | **23,200 requests (5s)** | ✅ PASS |
@@ -28,12 +28,14 @@
 ## 📊 Detailed Stage-by-Stage Results
 
 ### Stage 1: Baseline Single-User Latency (1 Connection)
+
 - **Throughput**: ~750 req/sec
 - **Latency p50**: 1.2 ms
 - **Latency p95**: 1.8 ms
 - **Errors**: 0
 
 ### Stage 2: Moderate Concurrency (25 Virtual Users)
+
 - **Workload**: Parameterized queries (`GET /api/v1/products?search=crimson&sort=price-low`)
 - **Throughput**: ~3,800 req/sec
 - **Latency p50**: 5 ms
@@ -41,6 +43,7 @@
 - **Errors**: 0
 
 ### Stage 3: Official Acceptance Target (100 Concurrent Virtual Users)
+
 - **Workload**: Multi-endpoint public products catalog (`GET /api/v1/products`) with headers
 - **Throughput Rate**: 4,600 requests/second
 - **Data Throughput**: 10.2 MB/s
@@ -51,6 +54,7 @@
 - **Errors**: 0 (0.000%)
 
 ### Stage 4: Burst & Stress Scenario (120 Concurrent Virtual Users)
+
 - **Workload**: Single product lookup (`GET /api/v1/products/prod-1`)
 - **Throughput Rate**: 3,393 requests/second
 - **Latency p50**: 33 ms

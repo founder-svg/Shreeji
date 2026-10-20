@@ -19,13 +19,16 @@ A production-grade, ultra-low latency Node.js backend server designed for Shreej
 ## 🚀 Quick Start (Local Setup)
 
 ### 1. Install Dependencies
+
 ```bash
 cd server
 npm install
 ```
 
 ### 2. Configure Environment (.env)
+
 The repository includes `.env.example`. Copy or edit `.env`:
+
 ```env
 PORT=5000
 NODE_ENV=development
@@ -52,6 +55,7 @@ S3_PUBLIC_URL=
 ```
 
 ### 3. Run the Server
+
 ```bash
 # Start in standard mode
 npm start
@@ -65,6 +69,7 @@ Server will run at `http://localhost:5000`.
 ### 4. 🕒 Run 24/7 Continuously (Production PM2 & Docker)
 
 #### Option A: PM2 Process Manager (Auto-Restart on Crash/Reboot)
+
 ```bash
 npm run prod:start     # Start 24/7 background process
 npm run prod:status    # View live status & memory
@@ -78,6 +83,7 @@ npx pm2 startup
 ```
 
 #### Option B: Docker (Auto-Healing Container 24/7)
+
 ```bash
 docker compose up -d   # Start container in background (restart: always)
 docker compose logs -f # View logs
@@ -102,7 +108,7 @@ npm run test:load
 See [`docs/API.md`](../docs/API.md) for full documentation.
 
 | Method | Endpoint | Access | Description |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `POST` | `/api/auth/login` | Public | Admin login, returns JWT token |
 | `GET` | `/api/auth/me` | Admin | Current admin profile |
 | `GET` | `/api/health` | Public | Minimal liveness & database ping check |
@@ -118,7 +124,7 @@ See [`docs/API.md`](../docs/API.md) for full documentation.
 | `POST` | `/api/cart/items` | Public | Add item to cart |
 | `POST` | `/api/orders` | Public | Place order (trusted DB price & atomic stock decrement) |
 | `GET` | `/api/orders` | Admin | List all orders |
-| `PATCH` | `/api/orders/:id/status`| Admin | Update order status |
+| `PATCH` | `/api/orders/:id/status` | Admin | Update order status |
 | `POST` | `/api/inquiries` | Public | Submit bridal consultation inquiry |
 | `GET` | `/api/inquiries` | Admin | View customer inquiries |
 | `POST` | `/api/uploads` | Admin | Upload verified binary image/PDF |

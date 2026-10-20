@@ -2,7 +2,7 @@
 
 Welcome to the **Shreeji** platform repository. Built with performance, responsiveness, and rapid loading as primary architectural goals.
 
-```
+```text
 Shreeji/
 ├── .github/
 │   └── workflows/
@@ -40,20 +40,26 @@ Shreeji/
 ## 🚀 Running the Server Locally
 
 1. Navigate to the server folder:
+
    ```bash
    cd server
    ```
+
 2. Install dependencies:
+
    ```bash
    npm install
    ```
+
 3. Start the server:
+
    ```bash
    npm start        # Standard start
    npm run dev      # Development with autoreload
    ```
 
 4. 🕒 Run 24/7 in Background (Production):
+
    ```bash
    # PM2 Cluster Mode (auto-restart on crash, multi-core cluster)
    npm run prod:start
@@ -64,18 +70,22 @@ Shreeji/
    # View live logs
    npm run prod:logs
    ```
+
    Or via Docker:
+
    ```bash
    docker compose up -d    # Auto-healing 24/7 container (restart: always)
    ```
 
 5. Verify & Benchmark:
+
    ```bash
    npm test                # Run 19 integration & security tests
    npm run test:load       # Run realistic high-concurrency benchmark (autocannon)
    ```
 
 ## ⚡ Performance & Security Verification
+
 - **Throughput**: ~4,500 requests/sec under 50 concurrent connections (`autocannon`).
 - **Latency**: p50: ~5ms, p99: ~12ms (target was < 100ms).
 - **Error Rate**: 0.00% under high concurrent load.
@@ -84,6 +94,7 @@ Shreeji/
 - **Minimal Health Check**: No internal heap/RAM telemetry leaked to public health endpoint.
 
 ## 📚 Documentation
+
 - [API Reference](docs/API.md)
 - [Production Deployment Guide](docs/DEPLOYMENT.md)
 - [Security Policy & Controls](docs/SECURITY.md)

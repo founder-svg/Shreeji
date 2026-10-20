@@ -21,15 +21,19 @@ Tokens are obtained via the `/api/auth/login` endpoint and are signed with `JWT_
 ### 1. Authentication
 
 #### `POST /api/auth/login`
+
 - **Rate Limit**: 10 attempts per 15 mins
 - **Body**:
+
   ```json
   {
     "email": "admin@shreeji.com",
     "password": "Admin@Shreeji2026"
   }
   ```
+
 - **Response**: `200 OK`
+
   ```json
   {
     "success": true,
@@ -45,6 +49,7 @@ Tokens are obtained via the `/api/auth/login` endpoint and are signed with `JWT_
   ```
 
 #### `GET /api/auth/me`
+
 - **Headers**: `Authorization: Bearer <token>`
 - **Response**: `200 OK` Returns currently authenticated user profile.
 
@@ -53,9 +58,11 @@ Tokens are obtained via the `/api/auth/login` endpoint and are signed with `JWT_
 ### 2. System Health & Diagnostics
 
 #### `GET /api/health`
+
 - **Access**: Public
 - **Description**: Minimal liveness and database ping check.
 - **Response**: `200 OK` (or `503 Service Unavailable` if database disconnected)
+
   ```json
   {
     "status": "healthy",
@@ -66,6 +73,7 @@ Tokens are obtained via the `/api/auth/login` endpoint and are signed with `JWT_
   ```
 
 #### `GET /api/metrics`
+
 - **Access**: Admin Only (`Authorization: Bearer <token>`)
 - **Response**: Memory usage (RSS, heap), in-memory cache hit statistics, storage provider info.
 
@@ -74,6 +82,7 @@ Tokens are obtained via the `/api/auth/login` endpoint and are signed with `JWT_
 ### 3. Product Catalog
 
 #### `GET /api/products`
+
 - **Access**: Public (Cached for 60 seconds)
 - **Query Parameters**:
   - `category` (slug or id)
@@ -85,9 +94,11 @@ Tokens are obtained via the `/api/auth/login` endpoint and are signed with `JWT_
   - `limit` (default: 50, max: 100)
 
 #### `GET /api/products/:id`
+
 - **Access**: Public (Cached for 120 seconds)
 
 #### `POST /api/products`
+
 - **Access**: Admin Only
 - **Validation**:
   - `name`: String, 2-255 characters
@@ -96,9 +107,11 @@ Tokens are obtained via the `/api/auth/login` endpoint and are signed with `JWT_
   - `stockCount`: Optional integer >= 0
 
 #### `PUT /api/products/:id`
+
 - **Access**: Admin Only
 
 #### `DELETE /api/products/:id`
+
 - **Access**: Admin Only
 
 ---
@@ -106,9 +119,11 @@ Tokens are obtained via the `/api/auth/login` endpoint and are signed with `JWT_
 ### 4. Categories
 
 #### `GET /api/categories`
+
 - **Access**: Public (Cached for 180 seconds)
 
 #### `POST /api/categories`
+
 - **Access**: Admin Only
 
 ---
@@ -116,9 +131,11 @@ Tokens are obtained via the `/api/auth/login` endpoint and are signed with `JWT_
 ### 5. Orders & Checkout
 
 #### `POST /api/orders`
+
 - **Access**: Public (Rate Limited)
 - **Integrity Guarantee**: Prices and subtotals are strictly verified and calculated on the server against the live database; inventory is reserved atomically inside a transaction.
 - **Body**:
+
   ```json
   {
     "customerName": "Priya Sharma",
@@ -141,12 +158,15 @@ Tokens are obtained via the `/api/auth/login` endpoint and are signed with `JWT_
   ```
 
 #### `GET /api/orders`
+
 - **Access**: Admin Only
 
 #### `GET /api/orders/:id`
+
 - **Access**: Admin Only
 
 #### `PATCH /api/orders/:id/status`
+
 - **Access**: Admin Only
 - **Body**: `{ "status": "confirmed" }` (Allowed: `pending`, `confirmed`, `processing`, `shipped`, `delivered`, `cancelled`)
 
@@ -155,8 +175,10 @@ Tokens are obtained via the `/api/auth/login` endpoint and are signed with `JWT_
 ### 6. Bridal Consultations & Inquiries
 
 #### `POST /api/inquiries`
+
 - **Access**: Public (Rate Limited)
 - **Body**:
+
   ```json
   {
     "name": "Aanya Patel",
@@ -168,6 +190,7 @@ Tokens are obtained via the `/api/auth/login` endpoint and are signed with `JWT_
   ```
 
 #### `GET /api/inquiries`
+
 - **Access**: Admin Only
 
 ---
@@ -175,13 +198,16 @@ Tokens are obtained via the `/api/auth/login` endpoint and are signed with `JWT_
 ### 7. Cloud Storage & Media Uploads
 
 #### `GET /api/uploads/info`
+
 - **Access**: Admin Only
 - **Returns**: Allowed file types (`image/jpeg`, `image/png`, `image/webp`, `application/pdf`), maximum size (10MB), and storage provider.
 
 #### `POST /api/uploads`
+
 - **Access**: Admin Only (Rate Limited)
 - **Validation**: Magic byte binary verification, folder allowlisting (`products`, `categories`, `banners`, `documents`, `inquiries`).
 
 #### `DELETE /api/uploads`
+
 - **Access**: Admin Only
 - **Body**: `{ "key": "products/1729420000-abcd1234.webp" }`

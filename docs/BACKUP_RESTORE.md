@@ -7,6 +7,7 @@ This document defines the backup procedures, Point-In-Time-Recovery (PITR) strat
 ## 🗄️ Backup Strategies
 
 ### 1. Automated Daily Snapshots (Logical Dump)
+
 Using `pg_dump` with custom compressed format (`.dump` / `.sql.gz`), automated daily via cron or CI/CD runner.
 
 ```bash
@@ -22,6 +23,7 @@ The script connects to `DATABASE_URL`, dumps the entire schema, data, indexes, a
 ## 🔄 Restoration Procedure
 
 ### 1. Test Restoration on Staging / Recovery Host
+
 ```bash
 # Restore specific backup file
 cd server
@@ -29,6 +31,7 @@ node scripts/restore.js backups/shreeji-backup-YYYY-MM-DD-HHmmss.dump
 ```
 
 ### 2. Manual psql Restoration
+
 ```bash
 # Uncompress and pipe to psql
 pg_restore --clean --if-exists --no-owner --no-privileges -d "$DATABASE_URL" backups/shreeji-backup-xxx.dump
@@ -38,11 +41,13 @@ pg_restore --clean --if-exists --no-owner --no-privileges -d "$DATABASE_URL" bac
 
 ## ☁️ Cloud Provider Native Backups (Recommended for Production)
 
-### Supabase / Neon:
+### Supabase / Neon
+
 - **Continuous WAL Archiving**: Point-In-Time-Recovery (PITR) is automatically enabled on Supabase Pro/Team plans.
 - Restore to any second in the past 7 days directly from the Supabase dashboard: **Database** -> **Backups** -> **Restore to point in time**.
 
-### AWS RDS / DigitalOcean Managed PostgreSQL:
+### AWS RDS / DigitalOcean Managed PostgreSQL
+
 - Automated daily snapshots retained for 14-30 days.
 - Enable automated failover to multi-AZ standby replica for high availability.
 
