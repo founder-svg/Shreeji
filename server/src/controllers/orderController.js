@@ -1,7 +1,8 @@
 import { orderRepository } from '../repositories/orderRepository.js';
+import { jobQueue } from '../jobs/jobQueue.js';
 
 export const orderController = {
-  // GET /api/orders (Admin Protected)
+  // GET /api/v1/orders (Admin Protected)
   getAll: async (req, res, next) => {
     try {
       const orders = await orderRepository.findAll();
@@ -15,7 +16,7 @@ export const orderController = {
     }
   },
 
-  // GET /api/orders/:id (Admin Protected or Customer with orderNumber)
+  // GET /api/v1/orders/:id (Admin Protected)
   getById: async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -37,7 +38,7 @@ export const orderController = {
     }
   },
 
-  // POST /api/orders (Public, Rate Limited, Atomic Transaction with Trusted DB Pricing)
+  // POST /api/v1/orders (Public, Rate Limited, Transactional Pricing & Stock Reservation)
   create: async (req, res, next) => {
     try {
       const {
@@ -60,6 +61,13 @@ export const orderController = {
         notes,
       });
 
+      // Enqueue non-blocking email notification job
+      jobQueue.enqueue('sendOrderConfirmation', {
+        orderNumber: createdOrder.orderNumber || createdOrder.order_number,
+        customerEmail: createdOrder.customerEmail || createdOrder.customer_email,
+        total: createdOrder.total,
+      });
+
       res.status(201).json({
         success: true,
         message: 'Order created successfully with verified pricing and reserved inventory',
@@ -70,7 +78,7 @@ export const orderController = {
     }
   },
 
-  // PATCH /api/orders/:id/status (Admin Protected)
+  // PATCH /api/v1/orders/:id/status (Admin Protected + Audit Log)
   updateStatus: async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -83,6 +91,18 @@ export const orderController = {
           error: 'Order not found',
         });
       }
+
+      // Record audit log asynchronously in background
+      jobQueue.enqueue('recordAuditLog', {
+        userId: req.user?.id,
+        userEmail: req.user?.email,
+        action: 'UPDATE_ORDER_STATUS',
+        entityType: 'order',
+        entityId: id,
+        details: { newStatus: status },
+        ipAddress: req.ip,
+        clientPlatform: req.clientPlatform,
+      });
 
       res.json({
         success: true,

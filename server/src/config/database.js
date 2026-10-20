@@ -13,7 +13,7 @@ const __dirname = path.dirname(__filename);
 let pgPool = null;
 let isPostgres = false;
 
-// In-memory data store strictly for local dev or fallback
+// In-memory data store strictly for local dev or isolated test fixtures
 export const localStore = {
   categories: [...initialCategories],
   products: [...initialProducts],
@@ -21,6 +21,7 @@ export const localStore = {
   orderItems: [],
   cart: [],
   inquiries: [],
+  auditLogs: [],
   adminUsers: [
     {
       id: 'admin-1',
@@ -63,7 +64,6 @@ export const persistLocalStoreAsync = async () => {
   }
 };
 
-// Helper to load local store from disk
 const loadLocalStore = () => {
   try {
     if (fs.existsSync(localDbPath)) {
@@ -74,6 +74,7 @@ const loadLocalStore = () => {
       if (data.orderItems && Array.isArray(data.orderItems)) localStore.orderItems = data.orderItems;
       if (data.cart && Array.isArray(data.cart)) localStore.cart = data.cart;
       if (data.inquiries && Array.isArray(data.inquiries)) localStore.inquiries = data.inquiries;
+      if (data.auditLogs && Array.isArray(data.auditLogs)) localStore.auditLogs = data.auditLogs;
       if (data.adminUsers && Array.isArray(data.adminUsers)) localStore.adminUsers = data.adminUsers;
     } else {
       persistLocalStoreAsync();
@@ -92,21 +93,34 @@ export const initDatabase = async () => {
       pgPool = new Pool({
         connectionString: config.databaseUrl,
         ssl: config.databaseUrl.includes('localhost') ? false : { rejectUnauthorized: false },
-        max: 25, // Optimized pool size
-        idleTimeoutMillis: 30000,
-        connectionTimeoutMillis: 5000,
+        max: config.db.poolMax,
+        min: config.db.poolMin,
+        idleTimeoutMillis: config.db.idleTimeoutMs,
+        connectionTimeoutMillis: config.db.connTimeoutMs,
+      });
+
+      // Handle pool-level errors to prevent unhandled process termination
+      pgPool.on('error', (err) => {
+        console.error('⚠️ [DB Pool] Unexpected error on idle client:', err.message);
       });
 
       // Test connection
       const client = await pgPool.connect();
-      console.log('✅ [DB] Connected to PostgreSQL / Supabase pool successfully');
+      console.log(`✅ [DB] Connected to PostgreSQL pool (Max: ${config.db.poolMax}, Min: ${config.db.poolMin})`);
 
-      // Run migration script
-      const migrationPath = path.resolve(__dirname, '../../migrations/001_initial_schema.sql');
-      if (fs.existsSync(migrationPath)) {
-        const migrationSql = fs.readFileSync(migrationPath, 'utf8');
-        await client.query(migrationSql);
-        console.log('✅ [DB] Database schema migration executed successfully');
+      // Execute all migrations in order
+      const migrationsDir = path.resolve(__dirname, '../../migrations');
+      if (fs.existsSync(migrationsDir)) {
+        const migrationFiles = fs
+          .readdirSync(migrationsDir)
+          .filter((f) => f.endsWith('.sql'))
+          .sort();
+
+        for (const file of migrationFiles) {
+          const sql = fs.readFileSync(path.join(migrationsDir, file), 'utf8');
+          await client.query(sql);
+          console.log(`✅ [DB Migration] Executed ${file}`);
+        }
       }
 
       // Seed default admin in PostgreSQL if not already present
@@ -127,32 +141,82 @@ export const initDatabase = async () => {
       isPostgres = true;
       return { type: 'postgresql', status: 'connected' };
     } catch (err) {
+      if (config.isProduction) {
+        console.error('❌ [FATAL DB ERROR] Failed to connect to production PostgreSQL:', err.message);
+        throw err;
+      }
       console.error('⚠️ [DB] PostgreSQL connection failed, falling back to local memory store:', err.message);
       loadLocalStore();
       return { type: 'local-memory', status: 'fallback', error: err.message };
     }
   } else {
-    console.log('ℹ️ [DB] No DATABASE_URL provided. Running with non-blocking local memory/JSON store.');
+    if (config.isProduction) {
+      throw new Error('DATABASE_URL is strictly required in production mode!');
+    }
+    console.log('ℹ️ [DB] Running with non-blocking local memory/JSON store for development.');
     loadLocalStore();
     return { type: 'local-memory', status: 'active' };
   }
 };
 
 /**
- * Real Database Health Ping
+ * Execute SQL query with performance metrics & slow query diagnostics
+ */
+export const queryDb = async (text, params) => {
+  if (!pgPool) throw new Error('Database pool not initialized');
+  const start = process.hrtime.bigint();
+  try {
+    const res = await pgPool.query(text, params);
+    const end = process.hrtime.bigint();
+    const durationMs = Number(end - start) / 1_000_000;
+
+    if (durationMs > config.db.slowQueryThresholdMs) {
+      console.warn(`🐌 [SLOW QUERY - ${durationMs.toFixed(2)}ms]: ${text.slice(0, 100)}...`);
+    }
+
+    return res;
+  } catch (err) {
+    console.error(`💥 [DB Query Error]: ${err.message} | Query: ${text}`);
+    throw err;
+  }
+};
+
+/**
+ * Real Database Health Ping & Connection Pool Diagnostics
  */
 export const pingDatabase = async () => {
   if (isPostgres && pgPool) {
     try {
+      const start = process.hrtime.bigint();
       const client = await pgPool.connect();
       await client.query('SELECT 1');
       client.release();
-      return { connected: true, provider: 'PostgreSQL / Supabase' };
+      const end = process.hrtime.bigint();
+      const durationMs = Number(end - start) / 1_000_000;
+
+      return {
+        connected: true,
+        provider: 'PostgreSQL / Supabase',
+        latencyMs: parseFloat(durationMs.toFixed(2)),
+        pool: {
+          total: pgPool.totalCount,
+          idle: pgPool.idleCount,
+          waiting: pgPool.waitingCount,
+        },
+      };
     } catch (err) {
-      return { connected: false, provider: 'PostgreSQL / Supabase', error: err.message };
+      return {
+        connected: false,
+        provider: 'PostgreSQL / Supabase',
+        error: err.message,
+      };
     }
   }
-  return { connected: true, provider: 'Local Memory / JSON Store (Development Mode)' };
+  return {
+    connected: true,
+    provider: 'Local Memory / JSON Store (Development Mode)',
+    latencyMs: 0.1,
+  };
 };
 
 export const getPool = () => pgPool;

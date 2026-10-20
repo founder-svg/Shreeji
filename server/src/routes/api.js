@@ -10,6 +10,7 @@ import {
   uploadMiddleware,
   uploadMultipleMiddleware,
 } from '../controllers/uploadController.js';
+import { auditRepository } from '../repositories/auditRepository.js';
 import { authenticateToken, requireAdmin } from '../middleware/auth.js';
 import {
   validateProduct,
@@ -27,14 +28,45 @@ import { cacheRoute } from '../middleware/cacheMiddleware.js';
 import { cacheService } from '../config/cache.js';
 import { pingDatabase, isPostgresActive } from '../config/database.js';
 import { storageService } from '../config/storage.js';
+import { jobQueue } from '../jobs/jobQueue.js';
 
 const router = Router();
 
 // ==========================================
-// 1. HEALTH CHECKS & OBSERVABILITY
+// 1. HEALTH CHECKS (Live vs Ready)
 // ==========================================
 
-// Minimal public health check (Liveness / Readiness) - no internal metrics exposed
+// Liveness Check: Confirms the process is running
+router.get('/health/live', (req, res) => {
+  res.status(200).json({
+    status: 'live',
+    uptimeSeconds: Math.floor(process.uptime()),
+    timestamp: new Date().toISOString(),
+  });
+});
+
+// Readiness Check: Verifies database connectivity and storage readiness
+router.get('/health/ready', async (req, res) => {
+  const dbHealth = await pingDatabase();
+  const isHealthy = dbHealth.connected;
+
+  res.status(isHealthy ? 200 : 503).json({
+    status: isHealthy ? 'ready' : 'unhealthy',
+    timestamp: new Date().toISOString(),
+    service: 'Shreeji API Server',
+    database: {
+      status: isHealthy ? 'connected' : 'disconnected',
+      provider: dbHealth.provider,
+      latencyMs: dbHealth.latencyMs,
+    },
+    storage: {
+      provider: storageService.getProvider(),
+      status: 'ready',
+    },
+  });
+});
+
+// Standard minimal health check
 router.get('/health', async (req, res) => {
   const dbHealth = await pingDatabase();
   const isHealthy = dbHealth.connected;
@@ -47,12 +79,13 @@ router.get('/health', async (req, res) => {
   });
 });
 
-// Protected operational metrics (Admin Only)
+// Operational Telemetry (Admin Only)
 router.get('/metrics', authenticateToken, requireAdmin, (req, res) => {
   const memoryUsage = process.memoryUsage();
   res.json({
     uptimeSeconds: Math.floor(process.uptime()),
     cache: cacheService.stats(),
+    jobs: jobQueue.stats(),
     database: {
       provider: isPostgresActive() ? 'PostgreSQL / Supabase' : 'Local Memory / JSON Store',
       active: true,
@@ -66,6 +99,24 @@ router.get('/metrics', authenticateToken, requireAdmin, (req, res) => {
       heapTotalMb: (memoryUsage.heapTotal / 1024 / 1024).toFixed(2),
     },
   });
+});
+
+// Audit Logs (Admin Only)
+router.get('/audit-logs', authenticateToken, requireAdmin, async (req, res, next) => {
+  try {
+    const { page = 1, limit = 50 } = req.query;
+    const logs = await auditRepository.findAll({
+      page: parseInt(page, 10) || 1,
+      limit: parseInt(limit, 10) || 50,
+    });
+    res.json({
+      success: true,
+      count: logs.length,
+      data: logs,
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 
 // ==========================================

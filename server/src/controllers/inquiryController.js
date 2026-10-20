@@ -1,8 +1,8 @@
-import { v4 as uuidv4 } from 'uuid';
 import { inquiryRepository } from '../repositories/inquiryRepository.js';
+import { jobQueue } from '../jobs/jobQueue.js';
 
 export const inquiryController = {
-  // GET /api/inquiries (Admin Protected)
+  // GET /api/v1/inquiries (Admin Protected)
   getAll: async (req, res, next) => {
     try {
       const inquiries = await inquiryRepository.findAll();
@@ -16,7 +16,7 @@ export const inquiryController = {
     }
   },
 
-  // POST /api/inquiries (Public, Rate Limited)
+  // POST /api/v1/inquiries (Public, Rate Limited)
   create: async (req, res, next) => {
     try {
       const { name, email, phone, subject, message, productId } = req.body;
@@ -34,6 +34,14 @@ export const inquiryController = {
       };
 
       const created = await inquiryRepository.create(newInquiry);
+
+      // Enqueue notification in background
+      jobQueue.enqueue('sendInquiryNotification', {
+        id: created.id,
+        email: created.email,
+        name: created.name,
+        subject: created.subject,
+      });
 
       res.status(201).json({
         success: true,

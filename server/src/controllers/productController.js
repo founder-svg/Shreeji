@@ -1,9 +1,10 @@
 import { v4 as uuidv4 } from 'uuid';
 import { productRepository } from '../repositories/productRepository.js';
 import { cacheService } from '../config/cache.js';
+import { jobQueue } from '../jobs/jobQueue.js';
 
 export const productController = {
-  // GET /api/products (Public, cached)
+  // GET /api/v1/products (Public, cached)
   getAll: async (req, res, next) => {
     try {
       const {
@@ -25,7 +26,7 @@ export const productController = {
         inStock,
         sort,
         page: Math.max(1, parseInt(page, 10) || 1),
-        limit: Math.min(100, Math.max(1, parseInt(limit, 10) || 50)), // capped at 100
+        limit: Math.min(100, Math.max(1, parseInt(limit, 10) || 50)),
       });
 
       res.json({
@@ -43,7 +44,7 @@ export const productController = {
     }
   },
 
-  // GET /api/products/:id (Public, cached)
+  // GET /api/v1/products/:id (Public, cached with negative caching on 404)
   getById: async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -65,7 +66,7 @@ export const productController = {
     }
   },
 
-  // POST /api/products (Admin Protected)
+  // POST /api/v1/products (Admin Protected + Audit Log)
   create: async (req, res, next) => {
     try {
       const {
@@ -113,7 +114,20 @@ export const productController = {
       const created = await productRepository.create(newProduct);
 
       // Invalidate products cache
+      cacheService.invalidatePrefix('http:/api/v1/products');
       cacheService.invalidatePrefix('http:/api/products');
+
+      // Record audit log in background
+      jobQueue.enqueue('recordAuditLog', {
+        userId: req.user?.id,
+        userEmail: req.user?.email,
+        action: 'CREATE_PRODUCT',
+        entityType: 'product',
+        entityId: created.id,
+        details: { name: created.name, price: created.price },
+        ipAddress: req.ip,
+        clientPlatform: req.clientPlatform,
+      });
 
       res.status(201).json({
         success: true,
@@ -125,7 +139,7 @@ export const productController = {
     }
   },
 
-  // PUT /api/products/:id (Admin Protected)
+  // PUT /api/v1/products/:id (Admin Protected + Audit Log)
   update: async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -138,8 +152,19 @@ export const productController = {
         });
       }
 
-      // Invalidate products cache
+      cacheService.invalidatePrefix('http:/api/v1/products');
       cacheService.invalidatePrefix('http:/api/products');
+
+      jobQueue.enqueue('recordAuditLog', {
+        userId: req.user?.id,
+        userEmail: req.user?.email,
+        action: 'UPDATE_PRODUCT',
+        entityType: 'product',
+        entityId: id,
+        details: { updates: Object.keys(req.body) },
+        ipAddress: req.ip,
+        clientPlatform: req.clientPlatform,
+      });
 
       res.json({
         success: true,
@@ -151,7 +176,7 @@ export const productController = {
     }
   },
 
-  // DELETE /api/products/:id (Admin Protected)
+  // DELETE /api/v1/products/:id (Admin Protected + Audit Log)
   remove: async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -164,8 +189,19 @@ export const productController = {
         });
       }
 
-      // Invalidate products cache
+      cacheService.invalidatePrefix('http:/api/v1/products');
       cacheService.invalidatePrefix('http:/api/products');
+
+      jobQueue.enqueue('recordAuditLog', {
+        userId: req.user?.id,
+        userEmail: req.user?.email,
+        action: 'DELETE_PRODUCT',
+        entityType: 'product',
+        entityId: id,
+        details: {},
+        ipAddress: req.ip,
+        clientPlatform: req.clientPlatform,
+      });
 
       res.json({
         success: true,

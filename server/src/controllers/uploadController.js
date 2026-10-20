@@ -1,6 +1,7 @@
 import path from 'path';
 import multer from 'multer';
 import { storageService } from '../config/storage.js';
+import { jobQueue } from '../jobs/jobQueue.js';
 
 // Strict allowed folders to prevent directory traversal
 const ALLOWED_FOLDERS = ['products', 'categories', 'banners', 'documents', 'inquiries'];
@@ -230,6 +231,20 @@ export const uploadController = {
       }
 
       const deleted = await storageService.deleteFile(normalizedKey);
+
+      if (deleted) {
+        jobQueue.enqueue('recordAuditLog', {
+          userId: req.user?.id,
+          userEmail: req.user?.email,
+          action: 'DELETE_FILE',
+          entityType: 'file',
+          entityId: normalizedKey,
+          details: { key: normalizedKey },
+          ipAddress: req.ip,
+          clientPlatform: req.clientPlatform,
+        });
+      }
+
       res.json({
         success: true,
         message: deleted ? 'File deleted successfully' : 'File not found or already deleted',

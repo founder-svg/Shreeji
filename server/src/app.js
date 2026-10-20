@@ -5,6 +5,8 @@ import compression from 'compression';
 import morgan from 'morgan';
 import { config } from './config/env.js';
 import { timingMiddleware } from './middleware/timing.js';
+import { requestIdMiddleware } from './middleware/requestId.js';
+import { timeoutMiddleware } from './middleware/timeout.js';
 import { notFoundHandler, errorHandler } from './middleware/errorHandler.js';
 import apiRoutes from './routes/api.js';
 
@@ -32,7 +34,10 @@ app.use(
       if (!origin) return callback(null, true);
 
       // Check against allowlist
-      if (allowedOrigins.includes(origin) || (config.nodeEnv === 'development' && origin.includes('localhost'))) {
+      if (
+        allowedOrigins.includes(origin) ||
+        (config.nodeEnv === 'development' && origin.includes('localhost'))
+      ) {
         return callback(null, true);
       }
 
@@ -40,21 +45,27 @@ app.use(
       return callback(new Error(msg), false);
     },
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'X-Request-Id', 'X-Client-Platform'],
     credentials: true,
   })
 );
 
-// 4. Request Body Parsing
+// 4. Request Body Parsing with Bounded Limits
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// 5. High-resolution Timing Header (X-Response-Time, Server-Timing)
+// 5. Request Tracking, Timeout, and Precision Timing Headers
+app.use(requestIdMiddleware);
+app.use(timeoutMiddleware);
 app.use(timingMiddleware);
 
-// 6. Request Logging
+// 6. Request Logging with Redaction & Request ID
 if (config.nodeEnv !== 'test') {
-  app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
+  morgan.token('req-id', (req) => req.id || '-');
+  morgan.token('client-platform', (req) => req.clientPlatform || 'web');
+  app.use(
+    morgan('[:date[iso]] [:req-id] [:client-platform] :method :url :status :res[content-length] - :response-time ms')
+  );
 }
 
 // 7. Serve local uploads statically
@@ -65,23 +76,43 @@ app.get('/', (req, res) => {
   res.json({
     service: 'Shreeji API Server',
     status: 'online',
-    version: '1.1.0',
+    version: '1.2.0',
+    versions: {
+      v1: '/api/v1',
+      legacy: '/api',
+    },
     endpoints: {
-      health: `${config.apiPrefix}/health`,
-      products: `${config.apiPrefix}/products`,
-      categories: `${config.apiPrefix}/categories`,
-      cart: `${config.apiPrefix}/cart`,
-      orders: `${config.apiPrefix}/orders`,
-      inquiries: `${config.apiPrefix}/inquiries`,
-      auth: `${config.apiPrefix}/auth/login`,
+      liveness: '/api/v1/health/live',
+      readiness: '/api/v1/health/ready',
+      products: '/api/v1/products',
+      categories: '/api/v1/categories',
+      cart: '/api/v1/cart',
+      orders: '/api/v1/orders',
+      inquiries: '/api/v1/inquiries',
+      auth: '/api/v1/auth/login',
     },
   });
 });
 
-// 9. Mount API routes
-app.use(config.apiPrefix, apiRoutes);
+// 9. Mount Versioned API Routes (/api/v1 and legacy /api)
+app.use('/api/v1', apiRoutes);
+app.use('/api', apiRoutes);
 
-// 10. Handle 404 & Global Errors
+// 10. Direct Root Health Endpoints (Docker / K8s / Cloud load balancer friendly)
+app.get('/health/live', (req, res) => {
+  res.status(200).json({ status: 'live', timestamp: new Date().toISOString() });
+});
+
+app.get('/health/ready', async (req, res) => {
+  const { pingDatabase } = await import('./config/database.js');
+  const dbHealth = await pingDatabase();
+  res.status(dbHealth.connected ? 200 : 503).json({
+    status: dbHealth.connected ? 'ready' : 'unhealthy',
+    database: dbHealth,
+  });
+});
+
+// 11. Handle 404 & Global Errors
 app.use(notFoundHandler);
 app.use(errorHandler);
 

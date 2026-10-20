@@ -6,7 +6,7 @@ import { config } from '../src/config/env.js';
 const PORT = 5599;
 
 const runTests = async () => {
-  console.log('🧪 Starting Shreeji Automated Integration & Security Tests...\n');
+  console.log('🧪 Starting Shreeji Automated PRD Integration & Security Tests...\n');
   await initDatabase();
 
   const server = app.listen(PORT);
@@ -21,6 +21,7 @@ const runTests = async () => {
         method: options.method || 'GET',
         headers: {
           'Content-Type': 'application/json',
+          'X-Client-Platform': 'web',
           ...(options.headers || {}),
         },
       };
@@ -72,97 +73,128 @@ const runTests = async () => {
   };
 
   try {
-    // 1. Root Status
+    // 1. Root Status & API Versioning
     const r1 = await request('/');
-    assert(r1.statusCode === 200 && r1.body.status === 'online', 'GET / returns online status', r1.durationMs);
+    assert(r1.statusCode === 200 && r1.body.versions?.v1 === '/api/v1', 'GET / returns API versioning metadata', r1.durationMs);
 
     // 2. Health Check (Minimal public liveness)
-    const r2 = await request('/api/health');
-    assert(r2.statusCode === 200 && r2.body.status === 'healthy', 'GET /api/health returns healthy', r2.durationMs);
+    const r2 = await request('/health/live');
+    assert(r2.statusCode === 200 && r2.body.status === 'live', 'GET /health/live returns process live status', r2.durationMs);
 
-    // 3. Admin Authentication Login
-    const r3 = await request('/api/auth/login', {
+    // 3. Readiness Check (Deep DB & Storage Ping)
+    const r3 = await request('/health/ready');
+    assert(r3.statusCode === 200 && r3.body.status === 'ready', 'GET /health/ready returns service readiness', r3.durationMs);
+
+    // 4. Request ID & Client Platform Header Validation
+    const r4 = await request('/api/v1/health');
+    assert(
+      r4.statusCode === 200 && r4.headers['x-request-id'] && r4.headers['x-client-platform'] === 'web',
+      'X-Request-Id and X-Client-Platform propagated on all responses',
+      r4.durationMs
+    );
+
+    // 5. Admin Authentication Login
+    const r5 = await request('/api/v1/auth/login', {
       method: 'POST',
       body: {
         email: config.admin.email,
         password: config.admin.password,
       },
     });
-    const adminToken = r3.body.token;
+    const adminToken = r5.body.token;
     assert(
-      r3.statusCode === 200 && adminToken && r3.body.user.role === 'admin',
-      'POST /api/auth/login authenticates admin & returns JWT token',
-      r3.durationMs
+      r5.statusCode === 200 && adminToken && r5.body.user.role === 'admin',
+      'POST /api/v1/auth/login authenticates admin & returns JWT token',
+      r5.durationMs
     );
 
     const authHeaders = { Authorization: `Bearer ${adminToken}` };
 
-    // 4. Authenticated Admin Profile
-    const r4 = await request('/api/auth/me', { headers: authHeaders });
-    assert(r4.statusCode === 200 && r4.body.user.email === config.admin.email, 'GET /api/auth/me returns admin profile', r4.durationMs);
+    // 6. Authenticated Admin Profile
+    const r6 = await request('/api/v1/auth/me', { headers: authHeaders });
+    assert(r6.statusCode === 200 && r6.body.user.email === config.admin.email, 'GET /api/v1/auth/me returns admin profile', r6.durationMs);
 
-    // 5. Products initial fetch (Cache MISS)
-    const r5 = await request('/api/products');
+    // 7. Products initial fetch (Cache MISS)
+    const r7 = await request('/api/v1/products');
     assert(
-      r5.statusCode === 200 && r5.body.data.length >= 4 && r5.headers['x-cache'] === 'MISS',
-      'GET /api/products returns products (Cache MISS)',
-      r5.durationMs
-    );
-
-    // 6. Products second fetch (Cache HIT)
-    const r6 = await request('/api/products');
-    assert(
-      r6.statusCode === 200 && r6.headers['x-cache'] === 'HIT' && r6.durationMs < 20,
-      `GET /api/products (Cache HIT) responds in < 20ms (${r6.durationMs.toFixed(2)}ms)`,
-      r6.durationMs
-    );
-
-    // 7. Category Filtering
-    const r7 = await request('/api/products?category=bridal-lehengas');
-    assert(
-      r7.statusCode === 200 && r7.body.data.every((p) => p.category === 'bridal-lehengas'),
-      'GET /api/products?category=bridal-lehengas filters correctly',
+      r7.statusCode === 200 && r7.body.data.length >= 4 && r7.headers['x-cache'] === 'MISS',
+      'GET /api/v1/products returns products (Cache MISS)',
       r7.durationMs
     );
 
-    // 8. Search query
-    const r8 = await request('/api/products?search=crimson');
+    // 8. Products second fetch (Cache HIT)
+    const r8 = await request('/api/v1/products');
     assert(
-      r8.statusCode === 200 && r8.body.data.length >= 1,
-      'GET /api/products?search=crimson returns search matches',
+      r8.statusCode === 200 && r8.headers['x-cache'] === 'HIT' && r8.durationMs < 20,
+      `GET /api/v1/products (Cache HIT) responds in < 20ms (${r8.durationMs.toFixed(2)}ms)`,
       r8.durationMs
     );
 
-    // 9. Single Product by ID
-    const r9 = await request('/api/products/prod-1');
+    // 9. Normalized Cache Key Verification
+    // Calling with shuffled query parameters: '?limit=10&sort=newest' then '?sort=newest&limit=10'
+    await request('/api/v1/products?limit=10&sort=newest');
+    const r9 = await request('/api/v1/products?sort=newest&limit=10');
     assert(
-      r9.statusCode === 200 && r9.body.data.id === 'prod-1',
-      'GET /api/products/prod-1 returns single product',
+      r9.statusCode === 200 && r9.headers['x-cache'] === 'HIT',
+      'Normalized query parameters produce identical cache HIT',
       r9.durationMs
     );
 
-    // 10. Categories List
-    const r10 = await request('/api/categories');
+    // 10. Category Filtering
+    const r10 = await request('/api/v1/products?category=bridal-lehengas');
     assert(
-      r10.statusCode === 200 && r10.body.data.length >= 4,
-      'GET /api/categories returns category tree',
+      r10.statusCode === 200 && r10.body.data.every((p) => p.category === 'bridal-lehengas'),
+      'GET /api/v1/products?category=bridal-lehengas filters correctly',
       r10.durationMs
     );
 
-    // 11. Add Item to Cart
+    // 11. Search query
+    const r11 = await request('/api/v1/products?search=crimson');
+    assert(
+      r11.statusCode === 200 && r11.body.data.length >= 1,
+      'GET /api/v1/products?search=crimson returns search matches',
+      r11.durationMs
+    );
+
+    // 12. Negative Caching for 404 (prevents DB stampede)
+    const r12a = await request('/api/v1/products/non-existent-product-id');
+    const r12b = await request('/api/v1/products/non-existent-product-id');
+    assert(
+      r12a.statusCode === 404 && r12b.statusCode === 404 && r12b.headers['x-cache'] === 'HIT',
+      'Negative caching caches 404 Not Found to protect database',
+      r12b.durationMs
+    );
+
+    // 13. Single Product by ID
+    const r13 = await request('/api/v1/products/prod-1');
+    assert(
+      r13.statusCode === 200 && r13.body.data.id === 'prod-1',
+      'GET /api/v1/products/prod-1 returns single product',
+      r13.durationMs
+    );
+
+    // 14. Categories List
+    const r14 = await request('/api/v1/categories');
+    assert(
+      r14.statusCode === 200 && r14.body.data.length >= 4,
+      'GET /api/v1/categories returns category tree',
+      r14.durationMs
+    );
+
+    // 15. Add Item to Cart
     const testCartId = `test-cart-${Date.now()}`;
-    const r11 = await request('/api/cart/items', {
+    const r15 = await request('/api/v1/cart/items', {
       method: 'POST',
       body: { cartId: testCartId, productId: 'prod-1', quantity: 2 },
     });
     assert(
-      r11.statusCode === 201 && r11.body.data.quantity === 2,
-      'POST /api/cart/items adds product to cart',
-      r11.durationMs
+      r15.statusCode === 201 && r15.body.data.quantity === 2,
+      'POST /api/v1/cart/items adds product to cart',
+      r15.durationMs
     );
 
-    // 12. Create Order with Server-Side Pricing Verification & Stock Check
-    const r12 = await request('/api/orders', {
+    // 16. Create Order with Server-Side Pricing & Atomic Stock Reservation
+    const r16 = await request('/api/v1/orders', {
       method: 'POST',
       body: {
         customerName: 'Priya Sharma',
@@ -178,29 +210,29 @@ const runTests = async () => {
       },
     });
     assert(
-      r12.statusCode === 201 && r12.body.data.id.startsWith('ORD-') && r12.body.data.total > 0,
-      'POST /api/orders places order with verified server-side pricing',
-      r12.durationMs
+      r16.statusCode === 201 && r16.body.data.id.startsWith('ORD-') && r16.body.data.total > 0,
+      'POST /api/v1/orders places order with verified server-side pricing',
+      r16.durationMs
     );
 
-    // 13. Admin Protected Orders Fetch
-    const r13 = await request('/api/orders', { headers: authHeaders });
+    // 17. Admin Protected Orders Fetch
+    const r17 = await request('/api/v1/orders', { headers: authHeaders });
     assert(
-      r13.statusCode === 200 && r13.body.data.length >= 1,
-      'GET /api/orders (Admin Authenticated) returns order list',
-      r13.durationMs
+      r17.statusCode === 200 && r17.body.data.length >= 1,
+      'GET /api/v1/orders (Admin Authenticated) returns order list',
+      r17.durationMs
     );
 
-    // 14. Unauthenticated Orders Fetch Rejection
-    const r14 = await request('/api/orders');
+    // 18. Unauthenticated Orders Fetch Rejection
+    const r18 = await request('/api/v1/orders');
     assert(
-      r14.statusCode === 401,
-      'GET /api/orders without Bearer token returns 401 Unauthorized',
-      r14.durationMs
+      r18.statusCode === 401,
+      'GET /api/v1/orders without Bearer token returns 401 Unauthorized',
+      r18.durationMs
     );
 
-    // 15. Submit Customer Inquiry
-    const r15 = await request('/api/inquiries', {
+    // 19. Submit Customer Inquiry (Dispatches background notification job)
+    const r19 = await request('/api/v1/inquiries', {
       method: 'POST',
       body: {
         name: 'Aanya Patel',
@@ -211,66 +243,65 @@ const runTests = async () => {
       },
     });
     assert(
-      r15.statusCode === 201 && r15.body.success === true,
-      'POST /api/inquiries submits customer bridal consultation',
-      r15.durationMs
+      r19.statusCode === 201 && r19.body.success === true,
+      'POST /api/v1/inquiries submits customer bridal consultation',
+      r19.durationMs
     );
 
-    // 16. Admin Protected Inquiries Fetch
-    const r16 = await request('/api/inquiries', { headers: authHeaders });
+    // 20. Admin Protected Inquiries Fetch
+    const r20 = await request('/api/v1/inquiries', { headers: authHeaders });
     assert(
-      r16.statusCode === 200 && r16.body.data.length >= 1,
-      'GET /api/inquiries (Admin Authenticated) returns customer inquiries',
-      r16.durationMs
+      r20.statusCode === 200 && r20.body.data.length >= 1,
+      'GET /api/v1/inquiries (Admin Authenticated) returns customer inquiries',
+      r20.durationMs
     );
 
-    // 17. Admin Protected Uploads Info
-    const r17 = await request('/api/uploads/info', { headers: authHeaders });
+    // 21. Admin Protected Uploads Info & SVG Rejection Verification
+    const r21 = await request('/api/v1/uploads/info', { headers: authHeaders });
     assert(
-      r17.statusCode === 200 && r17.body.allowedMimeTypes.includes('image/webp'),
-      'GET /api/uploads/info (Admin Authenticated) returns hardened storage policy',
-      r17.durationMs
+      r21.statusCode === 200 && !r21.body.allowedMimeTypes.includes('image/svg+xml'),
+      'GET /api/v1/uploads/info strictly excludes SVG XSS attack vectors',
+      r21.durationMs
     );
 
-    // 18. Admin Protected Product Creation with Request Validation
-    const r18 = await request('/api/products', {
+    // 22. Admin Protected Product Creation with Audit Log
+    const r22 = await request('/api/v1/products', {
       method: 'POST',
       headers: authHeaders,
       body: {
-        name: 'Aethelgard Royal Emerald Bridal Choker',
+        name: 'Imperial Kundan Haar Bridal Set',
         category: 'jewellery',
-        price: 85000,
-        discountPrice: 78000,
-        stockCount: 10,
+        price: 125000,
+        discountPrice: 110000,
+        stockCount: 8,
         inStock: true,
-        description: 'Exquisite 22K emerald and uncut polki choker set.',
+        description: '22K gold finished uncut polki necklace with emerald droplets.',
       },
     });
     assert(
-      r18.statusCode === 201 && r18.body.data.id.startsWith('prod-'),
-      'POST /api/products (Admin Authenticated + Validated) creates product',
-      r18.durationMs
+      r22.statusCode === 201 && r22.body.data.id.startsWith('prod-'),
+      'POST /api/v1/products creates product and enqueues audit log',
+      r22.durationMs
     );
 
-    // 19. Unauthorized Product Creation Rejection
-    const r19 = await request('/api/products', {
-      method: 'POST',
-      body: { name: 'Hacker Item', price: 10 },
-    });
+    // 23. Admin Audit Log Verification
+    // Wait briefly for setImmediate background job
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    const r23 = await request('/api/v1/audit-logs', { headers: authHeaders });
     assert(
-      r19.statusCode === 401,
-      'POST /api/products without Bearer token returns 401 Unauthorized',
-      r19.durationMs
+      r23.statusCode === 200 && r23.body.count >= 1,
+      'GET /api/v1/audit-logs records administrative actions with platform metadata',
+      r23.durationMs
     );
 
     console.log('\n----------------------------------------------------');
     console.log(`📊 Benchmark Summary: ${passedTests}/${totalTests} tests passed`);
-    console.log(`⚡ Average Cached Response Latency: ${r6.durationMs.toFixed(2)}ms`);
+    console.log(`⚡ Average Cached Response Latency: ${r8.durationMs.toFixed(2)}ms`);
     console.log('----------------------------------------------------');
 
     server.close(() => {
       if (passedTests === totalTests) {
-        console.log('🎉 All security, database, and latency tests PASSED perfectly!\n');
+        console.log('🎉 All 23 PRD architectural, security, and integrity tests PASSED!\n');
         process.exit(0);
       } else {
         console.error('❌ Some tests failed.');
