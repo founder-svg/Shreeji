@@ -35,6 +35,15 @@ async function runMigrations() {
       return;
     }
 
+    // Ensure schema_migrations table exists
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS schema_migrations (
+        id SERIAL PRIMARY KEY,
+        filename VARCHAR(255) UNIQUE NOT NULL,
+        applied_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+      );
+    `);
+
     const files = fs
       .readdirSync(migrationsDir)
       .filter((f) => f.endsWith('.sql'))
@@ -43,11 +52,31 @@ async function runMigrations() {
     console.log(`Found ${files.length} migration file(s):`);
 
     for (const file of files) {
-      console.log(`⏳ Applying ${file}...`);
-      const filePath = path.join(migrationsDir, file);
-      const sql = fs.readFileSync(filePath, 'utf8');
-      await client.query(sql);
-      console.log(`✅ Applied ${file}`);
+      const checkRes = await client.query(
+        'SELECT filename FROM schema_migrations WHERE filename = $1',
+        [file]
+      );
+
+      if (checkRes.rows.length === 0) {
+        console.log(`⏳ Applying ${file}...`);
+        const filePath = path.join(migrationsDir, file);
+        const sql = fs.readFileSync(filePath, 'utf8');
+        await client.query('BEGIN');
+        try {
+          await client.query(sql);
+          await client.query(
+            'INSERT INTO schema_migrations (filename) VALUES ($1)',
+            [file]
+          );
+          await client.query('COMMIT');
+          console.log(`✅ Applied ${file}`);
+        } catch (migErr) {
+          await client.query('ROLLBACK');
+          throw migErr;
+        }
+      } else {
+        console.log(`⏩ Already applied: ${file}`);
+      }
     }
 
     // Verify existing tables

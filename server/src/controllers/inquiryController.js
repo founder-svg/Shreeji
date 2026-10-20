@@ -2,14 +2,26 @@ import { inquiryRepository } from '../repositories/inquiryRepository.js';
 import { jobQueue } from '../jobs/jobQueue.js';
 
 export const inquiryController = {
-  // GET /api/v1/inquiries (Admin Protected)
+  // GET /api/v1/inquiries (Admin Protected, Paginated)
   getAll: async (req, res, next) => {
     try {
-      const inquiries = await inquiryRepository.findAll();
+      const { page = 1, limit = 20, status } = req.query;
+      const result = await inquiryRepository.findAndCountAll({
+        page: Math.max(1, parseInt(page, 10) || 1),
+        limit: Math.min(100, Math.max(1, parseInt(limit, 10) || 20)),
+        status,
+      });
+
       res.json({
         success: true,
-        count: inquiries.length,
-        data: inquiries,
+        count: result.inquiries.length,
+        data: result.inquiries,
+        pagination: {
+          total: result.total,
+          page: result.page,
+          limit: result.limit,
+          totalPages: result.totalPages,
+        },
       });
     } catch (err) {
       next(err);

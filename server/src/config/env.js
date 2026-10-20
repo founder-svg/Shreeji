@@ -9,15 +9,28 @@ dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 const isProduction = process.env.NODE_ENV === 'production';
 
-// Strict validation: In production, database URL and secure JWT secret are mandatory!
+// Strict validation: In production, database URL, secure JWT secret, and non-default admin credentials are mandatory!
 if (isProduction) {
+  const errors = [];
   if (!process.env.DATABASE_URL) {
-    console.error('❌ [FATAL CONFIG ERROR] DATABASE_URL is strictly required in production mode!');
-    console.error('   The server will not silently fall back to an in-memory database in production.');
-    process.exit(1);
+    errors.push('DATABASE_URL is strictly required in production mode!');
   }
-  if (!process.env.JWT_SECRET || process.env.JWT_SECRET.includes('change_in_production')) {
-    console.warn('⚠️ [SECURITY WARNING] Please set a cryptographically secure JWT_SECRET in production!');
+  if (
+    !process.env.JWT_SECRET ||
+    process.env.JWT_SECRET.length < 32 ||
+    process.env.JWT_SECRET.includes('change_in_production') ||
+    process.env.JWT_SECRET.includes('dev_secret')
+  ) {
+    errors.push('A cryptographically secure JWT_SECRET of at least 32 characters is strictly required in production!');
+  }
+  if (!process.env.ADMIN_PASSWORD || process.env.ADMIN_PASSWORD === 'Admin@Shreeji2026') {
+    errors.push('Default ADMIN_PASSWORD is not allowed in production! Set a custom secure password via ADMIN_PASSWORD.');
+  }
+
+  if (errors.length > 0) {
+    console.error('❌ [FATAL CONFIG ERROR] Production startup aborted due to configuration violations:');
+    errors.forEach((err) => console.error(`   - ${err}`));
+    process.exit(1);
   }
 }
 
@@ -41,6 +54,8 @@ export const config = {
     idleTimeoutMs: parseInt(process.env.PG_IDLE_TIMEOUT_MS, 10) || 30000,
     connTimeoutMs: parseInt(process.env.PG_CONN_TIMEOUT_MS, 10) || 5000,
     slowQueryThresholdMs: parseInt(process.env.SLOW_QUERY_THRESHOLD_MS, 10) || 100,
+    sslRejectUnauthorized: process.env.PG_SSL_REJECT_UNAUTHORIZED !== 'false',
+    sslCa: process.env.PG_SSL_CA || null,
   },
 
   // JWT & Admin Security

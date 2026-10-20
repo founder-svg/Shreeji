@@ -113,9 +113,11 @@ export const productController = {
 
       const created = await productRepository.create(newProduct);
 
-      // Invalidate products cache
+      // Invalidate products & categories cache immediately
       cacheService.invalidatePrefix('http:/api/v1/products');
       cacheService.invalidatePrefix('http:/api/products');
+      cacheService.invalidatePrefix('http:/api/v1/categories');
+      cacheService.invalidatePrefix('http:/api/categories');
 
       // Record audit log in background
       jobQueue.enqueue('recordAuditLog', {
@@ -154,6 +156,8 @@ export const productController = {
 
       cacheService.invalidatePrefix('http:/api/v1/products');
       cacheService.invalidatePrefix('http:/api/products');
+      cacheService.invalidatePrefix('http:/api/v1/categories');
+      cacheService.invalidatePrefix('http:/api/categories');
 
       jobQueue.enqueue('recordAuditLog', {
         userId: req.user?.id,
@@ -191,6 +195,8 @@ export const productController = {
 
       cacheService.invalidatePrefix('http:/api/v1/products');
       cacheService.invalidatePrefix('http:/api/products');
+      cacheService.invalidatePrefix('http:/api/v1/categories');
+      cacheService.invalidatePrefix('http:/api/categories');
 
       jobQueue.enqueue('recordAuditLog', {
         userId: req.user?.id,

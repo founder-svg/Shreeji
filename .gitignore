@@ -18,7 +18,8 @@ yarn-error.log*
 # Uploads & local storage data
 server/uploads/*
 !server/uploads/.gitkeep
-server/data/local-db.json
+server/data/*
+!server/data/.gitkeep
 
 # OS files
 .DS_Store

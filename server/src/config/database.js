@@ -90,9 +90,27 @@ const loadLocalStore = () => {
 export const initDatabase = async () => {
   if (config.databaseUrl) {
     try {
+      const isLocal =
+        config.databaseUrl.includes('localhost') ||
+        config.databaseUrl.includes('127.0.0.1');
+
+      let sslConfig = false;
+      if (!isLocal) {
+        sslConfig = {
+          rejectUnauthorized: config.db.sslRejectUnauthorized,
+        };
+        if (config.db.sslCa) {
+          try {
+            sslConfig.ca = fs.readFileSync(config.db.sslCa, 'utf8');
+          } catch (caErr) {
+            console.warn('⚠️ [DB SSL] Could not load CA file, falling back to system trust store:', caErr.message);
+          }
+        }
+      }
+
       pgPool = new Pool({
         connectionString: config.databaseUrl,
-        ssl: config.databaseUrl.includes('localhost') ? false : { rejectUnauthorized: false },
+        ssl: sslConfig,
         max: config.db.poolMax,
         min: config.db.poolMin,
         idleTimeoutMillis: config.db.idleTimeoutMs,
@@ -108,7 +126,16 @@ export const initDatabase = async () => {
       const client = await pgPool.connect();
       console.log(`✅ [DB] Connected to PostgreSQL pool (Max: ${config.db.poolMax}, Min: ${config.db.poolMin})`);
 
-      // Execute all migrations in order
+      // Ensure migrations tracking table exists
+      await client.query(`
+        CREATE TABLE IF NOT EXISTS schema_migrations (
+          id SERIAL PRIMARY KEY,
+          filename VARCHAR(255) UNIQUE NOT NULL,
+          applied_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+        );
+      `);
+
+      // Execute all pending migrations in order
       const migrationsDir = path.resolve(__dirname, '../../migrations');
       if (fs.existsSync(migrationsDir)) {
         const migrationFiles = fs
@@ -117,9 +144,29 @@ export const initDatabase = async () => {
           .sort();
 
         for (const file of migrationFiles) {
-          const sql = fs.readFileSync(path.join(migrationsDir, file), 'utf8');
-          await client.query(sql);
-          console.log(`✅ [DB Migration] Executed ${file}`);
+          const checkRes = await client.query(
+            'SELECT filename FROM schema_migrations WHERE filename = $1',
+            [file]
+          );
+
+          if (checkRes.rows.length === 0) {
+            const sql = fs.readFileSync(path.join(migrationsDir, file), 'utf8');
+            await client.query('BEGIN');
+            try {
+              await client.query(sql);
+              await client.query(
+                'INSERT INTO schema_migrations (filename) VALUES ($1)',
+                [file]
+              );
+              await client.query('COMMIT');
+              console.log(`✅ [DB Migration] Applied pending migration: ${file}`);
+            } catch (migErr) {
+              await client.query('ROLLBACK');
+              throw migErr;
+            }
+          } else {
+            console.log(`⏩ [DB Migration] Already applied: ${file}`);
+          }
         }
       }
 
@@ -141,8 +188,8 @@ export const initDatabase = async () => {
       isPostgres = true;
       return { type: 'postgresql', status: 'connected' };
     } catch (err) {
-      if (config.isProduction) {
-        console.error('❌ [FATAL DB ERROR] Failed to connect to production PostgreSQL:', err.message);
+      if (config.isProduction || config.databaseUrl) {
+        console.error('❌ [FATAL DB ERROR] Failed to connect to PostgreSQL database:', err.message);
         throw err;
       }
       console.error('⚠️ [DB] PostgreSQL connection failed, falling back to local memory store:', err.message);
@@ -220,4 +267,8 @@ export const pingDatabase = async () => {
 };
 
 export const getPool = () => pgPool;
+export const setPool = (pool, active = true) => {
+  pgPool = pool;
+  isPostgres = active;
+};
 export const isPostgresActive = () => isPostgres;

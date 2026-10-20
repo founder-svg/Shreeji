@@ -42,7 +42,10 @@ export const categoryController = {
       };
 
       const created = await categoryRepository.create(newCategory);
+      cacheService.invalidatePrefix('http:/api/v1/categories');
       cacheService.invalidatePrefix('http:/api/categories');
+      cacheService.invalidatePrefix('http:/api/v1/products');
+      cacheService.invalidatePrefix('http:/api/products');
 
       res.status(201).json({
         success: true,

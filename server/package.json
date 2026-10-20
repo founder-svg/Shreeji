@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test": "node tests/performance.test.js",
+    "test": "node tests/performance.test.js && node tests/postgres.test.js",
+    "test:postgres": "node tests/postgres.test.js",
     "test:load": "node tests/load.test.js",
     "db:migrate": "node scripts/migrate.js",
     "db:backup": "node scripts/backup.js",
@@ -51,6 +52,7 @@
   "devDependencies": {
     "autocannon": "^8.0.0",
     "nodemon": "^3.1.9",
+    "pg-mem": "^3.0.14",
     "pm2": "^7.0.4"
   }
 }

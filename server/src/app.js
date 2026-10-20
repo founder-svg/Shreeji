@@ -47,11 +47,9 @@ app.use(
 
       const cleanOrigin = origin.replace(/\/$/, '');
 
-      // Check against allowlist, GitHub Pages temporary testing domain, or local development
+      // Strictly check against explicit allowlist or local dev
       if (
         allowedOrigins.includes(cleanOrigin) ||
-        cleanOrigin === 'https://founder-svg.github.io' ||
-        cleanOrigin.endsWith('.github.io') ||
         (config.nodeEnv === 'development' && cleanOrigin.includes('localhost'))
       ) {
         return callback(null, true);

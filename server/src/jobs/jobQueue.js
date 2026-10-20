@@ -1,5 +1,13 @@
+import fs from 'fs';
+import path from 'path';
 import { EventEmitter } from 'events';
+import { fileURLToPath } from 'url';
 import { auditRepository } from '../repositories/auditRepository.js';
+import { config } from '../config/env.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const queueStorePath = path.resolve(config.dataDir || path.resolve(__dirname, '../../data'), 'pending-jobs.json');
 
 class JobQueue extends EventEmitter {
   constructor() {
@@ -12,9 +20,7 @@ class JobQueue extends EventEmitter {
 
     // Register default job handlers
     this.registerHandler('sendOrderConfirmation', async (data) => {
-      // Non-blocking simulated transactional email/SMS dispatch
       console.log(`📧 [Job: sendOrderConfirmation] Sending confirmation for order: ${data.orderNumber} to ${data.customerEmail}`);
-      // In production with SendGrid/AWS SES, real SDK call occurs here
       return { sent: true, orderNumber: data.orderNumber };
     });
 
@@ -27,6 +33,37 @@ class JobQueue extends EventEmitter {
       await auditRepository.log(data);
       return { recorded: true };
     });
+
+    // Recover durable pending jobs from disk on boot
+    this.loadDurableQueue();
+  }
+
+  loadDurableQueue() {
+    try {
+      if (fs.existsSync(queueStorePath)) {
+        const raw = fs.readFileSync(queueStorePath, 'utf8');
+        const saved = JSON.parse(raw);
+        if (Array.isArray(saved) && saved.length > 0) {
+          this.queue.push(...saved);
+          console.log(`📦 [JobQueue] Recovered ${saved.length} durable pending job(s) from disk storage.`);
+          setImmediate(() => this.processNext());
+        }
+      }
+    } catch (err) {
+      console.warn('⚠️ [JobQueue] Could not load durable queue state:', err.message);
+    }
+  }
+
+  persistQueueSync() {
+    try {
+      const dir = path.dirname(queueStorePath);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+      fs.writeFileSync(queueStorePath, JSON.stringify(this.queue, null, 2), 'utf8');
+    } catch (err) {
+      // Non-blocking log
+    }
   }
 
   registerHandler(jobName, handlerFn) {
@@ -34,7 +71,7 @@ class JobQueue extends EventEmitter {
   }
 
   /**
-   * Enqueue background job (returns immediately, does not block request)
+   * Enqueue background job (durable, returns immediately)
    */
   enqueue(jobName, data, options = {}) {
     const job = {
@@ -48,6 +85,7 @@ class JobQueue extends EventEmitter {
     };
 
     this.queue.push(job);
+    this.persistQueueSync();
     setImmediate(() => this.processNext());
     return job.id;
   }
@@ -57,6 +95,7 @@ class JobQueue extends EventEmitter {
     this.isProcessing = true;
 
     const job = this.queue.shift();
+    this.persistQueueSync();
     const handler = this.handlers.get(job.name);
 
     if (!handler) {
@@ -78,6 +117,7 @@ class JobQueue extends EventEmitter {
         const delay = job.backoffMs * Math.pow(2, job.attempts - 1);
         setTimeout(() => {
           this.queue.push(job);
+          this.persistQueueSync();
           this.processNext();
         }, delay);
       } else {
@@ -89,6 +129,13 @@ class JobQueue extends EventEmitter {
       if (this.queue.length > 0) {
         setImmediate(() => this.processNext());
       }
+    }
+  }
+
+  async flush(timeoutMs = 5000) {
+    const start = Date.now();
+    while ((this.queue.length > 0 || this.isProcessing) && Date.now() - start < timeoutMs) {
+      await new Promise((r) => setTimeout(r, 50));
     }
   }
 

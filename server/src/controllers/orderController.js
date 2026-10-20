@@ -2,14 +2,26 @@ import { orderRepository } from '../repositories/orderRepository.js';
 import { jobQueue } from '../jobs/jobQueue.js';
 
 export const orderController = {
-  // GET /api/v1/orders (Admin Protected)
+  // GET /api/v1/orders (Admin Protected, Paginated)
   getAll: async (req, res, next) => {
     try {
-      const orders = await orderRepository.findAll();
+      const { page = 1, limit = 20, status } = req.query;
+      const result = await orderRepository.findAndCountAll({
+        page: Math.max(1, parseInt(page, 10) || 1),
+        limit: Math.min(100, Math.max(1, parseInt(limit, 10) || 20)),
+        status,
+      });
+
       res.json({
         success: true,
-        count: orders.length,
-        data: orders,
+        count: result.orders.length,
+        data: result.orders,
+        pagination: {
+          total: result.total,
+          page: result.page,
+          limit: result.limit,
+          totalPages: result.totalPages,
+        },
       });
     } catch (err) {
       next(err);
@@ -38,7 +50,7 @@ export const orderController = {
     }
   },
 
-  // POST /api/v1/orders (Public, Rate Limited, Transactional Pricing & Stock Reservation)
+  // POST /api/v1/orders (Public, Rate Limited, Transactional Pricing & Idempotency)
   create: async (req, res, next) => {
     try {
       const {
@@ -51,6 +63,24 @@ export const orderController = {
         notes,
       } = req.body;
 
+      // Extract idempotency key from header or body
+      const idempotencyKey =
+        req.headers['idempotency-key'] ||
+        req.body.idempotencyKey ||
+        null;
+
+      if (idempotencyKey) {
+        const existingOrder = await orderRepository.findByIdempotencyKey(String(idempotencyKey).trim());
+        if (existingOrder) {
+          return res.status(200).json({
+            success: true,
+            message: 'Order already processed (idempotent)',
+            idempotent: true,
+            data: existingOrder,
+          });
+        }
+      }
+
       const createdOrder = await orderRepository.createWithTransaction({
         customerName: customerName.trim(),
         customerEmail: customerEmail.trim().toLowerCase(),
@@ -59,6 +89,7 @@ export const orderController = {
         rawItems: items,
         paymentMethod: paymentMethod || 'cod',
         notes,
+        idempotencyKey: idempotencyKey ? String(idempotencyKey).trim() : null,
       });
 
       // Enqueue non-blocking email notification job

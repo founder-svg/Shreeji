@@ -1,60 +1,155 @@
 import { v4 as uuidv4 } from 'uuid';
 import { getPool, isPostgresActive, localStore, persistLocalStoreAsync } from '../config/database.js';
 
+const mapOrderRow = (row) => ({
+  id: row.id,
+  orderNumber: row.order_number,
+  order_number: row.order_number,
+  idempotencyKey: row.idempotency_key,
+  idempotency_key: row.idempotency_key,
+  customerName: row.customer_name,
+  customer_name: row.customer_name,
+  customerEmail: row.customer_email,
+  customer_email: row.customer_email,
+  customerPhone: row.customer_phone,
+  shippingAddress:
+    typeof row.shipping_address === 'string'
+      ? JSON.parse(row.shipping_address)
+      : row.shipping_address || {},
+  subtotal: parseFloat(row.subtotal),
+  tax: parseFloat(row.tax),
+  shippingFee: parseFloat(row.shipping_fee),
+  total: parseFloat(row.total),
+  status: row.status,
+  paymentMethod: row.payment_method,
+  notes: row.notes,
+  createdAt: row.created_at,
+  updatedAt: row.updated_at,
+  items: [],
+});
+
+const attachOrderItems = async (orders, pool) => {
+  if (!orders || orders.length === 0) return orders;
+  const orderIds = orders.map((o) => o.id);
+  const placeholders = orderIds.map((_, idx) => `$${idx + 1}`).join(', ');
+  const itemsRes = await pool.query(
+    `SELECT id, order_id, product_id, product_name, price, quantity, subtotal, sku FROM order_items WHERE order_id IN (${placeholders})`,
+    orderIds
+  );
+
+  const itemsMap = new Map();
+  itemsRes.rows.forEach((it) => {
+    const list = itemsMap.get(it.order_id) || [];
+    list.push({
+      id: it.id,
+      productId: it.product_id,
+      productName: it.product_name,
+      price: parseFloat(it.price),
+      quantity: parseInt(it.quantity, 10),
+      subtotal: parseFloat(it.subtotal),
+      sku: it.sku,
+    });
+    itemsMap.set(it.order_id, list);
+  });
+
+  orders.forEach((o) => {
+    o.items = itemsMap.get(o.id) || [];
+  });
+
+  return orders;
+};
+
 export const orderRepository = {
-  findAll: async () => {
+  findAndCountAll: async ({ page = 1, limit = 20, status } = {}) => {
+    const pageNum = Math.max(1, parseInt(page, 10) || 1);
+    const limitNum = Math.min(100, Math.max(1, parseInt(limit, 10) || 20));
+    const offset = (pageNum - 1) * limitNum;
+
     if (isPostgresActive()) {
       const pool = getPool();
-      const res = await pool.query(`
-        SELECT o.*,
-          COALESCE(
-            json_agg(
-              json_build_object(
-                'id', oi.id,
-                'productId', oi.product_id,
-                'productName', oi.product_name,
-                'price', oi.price,
-                'quantity', oi.quantity,
-                'subtotal', oi.subtotal,
-                'sku', oi.sku
-              )
-            ) FILTER (WHERE oi.id IS NOT NULL), '[]'
-          ) AS items
-        FROM orders o
-        LEFT JOIN order_items oi ON o.id = oi.order_id
-        GROUP BY o.id
-        ORDER BY o.created_at DESC
-      `);
-      return res.rows;
+      const conditions = [];
+      const params = [];
+      let paramIdx = 1;
+
+      if (status) {
+        conditions.push(`status = $${paramIdx++}`);
+        params.push(status);
+      }
+
+      const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
+
+      // Count query
+      const countRes = await pool.query(`SELECT COUNT(*) FROM orders ${whereClause}`, params);
+      const total = parseInt(countRes.rows[0].count, 10);
+
+      // Data query
+      const dataParams = [...params, limitNum, offset];
+      const res = await pool.query(
+        `SELECT * FROM orders ${whereClause} ORDER BY created_at DESC LIMIT $${paramIdx++} OFFSET $${paramIdx++}`,
+        dataParams
+      );
+
+      const mappedOrders = res.rows.map(mapOrderRow);
+      await attachOrderItems(mappedOrders, pool);
+
+      return {
+        orders: mappedOrders,
+        total,
+        page: pageNum,
+        limit: limitNum,
+        totalPages: Math.ceil(total / limitNum) || 1,
+      };
     }
-    return localStore.orders;
+
+    // Local store pagination
+    let filtered = [...localStore.orders];
+    if (status) {
+      filtered = filtered.filter((o) => o.status === status);
+    }
+    const total = filtered.length;
+    const paginated = filtered.slice(offset, offset + limitNum);
+
+    return {
+      orders: paginated,
+      total,
+      page: pageNum,
+      limit: limitNum,
+      totalPages: Math.ceil(total / limitNum) || 1,
+    };
+  },
+
+  findAll: async () => {
+    const res = await orderRepository.findAndCountAll({ limit: 1000 });
+    return res.orders;
+  },
+
+  findByIdempotencyKey: async (key) => {
+    if (!key) return null;
+    if (isPostgresActive()) {
+      const pool = getPool();
+      const res = await pool.query(
+        `SELECT * FROM orders WHERE idempotency_key = $1 LIMIT 1`,
+        [key]
+      );
+      if (res.rows.length === 0) return null;
+      const order = mapOrderRow(res.rows[0]);
+      await attachOrderItems([order], pool);
+      return order;
+    }
+    return localStore.orders.find((o) => o.idempotencyKey === key) || null;
   },
 
   findById: async (id) => {
     if (isPostgresActive()) {
       const pool = getPool();
       const res = await pool.query(
-        `SELECT o.*,
-          COALESCE(
-            json_agg(
-              json_build_object(
-                'id', oi.id,
-                'productId', oi.product_id,
-                'productName', oi.product_name,
-                'price', oi.price,
-                'quantity', oi.quantity,
-                'subtotal', oi.subtotal,
-                'sku', oi.sku
-              )
-            ) FILTER (WHERE oi.id IS NOT NULL), '[]'
-          ) AS items
-        FROM orders o
-        LEFT JOIN order_items oi ON o.id = oi.order_id
-        WHERE o.id = $1 OR o.order_number = $1
-        GROUP BY o.id`,
+        `SELECT * FROM orders WHERE id = $1 OR order_number = $1 LIMIT 1`,
         [id]
       );
-      return res.rows[0] || null;
+      if (res.rows.length === 0) return null;
+      const order = mapOrderRow(res.rows[0]);
+      await attachOrderItems([order], pool);
+      return order;
     }
     return localStore.orders.find((o) => o.id === id || o.orderNumber === id) || null;
   },
@@ -70,6 +165,7 @@ export const orderRepository = {
     rawItems,
     paymentMethod = 'cod',
     notes = '',
+    idempotencyKey = null,
   }) => {
     const orderId = `ORD-${Date.now().toString().slice(-8)}`;
     const orderNumber = `SHR-${uuidv4().slice(0, 8).toUpperCase()}`;
@@ -83,9 +179,10 @@ export const orderRepository = {
 
         // 1. Fetch real products with row lock to prevent race conditions
         const productIds = rawItems.map((i) => i.productId || i.id);
+        const placeholders = productIds.map((_, idx) => `$${idx + 1}`).join(', ');
         const prodRes = await client.query(
-          'SELECT id, name, price, discount_price, in_stock, stock_count, sku FROM products WHERE id = ANY($1) FOR UPDATE',
-          [productIds]
+          `SELECT id, name, price, discount_price, in_stock, stock_count, sku FROM products WHERE id IN (${placeholders}) FOR UPDATE`,
+          productIds
         );
 
         const dbProductsMap = new Map();
@@ -146,19 +243,20 @@ export const orderRepository = {
         const shippingFee = calculatedSubtotal > 50000 ? 0 : 500; // Free shipping over ₹50,000
         const calculatedTotal = calculatedSubtotal + calculatedTax + shippingFee;
 
-        // 4. Insert order
+        // 4. Insert order with optional idempotency key
         const insertOrderSql = `
           INSERT INTO orders (
-            id, order_number, customer_name, customer_email, customer_phone,
+            id, order_number, idempotency_key, customer_name, customer_email, customer_phone,
             shipping_address, subtotal, tax, shipping_fee, total, status,
             payment_method, notes
-          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, 'pending', $11, $12)
+          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, 'pending', $12, $13)
           RETURNING *
         `;
 
         const orderRes = await client.query(insertOrderSql, [
           orderId,
           orderNumber,
+          idempotencyKey || null,
           customerName,
           customerEmail,
           customerPhone || null,
@@ -191,7 +289,7 @@ export const orderRepository = {
 
         await client.query('COMMIT');
 
-        const createdOrder = orderRes.rows[0];
+        const createdOrder = mapOrderRow(orderRes.rows[0]);
         createdOrder.items = verifiedOrderItems;
         return createdOrder;
       } catch (err) {
@@ -247,6 +345,7 @@ export const orderRepository = {
     const newOrder = {
       id: orderId,
       orderNumber,
+      idempotencyKey: idempotencyKey || null,
       customerName,
       customerEmail,
       customerPhone: customerPhone || '',
