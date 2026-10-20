@@ -23,9 +23,18 @@ app.use(
 app.use(compression());
 
 // 3. Robust CORS with explicit allowlist (fixes origin: '*' with credentials)
-const allowedOrigins = config.corsOrigin
+const defaultOrigins = [
+  'http://localhost:3000',
+  'http://localhost:5173',
+  'http://localhost:5000',
+  'https://founder-svg.github.io',
+];
+
+const customOrigins = config.corsOrigin
   ? config.corsOrigin.split(',').map((o) => o.trim().replace(/\/$/, ''))
-  : ['http://localhost:3000', 'http://localhost:5173'];
+  : [];
+
+const allowedOrigins = Array.from(new Set([...defaultOrigins, ...customOrigins]));
 
 app.use(
   cors({
@@ -33,10 +42,14 @@ app.use(
       // Allow requests with no origin (like mobile apps, curl, server-to-server)
       if (!origin) return callback(null, true);
 
-      // Check against allowlist
+      const cleanOrigin = origin.replace(/\/$/, '');
+
+      // Check against allowlist, GitHub Pages temporary testing domain, or local development
       if (
-        allowedOrigins.includes(origin) ||
-        (config.nodeEnv === 'development' && origin.includes('localhost'))
+        allowedOrigins.includes(cleanOrigin) ||
+        cleanOrigin === 'https://founder-svg.github.io' ||
+        cleanOrigin.endsWith('.github.io') ||
+        (config.nodeEnv === 'development' && cleanOrigin.includes('localhost'))
       ) {
         return callback(null, true);
       }
@@ -77,6 +90,7 @@ app.get('/', (req, res) => {
     service: 'Shreeji API Server',
     status: 'online',
     version: '1.2.0',
+    clientUrl: config.clientUrl,
     versions: {
       v1: '/api/v1',
       legacy: '/api',

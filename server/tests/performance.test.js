@@ -93,6 +93,16 @@ const runTests = async () => {
       r4.durationMs
     );
 
+    // 4b. CORS Validation for GitHub Pages Temporary Domain
+    const rCors = await request('/api/v1/health', {
+      headers: { Origin: 'https://founder-svg.github.io' },
+    });
+    assert(
+      rCors.statusCode === 200 && rCors.headers['access-control-allow-origin'] === 'https://founder-svg.github.io',
+      'CORS permits requests from temporary URL (https://founder-svg.github.io)',
+      rCors.durationMs
+    );
+
     // 5. Admin Authentication Login
     const r5 = await request('/api/v1/auth/login', {
       method: 'POST',

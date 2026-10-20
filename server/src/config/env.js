@@ -26,7 +26,10 @@ export const config = {
   nodeEnv: process.env.NODE_ENV || 'development',
   isProduction,
   apiPrefix: process.env.API_PREFIX || '/api',
-  corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:3000,http://localhost:5173',
+  clientUrl: process.env.CLIENT_URL || 'https://founder-svg.github.io/Shreeji',
+  corsOrigin:
+    process.env.CORS_ORIGIN ||
+    'http://localhost:3000,http://localhost:5173,http://localhost:5000,https://founder-svg.github.io',
   cacheTtl: parseInt(process.env.CACHE_TTL_SECONDS, 10) || 60,
   requestTimeoutMs: parseInt(process.env.REQUEST_TIMEOUT_MS, 10) || 15000,
 
