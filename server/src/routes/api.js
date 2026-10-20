@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { authController } from '../controllers/authController.js';
 import { productController } from '../controllers/productController.js';
 import { categoryController } from '../controllers/categoryController.js';
 import { orderController } from '../controllers/orderController.js';
@@ -9,94 +10,123 @@ import {
   uploadMiddleware,
   uploadMultipleMiddleware,
 } from '../controllers/uploadController.js';
+import { authenticateToken, requireAdmin } from '../middleware/auth.js';
+import {
+  validateProduct,
+  validateOrder,
+  validateOrderStatus,
+  validateInquiry,
+} from '../middleware/validate.js';
+import {
+  apiLimiter,
+  authLimiter,
+  submissionLimiter,
+  uploadLimiter,
+} from '../middleware/rateLimiter.js';
 import { cacheRoute } from '../middleware/cacheMiddleware.js';
 import { cacheService } from '../config/cache.js';
-import { db } from '../config/database.js';
+import { pingDatabase, isPostgresActive } from '../config/database.js';
 import { storageService } from '../config/storage.js';
 
 const router = Router();
 
 // ==========================================
-// 1. SYSTEM HEALTH & PERFORMANCE BENCHMARKS
+// 1. HEALTH CHECKS & OBSERVABILITY
 // ==========================================
-router.get('/health', (req, res) => {
+
+// Minimal public health check (Liveness / Readiness) - no internal metrics exposed
+router.get('/health', async (req, res) => {
+  const dbHealth = await pingDatabase();
+  const isHealthy = dbHealth.connected;
+
+  res.status(isHealthy ? 200 : 503).json({
+    status: isHealthy ? 'healthy' : 'unhealthy',
+    timestamp: new Date().toISOString(),
+    service: 'Shreeji API Server',
+    database: isHealthy ? 'connected' : 'disconnected',
+  });
+});
+
+// Protected operational metrics (Admin Only)
+router.get('/metrics', authenticateToken, requireAdmin, (req, res) => {
   const memoryUsage = process.memoryUsage();
   res.json({
-    status: 'healthy',
-    timestamp: new Date().toISOString(),
     uptimeSeconds: Math.floor(process.uptime()),
-    service: 'Shreeji High-Performance Server',
+    cache: cacheService.stats(),
     database: {
-      provider: db.isPostgres() ? 'PostgreSQL / Supabase' : 'Local Memory / JSON Store',
-      status: 'connected',
+      provider: isPostgresActive() ? 'PostgreSQL / Supabase' : 'Local Memory / JSON Store',
+      active: true,
     },
     storage: {
       provider: storageService.getProvider(),
-      status: 'ready',
-    },
-    cache: {
-      status: 'active',
-      size: cacheService.stats().size,
     },
     memory: {
       rssMb: (memoryUsage.rss / 1024 / 1024).toFixed(2),
       heapUsedMb: (memoryUsage.heapUsed / 1024 / 1024).toFixed(2),
+      heapTotalMb: (memoryUsage.heapTotal / 1024 / 1024).toFixed(2),
     },
   });
 });
 
-router.get('/metrics', (req, res) => {
-  res.json({
-    cache: cacheService.stats(),
-    database: db.isPostgres() ? 'PostgreSQL' : 'Local',
-    storage: storageService.getProvider(),
-  });
-});
+// ==========================================
+// 2. AUTHENTICATION (Admin Login)
+// ==========================================
+router.post('/auth/login', authLimiter, authController.login);
+router.get('/auth/me', authenticateToken, authController.me);
 
 // ==========================================
-// 2. PRODUCT CATALOG (Ultra-fast cached GETs)
+// 3. PRODUCT CATALOG
 // ==========================================
-router.get('/products', cacheRoute(60), productController.getAll);
-router.get('/products/:id', cacheRoute(120), productController.getById);
-router.post('/products', productController.create);
-router.put('/products/:id', productController.update);
-router.delete('/products/:id', productController.remove);
+// Public read endpoints (cached for sub-millisecond retrieval)
+router.get('/products', apiLimiter, cacheRoute(60), productController.getAll);
+router.get('/products/:id', apiLimiter, cacheRoute(120), productController.getById);
+
+// Admin-protected product management
+router.post('/products', authenticateToken, requireAdmin, validateProduct, productController.create);
+router.put('/products/:id', authenticateToken, requireAdmin, productController.update);
+router.delete('/products/:id', authenticateToken, requireAdmin, productController.remove);
 
 // ==========================================
-// 3. CATEGORIES (Cached GETs)
+// 4. CATEGORIES
 // ==========================================
-router.get('/categories', cacheRoute(180), categoryController.getAll);
-router.post('/categories', categoryController.create);
+router.get('/categories', apiLimiter, cacheRoute(180), categoryController.getAll);
+router.post('/categories', authenticateToken, requireAdmin, categoryController.create);
 
 // ==========================================
-// 4. CART
+// 5. CART (Client sessions)
 // ==========================================
-router.get('/cart', cartController.getCart);
-router.post('/cart/items', cartController.addItem);
-router.delete('/cart/items/:id', cartController.removeItem);
-router.delete('/cart', cartController.clear);
+router.get('/cart', apiLimiter, cartController.getCart);
+router.post('/cart/items', apiLimiter, cartController.addItem);
+router.delete('/cart/items/:id', apiLimiter, cartController.removeItem);
+router.delete('/cart', apiLimiter, cartController.clear);
 
 // ==========================================
-// 5. ORDERS
+// 6. ORDERS
 // ==========================================
-router.get('/orders', orderController.getAll);
-router.get('/orders/:id', orderController.getById);
-router.post('/orders', orderController.create);
-router.patch('/orders/:id/status', orderController.updateStatus);
+// Public checkout placement with strict validation & server-side pricing
+router.post('/orders', submissionLimiter, validateOrder, orderController.create);
+
+// Admin-protected order fulfillment & history
+router.get('/orders', authenticateToken, requireAdmin, orderController.getAll);
+router.get('/orders/:id', authenticateToken, requireAdmin, orderController.getById);
+router.patch('/orders/:id/status', authenticateToken, requireAdmin, validateOrderStatus, orderController.updateStatus);
 
 // ==========================================
-// 6. INQUIRIES & BRIDAL CONSULTATIONS
+// 7. INQUIRIES & BRIDAL CONSULTATIONS
 // ==========================================
-router.get('/inquiries', inquiryController.getAll);
-router.post('/inquiries', inquiryController.create);
+// Public customer consultation request
+router.post('/inquiries', submissionLimiter, validateInquiry, inquiryController.create);
+
+// Admin-protected inquiry review
+router.get('/inquiries', authenticateToken, requireAdmin, inquiryController.getAll);
 
 // ==========================================
-// 7. CLOUD STORAGE & UPLOADS
+// 8. CLOUD STORAGE & MEDIA UPLOADS (Admin Only)
 // ==========================================
-router.get('/uploads/info', uploadController.getInfo);
-router.post('/uploads', uploadMiddleware, uploadController.uploadSingle);
-router.post('/uploads/multiple', uploadMultipleMiddleware, uploadController.uploadMultiple);
-router.post('/uploads/presigned', uploadController.getPresignedUrl);
-router.delete('/uploads', uploadController.deleteFile);
+router.get('/uploads/info', authenticateToken, requireAdmin, uploadController.getInfo);
+router.post('/uploads', authenticateToken, requireAdmin, uploadLimiter, uploadMiddleware, uploadController.uploadSingle);
+router.post('/uploads/multiple', authenticateToken, requireAdmin, uploadLimiter, uploadMultipleMiddleware, uploadController.uploadMultiple);
+router.post('/uploads/presigned', authenticateToken, requireAdmin, uploadController.getPresignedUrl);
+router.delete('/uploads', authenticateToken, requireAdmin, uploadController.deleteFile);
 
 export default router;

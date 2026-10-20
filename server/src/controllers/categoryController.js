@@ -1,11 +1,11 @@
-import { db } from '../config/database.js';
+import { categoryRepository } from '../repositories/categoryRepository.js';
 import { cacheService } from '../config/cache.js';
 
 export const categoryController = {
-  // GET /api/categories
+  // GET /api/categories (Public, cached)
   getAll: async (req, res, next) => {
     try {
-      const categories = await db.getCategories();
+      const categories = await categoryRepository.findAll();
       res.json({
         success: true,
         count: categories.length,
@@ -16,14 +16,14 @@ export const categoryController = {
     }
   },
 
-  // POST /api/categories
+  // POST /api/categories (Admin Protected)
   create: async (req, res, next) => {
     try {
       const { name, description, featured = false } = req.body;
-      if (!name) {
+      if (!name || typeof name !== 'string' || name.trim().length < 2) {
         return res.status(400).json({
           success: false,
-          error: 'Category name is required',
+          error: 'Category name is required (minimum 2 characters)',
         });
       }
 
@@ -34,14 +34,14 @@ export const categoryController = {
 
       const newCategory = {
         id: `cat-${Date.now()}`,
-        name,
+        name: name.trim(),
         slug,
-        description: description || '',
+        description: description ? description.trim() : '',
         featured: Boolean(featured),
         itemCount: 0,
       };
 
-      const created = await db.createCategory(newCategory);
+      const created = await categoryRepository.create(newCategory);
       cacheService.invalidatePrefix('http:/api/categories');
 
       res.status(201).json({

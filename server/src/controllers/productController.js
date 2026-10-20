@@ -1,9 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
-import { db } from '../config/database.js';
+import { productRepository } from '../repositories/productRepository.js';
 import { cacheService } from '../config/cache.js';
 
 export const productController = {
-  // GET /api/products
+  // GET /api/products (Public, cached)
   getAll: async (req, res, next) => {
     try {
       const {
@@ -17,15 +17,15 @@ export const productController = {
         limit = 50,
       } = req.query;
 
-      const result = await db.getProducts({
-        category,
-        search,
+      const result = await productRepository.findAndCountAll({
+        category: category ? String(category).trim() : undefined,
+        search: search ? String(search).trim() : undefined,
         minPrice,
         maxPrice,
         inStock,
         sort,
-        page: parseInt(page, 10),
-        limit: parseInt(limit, 10),
+        page: Math.max(1, parseInt(page, 10) || 1),
+        limit: Math.min(100, Math.max(1, parseInt(limit, 10) || 50)), // capped at 100
       });
 
       res.json({
@@ -43,11 +43,11 @@ export const productController = {
     }
   },
 
-  // GET /api/products/:id
+  // GET /api/products/:id (Public, cached)
   getById: async (req, res, next) => {
     try {
       const { id } = req.params;
-      const product = await db.getProductById(id);
+      const product = await productRepository.findById(id);
 
       if (!product) {
         return res.status(404).json({
@@ -65,7 +65,7 @@ export const productController = {
     }
   },
 
-  // POST /api/products
+  // POST /api/products (Admin Protected)
   create: async (req, res, next) => {
     try {
       const {
@@ -83,13 +83,6 @@ export const productController = {
         featured = false,
       } = req.body;
 
-      if (!name || price === undefined) {
-        return res.status(400).json({
-          success: false,
-          error: 'Product name and price are required',
-        });
-      }
-
       const id = `prod-${Date.now()}-${uuidv4().slice(0, 6)}`;
       const slug = name
         .toLowerCase()
@@ -98,7 +91,7 @@ export const productController = {
 
       const newProduct = {
         id,
-        name,
+        name: name.trim(),
         slug,
         category: category || 'uncategorized',
         categoryId: categoryId || null,
@@ -112,13 +105,12 @@ export const productController = {
         isNew: true,
         sku: `SHR-${Date.now().toString().slice(-6)}`,
         images,
-        description,
+        description: description.trim(),
         tags,
         specs,
-        createdAt: new Date().toISOString(),
       };
 
-      const created = await db.createProduct(newProduct);
+      const created = await productRepository.create(newProduct);
 
       // Invalidate products cache
       cacheService.invalidatePrefix('http:/api/products');
@@ -133,11 +125,11 @@ export const productController = {
     }
   },
 
-  // PUT /api/products/:id
+  // PUT /api/products/:id (Admin Protected)
   update: async (req, res, next) => {
     try {
       const { id } = req.params;
-      const updated = await db.updateProduct(id, req.body);
+      const updated = await productRepository.update(id, req.body);
 
       if (!updated) {
         return res.status(404).json({
@@ -159,11 +151,11 @@ export const productController = {
     }
   },
 
-  // DELETE /api/products/:id
+  // DELETE /api/products/:id (Admin Protected)
   remove: async (req, res, next) => {
     try {
       const { id } = req.params;
-      const success = await db.deleteProduct(id);
+      const success = await productRepository.delete(id);
 
       if (!success) {
         return res.status(404).json({

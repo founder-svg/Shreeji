@@ -1,11 +1,12 @@
-import { db } from '../config/database.js';
+import { cartRepository } from '../repositories/cartRepository.js';
+import { productRepository } from '../repositories/productRepository.js';
 
 export const cartController = {
   // GET /api/cart?cartId=xxx
   getCart: async (req, res, next) => {
     try {
       const { cartId = 'default-guest' } = req.query;
-      const items = await db.getCart(cartId);
+      const items = await cartRepository.getCart(cartId);
       const totalAmount = items.reduce(
         (sum, item) => sum + (item.product?.price || 0) * (item.quantity || 1),
         0
@@ -34,7 +35,7 @@ export const cartController = {
         });
       }
 
-      const product = await db.getProductById(productId);
+      const product = await productRepository.findById(productId);
       if (!product) {
         return res.status(404).json({
           success: false,
@@ -42,7 +43,7 @@ export const cartController = {
         });
       }
 
-      const item = await db.addToCart(cartId, product, parseInt(quantity, 10));
+      const item = await cartRepository.addItem(cartId, product, parseInt(quantity, 10) || 1);
 
       res.status(201).json({
         success: true,
@@ -60,7 +61,7 @@ export const cartController = {
       const { id } = req.params;
       const { cartId = 'default-guest' } = req.query;
 
-      const success = await db.removeFromCart(cartId, id);
+      const success = await cartRepository.removeItem(cartId, id);
       if (!success) {
         return res.status(404).json({
           success: false,
@@ -81,7 +82,7 @@ export const cartController = {
   clear: async (req, res, next) => {
     try {
       const { cartId = 'default-guest' } = req.query;
-      await db.clearCart(cartId);
+      await cartRepository.clearCart(cartId);
       res.json({
         success: true,
         message: 'Cart cleared successfully',

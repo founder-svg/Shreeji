@@ -1,11 +1,10 @@
-import { v4 as uuidv4 } from 'uuid';
-import { db } from '../config/database.js';
+import { orderRepository } from '../repositories/orderRepository.js';
 
 export const orderController = {
-  // GET /api/orders
+  // GET /api/orders (Admin Protected)
   getAll: async (req, res, next) => {
     try {
-      const orders = await db.getOrders();
+      const orders = await orderRepository.findAll();
       res.json({
         success: true,
         count: orders.length,
@@ -16,17 +15,19 @@ export const orderController = {
     }
   },
 
-  // GET /api/orders/:id
+  // GET /api/orders/:id (Admin Protected or Customer with orderNumber)
   getById: async (req, res, next) => {
     try {
       const { id } = req.params;
-      const order = await db.getOrderById(id);
+      const order = await orderRepository.findById(id);
+
       if (!order) {
         return res.status(404).json({
           success: false,
           error: 'Order not found',
         });
       }
+
       res.json({
         success: true,
         data: order,
@@ -36,7 +37,7 @@ export const orderController = {
     }
   },
 
-  // POST /api/orders
+  // POST /api/orders (Public, Rate Limited, Atomic Transaction with Trusted DB Pricing)
   create: async (req, res, next) => {
     try {
       const {
@@ -45,66 +46,37 @@ export const orderController = {
         customerPhone,
         shippingAddress,
         items,
-        paymentMethod = 'cod',
+        paymentMethod,
+        notes,
       } = req.body;
 
-      if (!customerName || !customerEmail || !items || !items.length) {
-        return res.status(400).json({
-          success: false,
-          error: 'Customer name, email, and at least one item are required',
-        });
-      }
-
-      // Calculate totals
-      const subtotal = items.reduce(
-        (acc, item) => acc + (item.price || 0) * (item.quantity || 1),
-        0
-      );
-      const tax = Math.round(subtotal * 0.05); // 5% GST
-      const total = subtotal + tax;
-
-      const newOrder = {
-        id: `ORD-${Date.now().toString().slice(-8)}`,
-        orderNumber: `SHR-${uuidv4().slice(0, 8).toUpperCase()}`,
-        customerName,
-        customerEmail,
-        customerPhone: customerPhone || '',
-        shippingAddress: shippingAddress || {},
-        items,
-        subtotal,
-        tax,
-        total,
-        status: 'pending',
-        paymentMethod,
-        createdAt: new Date().toISOString(),
-      };
-
-      const created = await db.createOrder(newOrder);
+      const createdOrder = await orderRepository.createWithTransaction({
+        customerName: customerName.trim(),
+        customerEmail: customerEmail.trim().toLowerCase(),
+        customerPhone: customerPhone ? customerPhone.trim() : '',
+        shippingAddress,
+        rawItems: items,
+        paymentMethod: paymentMethod || 'cod',
+        notes,
+      });
 
       res.status(201).json({
         success: true,
-        message: 'Order placed successfully',
-        data: created,
+        message: 'Order created successfully with verified pricing and reserved inventory',
+        data: createdOrder,
       });
     } catch (err) {
       next(err);
     }
   },
 
-  // PATCH /api/orders/:id/status
+  // PATCH /api/orders/:id/status (Admin Protected)
   updateStatus: async (req, res, next) => {
     try {
       const { id } = req.params;
       const { status } = req.body;
 
-      if (!status) {
-        return res.status(400).json({
-          success: false,
-          error: 'Order status is required (e.g. pending, confirmed, shipped, delivered, cancelled)',
-        });
-      }
-
-      const updated = await db.updateOrderStatus(id, status);
+      const updated = await orderRepository.updateStatus(id, status);
       if (!updated) {
         return res.status(404).json({
           success: false,

@@ -1,11 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
-import { db } from '../config/database.js';
+import { inquiryRepository } from '../repositories/inquiryRepository.js';
 
 export const inquiryController = {
-  // GET /api/inquiries
+  // GET /api/inquiries (Admin Protected)
   getAll: async (req, res, next) => {
     try {
-      const inquiries = await db.getInquiries();
+      const inquiries = await inquiryRepository.findAll();
       res.json({
         success: true,
         count: inquiries.length,
@@ -16,31 +16,24 @@ export const inquiryController = {
     }
   },
 
-  // POST /api/inquiries
+  // POST /api/inquiries (Public, Rate Limited)
   create: async (req, res, next) => {
     try {
       const { name, email, phone, subject, message, productId } = req.body;
 
-      if (!name || !email || !message) {
-        return res.status(400).json({
-          success: false,
-          error: 'Name, email, and message are required',
-        });
-      }
-
       const newInquiry = {
         id: `INQ-${Date.now().toString().slice(-8)}`,
-        name,
-        email,
-        phone: phone || '',
-        subject: subject || 'General Inquiry / Bridal Consultation',
-        message,
+        name: name.trim(),
+        email: email.trim().toLowerCase(),
+        phone: phone ? phone.trim() : '',
+        subject: subject ? subject.trim() : 'General Inquiry / Bridal Consultation',
+        message: message.trim(),
         productId: productId || null,
         status: 'unread',
         createdAt: new Date().toISOString(),
       };
 
-      const created = await db.createInquiry(newInquiry);
+      const created = await inquiryRepository.create(newInquiry);
 
       res.status(201).json({
         success: true,

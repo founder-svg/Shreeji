@@ -12,8 +12,17 @@ export const config = {
   port: parseInt(process.env.PORT, 10) || 5000,
   nodeEnv: process.env.NODE_ENV || 'development',
   apiPrefix: process.env.API_PREFIX || '/api',
-  corsOrigin: process.env.CORS_ORIGIN || '*',
+  corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:3000,http://localhost:5173',
   cacheTtl: parseInt(process.env.CACHE_TTL_SECONDS, 10) || 60,
+
+  // JWT & Admin Security
+  jwtSecret: process.env.JWT_SECRET || 'shreeji_dev_secret_key_change_in_production_2026',
+  jwtExpiresIn: process.env.JWT_EXPIRES_IN || '24h',
+  admin: {
+    email: process.env.ADMIN_EMAIL || 'admin@shreeji.com',
+    password: process.env.ADMIN_PASSWORD || 'Admin@Shreeji2026',
+    name: process.env.ADMIN_NAME || 'Shreeji Master Administrator',
+  },
 
   // Database
   databaseUrl: process.env.DATABASE_URL || '',
