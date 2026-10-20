@@ -12,6 +12,9 @@ import apiRoutes from './routes/api.js';
 
 const app = express();
 
+// Trust reverse proxy hops (Cloudflare, Nginx, cloud load balancers)
+app.set('trust proxy', 1);
+
 // 1. Security Headers
 app.use(
   helmet({
