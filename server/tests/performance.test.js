@@ -128,9 +128,10 @@ const runTests = async () => {
     );
 
     // 9. Add Item to Cart
+    const testCartId = `test-cart-${Date.now()}`;
     const r9 = await request('/api/cart/items', {
       method: 'POST',
-      body: { cartId: 'test-session-1', productId: 'prod-1', quantity: 2 },
+      body: { cartId: testCartId, productId: 'prod-1', quantity: 2 },
     });
     assert(
       r9.statusCode === 201 && r9.body.data.quantity === 2,
@@ -139,7 +140,7 @@ const runTests = async () => {
     );
 
     // 10. Fetch Cart
-    const r10 = await request('/api/cart?cartId=test-session-1');
+    const r10 = await request(`/api/cart?cartId=${testCartId}`);
     assert(
       r10.statusCode === 200 && r10.body.itemCount === 1,
       'GET /api/cart returns user cart items',

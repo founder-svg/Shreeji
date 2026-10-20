@@ -47,7 +47,7 @@ S3_PUBLIC_URL=
 
 ### 3. Run the Server
 ```bash
-# Start in production mode
+# Start in standard mode
 npm start
 
 # Or start with live reload
@@ -56,7 +56,41 @@ npm run dev
 
 Server will run at `http://localhost:5000`.
 
-### 4. Run Automated Performance & Latency Tests
+### 4. 🕒 Run 24/7 Continuously (Production PM2 & Docker)
+
+#### Option A: PM2 Process Manager (Cluster Mode & Auto-Restart on Crash/Reboot)
+PM2 ensures the server runs 24/7 in background, auto-restarts if a crash occurs, and reboots on system startup:
+```bash
+# Start 24/7 in production cluster mode
+npm run prod:start
+
+# View live real-time status & memory
+npm run prod:status
+
+# View live streaming logs
+npm run prod:logs
+
+# Reload server without downtime (zero downtime reloads)
+npm run prod:restart
+
+# Stop the 24/7 server
+npm run prod:stop
+
+# Make PM2 auto-start on Windows/Linux system reboot:
+npx pm2 save
+npx pm2 startup
+```
+
+#### Option B: Docker (Auto-Healing Container 24/7)
+```bash
+# From project root, run 24/7 in background with restart: always
+docker compose up -d
+
+# Check health and logs
+docker compose logs -f
+```
+
+### 5. Run Automated Performance & Latency Tests
 ```bash
 npm test
 ```

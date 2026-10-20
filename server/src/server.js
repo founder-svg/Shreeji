@@ -35,6 +35,15 @@ const startServer = async () => {
 
     process.on('SIGTERM', () => handleShutdown('SIGTERM'));
     process.on('SIGINT', () => handleShutdown('SIGINT'));
+
+    // Prevent unexpected crashes from killing 24/7 server
+    process.on('unhandledRejection', (reason, promise) => {
+      console.error('⚠️ [24/7 Resilience] Unhandled Rejection at:', promise, 'reason:', reason);
+    });
+
+    process.on('uncaughtException', (err) => {
+      console.error('🚨 [24/7 Resilience] Uncaught Exception:', err);
+    });
   } catch (err) {
     console.error('❌ Failed to start server:', err);
     process.exit(1);

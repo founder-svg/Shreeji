@@ -32,13 +32,27 @@ Shreeji/
    ```
 3. Start the server:
    ```bash
-   npm start
+   npm start        # Standard start
+   npm run dev      # Development with autoreload
    ```
-   Or in development mode:
+
+4. 🕒 Run 24/7 in Background (Production):
    ```bash
-   npm run dev
+   # PM2 Cluster Mode (auto-restart on crash, multi-core cluster)
+   npm run prod:start
+
+   # Check 24/7 status
+   npm run prod:status
+
+   # View live logs
+   npm run prod:logs
    ```
-4. Verify & Benchmark:
+   Or via Docker:
+   ```bash
+   docker compose up -d    # Auto-healing 24/7 container (restart: always)
+   ```
+
+5. Verify & Benchmark:
    ```bash
    npm test
    ```
