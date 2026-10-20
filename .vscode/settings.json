@@ -1,0 +1,14 @@
+{
+  "files.associations": {
+    "*.sql": "postgres"
+  },
+  "sqltools.connections": [
+    {
+      "name": "Shreeji Database (PostgreSQL / Supabase)",
+      "dialect": "PostgreSQL",
+      "connectString": "${env:DATABASE_URL}"
+    }
+  ],
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true
+}

@@ -9,6 +9,7 @@
     "dev": "nodemon src/server.js",
     "test": "node tests/performance.test.js",
     "test:load": "node tests/load.test.js",
+    "db:migrate": "node scripts/migrate.js",
     "db:backup": "node scripts/backup.js",
     "db:restore": "node scripts/restore.js",
     "prod:start": "pm2 start ecosystem.config.cjs --env production",

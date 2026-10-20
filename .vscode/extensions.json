@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "ckolkman.vscode-postgres",
+    "mtxr.sqltools",
+    "mtxr.sqltools-driver-pg",
+    "dbaeumer.vscode-eslint"
+  ],
+  "unwantedRecommendations": [
+    "ms-mssql.mssql"
+  ]
+}
