@@ -15,14 +15,12 @@ module.exports = {
     {
       name: 'shreeji-server',
       script: './src/server.js',
-      instances: 'max', // Multi-core cluster mode for maximum throughput & 0 downtime
-      exec_mode: 'cluster',
+      exec_mode: 'fork',
+      instances: 1,
       autorestart: true,
       watch: false,
       max_memory_restart: '500M',
-      exp_backoff_restart_delay: 100, // Exponential backoff on crash loop
-      listen_timeout: 10000,
-      kill_timeout: 5000,
+      exp_backoff_restart_delay: 100,
       env: {
         NODE_ENV: 'development',
         PORT: 5000,
