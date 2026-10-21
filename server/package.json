@@ -7,8 +7,9 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test": "node tests/performance.test.js && node tests/postgres.test.js",
+    "test": "node tests/performance.test.js && node tests/postgres.test.js && node tests/realEstate.test.js",
     "test:postgres": "node tests/postgres.test.js",
+    "test:realestate": "node tests/realEstate.test.js",
     "test:load": "node tests/load.test.js",
     "db:migrate": "node scripts/migrate.js",
     "db:backup": "node scripts/backup.js",

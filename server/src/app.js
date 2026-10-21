@@ -99,6 +99,9 @@ app.get('/', (req, res) => {
     endpoints: {
       liveness: '/api/v1/health/live',
       readiness: '/api/v1/health/ready',
+      projects: '/api/v1/projects',
+      plots: '/api/v1/plots',
+      propertyInquiries: '/api/v1/property-inquiries',
       products: '/api/v1/products',
       categories: '/api/v1/categories',
       cart: '/api/v1/cart',

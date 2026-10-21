@@ -266,16 +266,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function postInquiryToServer(payload) {
     try {
-      const res = await fetch(`${API_BASE}/inquiries`, {
+      const realEstatePayload = {
+        name: payload.name,
+        phone: payload.phone,
+        email: payload.email,
+        role: payload.role || (payload.subject?.includes('BUY') ? 'buyer' : 'seller'),
+        propertyCategory: payload.propertyCategory || payload.landType || 'Commercial',
+        preferredLocation: payload.preferredLocation || payload.location || 'Gandhidham',
+        builtupArea: payload.builtupArea || payload.area || '',
+        message: payload.message || payload.subject,
+        source: 'shreeji_web_portal'
+      };
+
+      const res = await fetch(`${API_BASE}/property-inquiries`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'X-Client-Platform': 'web'
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(realEstatePayload)
       });
       const data = await res.json();
-      console.log('✅ Inquiry synced with backend server:', data);
+      console.log('✅ Real estate lead synced with Shreeji API:', data);
     } catch (err) {
       console.warn('ℹ️ Backend server offline, stored inquiry locally in localStorage:', err);
     }

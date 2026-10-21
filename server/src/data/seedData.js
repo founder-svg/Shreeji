@@ -141,3 +141,297 @@ export const initialProducts = [
     },
   },
 ];
+
+export const initialProjects = [
+  {
+    id: 'proj-1',
+    name: 'Gandhidham Central Business & Tagore Corridor',
+    slug: 'gandhidham-central-business-tagore-corridor',
+    description: 'Premier commercial district covering Tagore Road, Sector 8, DC-5, and Oslo Circle in Gandhidham.',
+    address: 'Tagore Road & Central Business District',
+    city: 'Gandhidham',
+    district: 'Kutch',
+    state: 'Gujarat',
+    status: 'active',
+    latitude: 23.0753,
+    longitude: 70.1337,
+    boundaryGeometry: {
+      type: 'Polygon',
+      coordinates: [
+        [
+          [70.125, 23.070],
+          [70.145, 23.070],
+          [70.145, 23.085],
+          [70.125, 23.085],
+          [70.125, 23.070]
+        ]
+      ]
+    },
+    gallery: [
+      '/images/commercial-tower.jpg',
+      '/images/executive-office.jpg',
+      '/images/market-shop.jpg'
+    ],
+    publicationState: 'published',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  },
+  {
+    id: 'proj-2',
+    name: 'Adipur Smart Township & Ward 5 Commercial Zone',
+    slug: 'adipur-smart-township-ward-5',
+    description: 'Commercial high-street, retail showrooms and educational corridor in Adipur township.',
+    address: 'Station Road & Ward 5A/5B',
+    city: 'Adipur',
+    district: 'Kutch',
+    state: 'Gujarat',
+    status: 'active',
+    latitude: 23.0827,
+    longitude: 70.0988,
+    boundaryGeometry: {
+      type: 'Polygon',
+      coordinates: [
+        [
+          [70.090, 23.075],
+          [70.110, 23.075],
+          [70.110, 23.090],
+          [70.090, 23.090],
+          [70.090, 23.075]
+        ]
+      ]
+    },
+    gallery: [
+      '/images/retail-showroom.jpg'
+    ],
+    publicationState: 'published',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  },
+  {
+    id: 'proj-3',
+    name: 'Kandla Maritime Logistics & Industrial Park',
+    slug: 'kandla-maritime-logistics-industrial-park',
+    description: 'Heavy logistics, container warehousing, and industrial NA land parcels adjacent to Deendayal Port.',
+    address: 'NH-41 & Kandla Port Industrial Zone',
+    city: 'Gandhidham',
+    district: 'Kutch',
+    state: 'Gujarat',
+    status: 'active',
+    latitude: 23.0125,
+    longitude: 70.2185,
+    boundaryGeometry: {
+      type: 'Polygon',
+      coordinates: [
+        [
+          [70.200, 23.000],
+          [70.235, 23.000],
+          [70.235, 23.025],
+          [70.200, 23.025],
+          [70.200, 23.000]
+        ]
+      ]
+    },
+    gallery: [
+      '/images/industrial-logistics.jpg',
+      '/images/commercial-plot.jpg'
+    ],
+    publicationState: 'published',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  }
+];
+
+export const initialPlots = [
+  {
+    id: 'plot-1',
+    projectId: 'proj-1',
+    plotNumber: 'OFC-102',
+    sectorWard: 'Tagore Road Commercial Complex',
+    category: 'Corporate Office',
+    area: 1200,
+    areaUnit: 'Sq.Ft',
+    price: 35000,
+    pricingType: 'lease',
+    availabilityStatus: 'available',
+    surveyedBoundaryGeometry: {
+      type: 'Polygon',
+      coordinates: [[[70.132, 23.074], [70.134, 23.074], [70.134, 23.076], [70.132, 23.076], [70.132, 23.074]]]
+    },
+    dimensions: { frontage: '30 ft', depth: '40 ft' },
+    reraApproved: true,
+    titleStatus: '100% Clear Title (7/12 & 8A)',
+    features: [
+      'Private executive cabin & glass conference room',
+      '100% generator power backup & high-speed lift',
+      'Attached pantry & dedicated covered parking'
+    ],
+    imageUrl: '/images/executive-office.jpg',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  },
+  {
+    id: 'plot-2',
+    projectId: 'proj-1',
+    plotNumber: 'SHP-805',
+    sectorWard: 'Sector 8 Market',
+    category: 'Market Shop',
+    area: 850,
+    areaUnit: 'Sq.Ft',
+    price: 28000,
+    pricingType: 'lease',
+    availabilityStatus: 'available',
+    surveyedBoundaryGeometry: {
+      type: 'Polygon',
+      coordinates: [[[70.130, 23.072], [70.132, 23.072], [70.132, 23.073], [70.130, 23.073], [70.130, 23.072]]]
+    },
+    dimensions: { frontage: '25 ft', depth: '34 ft' },
+    reraApproved: true,
+    titleStatus: 'High Footfall Market Zone',
+    features: [
+      'Prime pedestrian market corner with dense daily footfall',
+      'Ideal for branded apparel, electronics, pharmacy, or café',
+      '11-month or multi-year registered lease option'
+    ],
+    imageUrl: '/images/market-shop.jpg',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  },
+  {
+    id: 'plot-3',
+    projectId: 'proj-2',
+    plotNumber: 'SHW-501',
+    sectorWard: 'Station Road, Adipur',
+    category: 'High-Street Showroom',
+    area: 1500,
+    areaUnit: 'Sq.Ft',
+    price: 65000,
+    pricingType: 'lease',
+    availabilityStatus: 'available',
+    surveyedBoundaryGeometry: {
+      type: 'Polygon',
+      coordinates: [[[70.098, 23.082], [70.100, 23.082], [70.100, 23.084], [70.098, 23.084], [70.098, 23.082]]]
+    },
+    dimensions: { frontage: '35 ft', depth: '42.8 ft' },
+    reraApproved: true,
+    titleStatus: '100% Clear Commercial Approval',
+    features: [
+      'Corner showroom position with maximum road visibility',
+      'Full mezzanine floor for inventory stock or admin room',
+      'Perfect for jewelry, fashion flagship, or luxury retail'
+    ],
+    imageUrl: '/images/retail-showroom.jpg',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  },
+  {
+    id: 'plot-4',
+    projectId: 'proj-3',
+    plotNumber: 'PLT-NH41',
+    sectorWard: 'NH-41 Commercial Corridor',
+    category: 'Commercial Plot',
+    area: 2500,
+    areaUnit: 'Sq.Ft',
+    price: 45000,
+    pricingType: 'lease',
+    availabilityStatus: 'available',
+    surveyedBoundaryGeometry: {
+      type: 'Polygon',
+      coordinates: [[[70.210, 23.010], [70.215, 23.010], [70.215, 23.015], [70.210, 23.015], [70.210, 23.010]]]
+    },
+    dimensions: { frontage: '50 ft', depth: '50 ft' },
+    reraApproved: true,
+    titleStatus: '100% Clear NA Commercial',
+    features: [
+      'Wide highway frontage with heavy inter-city vehicle flow',
+      'Fully leveled ground with surveyor boundary demarcation',
+      'Available on long-term 5 to 10-year registered lease deed'
+    ],
+    imageUrl: '/images/commercial-plot.jpg',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  },
+  {
+    id: 'plot-5',
+    projectId: 'proj-3',
+    plotNumber: 'WHS-KND-09',
+    sectorWard: 'Kandla Port Industrial Corridor',
+    category: 'Logistics Warehouse',
+    area: 25000,
+    areaUnit: 'Sq.Ft',
+    price: 350000,
+    pricingType: 'lease',
+    availabilityStatus: 'available',
+    surveyedBoundaryGeometry: {
+      type: 'Polygon',
+      coordinates: [[[70.220, 23.015], [70.230, 23.015], [70.230, 23.025], [70.220, 23.025], [70.220, 23.015]]]
+    },
+    dimensions: { frontage: '150 ft', depth: '166.6 ft' },
+    reraApproved: true,
+    titleStatus: 'GIDC & Port Authority Approved',
+    features: [
+      'Seamless container trailer turn-around and concrete apron',
+      'Rooftop solar net-metering & 24/7 security boundary',
+      '5 mins from Deendayal Port cargo gates & railway sidings'
+    ],
+    imageUrl: '/images/industrial-logistics.jpg',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  },
+  {
+    id: 'plot-6',
+    projectId: 'proj-1',
+    plotNumber: 'HGH-1201',
+    sectorWard: 'Central Business District, Gandhidham',
+    category: 'Corporate Office',
+    area: 3500,
+    areaUnit: 'Sq.Ft',
+    price: 120000,
+    pricingType: 'lease',
+    availabilityStatus: 'available',
+    surveyedBoundaryGeometry: {
+      type: 'Polygon',
+      coordinates: [[[70.135, 23.076], [70.140, 23.076], [70.140, 23.080], [70.135, 23.080], [70.135, 23.076]]]
+    },
+    dimensions: { frontage: '60 ft', depth: '58.3 ft' },
+    reraApproved: true,
+    titleStatus: '100% Clear Title',
+    features: [
+      '360-degree panoramic skyline view of Gandhidham',
+      '3 MD cabins, boardroom, reception lobby & server room',
+      'Ideal for shipping lines, customs broking, and tech firms'
+    ],
+    imageUrl: '/images/commercial-tower.jpg',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  }
+];
+
+export const initialMapAssets = [
+  {
+    id: 'asset-1',
+    projectId: 'proj-1',
+    assetType: 'master_plan_pdf',
+    storageKey: 'MASTER-PLAN.pdf',
+    url: '/MASTER-PLAN.pdf',
+    format: 'pdf',
+    fileSizeBytes: 1406037,
+    coordinateReferenceSystem: 'EPSG:4326',
+    version: '1.0',
+    publicationStatus: 'published',
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: 'asset-2',
+    projectId: 'proj-2',
+    assetType: '2d_svg',
+    storageKey: 'adipur/3d-map/fills.svg',
+    url: '/adipur/3d-map/fills.svg',
+    format: 'svg',
+    fileSizeBytes: 245000,
+    coordinateReferenceSystem: 'EPSG:4326',
+    version: '1.0',
+    publicationStatus: 'published',
+    createdAt: new Date().toISOString()
+  }
+];
+

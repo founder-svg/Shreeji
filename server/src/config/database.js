@@ -5,7 +5,13 @@ const { Pool } = pkg;
 import bcrypt from 'bcryptjs';
 import { fileURLToPath } from 'url';
 import { config } from './env.js';
-import { initialCategories, initialProducts } from '../data/seedData.js';
+import {
+  initialCategories,
+  initialProducts,
+  initialProjects,
+  initialPlots,
+  initialMapAssets,
+} from '../data/seedData.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -17,6 +23,10 @@ let isPostgres = false;
 export const localStore = {
   categories: [...initialCategories],
   products: [...initialProducts],
+  projects: [...initialProjects],
+  plots: [...initialPlots],
+  mapAssets: [...initialMapAssets],
+  propertyInquiries: [],
   orders: [],
   orderItems: [],
   cart: [],
@@ -70,6 +80,10 @@ const loadLocalStore = () => {
       const data = JSON.parse(fs.readFileSync(localDbPath, 'utf8'));
       if (data.products && Array.isArray(data.products)) localStore.products = data.products;
       if (data.categories && Array.isArray(data.categories)) localStore.categories = data.categories;
+      if (data.projects && Array.isArray(data.projects)) localStore.projects = data.projects;
+      if (data.plots && Array.isArray(data.plots)) localStore.plots = data.plots;
+      if (data.mapAssets && Array.isArray(data.mapAssets)) localStore.mapAssets = data.mapAssets;
+      if (data.propertyInquiries && Array.isArray(data.propertyInquiries)) localStore.propertyInquiries = data.propertyInquiries;
       if (data.orders && Array.isArray(data.orders)) localStore.orders = data.orders;
       if (data.orderItems && Array.isArray(data.orderItems)) localStore.orderItems = data.orderItems;
       if (data.cart && Array.isArray(data.cart)) localStore.cart = data.cart;

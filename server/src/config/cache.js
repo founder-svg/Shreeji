@@ -44,6 +44,12 @@ export const cacheService = {
     missCount = 0;
     evictionCount = 0;
   },
+  flush: () => {
+    cache.clear();
+    hitCount = 0;
+    missCount = 0;
+    evictionCount = 0;
+  },
 
   // Invalidate all keys matching a prefix (e.g. 'http:/api/v1/products')
   invalidatePrefix: (prefix) => {

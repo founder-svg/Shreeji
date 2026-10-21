@@ -5,6 +5,10 @@ import { categoryController } from '../controllers/categoryController.js';
 import { orderController } from '../controllers/orderController.js';
 import { cartController } from '../controllers/cartController.js';
 import { inquiryController } from '../controllers/inquiryController.js';
+import { projectController } from '../controllers/projectController.js';
+import { plotController } from '../controllers/plotController.js';
+import { propertyInquiryController } from '../controllers/propertyInquiryController.js';
+import { mapAssetController } from '../controllers/mapAssetController.js';
 import {
   uploadController,
   uploadMiddleware,
@@ -179,5 +183,44 @@ router.post('/uploads', authenticateToken, requireAdmin, uploadLimiter, uploadMi
 router.post('/uploads/multiple', authenticateToken, requireAdmin, uploadLimiter, uploadMultipleMiddleware, uploadController.uploadMultiple);
 router.post('/uploads/presigned', authenticateToken, requireAdmin, uploadController.getPresignedUrl);
 router.delete('/uploads', authenticateToken, requireAdmin, uploadController.deleteFile);
+
+// ==========================================
+// 9. REAL ESTATE DOMAIN: PROJECTS & PLOTS
+// ==========================================
+
+// --- Projects Endpoints ---
+router.get('/projects', apiLimiter, cacheRoute(60), projectController.getAll);
+router.get('/projects/:id', apiLimiter, cacheRoute(120), projectController.getById);
+router.get('/projects/:id/plots', apiLimiter, cacheRoute(60), projectController.getPlots);
+router.get('/projects/:id/assets', apiLimiter, cacheRoute(180), mapAssetController.getByProject);
+
+// Admin Project Operations
+router.post('/admin/projects', authenticateToken, requireAdmin, projectController.create);
+router.patch('/admin/projects/:id', authenticateToken, requireAdmin, projectController.update);
+router.delete('/admin/projects/:id', authenticateToken, requireAdmin, projectController.remove);
+
+// --- Plots / Parcels Endpoints ---
+router.get('/plots', apiLimiter, cacheRoute(60), plotController.getAll);
+router.get('/plots/:id', apiLimiter, cacheRoute(120), plotController.getById);
+
+// Admin Plot Operations (PATCH allows staff/admin status updates)
+router.post('/admin/plots', authenticateToken, requireAdmin, plotController.create);
+router.patch('/admin/plots/:id', authenticateToken, plotController.update);
+router.delete('/admin/plots/:id', authenticateToken, requireAdmin, plotController.remove);
+
+// --- Map & 3D Assets ---
+router.post('/admin/assets', authenticateToken, requireAdmin, mapAssetController.create);
+router.delete('/admin/assets/:id', authenticateToken, requireAdmin, mapAssetController.remove);
+
+// --- Property Inquiries & Leads Funnel ---
+// Public lead submission from website
+router.post('/property-inquiries', submissionLimiter, propertyInquiryController.create);
+
+// Authenticated staff / admin management
+router.get('/property-inquiries', authenticateToken, propertyInquiryController.getAll);
+router.get('/admin/property-inquiries', authenticateToken, propertyInquiryController.getAll);
+router.get('/property-inquiries/:id', authenticateToken, propertyInquiryController.getById);
+router.patch('/admin/property-inquiries/:id', authenticateToken, propertyInquiryController.updateStatus);
+router.patch('/property-inquiries/:id', authenticateToken, propertyInquiryController.updateStatus);
 
 export default router;
