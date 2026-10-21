@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ Hub | Shreeji Property Consultant - Commercial Real Estate Questions</title>
+  <meta name="description" content="Find answers to common questions about commercial property rentals, office leasing, lease agreements, security deposits, and brokerage in Gandhidham & Adipur.">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="topbar">
+    <div class="container topbar-container">
+      <div class="topbar-left">
+        <span class="topbar-badge"><i class="fa-solid fa-stamp"></i> RERA REGISTERED</span>
+        <div class="topbar-item">
+          <i class="fa-solid fa-scale-balanced"></i>
+          <span>100% Legal Title Due Diligence & 7/12 Clearance</span>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-item">
+          <i class="fa-solid fa-phone"></i>
+          <a href="tel:+917016270941">+91 70162 70941</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sticky Navigation Header -->
+  <header class="header" id="header">
+    <div class="container">
+      <nav class="navbar">
+        <a href="/" class="logo">
+          <div class="logo-icon"><i class="fa-solid fa-landmark"></i></div>
+          <div class="logo-text">SHREEJI<span>COMMERCIAL & LAND ADVISORY</span></div>
+        </a>
+        
+        <ul class="nav-links" id="navLinks">
+          <li><a href="/" class="nav-link"><span data-i18n="nav_home">Home</span></a></li>
+          <li><a href="/overview" class="nav-link"><span data-i18n="nav_overview">Overview</span></a></li>
+          <li><a href="/target-areas" class="nav-link"><span data-i18n="nav_target_areas">Target Areas</span></a></li>
+          <li><a href="/services" class="nav-link"><span data-i18n="nav_services">Services</span></a></li>
+          <li><a href="/process" class="nav-link"><span data-i18n="nav_process">Process</span></a></li>
+          <li><a href="/faq" class="nav-link active"><span data-i18n="nav_faq">FAQ</span></a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <div class="lang-switch">
+            <button class="lang-btn active" data-lang="en">EN</button>
+            <button class="lang-btn" data-lang="guj">ગુજ</button>
+            <button class="lang-btn" data-lang="hi">હિન્દી</button>
+          </div>
+          <button class="btn btn-primary" onclick="openModal('buy')" style="padding: 0.6rem 1.25rem; font-size: 0.9rem;">
+            <span data-i18n="nav_contact">Contact Us</span>
+          </button>
+        </div>
+
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Page Hero Banner -->
+  <section class="hero">
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+
+    <div class="container hero-container" style="padding-top: 5rem; padding-bottom: 3rem;">
+      <div class="hero-content reveal" style="max-width: 850px; margin: 0 auto; text-align: center;">
+        <div class="hero-badge" style="margin: 0 auto 1.5rem auto;" data-i18n="faq_hero_badge">
+          <i class="fa-solid fa-circle-question"></i> Client Helpdesk
+        </div>
+        <h1 class="hero-title" style="font-size: 2.75rem; margin-bottom: 1.25rem;" data-i18n="faq_hero_title">
+          Frequently Asked <span>Commercial Property Questions</span>
+        </h1>
+        <p class="hero-subtitle" style="font-size: 1.15rem; margin: 0 auto 2rem auto; max-width: 750px;" data-i18n="faq_hero_sub">
+          Complete clarity regarding commercial rent, security deposits, agreement terms, legal compliance, and landlord listings in Gandhidham & Adipur.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Search & Category Filters -->
+  <section class="section" id="faq">
+    <div class="container">
+      <div class="faq-search-box reveal">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="faqSearchInput" class="faq-search-input" placeholder="Type to search questions (e.g. lease, deposit, Tagor Road, GST)...">
+      </div>
+
+      <div class="faq-categories reveal">
+        <button class="faq-cat-btn active" data-category="all">All Questions</button>
+        <button class="faq-cat-btn" data-category="general">General & Locations</button>
+        <button class="faq-cat-btn" data-category="tenants">For Tenants</button>
+        <button class="faq-cat-btn" data-category="landlords">For Landlords</button>
+        <button class="faq-cat-btn" data-category="legal">Legal & Terms</button>
+      </div>
+
+      <div class="faq-accordion reveal" style="max-width: 900px; margin: 0 auto;">
+        
+        <!-- General Category -->
+        <div class="faq-item" data-category="general">
+          <div class="faq-question">
+            <span>Why is Gandhidham & Adipur considered the top commercial hub in Kutch?</span>
+            <i class="fa-solid fa-chevron-down faq-icon"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Gandhidham and Adipur serve as the commercial capital of Kutch due to their proximity to Deendayal Port (Kandla) and Mundra SEZ. The region features major banking networks, shipping company headquarters, high footfall retail markets (Tagor Road, Sector 12), and direct highway connectivity via NH 41.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" data-category="general">
+          <div class="faq-question">
+            <span data-i18n="faq_q1">What types of commercial rental properties do you offer in Gandhidham & Adipur?</span>
+            <i class="fa-solid fa-chevron-down faq-icon"></i>
+          </div>
+          <div class="faq-answer">
+            <p data-i18n="faq_a1">We specialize in high-footfall retail market shops, fully furnished & bare-shell corporate office space, high-visibility main market showrooms, and roadside commercial lease plots across Tagore Road, Main Market, Sector 1-12 in Gandhidham, and Station Road in Adipur.</p>
+          </div>
+        </div>
+
+        <!-- Tenant Category -->
+        <div class="faq-item" data-category="tenants">
+          <div class="faq-question">
+            <span data-i18n="faq_q4">What are the typical security deposit and brokerage terms for renting commercial spaces?</span>
+            <i class="fa-solid fa-chevron-down faq-icon"></i>
+          </div>
+          <div class="faq-answer">
+            <p data-i18n="faq_a4">Security deposits usually range from 3 to 6 months of rent depending on the location and property type, with flexible rent negotiation and transparent fee structures for both tenants and landlords.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" data-category="tenants">
+          <div class="faq-question">
+            <span>Can I customize or renovate the leased commercial office/shop space?</span>
+            <i class="fa-solid fa-chevron-down faq-icon"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Yes. Non-structural interior modifications (such as glass partitions, false ceilings, flooring, painting, and AC ducting) are permitted with prior written approval from the landlord. Most landlords also offer a rent-free fit-out period (15 to 45 days) for interior setup.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" data-category="tenants">
+          <div class="faq-question">
+            <span data-i18n="faq_q2">What is the standard lease deed duration and rental agreement process in Gandhidham?</span>
+            <i class="fa-solid fa-chevron-down faq-icon"></i>
+          </div>
+          <div class="faq-answer">
+            <p data-i18n="faq_a2">Commercial properties in Gandhidham & Adipur are typically leased under 11-month registered lease agreements or long-term 3-to-9 year corporate lease deeds with renewable escalation terms.</p>
+          </div>
+        </div>
+
+        <!-- Landlords Category -->
+        <div class="faq-item" data-category="landlords">
+          <div class="faq-question">
+            <span data-i18n="faq_q3">How do you assist commercial tenants and landlords with legal due diligence?</span>
+            <i class="fa-solid fa-chevron-down faq-icon"></i>
+          </div>
+          <div class="faq-answer">
+            <p data-i18n="faq_a3">We handle 100% of title verification, property ownership checks, municipal tax clearance, tenant background verification, and formal registered lease deed drafting for smooth operations.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" data-category="landlords">
+          <div class="faq-question">
+            <span>How do I list my shop, office, or commercial plot with Shreeji Property Consultant?</span>
+            <i class="fa-solid fa-chevron-down faq-icon"></i>
+          </div>
+          <div class="faq-answer">
+            <p>You can list your property by clicking the "List Property" button on our website, or by contacting our specialist directly. We perform a free property valuation and initiate corporate tenant matching immediately.</p>
+          </div>
+        </div>
+
+        <!-- Legal Category -->
+        <div class="faq-item" data-category="legal">
+          <div class="faq-question">
+            <span>Is a registered lease agreement mandatory for commercial properties?</span>
+            <i class="fa-solid fa-chevron-down faq-icon"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Under Indian law, lease agreements exceeding 11 months must be legally registered with the Sub-Registrar Office with proper stamp duty payment. For 11-month leases, a notarized commercial rent agreement is standard.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" data-category="legal">
+          <div class="faq-question">
+            <span>Who pays GST and municipal property taxes in a commercial lease?</span>
+            <i class="fa-solid fa-chevron-down faq-icon"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Commercial rent attracts 18% GST if the landlord is GST-registered or under RCM for corporate tenants. Property taxes are generally paid by the property owner, unless specifically agreed upon in the lease contract.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Still Have Questions Banner -->
+  <section class="section" style="background: var(--bg-white);">
+    <div class="container">
+      <div style="background: linear-gradient(135deg, rgba(30, 90, 138, 0.05), rgba(217, 164, 65, 0.08)); border-radius: 20px; border: 1px solid rgba(30, 90, 138, 0.15); padding: 3rem 2rem; text-align: center; max-width: 800px; margin: 0 auto;" class="reveal">
+        <div style="font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem;"><i class="fa-solid fa-headset"></i></div>
+        <h3 style="font-size: 1.75rem; margin-bottom: 0.75rem;" data-i18n="cta_overview_title">Still Have Unanswered Questions?</h3>
+        <p style="color: var(--text-muted); font-size: 1.05rem; margin-bottom: 2rem;" data-i18n="cta_overview_sub">
+          Our commercial property experts are available to clarify any doubts regarding lease terms, location advice, or legal documentation.
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <button class="btn btn-primary" onclick="openModal('buy')" data-i18n="cta_overview_btn1">Ask Our Expert</button>
+          <a href="https://wa.me/917016270941" target="_blank" class="btn btn-secondary"><i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <a href="/" class="logo" style="margin-bottom: 1rem;">
+            <div class="logo-icon"><i class="fa-solid fa-building-user"></i></div>
+            <div class="logo-text" style="color: white;">Shreeji<span style="color: var(--accent-gold);">RealEstate</span></div>
+          </a>
+          <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-bottom: 1.5rem;" data-i18n="footer_brand_desc">
+            Premier commercial property consultant in Gandhidham & Adipur specializing in rental commercial shops, corporate offices, showrooms, and commercial land leasing.
+          </p>
+          <div class="footer-socials">
+            <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="#"><i class="fa-solid fa-envelope"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4 data-i18n="footer_quick_links">Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="/" data-i18n="nav_home">Home</a></li>
+            <li><a href="/overview" data-i18n="nav_overview">Overview</a></li>
+            <li><a href="/services" data-i18n="nav_services">Services</a></li>
+            <li><a href="/process" data-i18n="nav_process">Process</a></li>
+            <li><a href="/faq" data-i18n="nav_faq">FAQ</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4 data-i18n="footer_target_areas">Target Areas</h4>
+          <ul class="footer-links">
+            <li><a href="/MASTER-PLAN.pdf" target="_blank">Gandhidham Master Plan</a></li>
+            <li><a href="/MASTER-PLAN.pdf" target="_blank">Adipur Master Plan</a></li>
+            <li><a href="/gandhidham">Gandhidham Commercial Hub</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4 data-i18n="footer_contact_title">Contact Info</h4>
+          <ul class="footer-links">
+            <li><i class="fa-solid fa-location-dot" style="color: var(--accent-gold); margin-right: 0.5rem;"></i> Gandhidham & Adipur, Kutch, Gujarat</li>
+            <li><i class="fa-solid fa-phone" style="color: var(--accent-gold); margin-right: 0.5rem;"></i> +91 70162 70941</li>
+            <li><i class="fa-solid fa-envelope" style="color: var(--accent-gold); margin-right: 0.5rem;"></i> shreejirealestate@gmail.com</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p data-i18n="footer_rights">&copy; 2026 Shreeji Property Consultant. All Rights Reserved.</p>
+      </div>
+
+        <div class="footer-col">
+          <h4>Target Areas</h4>
+          <ul class="footer-links">
+            <li><a href="/MASTER-PLAN.pdf" target="_blank">Gandhidham Master Plan</a></li>
+            <li><a href="/MASTER-PLAN.pdf" target="_blank">Adipur Master Plan</a></li>
+            <li><a href="/MASTER-PLAN.pdf" target="_blank">Tagor Road Hub</a></li>
+            <li><a href="/MASTER-PLAN.pdf" target="_blank">Sector 12 Retail Zone</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contact Info</h4>
+          <ul class="footer-links">
+            <li><i class="fa-solid fa-location-dot" style="color: var(--accent-gold); margin-right: 0.5rem;"></i> Gandhidham & Adipur, Kutch, Gujarat</li>
+            <li><i class="fa-solid fa-phone" style="color: var(--accent-gold); margin-right: 0.5rem;"></i> +91 98252 27410</li>
+            <li><i class="fa-solid fa-envelope" style="color: var(--accent-gold); margin-right: 0.5rem;"></i> info@shreejiproperty.com</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Shreeji Property Consultant. All Rights Reserved.</p>
+        <p>Commercial Real Estate & Property Leasing Specialist</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lead Modal -->
+  <div class="modal-overlay" id="leadModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle">Commercial Property Inquiry</h3>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="leadForm" onsubmit="handleFormSubmit(event)">
+          <input type="hidden" id="formType" value="buy">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Full Name *</label>
+              <input type="text" class="form-input" required placeholder="Enter your full name">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone Number *</label>
+              <input type="tel" class="form-input" required placeholder="10-digit mobile number">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Property Requirement</label>
+              <select class="form-select">
+                <option>Commercial Shop for Rent</option>
+                <option>Corporate Office Space</option>
+                <option>Showroom Space</option>
+                <option>Commercial Land / Plot Lease</option>
+                <option>List Property (Owner)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Preferred Location</label>
+              <select class="form-select">
+                <option>Gandhidham - Tagor Road</option>
+                <option>Gandhidham - Sector 12</option>
+                <option>Gandhidham - Main Market</option>
+                <option>Adipur Commercial Zone</option>
+                <option>Highway / Logistics Zone</option>
+              </select>
+            </div>
+            <div class="form-group full-width">
+              <label class="form-label">Additional Details / Message</label>
+              <textarea class="form-textarea" rows="3" placeholder="Specify budget, required area (sq.ft), or timeline..."></textarea>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1.5rem;">
+            Submit Inquiry
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="/script.js"></script>
+</body>
+</html>

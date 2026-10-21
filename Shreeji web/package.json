@@ -1,0 +1,20 @@
+{
+  "name": "shreeji-landinkutch",
+  "version": "1.0.0",
+  "description": "Shreeji LandInKutch Real Estate & Land Consultancy Web Platform",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx live-server --port=8080",
+    "start": "npx live-server --port=8080",
+    "serve": "python -m http.server 8080"
+  },
+  "keywords": [
+    "real-estate",
+    "kutch",
+    "gandhidham",
+    "gujarat",
+    "land-consultant"
+  ],
+  "author": "Shreeji LandInKutch",
+  "license": "ISC"
+}

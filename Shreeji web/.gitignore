@@ -1,0 +1,6 @@
+node_modules/
+.next/
+adipur/3d-map/node_modules/
+adipur/3d-map/.next/
+adipur/3d-map/out/
+.DS_Store

@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administration | LandInKutch Consultant</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --admin-navy: #0A1128;
+      --admin-navy-light: #1C2541;
+      --admin-blue-accent: #4FA0D8;
+      --admin-bg: #F4F7FC;
+      --admin-text-main: #1D2D44;
+      --admin-text-muted: #64748B;
+      --admin-border: #E2E8F0;
+    }
+
+    body.dark-mode {
+      --admin-bg: #0F172A;
+      --admin-text-main: #F1F5F9;
+      --admin-text-muted: #94A3B8;
+      --admin-border: #334155;
+      background-color: #0F172A;
+    }
+
+    body.admin-body {
+      background-color: var(--admin-bg);
+      color: var(--admin-text-main);
+      min-height: 100vh;
+      font-family: var(--font-body);
+      display: flex;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      transition: background-color 0.3s ease;
+    }
+
+    /* Admin Login Screen Overlay */
+    .admin-login-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 100vh;
+      background: var(--admin-navy);
+      z-index: 10000;
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+
+    .admin-login-card {
+      background: white;
+      border-radius: 20px;
+      padding: 3rem 2.5rem;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+
+    /* Sidebar Navigation */
+    .admin-sidebar {
+      width: 260px;
+      background: var(--admin-navy);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      box-shadow: 4px 0 15px rgba(0,0,0,0.05);
+    }
+
+    .admin-sidebar-top {
+      padding: 1.5rem 1rem;
+    }
+
+    .admin-sidebar-logo {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      font-weight: 800;
+      text-align: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      letter-spacing: 1px;
+    }
+
+    .admin-sidebar-logo span {
+      color: var(--accent-gold);
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 500;
+      opacity: 0.7;
+      margin-top: 0.25rem;
+    }
+
+    .admin-sidebar-menu {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .admin-menu-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.5rem;
+      color: rgba(255, 255, 255, 0.7);
+      font-weight: 600;
+      font-size: 0.95rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .admin-menu-item:hover, .admin-menu-item.active {
+      color: var(--admin-navy);
+      background: #E6F0FA;
+    }
+
+    .admin-sidebar-bottom {
+      padding: 1.5rem 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .admin-menu-item.logout {
+      color: #F87171;
+    }
+
+    .admin-menu-item.logout:hover {
+      background: rgba(239, 68, 68, 0.2);
+      color: white;
+    }
+
+    /* Main Content Area */
+    .admin-main {
+      margin-left: 260px;
+      flex-grow: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header Bar */
+    .admin-header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 3rem;
+      background: white;
+      border-bottom: 1px solid var(--admin-border);
+    }
+
+    body.dark-mode .admin-header-bar {
+      background: #1E293B;
+    }
+
+    .admin-header-title h2 {
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--primary-dark);
+      margin-bottom: 0.25rem;
+    }
+
+    body.dark-mode .admin-header-title h2 {
+      color: white;
+    }
+
+    .admin-header-title span {
+      font-size: 0.85rem;
+      color: var(--admin-text-muted);
+    }
+
+    .admin-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .btn-live-view {
+      border: 1px solid var(--admin-border);
+      background: white;
+      color: var(--primary-dark);
+      padding: 0.5rem 1.25rem;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-live-view:hover {
+      background: var(--admin-bg);
+      border-color: var(--primary);
+    }
+
+    .admin-profile-badge {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Dashboard Panes */
+    .admin-body-content {
+      padding: 3rem;
+      flex-grow: 1;
+    }
+
+    .admin-card {
+      background: white;
+      border-radius: 20px;
+      border: 1px solid var(--admin-border);
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+      margin-bottom: 2rem;
+    }
+
+    body.dark-mode .admin-card {
+      background: #1E293B;
+    }
+
+    /* Spaced list rows - catalog design */
+    .catalog-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .catalog-search-bar {
+      display: flex;
+      gap: 1rem;
+      flex-grow: 1;
+      max-width: 400px;
+    }
+
+    .catalog-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .catalog-row {
+      display: grid;
+      grid-template-columns: 100px 2.5fr 1.5fr 1fr 1fr 1fr;
+      align-items: center;
+      background: white;
+      border: 1px solid var(--admin-border);
+      border-radius: 16px;
+      padding: 1.25rem 2rem;
+      transition: all 0.2s ease;
+    }
+
+    body.dark-mode .catalog-row {
+      background: #1E293B;
+    }
+
+    .catalog-row:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.04);
+      border-color: var(--accent-gold);
+    }
+
+    .catalog-cover {
+      width: 70px;
+      height: 70px;
+      border-radius: 12px;
+      object-fit: cover;
+      border: 1px solid var(--admin-border);
+      background: var(--admin-bg);
+    }
+
+    .catalog-details h3 {
+      font-size: 1.15rem;
+      color: var(--admin-text-main);
+      margin-bottom: 0.25rem;
+    }
+
+    .catalog-details span {
+      color: var(--admin-blue-accent);
+      font-weight: 700;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .catalog-location, .catalog-year, .catalog-dim {
+      font-size: 0.95rem;
+      color: var(--admin-text-muted);
+    }
+
+    .catalog-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+    }
+
+    .catalog-btn {
+      background: transparent;
+      border: none;
+      font-size: 1.15rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .catalog-btn.edit {
+      color: var(--admin-blue-accent);
+    }
+
+    .catalog-btn.edit:hover {
+      background: rgba(58, 134, 200, 0.1);
+    }
+
+    .catalog-btn.delete {
+      color: #EF4444;
+    }
+
+    .catalog-btn.delete:hover {
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    /* Floating theme switch */
+    .theme-switch-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: white;
+      box-shadow: var(--shadow-xl);
+      border: 1px solid var(--admin-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.25rem;
+      z-index: 2000;
+      transition: all 0.3s ease;
+    }
+
+    body.dark-mode .theme-switch-btn {
+      background: #1E293B;
+      color: white;
+    }
+
+    .theme-switch-btn:hover {
+      transform: scale(1.1);
+    }
+
+    /* Metric Cards Grid */
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .metric-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem 2rem;
+      border: 1px solid var(--admin-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    body.dark-mode .metric-card {
+      background: #1E293B;
+    }
+
+    .metric-info h3 {
+      font-size: 0.85rem;
+      color: var(--admin-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.5rem;
+    }
+
+    .metric-info p {
+      font-size: 2.2rem;
+      font-family: var(--font-heading);
+      font-weight: 800;
+      color: var(--admin-text-main);
+    }
+
+    .metric-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    /* Inquiries design */
+    .inquiry-card {
+      background: white;
+      border: 1px solid var(--admin-border);
+      border-radius: 16px;
+      padding: 1.5rem 2rem;
+      margin-bottom: 1.25rem;
+    }
+
+    body.dark-mode .inquiry-card {
+      background: #1E293B;
+    }
+
+    .inquiry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--admin-border);
+      padding-bottom: 0.75rem;
+    }
+
+    .inquiry-type {
+      padding: 0.25rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .inquiry-type.buy {
+      background: rgba(111, 195, 232, 0.15);
+      color: var(--accent-emerald-dark);
+    }
+
+    .inquiry-type.sell {
+      background: rgba(217, 164, 65, 0.15);
+      color: var(--accent-gold-dark);
+    }
+
+    .page-select-box {
+      width: 100%;
+      max-width: 320px;
+      padding: 0.75rem 1.25rem;
+      border-radius: 10px;
+      border: 1px solid var(--admin-border);
+      font-weight: 600;
+      background: white;
+      margin-bottom: 2rem;
+      color: var(--admin-text-main);
+    }
+
+    body.dark-mode .page-select-box {
+      background: #1E293B;
+    }
+  </style>
+</head>
+<body class="admin-body">
+
+  <!-- Admin Login Screen Overlay -->
+  <div class="admin-login-screen" id="loginWrapper">
+    <div class="admin-login-card">
+      <div class="logo-icon" style="margin: 0 auto 1.5rem auto;"><i class="fa-solid fa-lock"></i></div>
+      <h2 style="font-size: 1.75rem; margin-bottom: 0.5rem; color: var(--admin-text-main);">Admin Sign In</h2>
+      <p style="color: var(--admin-text-muted); font-size: 0.9rem; margin-bottom: 2rem;">Access the LandInKutch Administration panel.</p>
+      
+      <form id="loginForm" style="display: flex; flex-direction: column; gap: 1.25rem;">
+        <div class="form-group" style="text-align: left;">
+          <label class="form-label">Username</label>
+          <input type="text" id="usernameInput" class="form-input" placeholder="Username" required autocomplete="username">
+        </div>
+        <div class="form-group" style="text-align: left;">
+          <label class="form-label">Password</label>
+          <input type="password" id="passwordInput" class="form-input" placeholder="Password" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">Access Administration</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Left Sidebar Navigation -->
+  <aside class="admin-sidebar" id="adminSidebar" style="display: none;">
+    <div class="admin-sidebar-top">
+      <div class="admin-sidebar-logo">
+        LandInKutch
+        <span>ADMINISTRATION</span>
+      </div>
+      
+      <div class="admin-sidebar-menu">
+        <div class="admin-menu-item active" data-tab="dashboard" onclick="switchTab('dashboard')">
+          <i class="fa-solid fa-chart-line"></i> Dashboard
+        </div>
+        <div class="admin-menu-item" data-tab="pages" onclick="switchTab('pages')">
+          <i class="fa-solid fa-file-invoice"></i> Edit Pages
+        </div>
+        <div class="admin-menu-item" data-tab="portfolio" onclick="switchTab('portfolio')">
+          <i class="fa-solid fa-folder-open"></i> Portfolio
+        </div>
+        <div class="admin-menu-item" data-tab="pdfs" onclick="switchTab('pdfs')">
+          <i class="fa-solid fa-file-pdf"></i> PDF Vault
+        </div>
+        <div class="admin-menu-item" data-tab="inquiries" onclick="switchTab('inquiries')">
+          <i class="fa-solid fa-envelope-open-text"></i> Inquiries
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-sidebar-bottom">
+      <div class="admin-menu-item" data-tab="settings" onclick="switchTab('settings')">
+        <i class="fa-solid fa-gears"></i> Settings
+      </div>
+      <div class="admin-menu-item logout" onclick="logoutAdmin()">
+        <i class="fa-solid fa-right-from-bracket"></i> Logout
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main View Area -->
+  <div class="admin-main" id="adminMain" style="display: none;">
+    <header class="admin-header-bar">
+      <div class="admin-header-title">
+        <h2 id="currentPaneTitle">Administration Dashboard</h2>
+        <span id="adminGreeting">Good Morning, Admin - 08:30 AM</span>
+      </div>
+      <div class="admin-header-actions">
+        <a href="/" target="_blank" class="btn-live-view">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> VIEW LIVE
+        </a>
+        <div class="admin-profile-badge">A</div>
+      </div>
+    </header>
+
+    <div class="admin-body-content">
+      <!-- DASHBOARD TAB -->
+      <section class="tab-pane active" id="dashboardTab">
+        <div class="metric-grid">
+          <div class="metric-card">
+            <div class="metric-info">
+              <h3>Active Plots</h3>
+              <p id="dashTotalListings">0</p>
+            </div>
+            <div class="metric-icon" style="background: rgba(58,134,200,0.1); color: var(--admin-blue-accent);"><i class="fa-solid fa-map-location-dot"></i></div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-info">
+              <h3>Lead Inquiries</h3>
+              <p id="dashTotalInquiries">0</p>
+            </div>
+            <div class="metric-icon" style="background: rgba(111, 195, 232, 0.15); color: var(--accent-emerald-dark);"><i class="fa-solid fa-envelope"></i></div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-info">
+              <h3>Active PDFs</h3>
+              <p id="dashTotalPdfs">0</p>
+            </div>
+            <div class="metric-icon" style="background: rgba(217, 164, 65, 0.15); color: var(--accent-gold-dark);"><i class="fa-solid fa-file-pdf"></i></div>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <h3 style="font-size: 1.25rem; margin-bottom: 1rem;"><i class="fa-solid fa-clock-rotate-left"></i> System Overview</h3>
+          <p style="color: var(--admin-text-muted); font-size: 0.95rem; line-height: 1.6;">Welcome to the LandInKutch content administration system. From this panel, you can control the properties, portfolio layouts, and general settings displayed on the public website. Submission logs for buying and selling inquiries are also dynamically loaded inside the Inquiries tab.</p>
+        </div>
+      </section>
+
+      <!-- EDIT PAGES TAB (CMS Page Editor) -->
+      <section class="tab-pane" id="pagesTab">
+        <h2 style="font-size: 1.75rem; margin-bottom: 1rem;">Select Page to Customize</h2>
+        <select id="cmsPageSelect" class="page-select-box" onchange="loadCmsPageConfig()">
+          <option value="home">Home Page (Main)</option>
+          <option value="kandla">Kandla Port Corridor</option>
+          <option value="mundra">Mundra SEZ & Port</option>
+          <option value="khavda">Khavda Solar Park</option>
+          <option value="gidc">GIDC Industrial Estates</option>
+          <option value="dholavira">Dholavira Tourism Zone</option>
+        </select>
+
+        <form id="cmsPageForm" class="form-box">
+          <div id="cmsFormFields">
+            <!-- Dynamically populated page inputs -->
+          </div>
+          <button type="submit" class="btn btn-primary" style="margin-top: 1.5rem; padding: 0.75rem 2rem;">Save Page Content</button>
+        </form>
+      </section>
+
+      <!-- PORTFOLIO TAB -->
+      <section class="tab-pane" id="portfolioTab">
+        <div class="catalog-header-row">
+          <div class="catalog-search-bar">
+            <input type="text" id="catalogSearchInput" class="form-input" placeholder="Search catalog..." oninput="filterCatalog()">
+          </div>
+          <button class="btn btn-primary" onclick="showAddListingModal()"><i class="fa-solid fa-plus"></i> ADD PROJECT</button>
+        </div>
+
+        <div class="catalog-grid" id="catalogGrid">
+          <!-- Populated dynamically -->
+        </div>
+      </section>
+
+      <!-- PDF MANAGER TAB -->
+      <section class="tab-pane" id="pdfsTab">
+        <h2 style="font-size: 1.75rem; margin-bottom: 1.5rem;">PDF Document Manager</h2>
+        <p style="color: var(--admin-text-muted); margin-bottom: 2rem;">Upload verified surveys, map PDF layouts, and certificates here. Uploaded PDFs are available inside the admin vault on the frontend.</p>
+
+        <div class="form-box" style="border: 2px dashed var(--accent-gold); padding: 3rem; text-align: center; cursor: pointer; background: rgba(217,164,65,0.03);" onclick="document.getElementById('pdfFileInput').click()">
+          <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2.5rem; color: var(--accent-gold); margin-bottom: 1rem;"></i>
+          <h3>Upload PDF Documents</h3>
+          <input type="file" id="pdfFileInput" style="display: none;" accept="application/pdf" onchange="handlePdfUpload(event)">
+        </div>
+
+        <div class="catalog-grid" id="pdfListContainer" style="margin-top: 2rem;">
+          <!-- Loaded dynamically -->
+        </div>
+      </section>
+
+      <!-- INQUIRIES TAB -->
+      <section class="tab-pane" id="inquiriesTab">
+        <h2 style="font-size: 1.75rem; margin-bottom: 1.5rem;">Direct User Inquiries</h2>
+        <div id="inquiriesContainer" style="display: flex; flex-direction: column; gap: 1rem;">
+          <!-- Loaded dynamically -->
+        </div>
+      </section>
+
+      <!-- SETTINGS TAB -->
+      <section class="tab-pane" id="settingsTab">
+        <h2 style="font-size: 1.75rem; margin-bottom: 1.5rem;">Global Configurations</h2>
+        
+        <form id="settingsForm" class="admin-grid">
+          <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <div class="form-box">
+              <h3 class="form-box-title"><i class="fa-solid fa-address-book"></i> Site Contact</h3>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label">Phone</label>
+                  <input type="text" id="contactPhone" class="form-input" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Email</label>
+                  <input type="email" id="contactEmail" class="form-input" required>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="form-box">
+              <h3 class="form-box-title"><i class="fa-solid fa-save"></i> Action</h3>
+              <p style="font-size: 0.9rem; color: var(--admin-text-muted); margin-bottom: 1.5rem;">Saves telephone numbers & correspondence email properties globally.</p>
+              <button type="submit" class="btn btn-primary" style="width: 100%;">Save Settings</button>
+            </div>
+          </div>
+        </form>
+      </section>
+    </div>
+  </div>
+
+  <!-- Add/Edit Listing Modal -->
+  <div class="modal-overlay" id="addListingModal" style="z-index: 2100;">
+    <div class="modal-container" style="max-width: 600px;">
+      <div class="modal-header">
+        <button class="modal-close" onclick="closeAddListingModal()"><i class="fa-solid fa-xmark"></i></button>
+        <h2 id="modalListingHeader" style="color: white; font-size: 1.35rem;">Add New Portfolio Project</h2>
+        <p style="color: rgba(255,255,255,0.8); font-size: 0.85rem;">Input property metrics to display on the catalog.</p>
+      </div>
+      <div class="modal-body">
+        <form id="addListingForm" class="form-grid">
+          <input type="hidden" id="editListingId">
+          <div class="form-group full-width">
+            <label class="form-label">Project Name / Title</label>
+            <input type="text" id="listingTitle" class="form-input" placeholder="e.g. 12.5 Acres NA Commercial Plot" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Location</label>
+            <input type="text" id="listingLocation" class="form-input" placeholder="e.g. Kandla Port Corridor" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Dimensions / Area</label>
+            <input type="text" id="listingArea" class="form-input" placeholder="e.g. 12.5 Acres" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Year of Listing</label>
+            <input type="text" id="listingYear" class="form-input" placeholder="e.g. 2025" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Zoning Category / Tag</label>
+            <select id="listingTag" class="form-select" required>
+              <option value="Logistics Park Plot">Logistics Park Plot</option>
+              <option value="Warehouse & Storage">Warehouse & Storage</option>
+              <option value="Heavy Manufacturing">Heavy Manufacturing</option>
+              <option value="Solar Installation">Solar Installation</option>
+              <option value="Tourism Resort Plot">Tourism Resort Plot</option>
+            </select>
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">Feature Details (Comma separated list)</label>
+            <input type="text" id="listingDetails" class="form-input" placeholder="e.g. 100% NA and Title Clear, Road touch frontage" required>
+          </div>
+          <div class="form-group full-width" style="margin-top: 1rem;">
+            <button type="submit" id="listingSubmitBtn" class="btn btn-primary" style="width: 100%;">Create Listing</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="theme-switch-btn" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+    <i class="fa-solid fa-moon"></i>
+  </div>
+
+  <div class="toast" id="adminToast">Settings updated!</div>
+
+  <script>
+    const defaultSiteContent = {
+      home: {
+        heroTitle: "Your Trusted Land Consultant for <span>Commercial & Industrial Land</span> in Kutch",
+        heroSubtitle: "Expert guidance for strategic land transactions near Kandla, Mundra, Tuna Ports & Dholavira UNESCO Site. Specializing in Gandhidham, Anjar, Bhuj & GIDC estates.",
+        contactPhone: "+91 70162 70941",
+        contactEmail: "landinkutch@gmail.com",
+        storyHeadline: "Who We Are",
+        storyParagraph: "LandInKutch is your trusted land consultant for strategic land transactions in Kutch's port corridor. With 10+ years of experience and deep market knowledge, we facilitate successful land deals between serious buyers and sellers through our proven consultancy process.",
+        statYears: "10+ Years",
+        statAcres: "500+ Acres",
+        statClients: "100+ Clients"
+      },
+      kandla: {
+        heroBadge: "Maritime & Logistics Hub",
+        heroTitle: "Commercial Land in <span>Kandla Port Corridor</span>",
+        heroSubtitle: "Prime warehousing, container freight station (CFS), and cold storage plots situated adjacent to Deendayal Port Trust (DPT) & Kandla-Gandhidham highway.",
+        adv1Title: "Major Port Gate Proximity",
+        adv1Desc: "Plots located within 5 km to 15 km of Kandla Port docks, drastically reducing drayage and container transport costs.",
+        adv2Title: "Highway Connectivity",
+        adv2Desc: "Direct 4-lane access to NH-41 connecting Gandhidham, Ahmedabad, and major inland container depots (ICDs).",
+        adv3Title: "High Industrial Power",
+        adv3Desc: "Continuous 66kV and 11kV substation feeder lines specifically configured for heavy warehousing and cold chains.",
+        adv4Title: "Clear NA Status",
+        adv4Desc: "Verified non-agricultural commercial zoning suitable for logistics parks, liquid tank farms, and godowns."
+      },
+      mundra: {
+        heroBadge: "Global Trade Gateway",
+        heroTitle: "Industrial Land in <span>Mundra SEZ & Port</span>",
+        heroSubtitle: "Prime industrial land, heavy manufacturing zones, and logistics terminal plots inside or adjacent to India's largest private port and Special Economic Zone.",
+        adv1Title: "SEZ Tax Incentives",
+        adv1Desc: "Duty-free import, single-window clearances, and long-term corporate tax exemptions inside the Mundra SEZ territory.",
+        adv2Title: "Deep Water Port Access",
+        adv2Desc: "Seamless integration with Mundra Port's container terminals, bulk cargo berths, and dedicated railway lines.",
+        adv3Title: "Co-Location Benefits",
+        adv3Desc: "Proximity to power plants, steel mills, and petrochemical giants offering direct raw material supply chains.",
+        adv4Title: "Robust Infrastructure",
+        adv4Desc: "High-capacity gas pipelines, high-speed fiber networks, and chemical-grade industrial drainage systems."
+      },
+      khavda: {
+        heroBadge: "Green Energy Corridor",
+        heroTitle: "Utility-Scale Land in <span>Khavda Solar Park</span>",
+        heroSubtitle: "Strategic land bank availability suitable for massive wind-solar hybrid projects, private solar farms, and green hydrogen initiatives.",
+        adv1Title: "Highest Solar Radiation",
+        adv1Desc: "Kutch's desert zones offer the highest solar irradiance and constant wind velocities in the country.",
+        adv2Title: "Power Grid Integration",
+        adv2Desc: "Proximity to national grid evacuation lines and high-voltage substations for immediate power transfer.",
+        adv3Title: "Aggregated Clean Titles",
+        adv3Desc: "Duly scouted, surveyed, and boundary-marked government-approved lease plots ready for project setup.",
+        adv4Title: "High Returns on Lease",
+        adv4Desc: "Long-term revenue yield model with stable corporate power purchasing agreements (PPAs)."
+      },
+      gidc: {
+        heroBadge: "Structured Manufacturing Zone",
+        heroTitle: "Plots in <span>GIDC Industrial Estates</span>",
+        heroSubtitle: "Acquire pre-cleared industrial plots in Gandhidham, Anjar, Kidana, and Bhuj GIDC estates equipped with industrial amenities.",
+        adv1Title: "Plug & Play Plots",
+        adv1Desc: "Ready concrete boundary plots with internal asphalt roads, high-tension power, and centralized sewage systems.",
+        adv2Title: "Fast-Track Approval",
+        adv2Desc: "Simplified factory license registry and streamlined local municipal clearance mechanisms.",
+        adv3Title: "Skilled Labor Pool",
+        adv3Desc: "Located near dense residential hubs in Gandhidham and Anjar, guaranteeing easy access to industrial labor.",
+        adv4Title: "Zoning Permissions",
+        adv4Desc: "Duly certified zones for chemicals, engineering, wood-crafting, mineral-processing, and heavy fabrication."
+      },
+      dholavira: {
+        heroBadge: "Heritage & Tourism Belt",
+        heroTitle: "Resort Land in <span>Dholavira Tourism Zone</span>",
+        heroSubtitle: "Invest in commercial hospitality and resort plots near the UNESCO World Heritage site and the scenic Road to Heaven.",
+        adv1Title: "UNESCO Tourism Boom",
+        adv1Desc: "Massive inflow of domestic and international cultural tourists visiting the ancient Harappan civilization site.",
+        adv2Title: "Scenic Highway Frontage",
+        adv2Desc: "Plots positioned directly on the new 4-lane Highway connecting Dholavira with the Great Rann of Kutch.",
+        adv3Title: "Hospitality Zoning",
+        adv3Desc: "Zoned specifically for eco-resorts, heritage hotels, luxury tents, and tourist amenities centers.",
+        adv4Title: "Unique Landscape Appeal",
+        adv4Desc: "Breathtaking views of the salt desert flats combined with pristine local wildlife ecosystems."
+      },
+      listings: [
+        { id: 1, title: "12.5 Acres NA Commercial Plot", location: "Kandla Port Corridor", tag: "Logistics Park Plot", area: "12.5 Acres", year: "2025", details: ["100% NA & Title Clear (single owner)", "Wide 60-meter highway frontage"] },
+        { id: 2, title: "5.2 Acres Industrial Plot", location: "Tuna Port Corridor", tag: "Warehouse & Storage", area: "5.2 Acres", year: "2024", details: ["Pre-approved industrial zoning", "Water & power connection ready"] },
+        { id: 3, title: "15.0 Acres Manufacturing Land", location: "GIDC Industrial Estates", tag: "Heavy Manufacturing", area: "15.0 Acres", year: "2025", details: ["Ready concrete boundary plots", "Centralized sewage systems"] },
+        { id: 4, title: "20.0 Acres Renewable Plot", location: "Khavda Solar Park", tag: "Solar Installation", area: "20.0 Acres", year: "2025", details: ["Proximity to evacuation lines", "Scouted and boundary marked"] }
+      ],
+      pdfs: []
+    };
+
+    let siteContent = JSON.parse(localStorage.getItem('site_content')) || defaultSiteContent;
+    let inquiriesList = JSON.parse(localStorage.getItem('lead_inquiries')) || [];
+
+    // Authenticate checks
+    window.onload = function() {
+      if (sessionStorage.getItem('admin_logged') === 'true') {
+        showDashboard();
+      } else {
+        document.getElementById('loginWrapper').style.display = 'flex';
+        document.getElementById('adminSidebar').style.display = 'none';
+        document.getElementById('adminMain').style.display = 'none';
+      }
+    };
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const user = document.getElementById('usernameInput').value;
+      const pass = document.getElementById('passwordInput').value;
+
+      if (user === 'admin' && pass === 'admin') {
+        sessionStorage.setItem('admin_logged', 'true');
+        showDashboard();
+        showToast("Access Granted. Welcome Admin.");
+      } else {
+        alert("Invalid credentials.");
+      }
+    });
+
+    function showDashboard() {
+      document.getElementById('loginWrapper').style.display = 'none';
+      document.getElementById('adminSidebar').style.display = 'flex';
+      document.getElementById('adminMain').style.display = 'flex';
+
+      // Load Greeting
+      const now = new Date();
+      const hours = now.getHours();
+      let greeting = "Good Morning";
+      if (hours >= 12 && hours < 17) greeting = "Good Afternoon";
+      if (hours >= 17) greeting = "Good Evening";
+      document.getElementById('adminGreeting').innerText = `${greeting}, Admin - ${now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
+
+      // Populate Settings inputs
+      document.getElementById('contactPhone').value = siteContent.home.contactPhone || "";
+      document.getElementById('contactEmail').value = siteContent.home.contactEmail || "";
+
+      loadCmsPageConfig();
+      renderCatalog();
+      renderPdfs();
+      renderInquiries();
+      updateMetrics();
+    }
+
+    function logoutAdmin() {
+      sessionStorage.removeItem('admin_logged');
+      window.location.reload();
+    }
+
+    // Tab switching
+    function switchTab(tabId) {
+      document.querySelectorAll('.admin-menu-item').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+
+      event.target.closest('.admin-menu-item').classList.add('active');
+      document.getElementById(tabId + 'Tab').classList.add('active');
+      document.getElementById('currentPaneTitle').innerText = tabId.toUpperCase() + " SETTINGS";
+    }
+
+    function saveConfig() {
+      localStorage.setItem('site_content', JSON.stringify(siteContent));
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('adminToast');
+      toast.innerText = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    function updateMetrics() {
+      document.getElementById('dashTotalListings').innerText = siteContent.listings.length;
+      document.getElementById('dashTotalInquiries').innerText = inquiriesList.length;
+      document.getElementById('dashTotalPdfs').innerText = (siteContent.pdfs || []).length;
+    }
+
+    // Dynamic CMS Page Configuration Loader
+    function loadCmsPageConfig() {
+      const page = document.getElementById('cmsPageSelect').value;
+      const fieldsContainer = document.getElementById('cmsFormFields');
+      fieldsContainer.innerHTML = '';
+
+      const content = siteContent[page];
+
+      if (page === 'home') {
+        fieldsContainer.innerHTML = `
+          <div class="form-group" style="margin-bottom: 1.25rem;">
+            <label class="form-label">Hero Title (HTML Supported)</label>
+            <input type="text" id="cms_heroTitle" class="form-input" value="${content.heroTitle.replace(/"/g, '&quot;')}" required>
+          </div>
+          <div class="form-group" style="margin-bottom: 1.25rem;">
+            <label class="form-label">Hero Subtitle</label>
+            <textarea id="cms_heroSubtitle" class="form-textarea" rows="3" required>${content.heroSubtitle}</textarea>
+          </div>
+          <div class="form-box" style="margin-top: 1.5rem;">
+            <h3 class="form-box-title">Our Story Section</h3>
+            <div class="form-group" style="margin-bottom: 1.25rem;">
+              <label class="form-label">Headline</label>
+              <input type="text" id="cms_storyHeadline" class="form-input" value="${content.storyHeadline}" required>
+            </div>
+            <div class="form-group" style="margin-bottom: 1.25rem;">
+              <label class="form-label">Paragraph Text</label>
+              <textarea id="cms_storyParagraph" class="form-textarea" rows="4" required>${content.storyParagraph}</textarea>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Years of Experience</label>
+                <input type="text" id="cms_statYears" class="form-input" value="${content.statYears}" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Acres Transacted</label>
+                <input type="text" id="cms_statAcres" class="form-input" value="${content.statAcres}" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Satisfied Clients</label>
+                <input type="text" id="cms_statClients" class="form-input" value="${content.statClients}" required>
+              </div>
+            </div>
+          </div>
+        `;
+      } else {
+        // Target Area subpages CMS
+        fieldsContainer.innerHTML = `
+          <div class="form-grid" style="margin-bottom: 1.25rem;">
+            <div class="form-group">
+              <label class="form-label">Hero Badge / tag</label>
+              <input type="text" id="cms_heroBadge" class="form-input" value="${content.heroBadge}" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Hero Title (HTML Supported)</label>
+              <input type="text" id="cms_heroTitle" class="form-input" value="${content.heroTitle.replace(/"/g, '&quot;')}" required>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom: 1.5rem;">
+            <label class="form-label">Hero Subtitle</label>
+            <textarea id="cms_heroSubtitle" class="form-textarea" rows="3" required>${content.heroSubtitle}</textarea>
+          </div>
+          
+          <div class="form-box">
+            <h3 class="form-box-title">Key Advantages / Bullet Features</h3>
+            <div class="form-grid" style="grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+              <div>
+                <label class="form-label">Advantage 1 Title</label>
+                <input type="text" id="cms_adv1Title" class="form-input" value="${content.adv1Title}" style="margin-bottom: 0.5rem;" required>
+                <textarea id="cms_adv1Desc" class="form-textarea" rows="2" required>${content.adv1Desc}</textarea>
+              </div>
+              <div>
+                <label class="form-label">Advantage 2 Title</label>
+                <input type="text" id="cms_adv2Title" class="form-input" value="${content.adv2Title}" style="margin-bottom: 0.5rem;" required>
+                <textarea id="cms_adv2Desc" class="form-textarea" rows="2" required>${content.adv2Desc}</textarea>
+              </div>
+              <div>
+                <label class="form-label">Advantage 3 Title</label>
+                <input type="text" id="cms_adv3Title" class="form-input" value="${content.adv3Title}" style="margin-bottom: 0.5rem;" required>
+                <textarea id="cms_adv3Desc" class="form-textarea" rows="2" required>${content.adv3Desc}</textarea>
+              </div>
+              <div>
+                <label class="form-label">Advantage 4 Title</label>
+                <input type="text" id="cms_adv4Title" class="form-input" value="${content.adv4Title}" style="margin-bottom: 0.5rem;" required>
+                <textarea id="cms_adv4Desc" class="form-textarea" rows="2" required>${content.adv4Desc}</textarea>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    // Save CMS page form
+    document.getElementById('cmsPageForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const page = document.getElementById('cmsPageSelect').value;
+
+      if (page === 'home') {
+        siteContent.home.heroTitle = document.getElementById('cms_heroTitle').value;
+        siteContent.home.heroSubtitle = document.getElementById('cms_heroSubtitle').value;
+        siteContent.home.storyHeadline = document.getElementById('cms_storyHeadline').value;
+        siteContent.home.storyParagraph = document.getElementById('cms_storyParagraph').value;
+        siteContent.home.statYears = document.getElementById('cms_statYears').value;
+        siteContent.home.statAcres = document.getElementById('cms_statAcres').value;
+        siteContent.home.statClients = document.getElementById('cms_statClients').value;
+      } else {
+        siteContent[page].heroBadge = document.getElementById('cms_heroBadge').value;
+        siteContent[page].heroTitle = document.getElementById('cms_heroTitle').value;
+        siteContent[page].heroSubtitle = document.getElementById('cms_heroSubtitle').value;
+        siteContent[page].adv1Title = document.getElementById('cms_adv1Title').value;
+        siteContent[page].adv1Desc = document.getElementById('cms_adv1Desc').value;
+        siteContent[page].adv2Title = document.getElementById('cms_adv2Title').value;
+        siteContent[page].adv2Desc = document.getElementById('cms_adv2Desc').value;
+        siteContent[page].adv3Title = document.getElementById('cms_adv3Title').value;
+        siteContent[page].adv3Desc = document.getElementById('cms_adv3Desc').value;
+        siteContent[page].adv4Title = document.getElementById('cms_adv4Title').value;
+        siteContent[page].adv4Desc = document.getElementById('cms_adv4Desc').value;
+      }
+
+      saveConfig();
+      showToast("Page content updated and saved successfully!");
+    });
+
+    // Save global settings
+    document.getElementById('settingsForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      siteContent.home.contactPhone = document.getElementById('contactPhone').value;
+      siteContent.home.contactEmail = document.getElementById('contactEmail').value;
+      saveConfig();
+      showToast("Global configurations saved!");
+    });
+
+    // Render portfolio items as clean card rows
+    function renderCatalog(filterQuery = '') {
+      const container = document.getElementById('catalogGrid');
+      container.innerHTML = '';
+
+      const listToRender = siteContent.listings.filter(item => 
+        item.title.toLowerCase().includes(filterQuery.toLowerCase()) || 
+        item.location.toLowerCase().includes(filterQuery.toLowerCase())
+      );
+
+      if (listToRender.length === 0) {
+        container.innerHTML = `<p style="text-align: center; padding: 3rem; color: var(--admin-text-muted);">No matching portfolio projects found.</p>`;
+        return;
+      }
+
+      listToRender.forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'catalog-row';
+        row.innerHTML = `
+          <img src="/images/hero.png" class="catalog-cover" alt="Cover photo">
+          <div class="catalog-details">
+            <h3>${item.title.split(' ')[0]}</h3>
+            <span>${item.tag}</span>
+          </div>
+          <div class="catalog-location">${item.location}</div>
+          <div class="catalog-year">${item.year}</div>
+          <div class="catalog-dim">${item.area || 'N/A'}</div>
+          <div class="catalog-actions">
+            <button class="catalog-btn edit" onclick="editListingModal(${item.id})"><i class="fa-solid fa-pencil"></i></button>
+            <button class="catalog-btn delete" onclick="deleteListing(${item.id})"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function filterCatalog() {
+      const query = document.getElementById('catalogSearchInput').value;
+      renderCatalog(query);
+    }
+
+    // Add / Edit Modal Actions
+    function showAddListingModal() {
+      document.getElementById('editListingId').value = '';
+      document.getElementById('modalListingHeader').innerText = "Add New Portfolio Project";
+      document.getElementById('listingSubmitBtn').innerText = "Create Listing";
+      document.getElementById('addListingForm').reset();
+      document.getElementById('addListingModal').classList.add('active');
+    }
+
+    function closeAddListingModal() {
+      document.getElementById('addListingModal').classList.remove('active');
+    }
+
+    function editListingModal(id) {
+      const listing = siteContent.listings.find(item => item.id === id);
+      if (!listing) return;
+
+      document.getElementById('editListingId').value = listing.id;
+      document.getElementById('listingTitle').value = listing.title;
+      document.getElementById('listingLocation').value = listing.location;
+      document.getElementById('listingArea').value = listing.area || "";
+      document.getElementById('listingYear').value = listing.year || "";
+      document.getElementById('listingTag').value = listing.tag;
+      document.getElementById('listingDetails').value = listing.details.join(', ');
+
+      document.getElementById('modalListingHeader').innerText = "Edit Portfolio Project";
+      document.getElementById('listingSubmitBtn').innerText = "Save Changes";
+      document.getElementById('addListingModal').classList.add('active');
+    }
+
+    document.getElementById('addListingForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const editId = document.getElementById('editListingId').value;
+      const title = document.getElementById('listingTitle').value;
+      const location = document.getElementById('listingLocation').value;
+      const area = document.getElementById('listingArea').value;
+      const year = document.getElementById('listingYear').value;
+      const tag = document.getElementById('listingTag').value;
+      const details = document.getElementById('listingDetails').value.split(',').map(s => s.trim());
+
+      if (editId) {
+        // Edit mode
+        const index = siteContent.listings.findIndex(item => item.id == editId);
+        if (index !== -1) {
+          siteContent.listings[index] = { id: Number(editId), title, location, area, year, tag, details };
+          showToast("Listing changes saved!");
+        }
+      } else {
+        // Add mode
+        const newListing = { id: Date.now(), title, location, area, year, tag, details };
+        siteContent.listings.push(newListing);
+        showToast("New portfolio project added!");
+      }
+
+      saveConfig();
+      renderCatalog();
+      updateMetrics();
+      closeAddListingModal();
+    });
+
+    function deleteListing(id) {
+      if (confirm("Are you sure you want to delete this listing?")) {
+        siteContent.listings = siteContent.listings.filter(item => item.id !== id);
+        saveConfig();
+        renderCatalog();
+        updateMetrics();
+        showToast("Project listing deleted.");
+      }
+    }
+
+    // PDF Uploader logic
+    function renderPdfs() {
+      const container = document.getElementById('pdfListContainer');
+      container.innerHTML = '';
+
+      if (!siteContent.pdfs || siteContent.pdfs.length === 0) {
+        container.innerHTML = `<p style="text-align: center; padding: 2rem; color: var(--admin-text-muted);">No documents uploaded yet.</p>`;
+        return;
+      }
+
+      siteContent.pdfs.forEach((pdf, index) => {
+        const item = document.createElement('div');
+        item.className = 'catalog-row';
+        item.style.gridTemplateColumns = '80px 3fr 1fr 1fr';
+        item.innerHTML = `
+          <div style="font-size: 2.2rem; color: #EF4444;"><i class="fa-solid fa-file-pdf"></i></div>
+          <div class="catalog-details">
+            <h3>${pdf.name}</h3>
+            <span>Uploaded: ${pdf.date}</span>
+          </div>
+          <div class="catalog-dim">${pdf.size}</div>
+          <div class="catalog-actions">
+            <button class="catalog-btn delete" onclick="deletePdf(${index})"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function handlePdfUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      if (file.type !== 'application/pdf') {
+        alert("Please select a valid PDF file.");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const base64Data = e.target.result;
+        
+        const newPdf = {
+          name: file.name,
+          date: new Date().toLocaleDateString(),
+          size: (file.size / (1024 * 1024)).toFixed(2) + " MB",
+          data: base64Data
+        };
+
+        siteContent.pdfs = siteContent.pdfs || [];
+        siteContent.pdfs.push(newPdf);
+        
+        try {
+          saveConfig();
+          renderPdfs();
+          updateMetrics();
+          showToast("PDF document uploaded successfully!");
+        } catch (error) {
+          alert("Storage limit exceeded. Please upload a smaller PDF file.");
+        }
+      };
+      
+      reader.readAsDataURL(file);
+    }
+
+    function deletePdf(index) {
+      if (confirm("Delete this document?")) {
+        siteContent.pdfs.splice(index, 1);
+        saveConfig();
+        renderPdfs();
+        updateMetrics();
+        showToast("Document deleted.");
+      }
+    }
+
+    // Dynamic Inquiries view
+    function renderInquiries() {
+      const container = document.getElementById('inquiriesContainer');
+      container.innerHTML = '';
+
+      if (inquiriesList.length === 0) {
+        container.innerHTML = `<p style="text-align: center; color: var(--admin-text-muted); padding: 3rem;">No customer inquiries received yet.</p>`;
+        return;
+      }
+
+      inquiriesList.forEach((inq, idx) => {
+        const div = document.createElement('div');
+        div.className = 'inquiry-card';
+        div.innerHTML = `
+          <div class="inquiry-header">
+            <span class="inquiry-type ${inq.type}">${inq.type.toUpperCase()} INQUIRY</span>
+            <span style="font-size: 0.85rem; color: var(--admin-text-muted);">${inq.date || 'Today'}</span>
+          </div>
+          <p><strong>Customer Name</strong>: ${inq.name}</p>
+          <p><strong>Phone</strong>: ${inq.phone}</p>
+          <p><strong>Required Area</strong>: ${inq.area || 'N/A'}</p>
+          <p><strong>Location Preference</strong>: ${inq.location || 'N/A'}</p>
+          <p><strong>Land Type</strong>: ${inq.landType || 'N/A'}</p>
+          <div style="text-align: right; margin-top: 1rem;">
+            <button class="btn-delete" onclick="deleteInquiry(${idx})">Archive Inquiry</button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function deleteInquiry(idx) {
+      if (confirm("Archive this inquiry?")) {
+        inquiriesList.splice(idx, 1);
+        localStorage.setItem('lead_inquiries', JSON.stringify(inquiriesList));
+        renderInquiries();
+        updateMetrics();
+        showToast("Inquiry archived.");
+      }
+    }
+
+    // Dark Mode theme toggle
+    function toggleTheme() {
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      const icon = document.querySelector('.theme-switch-btn i');
+      if (isDark) {
+        icon.className = 'fa-solid fa-sun';
+      } else {
+        icon.className = 'fa-solid fa-moon';
+      }
+    }
+  </script>
+</body>
+</html>

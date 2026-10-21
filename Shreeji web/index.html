@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shreeji Property Consultant | Commercial Rental & Leasing in Gandhidham & Adipur</title>
+  <meta name="description" content="Premier commercial property consultant in Gandhidham & Adipur specializing in rental commercial shops, corporate offices, showrooms, and commercial land leasing.">
+  <script>
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+  </script>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Top Announcement & Verified Due Diligence Bar -->
+  <div class="topbar">
+    <div class="container topbar-container">
+      <div class="topbar-left">
+        <span class="topbar-badge"><i class="fa-solid fa-stamp"></i> RERA REGISTERED</span>
+        <div class="topbar-item">
+          <i class="fa-solid fa-scale-balanced"></i>
+          <span>100% Legal Title Due Diligence & 7/12 Clearance</span>
+        </div>
+        <div class="topbar-item">
+          <i class="fa-solid fa-location-dot"></i>
+          <span>Gandhidham & Adipur, Kutch, Gujarat</span>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-item">
+          <i class="fa-solid fa-clock"></i>
+          <span>Mon - Sat: 9:30 AM - 8:30 PM</span>
+        </div>
+        <div class="topbar-item">
+          <i class="fa-solid fa-phone"></i>
+          <a href="tel:+917016270941">+91 70162 70941</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sticky Navigation Header -->
+  <header class="header" id="header">
+    <div class="container">
+      <nav class="navbar">
+        <a href="/" class="logo">
+          <div class="logo-icon"><i class="fa-solid fa-landmark"></i></div>
+          <div class="logo-text">SHREEJI<span>COMMERCIAL & LAND ADVISORY</span></div>
+        </a>
+        
+        <ul class="nav-links" id="navLinks">
+          <li><a href="/" class="nav-link active"><span data-i18n="nav_home">Home</span></a></li>
+          <li><a href="#properties-section" class="nav-link"><span>Commercial Listings</span></a></li>
+          <li><a href="/overview" class="nav-link"><span data-i18n="nav_overview">Overview</span></a></li>
+          <li><a href="/target-areas" class="nav-link"><span data-i18n="nav_target_areas">Prime Sectors</span></a></li>
+          <li><a href="/services" class="nav-link"><span data-i18n="nav_services">Services</span></a></li>
+          <li><a href="/process" class="nav-link"><span data-i18n="nav_process">Process</span></a></li>
+          <li><a href="/faq" class="nav-link"><span data-i18n="nav_faq">FAQ</span></a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <div class="lang-switch">
+            <button class="lang-btn active" data-lang="en">EN</button>
+            <button class="lang-btn" data-lang="guj">ગુજ</button>
+            <button class="lang-btn" data-lang="hi">हिन्दी</button>
+          </div>
+          <button class="btn btn-secondary" onclick="openModal('buy')" style="padding: 0.65rem 1.4rem; font-size: 0.92rem;">
+            <i class="fa-solid fa-calendar-check"></i> <span data-i18n="nav_contact">Book Consultation</span>
+          </button>
+        </div>
+
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Dynamic Hero Section -->
+  <section class="hero" id="home">
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+
+    <div class="container hero-container">
+      <div class="hero-grid">
+        <div class="hero-content reveal">
+          <div class="hero-badge">
+            <i class="fa-solid fa-crown" style="color: var(--accent-gold-light);"></i> Gujarat RERA Registered Commercial & Land Advisory
+          </div>
+          <h1 class="hero-title" data-i18n="hero_title">
+            Prime Commercial Spaces & <span>Strategic Land Parcels</span> in Gandhidham & Adipur
+          </h1>
+          <p class="hero-subtitle" data-i18n="hero_sub">
+            Gandhidham's trusted commercial advisory for leasing corporate office suites, high-street retail showrooms, ground-floor market shops, GIDC industrial warehousing, and clear-title commercial land plots across the Kandla-Mundra Port corridor.
+          </p>
+
+          <div class="hero-cta-group">
+            <button class="btn btn-secondary" onclick="openModal('sell')" data-i18n="sell_btn">
+              <i class="fa-solid fa-key"></i> Rent Out / List Your Property
+            </button>
+            <button class="btn btn-primary" onclick="openModal('buy')" data-i18n="buy_btn">
+              <i class="fa-solid fa-magnifying-glass-location"></i> Inquire for Commercial Space
+            </button>
+          </div>
+
+          <!-- Interactive Quick Property Finder -->
+          <div class="hero-search-box">
+            <div class="search-tabs">
+              <button class="search-tab-btn active" type="button" onclick="setSearchMode('rent', this)">
+                <i class="fa-solid fa-key"></i> For Lease / Rent
+              </button>
+              <button class="search-tab-btn" type="button" onclick="setSearchMode('buy', this)">
+                <i class="fa-solid fa-building-circle-check"></i> For Sale / Investment
+              </button>
+            </div>
+            <div class="search-fields-grid">
+              <div class="search-field-group">
+                <label><i class="fa-solid fa-shapes"></i> Property Category</label>
+                <select id="quickTypeSelect" class="search-select">
+                  <option value="all">All Categories</option>
+                  <option value="office">Corporate Office Suite</option>
+                  <option value="showroom">High-Street Showroom</option>
+                  <option value="shop">Market Ground Shop</option>
+                  <option value="industrial">Logistics & Warehousing</option>
+                  <option value="plot">Commercial Land Parcel</option>
+                </select>
+              </div>
+              <div class="search-field-group">
+                <label><i class="fa-solid fa-map-pin"></i> Target Location</label>
+                <select id="quickLocationSelect" class="search-select">
+                  <option value="all">All Prime Zones</option>
+                  <option value="tagore">Tagore Road Commercial Belt</option>
+                  <option value="sector8">Sector 8 High-Footfall Market</option>
+                  <option value="dc5">DC-5 Commercial Complex</option>
+                  <option value="oslo">Oslo Circle Business Hub</option>
+                  <option value="kandla">Kandla Port Industrial Corridor</option>
+                  <option value="adipur">Adipur Main Market Zone</option>
+                </select>
+              </div>
+              <div class="search-field-group">
+                <label><i class="fa-solid fa-indian-rupee-sign"></i> Budget</label>
+                <select id="quickBudgetSelect" class="search-select">
+                  <option value="all">Any Budget</option>
+                  <option value="15-50k">₹15k - ₹50k / mo</option>
+                  <option value="50-150k">₹50k - ₹1.5 Lakhs / mo</option>
+                  <option value="150k+">₹1.5 Lakhs+ / mo</option>
+                  <option value="crore">₹1 Cr+ (Investment)</option>
+                </select>
+              </div>
+              <button class="btn-search" type="button" onclick="executeQuickSearch()">
+                <i class="fa-solid fa-magnifying-glass"></i> Search
+              </button>
+            </div>
+          </div>
+
+          <div class="hero-trust-row" style="margin-top: 2rem;">
+            <div class="trust-item">
+              <div class="trust-icon"><i class="fa-solid fa-briefcase"></i></div>
+              <div class="trust-text">
+                <h4 data-i18n="stat_exp_val">15+ Years</h4>
+                <p data-i18n="stat_exp_lbl">Commercial Advisory</p>
+              </div>
+            </div>
+            <div class="trust-item">
+              <div class="trust-icon"><i class="fa-solid fa-building-circle-check"></i></div>
+              <div class="trust-text">
+                <h4 data-i18n="stat_leased_val">350+ Spaces</h4>
+                <p data-i18n="stat_leased_lbl">Commercial Leased</p>
+              </div>
+            </div>
+            <div class="trust-item">
+              <div class="trust-icon"><i class="fa-solid fa-stamp"></i></div>
+              <div class="trust-text">
+                <h4>100% Clear</h4>
+                <p>7/12 & RERA Verified</p>
+              </div>
+            </div>
+            <div class="trust-item">
+              <div class="trust-icon"><i class="fa-solid fa-handshake"></i></div>
+              <div class="trust-text">
+                <h4>₹250+ Cr</h4>
+                <p>Transaction Volume</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal">
+          <div class="hero-badge-floating hero-badge-top">
+            <i class="fa-solid fa-shield-halved" style="color: var(--accent-gold);"></i>
+            <span>100% Verified Commercial Title</span>
+          </div>
+
+          <div class="hero-photo-card">
+            <img src="images/commercial-tower.jpg" alt="Commercial Towers Gandhidham" class="hero-photo-img">
+            <div class="hero-photo-overlay"></div>
+            <div style="position: absolute; bottom: 1.5rem; left: 1.5rem; right: 1.5rem; color: white; z-index: 5;">
+              <span class="tag" style="background: var(--accent-gold); color: var(--primary-dark); font-weight: 700; margin-bottom: 0.5rem; display: inline-block;">Tagore Road • Gandhidham</span>
+              <h3 style="color: white; font-size: 1.35rem; margin-bottom: 0.25rem;">Shreeji Prime Commercial Plaza</h3>
+              <p style="color: rgba(255,255,255,0.85); font-size: 0.88rem;">Retail Ground Shops, Corporate Offices & Showrooms Available on Rent</p>
+            </div>
+          </div>
+
+          <div class="hero-badge-floating hero-badge-bottom">
+            <i class="fa-solid fa-chart-line" style="color: var(--accent-emerald);"></i>
+            <span>High Footfall Market Zone</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Overview Highlights Banner -->
+  <section class="container" id="overview">
+    <div class="overview-banner reveal">
+      <div class="overview-grid">
+        <div class="overview-card">
+          <div class="overview-icon"><i class="fa-solid fa-store"></i></div>
+          <div>
+            <h3 data-i18n="overview_shops_title">Rental Shops & Showrooms</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted);" data-i18n="overview_shops_desc">High-footfall retail spaces and market showrooms in Gandhidham & Adipur.</p>
+          </div>
+        </div>
+        <div class="overview-card">
+          <div class="overview-icon"><i class="fa-solid fa-building"></i></div>
+          <div>
+            <h3 data-i18n="overview_offices_title">Corporate Office Spaces</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted);" data-i18n="overview_offices_desc">Furnished and bare-shell office suites in commercial business complexes.</p>
+          </div>
+        </div>
+        <div class="overview-card">
+          <div class="overview-icon"><i class="fa-solid fa-file-contract"></i></div>
+          <div>
+            <h3 data-i18n="overview_legal_title">Verified Lease & Title</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted);" data-i18n="overview_legal_desc">100% legally clear lease agreements, revenue validation, and hassle-free documentation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Story Section (Dynamic from Admin Panel) -->
+  <section class="section" id="story" style="background: var(--bg-white);">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 4rem; align-items: center;">
+        <div class="reveal">
+          <span class="section-tag emerald" style="margin-bottom: 1rem;" data-i18n="story_tag">Who We Are</span>
+          <h2 class="section-title" id="storyHeadlineDisplay" style="text-align: left; margin-bottom: 1.5rem;" data-i18n="story_headline">Shreeji Real Estate Consultancy</h2>
+          <p id="storyParagraphDisplay" style="color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem;" data-i18n="story_paragraph">
+            Shreeji Real Estate is your dedicated commercial property & rental consultancy headquartered in Gandhidham, Kutch, Gujarat. With 10+ years of local market leadership, we connect business owners, retail brands, and corporate tenants with top commercial rental spaces, offices, and plots in Gandhidham and Adipur.
+          </p>
+          <div class="hero-trust-row" style="margin-top: 2rem;">
+            <div class="trust-item">
+              <div class="trust-icon" style="color: var(--accent-emerald-dark);"><i class="fa-solid fa-briefcase"></i></div>
+              <div class="trust-text">
+                <h4 id="storyYearsDisplay" data-i18n="stat_exp_val">10+ Years</h4>
+                <p data-i18n="stat_exp_lbl">Local Commercial Expertise</p>
+              </div>
+            </div>
+            <div class="trust-item">
+              <div class="trust-icon" style="color: var(--accent-emerald-dark);"><i class="fa-solid fa-store"></i></div>
+              <div class="trust-text">
+                <h4 id="storyAcresDisplay" data-i18n="stat_leased_val">250+ Spaces</h4>
+                <p data-i18n="stat_leased_lbl">Properties Leased</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reveal" style="position: relative;">
+          <img src="images/team-consultants.jpg" alt="Shreeji Real Estate Consultancy Team Gandhidham" style="width: 100%; border-radius: 24px; box-shadow: var(--shadow-xl); border: 1px solid var(--border-color);">
+          <div class="glow-orb" style="bottom: -20px; right: -20px; width: 120px; height: 120px;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Verified Commercial Listings Section -->
+  <section class="section" id="properties-section" style="background: var(--bg-slate);">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag gold" data-i18n="listings_tag">Verified Opportunities</span>
+        <h2 class="section-title" data-i18n="listings_title">Featured Commercial Properties & Land</h2>
+        <p class="section-subtitle" data-i18n="listings_subtitle">Browse real-time verified retail shops, corporate offices, showrooms, and commercial plots across Gandhidham & Adipur.</p>
+      </div>
+
+      <!-- Interactive Filter Pills -->
+      <div class="property-filter-wrapper reveal">
+        <button class="filter-pill active" data-filter="all"><i class="fa-solid fa-border-all"></i> All Properties</button>
+        <button class="filter-pill" data-filter="office"><i class="fa-solid fa-building"></i> Corporate Offices</button>
+        <button class="filter-pill" data-filter="showroom"><i class="fa-solid fa-gem"></i> Showrooms</button>
+        <button class="filter-pill" data-filter="shop"><i class="fa-solid fa-store"></i> Market Shops</button>
+        <button class="filter-pill" data-filter="industrial"><i class="fa-solid fa-warehouse"></i> Port Logistics & GIDC</button>
+        <button class="filter-pill" data-filter="plot"><i class="fa-solid fa-map"></i> Commercial Plots</button>
+      </div>
+
+      <!-- Real Properties Showcase Grid -->
+      <div class="properties-grid" id="dynamicListingsContainer">
+
+        <!-- Property 1: Corporate Office -->
+        <div class="property-card reveal" data-category="office">
+          <div class="property-thumb-wrap">
+            <img src="images/executive-office.jpg" alt="Corporate Office Space Gandhidham" class="property-thumb">
+            <div class="property-thumb-overlay"></div>
+            <div class="property-badges-top">
+              <span class="property-badge property-badge-type">Corporate Office</span>
+              <span class="property-badge property-badge-verified"><i class="fa-solid fa-circle-check"></i> 100% Title Clear</span>
+            </div>
+            <div class="property-price-tag">₹35,000 <span style="font-size: 0.75rem; font-weight: 500; color: white;">/ month</span></div>
+          </div>
+          <div class="property-body">
+            <h3 class="property-title">1,200 Sq.Ft Furnished Executive Suite</h3>
+            <div class="property-location">
+              <i class="fa-solid fa-location-dot"></i> Tagore Road Commercial Complex, Gandhidham
+            </div>
+            <div class="property-specs-grid">
+              <div class="spec-item">
+                <span class="spec-label">Area</span>
+                <span class="spec-val">1,200 Sq.Ft</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Capacity</span>
+                <span class="spec-val">15 Desks</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Status</span>
+                <span class="spec-val" style="color: var(--accent-emerald-dark);">Ready to Move</span>
+              </div>
+            </div>
+            <ul class="property-features">
+              <li><i class="fa-solid fa-check"></i> Private executive cabin & glass conference room</li>
+              <li><i class="fa-solid fa-check"></i> 100% generator power backup & high-speed lift</li>
+              <li><i class="fa-solid fa-check"></i> Attached pantry & dedicated covered parking</li>
+            </ul>
+            <div class="property-actions">
+              <button class="btn btn-primary" onclick="openModalWithDetails('1,200 Sq.Ft Furnished Office Space', 'Tagore Road, Gandhidham', '₹35,000/mo')">
+                <i class="fa-solid fa-calendar-check"></i> Inquire Space
+              </button>
+              <a href="https://wa.me/917016270941?text=Hello%20Shreeji,%20I%20am%20interested%20in%20the%201,200%20Sq.Ft%20Furnished%20Office%20on%20Tagore%20Road,%20Gandhidham." target="_blank" rel="noopener noreferrer" class="btn-whatsapp">
+                <i class="fa-brands fa-whatsapp"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Property 2: Retail Shop -->
+        <div class="property-card reveal" data-category="shop">
+          <div class="property-thumb-wrap">
+            <img src="images/market-shop.jpg" alt="Retail Shop Sector 8 Gandhidham" class="property-thumb">
+            <div class="property-thumb-overlay"></div>
+            <div class="property-badges-top">
+              <span class="property-badge property-badge-type">Retail Shop</span>
+              <span class="property-badge property-badge-verified"><i class="fa-solid fa-circle-check"></i> High Footfall</span>
+            </div>
+            <div class="property-price-tag">₹28,000 <span style="font-size: 0.75rem; font-weight: 500; color: white;">/ month</span></div>
+          </div>
+          <div class="property-body">
+            <h3 class="property-title">850 Sq.Ft Ground Floor Market Retail Shop</h3>
+            <div class="property-location">
+              <i class="fa-solid fa-location-dot"></i> Main Market Road, Sector 8, Gandhidham
+            </div>
+            <div class="property-specs-grid">
+              <div class="spec-item">
+                <span class="spec-label">Area</span>
+                <span class="spec-val">850 Sq.Ft</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Frontage</span>
+                <span class="spec-val">20-Ft Glass</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Level</span>
+                <span class="spec-val">Ground Floor</span>
+              </div>
+            </div>
+            <ul class="property-features">
+              <li><i class="fa-solid fa-check"></i> Prime pedestrian market corner with dense daily footfall</li>
+              <li><i class="fa-solid fa-check"></i> Ideal for branded apparel, electronics, pharmacy, or café</li>
+              <li><i class="fa-solid fa-check"></i> 11-month or multi-year registered lease option</li>
+            </ul>
+            <div class="property-actions">
+              <button class="btn btn-primary" onclick="openModalWithDetails('850 Sq.Ft Ground Floor Market Shop', 'Sector 8 Main Market, Gandhidham', '₹28,000/mo')">
+                <i class="fa-solid fa-calendar-check"></i> Inquire Space
+              </button>
+              <a href="https://wa.me/917016270941?text=Hello%20Shreeji,%20I%20am%20interested%20in%20the%20850%20Sq.Ft%20Ground%20Floor%20Shop%20in%20Sector%208,%20Gandhidham." target="_blank" rel="noopener noreferrer" class="btn-whatsapp">
+                <i class="fa-brands fa-whatsapp"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Property 3: High-Street Showroom -->
+        <div class="property-card reveal" data-category="showroom">
+          <div class="property-thumb-wrap">
+            <img src="images/retail-showroom.jpg" alt="Showroom Station Road Adipur" class="property-thumb">
+            <div class="property-thumb-overlay"></div>
+            <div class="property-badges-top">
+              <span class="property-badge property-badge-type">Prime Showroom</span>
+              <span class="property-badge property-badge-verified"><i class="fa-solid fa-circle-check"></i> Double Height</span>
+            </div>
+            <div class="property-price-tag">₹65,000 <span style="font-size: 0.75rem; font-weight: 500; color: white;">/ month</span></div>
+          </div>
+          <div class="property-body">
+            <h3 class="property-title">1,500 Sq.Ft Main Market Showroom</h3>
+            <div class="property-location">
+              <i class="fa-solid fa-location-dot"></i> Station Road Market, Adipur
+            </div>
+            <div class="property-specs-grid">
+              <div class="spec-item">
+                <span class="spec-label">Area</span>
+                <span class="spec-val">1,500 Sq.Ft</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Ceiling</span>
+                <span class="spec-val">18-Ft Double</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Storage</span>
+                <span class="spec-val">Mezzanine</span>
+              </div>
+            </div>
+            <ul class="property-features">
+              <li><i class="fa-solid fa-check"></i> Corner showroom position with maximum road visibility</li>
+              <li><i class="fa-solid fa-check"></i> Full mezzanine floor for inventory stock or admin room</li>
+              <li><i class="fa-solid fa-check"></i> Perfect for jewelry, fashion flagship, or luxury retail</li>
+            </ul>
+            <div class="property-actions">
+              <button class="btn btn-primary" onclick="openModalWithDetails('1,500 Sq.Ft Main Market Showroom', 'Station Road, Adipur', '₹65,000/mo')">
+                <i class="fa-solid fa-calendar-check"></i> Inquire Space
+              </button>
+              <a href="https://wa.me/917016270941?text=Hello%20Shreeji,%20I%20am%20interested%20in%20the%201,500%20Sq.Ft%20Showroom%20on%20Station%20Road,%20Adipur." target="_blank" rel="noopener noreferrer" class="btn-whatsapp">
+                <i class="fa-brands fa-whatsapp"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Property 4: Commercial Highway Plot -->
+        <div class="property-card reveal" data-category="plot">
+          <div class="property-thumb-wrap">
+            <img src="images/commercial-plot.jpg" alt="Commercial Plot Gandhidham Highway" class="property-thumb">
+            <div class="property-thumb-overlay"></div>
+            <div class="property-badges-top">
+              <span class="property-badge property-badge-type">Commercial Plot</span>
+              <span class="property-badge property-badge-verified"><i class="fa-solid fa-circle-check"></i> NA Approved</span>
+            </div>
+            <div class="property-price-tag">₹45,000 <span style="font-size: 0.75rem; font-weight: 500; color: white;">/ month</span></div>
+          </div>
+          <div class="property-body">
+            <h3 class="property-title">2,500 Sq.Ft Roadside Commercial Lease Plot</h3>
+            <div class="property-location">
+              <i class="fa-solid fa-location-dot"></i> Gandhidham-Adipur Highway Junction (NH-41)
+            </div>
+            <div class="property-specs-grid">
+              <div class="spec-item">
+                <span class="spec-label">Plot Size</span>
+                <span class="spec-val">2,500 Sq.Ft</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Frontage</span>
+                <span class="spec-val">60-Ft Road</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Zoning</span>
+                <span class="spec-val">Commercial</span>
+              </div>
+            </div>
+            <ul class="property-features">
+              <li><i class="fa-solid fa-check"></i> Wide highway frontage with heavy inter-city vehicle flow</li>
+              <li><i class="fa-solid fa-check"></i> Fully leveled ground with surveyor boundary demarcation</li>
+              <li><i class="fa-solid fa-check"></i> Available on long-term 5 to 10-year registered lease deed</li>
+            </ul>
+            <div class="property-actions">
+              <button class="btn btn-primary" onclick="openModalWithDetails('2,500 Sq.Ft Commercial Lease Plot', 'Gandhidham Highway Junction', '₹45,000/mo')">
+                <i class="fa-solid fa-calendar-check"></i> Inquire Space
+              </button>
+              <a href="https://wa.me/917016270941?text=Hello%20Shreeji,%20I%20am%20interested%20in%20the%202,500%20Sq.Ft%20Commercial%20Highway%20Plot." target="_blank" rel="noopener noreferrer" class="btn-whatsapp">
+                <i class="fa-brands fa-whatsapp"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Property 5: Industrial Logistics Park -->
+        <div class="property-card reveal" data-category="industrial">
+          <div class="property-thumb-wrap">
+            <img src="images/industrial-logistics.jpg" alt="Kandla Logistics Park" class="property-thumb">
+            <div class="property-thumb-overlay"></div>
+            <div class="property-badges-top">
+              <span class="property-badge property-badge-type">Port Logistics</span>
+              <span class="property-badge property-badge-verified"><i class="fa-solid fa-circle-check"></i> Grade-A CFS</span>
+            </div>
+            <div class="property-price-tag">₹1,50,000 <span style="font-size: 0.75rem; font-weight: 500; color: white;">/ month</span></div>
+          </div>
+          <div class="property-body">
+            <h3 class="property-title">25,000 Sq.Ft Modern Logistics Warehouse Shed</h3>
+            <div class="property-location">
+              <i class="fa-solid fa-location-dot"></i> Kandla Port Corridor, Gandhidham
+            </div>
+            <div class="property-specs-grid">
+              <div class="spec-item">
+                <span class="spec-label">Shed Area</span>
+                <span class="spec-val">25,000 Sq.Ft</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Docks</span>
+                <span class="spec-val">6 Levelers</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Height</span>
+                <span class="spec-val">40-Ft Apex</span>
+              </div>
+            </div>
+            <ul class="property-features">
+              <li><i class="fa-solid fa-check"></i> Seamless container trailer turn-around and concrete apron</li>
+              <li><i class="fa-solid fa-check"></i> Rooftop solar net-metering & 24/7 security boundary</li>
+              <li><i class="fa-solid fa-check"></i> 5 mins from Deendayal Port cargo gates & railway sidings</li>
+            </ul>
+            <div class="property-actions">
+              <button class="btn btn-primary" onclick="openModalWithDetails('25,000 Sq.Ft Logistics Warehouse', 'Kandla Port Corridor, Gandhidham', '₹1,50,000/mo')">
+                <i class="fa-solid fa-calendar-check"></i> Inquire Space
+              </button>
+              <a href="https://wa.me/917016270941?text=Hello%20Shreeji,%20I%20am%20interested%20in%20the%2025,000%20Sq.Ft%20Logistics%20Warehouse%20near%20Kandla%20Port." target="_blank" rel="noopener noreferrer" class="btn-whatsapp">
+                <i class="fa-brands fa-whatsapp"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Property 6: Tower Executive Suite -->
+        <div class="property-card reveal" data-category="office">
+          <div class="property-thumb-wrap">
+            <img src="images/commercial-tower.jpg" alt="Highrise Tower Office Suite" class="property-thumb">
+            <div class="property-thumb-overlay"></div>
+            <div class="property-badges-top">
+              <span class="property-badge property-badge-type">Tower Suite</span>
+              <span class="property-badge property-badge-verified"><i class="fa-solid fa-circle-check"></i> Corporate HQ</span>
+            </div>
+            <div class="property-price-tag">₹85,000 <span style="font-size: 0.75rem; font-weight: 500; color: white;">/ month</span></div>
+          </div>
+          <div class="property-body">
+            <h3 class="property-title">3,500 Sq.Ft Corporate Highrise Floor</h3>
+            <div class="property-location">
+              <i class="fa-solid fa-location-dot"></i> City Center Commercial Hub, Gandhidham
+            </div>
+            <div class="property-specs-grid">
+              <div class="spec-item">
+                <span class="spec-label">Area</span>
+                <span class="spec-val">3,500 Sq.Ft</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Workstations</span>
+                <span class="spec-val">35 Desks</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Floor</span>
+                <span class="spec-val">8th Floor</span>
+              </div>
+            </div>
+            <ul class="property-features">
+              <li><i class="fa-solid fa-check"></i> 360-degree panoramic skyline view of Gandhidham</li>
+              <li><i class="fa-solid fa-check"></i> 3 MD cabins, boardroom, reception lobby & server room</li>
+              <li><i class="fa-solid fa-check"></i> Ideal for shipping lines, customs broking, and tech firms</li>
+            </ul>
+            <div class="property-actions">
+              <button class="btn btn-primary" onclick="openModalWithDetails('3,500 Sq.Ft Highrise Corporate Floor', 'City Center Commercial Hub', '₹85,000/mo')">
+                <i class="fa-solid fa-calendar-check"></i> Inquire Space
+              </button>
+              <a href="https://wa.me/917016270941?text=Hello%20Shreeji,%20I%20am%20interested%20in%20the%203,500%20Sq.Ft%20Highrise%20Floor%20in%20Gandhidham." target="_blank" rel="noopener noreferrer" class="btn-whatsapp">
+                <i class="fa-brands fa-whatsapp"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- City Master Maps (PDF) Section -->
+  <section class="section" id="cityMaps" style="background: linear-gradient(135deg, var(--primary-dark) 0%, #164770 50%, var(--primary) 100%); color: white;">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag gold" style="background: rgba(217, 164, 65, 0.15); color: var(--accent-gold-light); border-color: rgba(217, 164, 65, 0.3);" data-i18n="citymaps_tag">City Planning & Sector Maps</span>
+        <h2 class="section-title" style="color: white;" data-i18n="citymaps_title">Gandhidham & Adipur Commercial Maps (PDF)</h2>
+        <p class="section-subtitle" style="color: rgba(255,255,255,0.85);" data-i18n="citymaps_subtitle">Download and explore official town planning maps, sector layouts, and commercial market zones.</p>
+      </div>
+
+      <div class="services-grid" id="cityMapsGrid">
+        <div class="service-card reveal active" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.22); color: white; backdrop-filter: blur(12px);">
+          <div style="font-size: 2.5rem; color: var(--accent-gold); margin-bottom: 1rem;"><i class="fa-solid fa-map-location-dot"></i></div>
+          <h3 style="color: white; font-size: 1.4rem; margin-bottom: 0.5rem;" data-i18n="gandhidham_map_title">Gandhidham Commercial Master Map</h3>
+          <p style="color: rgba(255,255,255,0.75); font-size: 0.9rem; margin-bottom: 1.5rem;" data-i18n="gandhidham_desc">Official sector boundaries (Sectors 1-12), Tagore Road commercial corridor, GIDC zones, and retail market layouts.</p>
+          <div style="display: flex; gap: 0.75rem; width: 100%; margin-top: auto;">
+            <a href="MASTER-PLAN.pdf" target="_blank" class="btn btn-secondary" style="flex: 1; text-decoration: none; text-align: center;"><i class="fa-solid fa-file-pdf"></i> View PDF</a>
+            <a href="gandhidham/" class="btn btn-outline" style="border-color: rgba(255,255,255,0.4); color: white; text-align: center;"><i class="fa-solid fa-compass"></i> Guide</a>
+          </div>
+        </div>
+
+        <div class="service-card reveal active" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.22); color: white; backdrop-filter: blur(12px);">
+          <div style="font-size: 2.5rem; color: var(--accent-emerald); margin-bottom: 1rem;"><i class="fa-solid fa-cube"></i></div>
+          <h3 style="color: white; font-size: 1.4rem; margin-bottom: 0.5rem;" data-i18n="adipur_map_title">Adipur 3D Ward & Commercial Map</h3>
+          <p style="color: rgba(255,255,255,0.75); font-size: 0.9rem; margin-bottom: 1.5rem;" data-i18n="adipur_desc">Interactive 3D SVG sector map for Wards 1A to 5B, Station Road commercial plots, and retail shopping hubs.</p>
+          <div style="display: flex; gap: 0.75rem; width: 100%; margin-top: auto;">
+            <a href="adipur/" class="btn btn-primary" style="flex: 1; text-decoration: none; text-align: center;"><i class="fa-solid fa-cube"></i> Open 3D Map</a>
+            <a href="MASTER-PLAN.pdf" target="_blank" class="btn btn-outline" style="border-color: rgba(255,255,255,0.4); color: white; text-align: center;"><i class="fa-solid fa-file-pdf"></i> PDF</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- Consultancy Services Section -->
+  <section class="section" id="services" style="background: var(--bg-white);">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag emerald" data-i18n="services_tag">Commercial Solutions</span>
+        <h2 class="section-title" data-i18n="services_title">Our Commercial Real Estate Services</h2>
+        <p class="section-subtitle" data-i18n="services_subtitle">Tailored services designed for commercial space tenants, property owners, and business investors in Gandhidham & Adipur.</p>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card buyer-card reveal">
+          <div class="overview-icon" style="background: rgba(30, 90, 138, 0.12); color: var(--primary); margin-bottom: 1.5rem;">
+            <i class="fa-solid fa-building-user"></i>
+          </div>
+          <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;" data-i18n="tenant_title">For Commercial Tenants</h3>
+          <p style="color: var(--text-muted); font-size: 0.95rem;" data-i18n="tenant_desc">Finding high-performing retail shops, office suites, and commercial spaces on rent.</p>
+          <ul class="service-list">
+            <li><i class="fa-solid fa-circle-check"></i> Prime market location scouting</li>
+            <li><i class="fa-solid fa-circle-check"></i> Lease terms & rent negotiation</li>
+            <li><i class="fa-solid fa-circle-check"></i> Guided site inspections & footfall analysis</li>
+            <li><i class="fa-solid fa-circle-check"></i> Turnkey move-in support</li>
+          </ul>
+          <button class="btn btn-outline" onclick="openModal('buy')" style="width: 100%; margin-top: auto;"><span data-i18n="buy_btn">Find Commercial Rental</span></button>
+        </div>
+
+        <div class="service-card seller-card reveal">
+          <div class="overview-icon" style="background: rgba(217, 164, 65, 0.12); color: var(--accent-gold-dark); margin-bottom: 1.5rem;">
+            <i class="fa-solid fa-key"></i>
+          </div>
+          <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;" data-i18n="landlord_title">For Commercial Landlords</h3>
+          <p style="color: var(--text-muted); font-size: 0.95rem;" data-i18n="landlord_desc">Rent out your commercial shops, offices, or plots to corporate tenants with high rental yields.</p>
+          <ul class="service-list">
+            <li><i class="fa-solid fa-circle-check"></i> Rental valuation & market rate analysis</li>
+            <li><i class="fa-solid fa-circle-check"></i> Verified corporate & retail tenant matching</li>
+            <li><i class="fa-solid fa-circle-check"></i> Long-term lease agreement drafting</li>
+            <li><i class="fa-solid fa-circle-check"></i> Security deposit & rent management</li>
+          </ul>
+          <button class="btn btn-secondary" onclick="openModal('sell')" style="width: 100%; margin-top: auto;"><span data-i18n="sell_btn">List Commercial Property</span></button>
+        </div>
+
+        <div class="service-card legal-card reveal">
+          <div class="overview-icon" style="background: rgba(111, 195, 232, 0.15); color: var(--accent-emerald-dark); margin-bottom: 1.5rem;">
+            <i class="fa-solid fa-scale-balanced"></i>
+          </div>
+          <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;" data-i18n="legal_title">Lease & Legal Compliance</h3>
+          <p style="color: var(--text-muted); font-size: 0.95rem;" data-i18n="legal_desc">Navigating commercial municipal registrations, 11-month lease deeds, and property verification.</p>
+          <ul class="service-list">
+            <li><i class="fa-solid fa-circle-check"></i> Registered Lease Deed preparation</li>
+            <li><i class="fa-solid fa-circle-check"></i> Commercial tax & municipal clearance</li>
+            <li><i class="fa-solid fa-circle-check"></i> Title verification & landlord background check</li>
+            <li><i class="fa-solid fa-circle-check"></i> Commercial NOC & safety permissions</li>
+          </ul>
+          <button class="btn btn-outline" onclick="openModal('buy')" style="width: 100%; margin-top: auto; border-color: var(--accent-emerald); color: var(--accent-emerald-dark);"><span data-i18n="buy_btn">Request Legal Consultation</span></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Proven 5-Step Process Section -->
+  <section class="section" id="process">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag gold" data-i18n="process_tag">Structured Execution</span>
+        <h2 class="section-title" data-i18n="process_title">Our 5-Step Leasing & Buying Process</h2>
+        <p class="section-subtitle" data-i18n="process_subtitle">A seamless journey from site selection to contract registration and move-in execution.</p>
+      </div>
+
+      <div class="process-roadmap reveal" id="processSection">
+        <div class="process-line"><div class="process-line-fill" id="processLineFill"></div></div>
+        
+        <div class="process-steps">
+          <div class="process-step">
+            <div class="step-number">1</div>
+            <h3 class="step-title" data-i18n="step1_title">1. Requirement Audit</h3>
+            <p class="step-desc" data-i18n="step1_desc">Defining budget, footfall requirements, and layout space.</p>
+          </div>
+          <div class="process-step">
+            <div class="step-number">2</div>
+            <h3 class="step-title" data-i18n="step2_title">2. Site Shortlisting</h3>
+            <p class="step-desc" data-i18n="step2_desc">Inspecting verified commercial shops & offices in Gandhidham & Adipur.</p>
+          </div>
+          <div class="process-step">
+            <div class="step-number">3</div>
+            <h3 class="step-title" data-i18n="step3_title">3. Rent Negotiation</h3>
+            <p class="step-desc" data-i18n="step3_desc">Securing competitive lease rates and flexible security deposits.</p>
+          </div>
+          <div class="process-step">
+            <div class="step-number">4</div>
+            <h3 class="step-title" data-i18n="step4_title">4. Legal Verification</h3>
+            <p class="step-desc" data-i18n="step4_desc">Title check, tax compliance, and 11-month Lease Deed registration.</p>
+          </div>
+          <div class="process-step">
+            <div class="step-number">5</div>
+            <h3 class="step-title" data-i18n="step5_title">5. Handover & Move-In</h3>
+            <p class="step-desc" data-i18n="step5_desc">Key handover and utility setup support for immediate business operations.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust & Stats Banner -->
+  <section class="stats-banner" id="statsBanner">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number" data-target="10" data-suffix="+">0</div>
+          <div class="stat-label" data-i18n="stat_exp_lbl">Years of Local Expertise</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" data-target="250" data-suffix="+">0</div>
+          <div class="stat-label" data-i18n="stat_leased_lbl">Commercial Properties Leased</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" data-target="100" data-suffix="+">0</div>
+          <div class="stat-label" data-i18n="stat_clients_lbl">Satisfied Corporate Clients</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" data-target="99" data-suffix="%">0</div>
+          <div class="stat-label">Legal Due Diligence Accuracy</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Accordion Section -->
+  <section class="section" id="faq">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag" data-i18n="faq_tag">Clarifications</span>
+        <h2 class="section-title" data-i18n="faq_title">Commercial Property FAQ</h2>
+        <p class="section-subtitle" data-i18n="faq_subtitle">Frequently asked questions regarding commercial renting, lease terms, and documentation in Gandhidham & Adipur.</p>
+      </div>
+
+      <div class="faq-grid reveal">
+        <div class="faq-item active">
+          <div class="faq-question">
+            <span data-i18n="faq_q1">What types of commercial rental properties do you offer in Gandhidham & Adipur?</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p data-i18n="faq_a1">We specialize in high-footfall retail market shops, fully furnished & bare-shell corporate office space, high-visibility main market showrooms, and roadside commercial lease plots across Tagore Road, Main Market, Sector 1-12 in Gandhidham, and Station Road in Adipur.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span data-i18n="faq_q2">What is the standard lease deed duration and rental agreement process in Gandhidham?</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p data-i18n="faq_a2">Commercial properties in Gandhidham & Adipur are typically leased under 11-month registered lease agreements or long-term 3-to-9 year corporate lease deeds with renewable escalation terms.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span data-i18n="faq_q3">How do you assist commercial tenants and landlords with legal due diligence?</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p data-i18n="faq_a3">We handle 100% of title verification, property ownership checks, municipal tax clearance, tenant background verification, and formal registered lease deed drafting for smooth operations.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span data-i18n="faq_q4">What are the typical security deposit and brokerage terms for renting commercial spaces?</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p data-i18n="faq_a4">Security deposits usually range from 3 to 6 months of rent depending on the location and property type, with flexible rent negotiation and transparent fee structures for both tenants and landlords.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Dual-Lead Funnel Modal -->
+  <div class="modal-overlay" id="leadModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <button class="modal-close" id="closeModalBtn"><i class="fa-solid fa-xmark"></i></button>
+        <h2 id="modalTitle" style="color: white; font-size: 1.5rem;">Looking to Buy Land in Kutch?</h2>
+        <p id="modalSub" style="color: rgba(255,255,255,0.8); font-size: 0.9rem; margin-top: 0.25rem;">Access verified GIDC, NA, and Port-adjacent commercial plots.</p>
+        
+        <div class="modal-tabs">
+          <button class="modal-tab active" id="buyTab"><i class="fa-solid fa-cart-shopping"></i> I Want to Buy Land</button>
+          <button class="modal-tab" id="sellTab"><i class="fa-solid fa-tag"></i> I Want to Sell Land</button>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <form id="buyerForm" class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Preferred Location</label>
+            <select class="form-select" required>
+              <option value="">Select Location</option>
+              <option value="kandla">Kandla Port Zone</option>
+              <option value="mundra">Mundra SEZ & Port</option>
+              <option value="gandhidham">Gandhidham City / GIDC</option>
+              <option value="khavda">Khavda Solar Corridor</option>
+              <option value="anjar">Anjar / Adipur</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Land Type Required</label>
+            <select class="form-select" required>
+              <option value="">Select Land Category</option>
+              <option value="gidc">GIDC Industrial Plot</option>
+              <option value="na">NA Commercial Land</option>
+              <option value="port">Port Logistics Parcel</option>
+              <option value="agri">Agricultural / Conversion</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Required Area (Acres / Sq. M)</label>
+            <input type="text" class="form-input" placeholder="e.g. 5 Acres or 10,000 Sq. M" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Budget Range (₹)</label>
+            <input type="text" class="form-input" placeholder="e.g. 50 Lakhs - 2 Crores" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" class="form-input" placeholder="Your Name" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input type="tel" class="form-input" placeholder="+91 XXXXX XXXXX" required>
+          </div>
+
+          <div class="form-group full-width">
+            <button type="submit" class="btn btn-primary" style="width: 100%;">
+              <i class="fa-paper-plane fa-solid"></i> Submit Buying Inquiry
+            </button>
+          </div>
+        </form>
+
+        <form id="sellerForm" class="form-grid" style="display: none;">
+          <div class="form-group">
+            <label class="form-label">Property Location</label>
+            <input type="text" class="form-input" placeholder="e.g. Near Kandla Port, Gandhidham" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Total Land Area</label>
+            <input type="text" class="form-input" placeholder="e.g. 12 Acres" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Title Clearance Status</label>
+            <select class="form-select" required>
+              <option value="clear">Title Clear (7/12 in hand)</option>
+              <option value="na">NA Approved Land</option>
+              <option value="process">Conversion in Process</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Expected Price / Rate</label>
+            <input type="text" class="form-input" placeholder="e.g. ₹ 15 Lakhs per Acre" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Owner / Representative Name</label>
+            <input type="text" class="form-input" placeholder="Your Full Name" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Contact Phone</label>
+            <input type="tel" class="form-input" placeholder="+91 XXXXX XXXXX" required>
+          </div>
+
+          <div class="form-group full-width">
+            <button type="submit" class="btn btn-secondary" style="width: 100%;">
+              <i class="fa-solid fa-list-check"></i> Request Property Listing & Valuation
+            </button>
+          </div>
+        </form>
+
+        <div class="form-success" id="formSuccess">
+          <div class="form-success-icon"><i class="fa-solid fa-circle-check"></i></div>
+          <h3 style="font-size: 1.75rem; margin-bottom: 0.5rem; color: var(--primary-dark);">Inquiry Received!</h3>
+          <p style="color: var(--text-muted); font-size: 1rem; margin-bottom: 1.5rem;">Thank you for reaching out. Our lead land consultant will analyze your details and contact you within 24 hours.</p>
+          <button class="btn btn-outline" onclick="closeModal()">Close Window</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="/" class="logo" style="color: white;">
+            <div class="logo-icon"><i class="fa-solid fa-building"></i></div>
+            <div class="logo-text" style="color: white;">Shreeji<span style="color: var(--accent-gold);">RealEstate</span></div>
+          </a>
+          <p data-i18n="footer_brand_desc">Shreeji Real Estate is your dedicated commercial property & rental consultancy headquartered in Gandhidham, Kutch, Gujarat.</p>
+        </div>
+
+        <div>
+          <h4 class="footer-title" data-i18n="footer_target_areas">Target Areas</h4>
+          <ul class="footer-links">
+            <li><a href="/target-areas"><i class="fa-solid fa-filter" style="color: var(--accent-gold); margin-right: 0.4rem;"></i> Land Record Search</a></li>
+            <li><a href="/gandhidham"><i class="fa-solid fa-building" style="color: var(--primary-light); margin-right: 0.4rem;"></i> Gandhidham Commercial Hub</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title" data-i18n="footer_quick_links">Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="/" data-i18n="nav_home">Home</a></li>
+            <li><a href="/overview" data-i18n="nav_overview">Overview</a></li>
+            <li><a href="/services" data-i18n="nav_services">Commercial Services</a></li>
+            <li><a href="/process" data-i18n="nav_process">5-Step Process</a></li>
+            <li><a href="/faq" data-i18n="nav_faq">FAQ</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title" data-i18n="footer_contact_title">Contact Details</h4>
+          <ul class="footer-links">
+            <li><i class="fa-solid fa-location-dot" style="color: var(--accent-gold); margin-right: 0.5rem;"></i> Gandhidham & Adipur, Kutch, Gujarat 370201</li>
+            <li><i class="fa-solid fa-phone" style="color: var(--accent-gold); margin-right: 0.5rem;"></i> +91 70162 70941</li>
+            <li><i class="fa-solid fa-envelope" style="color: var(--accent-gold); margin-right: 0.5rem;"></i> shreejirealestate@gmail.com</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p data-i18n="footer_rights">© 2026 Shreeji Real Estate Consultant. Gandhidham & Adipur Commercial Hub.</p>
+      </div>
+    </div>
+  </footer>
+  <!-- Floating Admin Panel Shortcut Button -->
+  <a href="/admin" id="floatingAdminBtn" style="position: fixed; bottom: 2rem; left: 2rem; z-index: 1500; display: none; background: var(--accent-gold); color: white; padding: 1rem 1.5rem; border-radius: 50px; font-weight: bold; box-shadow: var(--shadow-xl); border: 2px solid white; align-items: center; gap: 0.5rem; text-decoration: none; transition: var(--transition-fast);">
+    <i class="fa-solid fa-sliders"></i> Admin Panel
+  </a>
+
+  <!-- Floating WhatsApp Quick Connect Button -->
+  <a href="https://wa.me/917016270941?text=Hello%20Shreeji%20Real%20Estate,%20I%20am%20looking%20for%20commercial%20space%20or%20land%20in%20Gandhidham/Adipur." target="_blank" rel="noopener noreferrer" class="whatsapp-float" aria-label="Chat with Shreeji Real Estate Consultant on WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <!-- Modal Dialog for Property Inquiry & Listing Funnel -->
+  <div class="modal-overlay" id="leadModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <button class="modal-close" id="closeModalBtn" type="button" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+        <div class="modal-title-wrap">
+          <div class="topbar-badge" style="display: inline-block; margin-bottom: 0.5rem;"><i class="fa-solid fa-shield-halved"></i> VERIFIED ADVISORY</div>
+          <h2 id="modalTitle" style="color: white; font-size: 1.5rem; font-family: var(--font-heading);">Commercial Property Consultation</h2>
+          <p id="modalSub" style="color: rgba(255,255,255,0.85); font-size: 0.88rem; margin-top: 0.25rem;">Direct advisory for commercial spaces & land parcels in Gandhidham & Adipur.</p>
+        </div>
+        
+        <div class="modal-tabs">
+          <button class="modal-tab active" id="buyTab" type="button" onclick="switchModalTab('buy')"><i class="fa-solid fa-magnifying-glass-location"></i> Looking for Space / Land</button>
+          <button class="modal-tab" id="sellTab" type="button" onclick="switchModalTab('sell')"><i class="fa-solid fa-key"></i> Rent Out / List Property</button>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <form id="buyerForm" class="form-grid" onsubmit="handleInquirySubmit(event, 'tenant')">
+          <div class="form-group">
+            <label class="form-label">Preferred Location / Sector</label>
+            <input type="text" id="buyerLoc" class="form-input" placeholder="e.g. Tagore Road, Sector 8, DC-5, GIDC" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Property Category</label>
+            <select id="buyerCategory" class="form-select" required>
+              <option value="">Select Category</option>
+              <option value="Corporate Office">Corporate Office Suite</option>
+              <option value="Retail Showroom">High-Street Showroom</option>
+              <option value="Market Shop">Ground Floor Market Shop</option>
+              <option value="Warehouse">Industrial Logistics / Godown</option>
+              <option value="Commercial Land">Commercial Plot / NA Land</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Full Name / Company Name</label>
+            <input type="text" id="buyerName" class="form-input" placeholder="Your Name or Business Entity" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Contact Mobile / WhatsApp</label>
+            <input type="tel" id="buyerPhone" class="form-input" placeholder="+91 98765 43210" required>
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">Specific Requirements (Optional)</label>
+            <textarea id="buyerNotes" class="form-input" rows="2" placeholder="Required sq.ft, budget range, seating capacity, or timeline..."></textarea>
+          </div>
+          <div class="form-group full-width">
+            <button type="submit" class="btn btn-secondary" style="width: 100%; justify-content: center;">
+              <i class="fa-solid fa-paper-plane"></i> Request Priority Callback & Details
+            </button>
+          </div>
+        </form>
+
+        <form id="sellerForm" class="form-grid" style="display: none;" onsubmit="handleInquirySubmit(event, 'landlord')">
+          <div class="form-group">
+            <label class="form-label">Property Address / Sector</label>
+            <input type="text" id="sellerLoc" class="form-input" placeholder="e.g. Oslo Circle Commercial Complex" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Built-up / Plot Area</label>
+            <input type="text" id="sellerArea" class="form-input" placeholder="e.g. 1,500 Sq.Ft or 500 Sq.Yards" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Owner / Representative Name</label>
+            <input type="text" id="sellerName" class="form-input" placeholder="Full Name" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone / WhatsApp Number</label>
+            <input type="tel" id="sellerPhone" class="form-input" placeholder="+91 98765 43210" required>
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">Expected Monthly Rent or Price (Optional)</label>
+            <input type="text" id="sellerExpected" class="form-input" placeholder="e.g. ₹55,000 / month">
+          </div>
+          <div class="form-group full-width">
+            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+              <i class="fa-solid fa-building-circle-check"></i> List Commercial Property with Shreeji
+            </button>
+          </div>
+        </form>
+
+        <div class="form-success" id="formSuccess" style="display: none; text-align: center; padding: 2rem 1rem;">
+          <div class="form-success-icon"><i class="fa-solid fa-circle-check" style="color: var(--accent-emerald); font-size: 3rem; margin-bottom: 1rem;"></i></div>
+          <h3 style="font-size: 1.4rem; color: var(--primary-dark); margin-bottom: 0.5rem;">Inquiry Successfully Registered!</h3>
+          <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Our senior commercial real estate consultant will connect with you via phone or WhatsApp shortly.</p>
+          <button class="btn btn-outline" type="button" onclick="closeModal()">Close Window</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
