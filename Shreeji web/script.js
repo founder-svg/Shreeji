@@ -1338,5 +1338,297 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+/* ==========================================================================
+   SPATIAL INTELLIGENCE PLATFORM 3D & HUD CONTROLS
+   ========================================================================== */
+
+let currentSpatialScale = 1;
+let currentCompassAngle = 0;
+
+window.switchSpatialMode = function(mode, btnEl) {
+  const switcher = document.getElementById('spatialViewSwitcher');
+  const mainImg = document.getElementById('spatialMainImg');
+  const badgeText = document.getElementById('spatialViewBadgeText');
+  const stage = document.getElementById('spatialVisualStage');
+  
+  if (switcher && btnEl) {
+    switcher.querySelectorAll('.segmented-btn').forEach(btn => btn.classList.remove('active'));
+    btnEl.classList.add('active');
+  }
+
+  const hotspots = stage ? stage.querySelectorAll('.spatial-hotspot') : [];
+
+  if (mode === '3d') {
+    if (mainImg) mainImg.src = 'images/shreeji-3d-spatial-masterplan.jpg';
+    if (badgeText) badgeText.innerText = '3D Model Interactive View';
+    hotspots.forEach(h => h.style.display = 'flex');
+  } else if (mode === 'map') {
+    if (mainImg) mainImg.src = 'images/hero-bg.png';
+    if (badgeText) badgeText.innerText = 'Town Planning Vector Map (Gandhidham & Adipur)';
+    hotspots.forEach(h => h.style.display = 'none');
+  } else if (mode === 'satellite') {
+    if (mainImg) mainImg.src = 'images/commercial-plot.jpg';
+    if (badgeText) badgeText.innerText = 'High-Resolution Satellite Survey';
+    hotspots.forEach(h => h.style.display = 'flex');
+  }
+};
+
+window.zoomSpatialView = function(factor) {
+  const mainImg = document.getElementById('spatialMainImg');
+  if (!mainImg) return;
+  currentSpatialScale = Math.min(Math.max(currentSpatialScale * factor, 0.9), 1.8);
+  mainImg.style.transform = `scale(${currentSpatialScale})`;
+};
+
+window.resetSpatialView = function() {
+  const mainImg = document.getElementById('spatialMainImg');
+  if (!mainImg) return;
+  currentSpatialScale = 1;
+  mainImg.style.transform = `scale(1)`;
+};
+
+window.rotateSpatialCompass = function() {
+  const compass = document.querySelector('.compass-dial');
+  if (!compass) return;
+  currentCompassAngle += 90;
+  compass.style.transform = `rotate(${currentCompassAngle}deg)`;
+};
+
+/* ==========================================================================
+   SHASHWAT ASHAPURA GROUP STYLE CINEMA THEATER & MUSIC ENGINE
+   ========================================================================== */
+
+const SHREEJI_VIDEOS = [
+  {
+    src: 'videos/highrise-skyline.mp4',
+    poster: 'images/commercial-tower.jpg',
+    badge: 'Live Drone Capture • Gandhidham Highrise Skyline',
+    headline: 'Gandhidham Skyline & Corporate Highrise Development',
+    desc: 'Live aerial drone capture of premier commercial complexes, Tagore Road corporate corridor, and high-footfall business districts.'
+  },
+  {
+    src: 'videos/commercial-site-development.mp4',
+    poster: 'images/commercial-plot.jpg',
+    badge: 'Live Ground Capture • Heavy Infrastructure Grading',
+    headline: 'Commercial Infrastructure & Heavy Earthwork Grading',
+    desc: 'Live on-site progress across Gandhidham-Kandla Port commercial corridor: heavy compaction, boundary demarcation, and highway road apron.'
+  },
+  {
+    src: 'videos/foundation-pouring.mp4',
+    poster: 'images/industrial-logistics.jpg',
+    badge: 'Engineered Construction • RCC Foundation Casting',
+    headline: 'Reinforced Concrete Foundation & Structural Casting',
+    desc: 'Live concrete pour and heavy steel rebar framing for multi-story logistics warehousing and corporate commercial plaza.'
+  }
+];
+
+let activeVideoIndex = 0;
+let isBgmPlaying = false;
+
+window.shreejiSelectVideo = function(index) {
+  if (index < 0 || index >= SHREEJI_VIDEOS.length) return;
+  activeVideoIndex = index;
+  const vidData = SHREEJI_VIDEOS[index];
+  const videoEl = document.getElementById('spotlightVideo');
+  const headlineEl = document.getElementById('cinemaActiveHeadline');
+  const badgeEl = document.getElementById('cinemaLiveBadgeText');
+  const descEl = document.getElementById('cinemaActiveDesc');
+  const theaterBox = document.getElementById('cinemaTheaterBox');
+
+  document.querySelectorAll('.video-card-item').forEach((card, i) => {
+    card.classList.toggle('active', i === index);
+  });
+
+  if (headlineEl) headlineEl.textContent = vidData.headline;
+  if (badgeEl) badgeEl.textContent = vidData.badge;
+  if (descEl) descEl.textContent = vidData.desc;
+
+  if (videoEl) {
+    videoEl.pause();
+    videoEl.poster = vidData.poster;
+    videoEl.src = vidData.src;
+    videoEl.load();
+    const playPromise = videoEl.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        theaterBox?.classList.add('is-playing');
+        updatePlayIcons(true);
+      }).catch(() => {
+        videoEl.muted = true;
+        videoEl.play().then(() => {
+          theaterBox?.classList.add('is-playing');
+          updatePlayIcons(true);
+        }).catch(() => {
+          updatePlayIcons(false);
+        });
+      });
+    }
+  }
+};
+
+window.shreejiToggleVideoPlayback = function() {
+  const videoEl = document.getElementById('spotlightVideo');
+  const theaterBox = document.getElementById('cinemaTheaterBox');
+  if (!videoEl) return;
+
+  if (videoEl.paused) {
+    videoEl.play().then(() => {
+      theaterBox?.classList.add('is-playing');
+      updatePlayIcons(true);
+    }).catch(() => {
+      updatePlayIcons(false);
+    });
+  } else {
+    videoEl.pause();
+    theaterBox?.classList.remove('is-playing');
+    updatePlayIcons(false);
+  }
+};
+
+function updatePlayIcons(isPlaying) {
+  const playTri = document.getElementById('iconPlayTriangle');
+  const pauseBars = document.getElementById('iconPauseBars');
+  if (playTri) playTri.style.display = isPlaying ? 'none' : 'block';
+  if (pauseBars) pauseBars.style.display = isPlaying ? 'block' : 'none';
+}
+
+window.shreejiToggleVideoAudio = function() {
+  const videoEl = document.getElementById('spotlightVideo');
+  const btnSound = document.getElementById('btnVideoSound');
+  const iconMuted = document.getElementById('iconSoundMuted');
+  const iconActive = document.getElementById('iconSoundActive');
+  const lblSound = document.getElementById('lblSoundStatus');
+
+  if (!videoEl) return;
+  videoEl.muted = !videoEl.muted;
+
+  if (videoEl.muted) {
+    btnSound?.classList.remove('unmuted');
+    if (iconMuted) iconMuted.style.display = 'inline-block';
+    if (iconActive) iconActive.style.display = 'none';
+    if (lblSound) lblSound.textContent = 'Unmute Video';
+  } else {
+    btnSound?.classList.add('unmuted');
+    if (iconMuted) iconMuted.style.display = 'none';
+    if (iconActive) iconActive.style.display = 'inline-block';
+    if (lblSound) lblSound.textContent = 'Video Audio ON';
+  }
+};
+
+window.shreejiToggleBgm = function(forceState) {
+  const audio = document.getElementById('cinemaBgmAudio');
+  const btnBgm = document.getElementById('btnBgmMusic');
+  const lblBgm = document.getElementById('lblBgmStatus');
+  if (!audio) return;
+
+  const targetPlay = typeof forceState === 'boolean' ? forceState : !isBgmPlaying;
+
+  if (targetPlay) {
+    audio.volume = 0.55;
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        isBgmPlaying = true;
+        btnBgm?.classList.add('playing');
+        if (lblBgm) lblBgm.textContent = 'Cinematic Music: ON ♪';
+      }).catch(() => {
+        isBgmPlaying = false;
+        btnBgm?.classList.remove('playing');
+        if (lblBgm) lblBgm.textContent = 'Cinematic Music: Tap to Play';
+      });
+    }
+  } else {
+    audio.pause();
+    isBgmPlaying = false;
+    btnBgm?.classList.remove('playing');
+    if (lblBgm) lblBgm.textContent = 'Cinematic Music: OFF';
+  }
+};
+
+// Automatic sequential video loop & unlock gesture
+document.addEventListener('DOMContentLoaded', () => {
+  const videoEl = document.getElementById('spotlightVideo');
+  if (videoEl) {
+    // When video ends, automatically advance to next video in continuous loop!
+    videoEl.addEventListener('ended', () => {
+      const nextIndex = (activeVideoIndex + 1) % SHREEJI_VIDEOS.length;
+      window.shreejiSelectVideo(nextIndex);
+    });
+
+    // Auto-play muted on load
+    videoEl.play().catch(() => {});
+  }
+
+  // Gracefully attempt cinematic audio unlock on first user click or interaction
+  const unlockAudioOnGesture = () => {
+    const audio = document.getElementById('cinemaBgmAudio');
+    if (audio && !isBgmPlaying) {
+      audio.volume = 0.55;
+      audio.play().then(() => {
+        isBgmPlaying = true;
+        document.getElementById('btnBgmMusic')?.classList.add('playing');
+        const lbl = document.getElementById('lblBgmStatus');
+        if (lbl) lbl.textContent = 'Cinematic Music: ON ♪';
+      }).catch(() => {});
+    }
+    ['click', 'touchstart', 'scroll'].forEach(evt => {
+      window.removeEventListener(evt, unlockAudioOnGesture);
+    });
+  };
+
+  ['click', 'touchstart', 'scroll'].forEach(evt => {
+    window.addEventListener(evt, unlockAudioOnGesture, { passive: true, once: true });
+  });
+});
+
+/* ==========================================================================
+   AUTO-NEXT IN LOOP PHOTO CAROUSEL / SLIDESHOW ENGINE
+   ========================================================================== */
+
+let currentSlideIndex = 0;
+const totalSlides = 4;
+let slideInterval = null;
+
+window.goToSlide = function(index) {
+  currentSlideIndex = (index + totalSlides) % totalSlides;
+  const wrap = document.getElementById('carouselSlidesWrap');
+  const dots = document.querySelectorAll('#carouselIndicators .indicator-dot');
+  
+  if (wrap) {
+    wrap.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
+  }
+  
+  dots.forEach((dot, i) => {
+    dot.classList.toggle('active', i === currentSlideIndex);
+  });
+};
+
+window.nextSlide = function() {
+  window.goToSlide(currentSlideIndex + 1);
+};
+
+window.prevSlide = function() {
+  window.goToSlide(currentSlideIndex - 1);
+};
+
+window.startAutoSlideshow = function() {
+  if (slideInterval) clearInterval(slideInterval);
+  slideInterval = setInterval(() => {
+    window.nextSlide();
+  }, 4000); // Auto-advance every 4 seconds in continuous loop!
+};
+
+window.pauseAutoSlideshow = function() {
+  if (slideInterval) clearInterval(slideInterval);
+};
+
+window.resumeAutoSlideshow = function() {
+  window.startAutoSlideshow();
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  window.startAutoSlideshow();
+});
+
 
 

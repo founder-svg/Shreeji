@@ -47,18 +47,18 @@
     <div class="container">
       <nav class="navbar">
         <a href="/" class="logo">
-          <div class="logo-icon"><i class="fa-solid fa-landmark"></i></div>
-          <div class="logo-text">SHREEJI<span>COMMERCIAL & LAND ADVISORY</span></div>
+          <div class="logo-icon" style="background: #1D63FF; color: white; width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; box-shadow: 0 4px 12px rgba(29, 99, 255, 0.3);"><i class="fa-solid fa-shapes"></i></div>
+          <div class="logo-text" style="font-size: 1.35rem; font-weight: 800; letter-spacing: 0.05em; color: #0A1C30;">SHREEJI</div>
         </a>
         
         <ul class="nav-links" id="navLinks">
-          <li><a href="/" class="nav-link active"><span data-i18n="nav_home">Home</span></a></li>
-          <li><a href="#properties-section" class="nav-link"><span>Commercial Listings</span></a></li>
-          <li><a href="/overview" class="nav-link"><span data-i18n="nav_overview">Overview</span></a></li>
-          <li><a href="/target-areas" class="nav-link"><span data-i18n="nav_target_areas">Prime Sectors</span></a></li>
-          <li><a href="/services" class="nav-link"><span data-i18n="nav_services">Services</span></a></li>
-          <li><a href="/process" class="nav-link"><span data-i18n="nav_process">Process</span></a></li>
-          <li><a href="/faq" class="nav-link"><span data-i18n="nav_faq">FAQ</span></a></li>
+          <li><a href="/" class="nav-link active">Home</a></li>
+          <li><a href="#story" class="nav-link">About</a></li>
+          <li><a href="#properties-section" class="nav-link">Projects</a></li>
+          <li><a href="#spatialHero" class="nav-link">3D Models</a></li>
+          <li><a href="#cityMaps" class="nav-link">Maps</a></li>
+          <li><a href="#cinemaSection" class="nav-link">Live Drone Video</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
         </ul>
 
         <div class="nav-actions">
@@ -67,8 +67,11 @@
             <button class="lang-btn" data-lang="guj">ગુજ</button>
             <button class="lang-btn" data-lang="hi">हिन्दी</button>
           </div>
-          <button class="btn btn-secondary" onclick="openModal('buy')" style="padding: 0.65rem 1.4rem; font-size: 0.92rem;">
-            <i class="fa-solid fa-calendar-check"></i> <span data-i18n="nav_contact">Book Consultation</span>
+          <button class="hud-btn" style="border-radius: 50%;" onclick="document.getElementById('properties-section').scrollIntoView({behavior: 'smooth'})" title="Search Properties">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+          <button class="btn-spatial-primary" onclick="openModal('buy')" style="padding: 0.55rem 1.35rem; font-size: 0.88rem;">
+            Login / Sign Up
           </button>
         </div>
 
@@ -79,136 +82,355 @@
     </div>
   </header>
 
-  <!-- Dynamic Hero Section -->
-  <section class="hero" id="home">
-    <div class="glow-orb glow-orb-1"></div>
-    <div class="glow-orb glow-orb-2"></div>
-
-    <div class="container hero-container">
-      <div class="hero-grid">
-        <div class="hero-content reveal">
-          <div class="hero-badge">
-            <i class="fa-solid fa-crown" style="color: var(--accent-gold-light);"></i> Gujarat RERA Registered Commercial & Land Advisory
+  <!-- ==========================================================================
+       SPATIAL INTELLIGENCE PLATFORM (3D HERO)
+       Matching Reference Design Screenshot
+       ========================================================================== -->
+  <section class="spatial-hero-section" id="spatialHero">
+    <div class="container">
+      <div class="spatial-hero-grid">
+        <div class="spatial-hero-left reveal">
+          <div class="spatial-badge-pill">
+            <i class="fa-solid fa-sparkles"></i> SPATIAL INTELLIGENCE PLATFORM
           </div>
-          <h1 class="hero-title" data-i18n="hero_title">
-            Prime Commercial Spaces & <span>Strategic Land Parcels</span> in Gandhidham & Adipur
+          <h1 class="spatial-hero-title">
+            See Every Detail.<br>
+            <span class="gradient-blue-text">Understand Every Place.</span>
           </h1>
-          <p class="hero-subtitle" data-i18n="hero_sub">
-            Gandhidham's trusted commercial advisory for leasing corporate office suites, high-street retail showrooms, ground-floor market shops, GIDC industrial warehousing, and clear-title commercial land plots across the Kandla-Mundra Port corridor.
+          <p class="spatial-hero-desc">
+            Explore real-world commercial locations in Gandhidham & Adipur with interactive 3D models, high-resolution GIS maps and powerful spatial analytics.
           </p>
-
-          <div class="hero-cta-group">
-            <button class="btn btn-secondary" onclick="openModal('sell')" data-i18n="sell_btn">
-              <i class="fa-solid fa-key"></i> Rent Out / List Your Property
-            </button>
-            <button class="btn btn-primary" onclick="openModal('buy')" data-i18n="buy_btn">
-              <i class="fa-solid fa-magnifying-glass-location"></i> Inquire for Commercial Space
-            </button>
+          <div class="spatial-cta-row">
+            <a href="#spatialTools" class="btn-spatial-primary">Explore Platform &rarr;</a>
+            <a href="#properties-section" class="btn-spatial-secondary">View Projects</a>
           </div>
+          <div class="spatial-segmented-control" id="spatialViewSwitcher">
+            <button class="segmented-btn active" type="button" onclick="switchSpatialMode('3d', this)">3D</button>
+            <button class="segmented-btn" type="button" onclick="switchSpatialMode('map', this)">Map</button>
+            <button class="segmented-btn" type="button" onclick="switchSpatialMode('satellite', this)">Satellite</button>
+          </div>
+        </div>
 
-          <!-- Interactive Quick Property Finder -->
-          <div class="hero-search-box">
-            <div class="search-tabs">
-              <button class="search-tab-btn active" type="button" onclick="setSearchMode('rent', this)">
-                <i class="fa-solid fa-key"></i> For Lease / Rent
-              </button>
-              <button class="search-tab-btn" type="button" onclick="setSearchMode('buy', this)">
-                <i class="fa-solid fa-building-circle-check"></i> For Sale / Investment
-              </button>
+        <div class="spatial-hero-right reveal">
+          <div class="spatial-visual-stage" id="spatialVisualStage">
+            <img src="images/shreeji-3d-spatial-masterplan.jpg" alt="Shreeji 3D Spatial Masterplan Model" class="spatial-visual-img" id="spatialMainImg">
+            
+            <!-- Interactive Floating Badge -->
+            <div class="badge-interactive-view">
+              <i class="fa-solid fa-cube"></i>
+              <span id="spatialViewBadgeText">3D Model Interactive View</span>
             </div>
-            <div class="search-fields-grid">
-              <div class="search-field-group">
-                <label><i class="fa-solid fa-shapes"></i> Property Category</label>
-                <select id="quickTypeSelect" class="search-select">
-                  <option value="all">All Categories</option>
-                  <option value="office">Corporate Office Suite</option>
-                  <option value="showroom">High-Street Showroom</option>
-                  <option value="shop">Market Ground Shop</option>
-                  <option value="industrial">Logistics & Warehousing</option>
-                  <option value="plot">Commercial Land Parcel</option>
-                </select>
+
+            <!-- Floating Map HUD Controls -->
+            <div class="spatial-hud-controls">
+              <button class="hud-btn" onclick="zoomSpatialView(1.15)" title="Zoom In" aria-label="Zoom In"><i class="fa-solid fa-plus"></i></button>
+              <button class="hud-btn" onclick="zoomSpatialView(0.85)" title="Zoom Out" aria-label="Zoom Out"><i class="fa-solid fa-minus"></i></button>
+              <button class="hud-btn" onclick="resetSpatialView()" title="Center Spatial View" aria-label="Recenter"><i class="fa-solid fa-crosshairs"></i></button>
+            </div>
+
+            <!-- 3D Compass Dial -->
+            <div class="compass-dial" onclick="rotateSpatialCompass()" title="Rotate Compass (North)">
+              <div style="font-weight: 800; font-size: 0.85rem; color: #1D63FF; display: flex; flex-direction: column; align-items: center; line-height: 1;">
+                <i class="fa-solid fa-location-arrow" style="font-size: 1.15rem; transform: rotate(-45deg);"></i>
+                <span style="font-size: 0.65rem; font-weight: 800; color: #0A1C30;">N</span>
               </div>
-              <div class="search-field-group">
-                <label><i class="fa-solid fa-map-pin"></i> Target Location</label>
-                <select id="quickLocationSelect" class="search-select">
-                  <option value="all">All Prime Zones</option>
-                  <option value="tagore">Tagore Road Commercial Belt</option>
-                  <option value="sector8">Sector 8 High-Footfall Market</option>
-                  <option value="dc5">DC-5 Commercial Complex</option>
-                  <option value="oslo">Oslo Circle Business Hub</option>
-                  <option value="kandla">Kandla Port Industrial Corridor</option>
-                  <option value="adipur">Adipur Main Market Zone</option>
-                </select>
-              </div>
-              <div class="search-field-group">
-                <label><i class="fa-solid fa-indian-rupee-sign"></i> Budget</label>
-                <select id="quickBudgetSelect" class="search-select">
-                  <option value="all">Any Budget</option>
-                  <option value="15-50k">₹15k - ₹50k / mo</option>
-                  <option value="50-150k">₹50k - ₹1.5 Lakhs / mo</option>
-                  <option value="150k+">₹1.5 Lakhs+ / mo</option>
-                  <option value="crore">₹1 Cr+ (Investment)</option>
-                </select>
-              </div>
-              <button class="btn-search" type="button" onclick="executeQuickSearch()">
-                <i class="fa-solid fa-magnifying-glass"></i> Search
-              </button>
+            </div>
+
+            <!-- Interactive Pulsing 3D Hotspots with Tooltips -->
+            <div class="spatial-hotspot" style="top: 25%; left: 32%;">
+              <div class="hotspot-tooltip">🏢 Corporate Zone • 18-Story Glass Towers</div>
+            </div>
+            <div class="spatial-hotspot" style="top: 48%; left: 45%;">
+              <div class="hotspot-tooltip">🏬 Commercial Hub • Retail Plazas & Showrooms</div>
+            </div>
+            <div class="spatial-hotspot" style="top: 62%; left: 60%;">
+              <div class="hotspot-tooltip">🌊 Waterfront Canal • Landscaped Boulevard</div>
+            </div>
+            <div class="spatial-hotspot" style="top: 75%; left: 24%;">
+              <div class="hotspot-tooltip">🚛 Logistics Hub • Direct Kandla Highway Apron</div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-          <div class="hero-trust-row" style="margin-top: 2rem;">
-            <div class="trust-item">
-              <div class="trust-icon"><i class="fa-solid fa-briefcase"></i></div>
-              <div class="trust-text">
-                <h4 data-i18n="stat_exp_val">15+ Years</h4>
-                <p data-i18n="stat_exp_lbl">Commercial Advisory</p>
+  <!-- ==========================================================================
+       POWERFUL TOOLS FOR SMARTER DECISIONS (4-CARD GRID)
+       From Reference Design Screenshot
+       ========================================================================== -->
+  <section class="spatial-tools-section" id="spatialTools">
+    <div class="container">
+      <div class="tools-header-row reveal">
+        <div class="tools-title-wrap">
+          <h2 class="tools-main-title">Powerful Tools for Smarter Decisions</h2>
+          <div class="tools-accent-line"></div>
+        </div>
+        <a href="#properties-section" class="tools-explore-all-link">
+          Explore All Features <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="spatial-tools-grid">
+        <!-- Tool 1: 3D Models -->
+        <div class="spatial-tool-card reveal" onclick="openModalWithDetails('Interactive 3D Digital Twin Viewer', 'Commercial District Gandhidham', 'Available')">
+          <div class="tool-card-thumb-wrap">
+            <img src="images/commercial-tower.jpg" alt="3D Model Visualization" class="tool-card-thumb">
+          </div>
+          <div class="tool-card-header">
+            <div class="tool-card-icon-badge"><i class="fa-solid fa-cubes"></i></div>
+            <i class="fa-solid fa-arrow-right tool-card-arrow"></i>
+          </div>
+          <h3 class="tool-card-title">3D Models</h3>
+          <p class="tool-card-desc">Interactive and detailed 3D visualizations of real-world locations and commercial development projects.</p>
+        </div>
+
+        <!-- Tool 2: Google Maps Integration -->
+        <div class="spatial-tool-card reveal" onclick="document.getElementById('cityMaps').scrollIntoView({behavior: 'smooth'})">
+          <div class="tool-card-thumb-wrap">
+            <img src="images/hero-bg.png" alt="Google Maps Location Intelligence" class="tool-card-thumb">
+          </div>
+          <div class="tool-card-header">
+            <div class="tool-card-icon-badge"><i class="fa-solid fa-location-dot"></i></div>
+            <i class="fa-solid fa-arrow-right tool-card-arrow"></i>
+          </div>
+          <h3 class="tool-card-title">Google Maps Integration</h3>
+          <p class="tool-card-desc">Real-time maps, satellite views, sector coordinates, and commercial location intelligence.</p>
+        </div>
+
+        <!-- Tool 3: Project Showcase -->
+        <div class="spatial-tool-card reveal" onclick="document.getElementById('properties-section').scrollIntoView({behavior: 'smooth'})">
+          <div class="tool-card-thumb-wrap">
+            <img src="images/shreeji-3d-spatial-masterplan.jpg" alt="Project Showcase Masterplan" class="tool-card-thumb">
+          </div>
+          <div class="tool-card-header">
+            <div class="tool-card-icon-badge"><i class="fa-solid fa-layer-group"></i></div>
+            <i class="fa-solid fa-arrow-right tool-card-arrow"></i>
+          </div>
+          <h3 class="tool-card-title">Project Showcase</h3>
+          <p class="tool-card-desc">Explore completed and upcoming commercial projects in 3D perspective and surveyed map view.</p>
+        </div>
+
+        <!-- Tool 4: Spatial Analytics -->
+        <div class="spatial-tool-card reveal" onclick="openModalWithDetails('GIS Elevation & Terrain Feasibility Report', 'Tagore & Kandla Belt', 'Certified')">
+          <div class="tool-card-thumb-wrap">
+            <img src="images/spatial-analytics-contour.jpg" alt="Spatial Analytics & Elevation Model" class="tool-card-thumb">
+          </div>
+          <div class="tool-card-header">
+            <div class="tool-card-icon-badge"><i class="fa-solid fa-chart-area"></i></div>
+            <i class="fa-solid fa-arrow-right tool-card-arrow"></i>
+          </div>
+          <h3 class="tool-card-title">Spatial Analytics</h3>
+          <p class="tool-card-desc">Make data-driven decisions with advanced spatial insights, terrain slope analysis, and surveyed boundary measurements.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       HIGH-CTR VIDEO CINEMA THEATER WITH AMBIENT MUSIC
+       Same Pattern as Shashwat Ashapura Group
+       ========================================================================== -->
+  <section class="cinema-section" id="cinemaSection">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag gold" style="background: rgba(197, 155, 39, 0.15); color: var(--accent-gold-light); border-color: rgba(197, 155, 39, 0.35);">
+          <i class="fa-solid fa-clapperboard"></i> High-Definition Commercial Site Video
+        </span>
+        <h2 class="section-title" style="color: #FFFFFF; font-size: 2.35rem; margin-top: 0.5rem;">
+          Live Site Drone Survey & Commercial Developments
+        </h2>
+        <p class="section-subtitle" style="color: rgba(255, 255, 255, 0.85); font-size: 1.05rem;">
+          Experience live high-rise structural progress, heavy-duty earthwork, and high-footfall commercial corridors in continuous sequential auto-loop with ambient soundtrack.
+        </p>
+      </div>
+
+      <div class="cinema-theater-box reveal" id="cinemaTheaterBox">
+        <div class="cinema-video-wrap">
+          <video id="spotlightVideo" class="cinema-player" src="videos/highrise-skyline.mp4" poster="images/commercial-tower.jpg" playsinline preload="auto" muted onclick="window.shreejiToggleVideoPlayback()">
+            <source src="videos/highrise-skyline.mp4" type="video/mp4">
+            <source src="videos/commercial-site-development.mp4" type="video/mp4">
+            Your browser does not support high-definition HTML5 video.
+          </video>
+          <!-- Hidden Audio Element for Cinematic Music Track -->
+          <audio id="cinemaBgmAudio" src="audio/shreeji-cinematic-theme.mp3" loop preload="auto"></audio>
+          <div class="cinema-overlay-gradient"></div>
+
+          <!-- Top bar with live badge, loop indicator & audio switches -->
+          <div class="cinema-top-bar">
+            <div class="cinema-title-badge">
+              <span class="live-rec-dot"></span>
+              <span id="cinemaLiveBadgeText">Live Drone Capture • Gandhidham Highrise Skyline</span>
+            </div>
+            <div class="cinema-audio-tools">
+              <!-- Sequential Auto-Loop Pill -->
+              <div class="cinema-loop-pill" title="Sequential continuous auto-play enabled (loops infinitely from last video back to first)">
+                <span class="loop-dot"></span>
+                <span>Sequential Auto-Loop</span>
+              </div>
+
+              <!-- Video Sound Toggle -->
+              <button type="button" class="cinema-sound-btn" id="btnVideoSound" onclick="window.shreejiToggleVideoAudio()" title="Mute/Unmute Video Audio">
+                <i class="fa-solid fa-volume-xmark" id="iconSoundMuted"></i>
+                <i class="fa-solid fa-volume-high" id="iconSoundActive" style="display: none;"></i>
+                <span id="lblSoundStatus">Unmute Video</span>
+              </button>
+
+              <!-- Studio Cinematic Music Toggle with Equalizer Wave -->
+              <button type="button" class="cinema-music-btn" id="btnBgmMusic" onclick="window.shreejiToggleBgm()" title="Play Cinematic Studio Ambient Music">
+                <span class="music-wave-bars">
+                  <span class="eq-bar bar-1"></span>
+                  <span class="eq-bar bar-2"></span>
+                  <span class="eq-bar bar-3"></span>
+                  <span class="eq-bar bar-4"></span>
+                </span>
+                <span id="lblBgmStatus">Cinematic Music: OFF</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Center Big Play Button Overlay -->
+          <button type="button" class="cinema-center-play" id="cinemaCenterPlayBtn" onclick="window.shreejiToggleVideoPlayback()" aria-label="Play or Pause Video">
+            <i class="fa-solid fa-play" id="iconPlayTriangle" style="font-size: 1.85rem; margin-left: 4px;"></i>
+            <i class="fa-solid fa-pause" id="iconPauseBars" style="font-size: 1.85rem; display: none;"></i>
+          </button>
+
+          <!-- Bottom information overlay -->
+          <div class="cinema-bottom-bar">
+            <div class="cinema-meta">
+              <h3 class="cinema-headline" id="cinemaActiveHeadline">Gandhidham Skyline & Corporate Highrise Development</h3>
+              <p class="cinema-desc" id="cinemaActiveDesc">
+                Live aerial drone capture of premier commercial complexes, Tagore Road corporate corridor, and high-footfall business districts.
+              </p>
+            </div>
+            <div class="cinema-cta-wrap">
+              <button type="button" class="btn-cinema-cta" onclick="openModalWithDetails('Live Drone Site Inspection', 'Gandhidham & Adipur Hub', 'Priority Consultation')">
+                <span>Book Site Inspection</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3-Card Video Playlist Grid -->
+      <div class="cinema-playlist-grid reveal">
+        <div class="video-card-item active" onclick="window.shreejiSelectVideo(0)">
+          <img src="images/commercial-tower.jpg" alt="Highrise Skyline" class="video-card-thumb">
+          <div class="video-card-info">
+            <h4>01. Gandhidham Highrise Skyline</h4>
+            <p>Tagore Road Corporate Corridor • 4K Drone</p>
+          </div>
+        </div>
+        <div class="video-card-item" onclick="window.shreejiSelectVideo(1)">
+          <img src="images/commercial-plot.jpg" alt="Commercial Site Development" class="video-card-thumb">
+          <div class="video-card-info">
+            <h4>02. Heavy Infrastructure Grading</h4>
+            <p>Kandla Port Industrial Corridor • Live Earthwork</p>
+          </div>
+        </div>
+        <div class="video-card-item" onclick="window.shreejiSelectVideo(2)">
+          <img src="images/industrial-logistics.jpg" alt="Structural Casting" class="video-card-thumb">
+          <div class="video-card-info">
+            <h4>03. RCC Foundation & Column Pouring</h4>
+            <p>Certified Engineered Construction • Site Feed</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       AUTO-NEXT IN LOOP PHOTO CAROUSEL / SLIDESHOW
+       ========================================================================== -->
+  <section class="photo-slider-section" id="photoSliderSection">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag emerald"><i class="fa-solid fa-images"></i> Commercial Portfolio Slideshow</span>
+        <h2 class="section-title">Verified High-Value Commercial Spaces</h2>
+        <p class="section-subtitle">Auto-looping architectural gallery showcasing prime showrooms, office floors, and land parcels across Gandhidham & Adipur.</p>
+      </div>
+
+      <div class="carousel-stage reveal" id="propertyCarouselStage" onmouseenter="window.pauseAutoSlideshow()" onmouseleave="window.resumeAutoSlideshow()">
+        <div class="carousel-slides-wrap" id="carouselSlidesWrap">
+          <!-- Slide 1 -->
+          <div class="carousel-slide-item">
+            <div class="slide-img-wrap">
+              <img src="images/commercial-tower.jpg" alt="Highrise Tower Office Suite" class="slide-img">
+            </div>
+            <div class="slide-content-wrap">
+              <span class="slide-tag">Tagore Road • Gandhidham</span>
+              <h3 class="slide-title">3,500 Sq.Ft Corporate Highrise Floor</h3>
+              <p class="slide-desc">Grade-A panoramic 8th-floor corporate office suite with 3 executive cabins, boardroom, server room, and 35 workstations. 100% power backup and high-speed elevators.</p>
+              <div style="display: flex; gap: 0.85rem; flex-wrap: wrap;">
+                <button class="btn btn-primary" onclick="openModalWithDetails('3,500 Sq.Ft Corporate Highrise Floor', 'Tagore Road, Gandhidham', '₹85,000/mo')">Inquire Now &rarr;</button>
+                <a href="https://wa.me/917016270941?text=Hello%20Shreeji,%20I%20am%20interested%20in%20the%20Highrise%20Floor." target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
               </div>
             </div>
-            <div class="trust-item">
-              <div class="trust-icon"><i class="fa-solid fa-building-circle-check"></i></div>
-              <div class="trust-text">
-                <h4 data-i18n="stat_leased_val">350+ Spaces</h4>
-                <p data-i18n="stat_leased_lbl">Commercial Leased</p>
+          </div>
+
+          <!-- Slide 2 -->
+          <div class="carousel-slide-item">
+            <div class="slide-img-wrap">
+              <img src="images/retail-showroom.jpg" alt="Adipur Main Market Showroom" class="slide-img">
+            </div>
+            <div class="slide-content-wrap">
+              <span class="slide-tag">Main Market • Adipur</span>
+              <h3 class="slide-title">1,500 Sq.Ft Prime Corner Retail Showroom</h3>
+              <p class="slide-desc">Ultra-high footfall double-height showroom with 35-ft glass frontage opposite central commercial hub. Ideal for jewelry, retail banks, and apparel flagships.</p>
+              <div style="display: flex; gap: 0.85rem; flex-wrap: wrap;">
+                <button class="btn btn-primary" onclick="openModalWithDetails('1,500 Sq.Ft Main Market Showroom', 'Station Road, Adipur', '₹65,000/mo')">Inquire Now &rarr;</button>
+                <a href="https://wa.me/917016270941?text=Hello%20Shreeji,%20I%20am%20interested%20in%20the%20Adipur%20Showroom." target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
               </div>
             </div>
-            <div class="trust-item">
-              <div class="trust-icon"><i class="fa-solid fa-stamp"></i></div>
-              <div class="trust-text">
-                <h4>100% Clear</h4>
-                <p>7/12 & RERA Verified</p>
+          </div>
+
+          <!-- Slide 3 -->
+          <div class="carousel-slide-item">
+            <div class="slide-img-wrap">
+              <img src="images/executive-office.jpg" alt="Tagore Road Furnished Office" class="slide-img">
+            </div>
+            <div class="slide-content-wrap">
+              <span class="slide-tag">Sector 8 • Gandhidham</span>
+              <h3 class="slide-title">1,200 Sq.Ft Furnished Commercial Suite</h3>
+              <p class="slide-desc">Ready plug-and-play office with glass conference partitions, reception desk, pantry, and reserved covered parking. Perfect for shipping agents and charter brokers.</p>
+              <div style="display: flex; gap: 0.85rem; flex-wrap: wrap;">
+                <button class="btn btn-primary" onclick="openModalWithDetails('1,200 Sq.Ft Furnished Office Space', 'Tagore Road, Gandhidham', '₹35,000/mo')">Inquire Now &rarr;</button>
+                <a href="https://wa.me/917016270941?text=Hello%20Shreeji,%20I%20am%20interested%20in%20the%20Furnished%20Office." target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
               </div>
             </div>
-            <div class="trust-item">
-              <div class="trust-icon"><i class="fa-solid fa-handshake"></i></div>
-              <div class="trust-text">
-                <h4>₹250+ Cr</h4>
-                <p>Transaction Volume</p>
+          </div>
+
+          <!-- Slide 4 -->
+          <div class="carousel-slide-item">
+            <div class="slide-img-wrap">
+              <img src="images/industrial-logistics.jpg" alt="Logistics Warehouse" class="slide-img">
+            </div>
+            <div class="slide-content-wrap">
+              <span class="slide-tag">Kandla Corridor • Gandhidham</span>
+              <h3 class="slide-title">25,000 Sq.Ft PEB Logistics Warehouse</h3>
+              <p class="slide-desc">Heavy-duty engineered warehouse with 6 automated dock levelers, 40-ft apex height, heavy flooring, and wide concrete apron for container trailer turn-arounds.</p>
+              <div style="display: flex; gap: 0.85rem; flex-wrap: wrap;">
+                <button class="btn btn-primary" onclick="openModalWithDetails('25,000 Sq.Ft Logistics Warehouse', 'Kandla Corridor, Gandhidham', '₹1,50,000/mo')">Inquire Now &rarr;</button>
+                <a href="https://wa.me/917016270941?text=Hello%20Shreeji,%20I%20am%20interested%20in%20the%20Warehouse." target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="hero-visual reveal">
-          <div class="hero-badge-floating hero-badge-top">
-            <i class="fa-solid fa-shield-halved" style="color: var(--accent-gold);"></i>
-            <span>100% Verified Commercial Title</span>
-          </div>
-
-          <div class="hero-photo-card">
-            <img src="images/commercial-tower.jpg" alt="Commercial Towers Gandhidham" class="hero-photo-img">
-            <div class="hero-photo-overlay"></div>
-            <div style="position: absolute; bottom: 1.5rem; left: 1.5rem; right: 1.5rem; color: white; z-index: 5;">
-              <span class="tag" style="background: var(--accent-gold); color: var(--primary-dark); font-weight: 700; margin-bottom: 0.5rem; display: inline-block;">Tagore Road • Gandhidham</span>
-              <h3 style="color: white; font-size: 1.35rem; margin-bottom: 0.25rem;">Shreeji Prime Commercial Plaza</h3>
-              <p style="color: rgba(255,255,255,0.85); font-size: 0.88rem;">Retail Ground Shops, Corporate Offices & Showrooms Available on Rent</p>
-            </div>
-          </div>
-
-          <div class="hero-badge-floating hero-badge-bottom">
-            <i class="fa-solid fa-chart-line" style="color: var(--accent-emerald);"></i>
-            <span>High Footfall Market Zone</span>
-          </div>
+        <!-- Navigation Arrows -->
+        <div class="slide-nav-arrows">
+          <button class="arrow-btn" onclick="window.prevSlide()" title="Previous Slide" aria-label="Previous Slide"><i class="fa-solid fa-chevron-left"></i></button>
+          <button class="arrow-btn" onclick="window.nextSlide()" title="Next Slide" aria-label="Next Slide"><i class="fa-solid fa-chevron-right"></i></button>
         </div>
+      </div>
+
+      <!-- Slide Indicators -->
+      <div class="carousel-indicators-bar" id="carouselIndicators">
+        <span class="indicator-dot active" onclick="window.goToSlide(0)"></span>
+        <span class="indicator-dot" onclick="window.goToSlide(1)"></span>
+        <span class="indicator-dot" onclick="window.goToSlide(2)"></span>
+        <span class="indicator-dot" onclick="window.goToSlide(3)"></span>
       </div>
     </div>
   </section>
