@@ -56,7 +56,7 @@
           <li><a href="#story" class="nav-link">About</a></li>
           <li><a href="#properties-section" class="nav-link">Projects</a></li>
           <li><a href="#spatialHero" class="nav-link">3D Models</a></li>
-          <li><a href="#cityMaps" class="nav-link">Maps</a></li>
+          <li><a href="https://regalfarms.vercel.app/" class="nav-link nav-map-trigger" id="navMapLink">Maps <span class="map-badge-3d"><i class="fa-solid fa-cube"></i> 3D</span></a></li>
           <li><a href="#cinemaSection" class="nav-link">Live Drone Video</a></li>
           <li><a href="#contact" class="nav-link">Contact</a></li>
         </ul>
@@ -185,17 +185,18 @@
           <p class="tool-card-desc">Interactive and detailed 3D visualizations of real-world locations and commercial development projects.</p>
         </div>
 
-        <!-- Tool 2: Google Maps Integration -->
-        <div class="spatial-tool-card reveal" onclick="document.getElementById('cityMaps').scrollIntoView({behavior: 'smooth'})">
+        <!-- Tool 2: 3D Satellite Map & Master Plan -->
+        <div class="spatial-tool-card reveal" onclick="launch3DMapPortal('https://regalfarms.vercel.app/')">
           <div class="tool-card-thumb-wrap">
-            <img src="images/hero-bg.png" alt="Google Maps Location Intelligence" class="tool-card-thumb">
+            <img src="images/hero-bg.png" alt="3D Plot Master Plan & Mapbox Satellite Basemap" class="tool-card-thumb">
+            <span class="tool-badge-live" style="position: absolute; top: 10px; left: 10px; background: rgba(14, 34, 61, 0.85); backdrop-filter: blur(8px); border: 1px solid rgba(29, 99, 255, 0.5); color: #00D2FF; font-size: 0.72rem; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 6px; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.4rem; z-index: 2;"><i class="fa-solid fa-satellite"></i> 3D DIGITAL TWIN</span>
           </div>
           <div class="tool-card-header">
-            <div class="tool-card-icon-badge"><i class="fa-solid fa-location-dot"></i></div>
+            <div class="tool-card-icon-badge" style="background: rgba(29, 99, 255, 0.12); color: #1D63FF;"><i class="fa-solid fa-map-location-dot"></i></div>
             <i class="fa-solid fa-arrow-right tool-card-arrow"></i>
           </div>
-          <h3 class="tool-card-title">Google Maps Integration</h3>
-          <p class="tool-card-desc">Real-time maps, satellite views, sector coordinates, and commercial location intelligence.</p>
+          <h3 class="tool-card-title">3D Master Map & Plot Layout</h3>
+          <p class="tool-card-desc">Navigate live 3D master layout, Mapbox satellite basemap, plot inventory, and GPS navigation.</p>
         </div>
 
         <!-- Tool 3: Project Showcase -->
@@ -821,6 +822,20 @@
           </div>
         </div>
 
+        <div class="service-card reveal active" style="background: rgba(29, 99, 255, 0.12); border: 1.5px solid rgba(0, 210, 255, 0.45); color: white; backdrop-filter: blur(14px); box-shadow: 0 12px 32px rgba(0, 210, 255, 0.15); position: relative; overflow: hidden;">
+          <div style="position: absolute; top: 12px; right: 12px; background: linear-gradient(135deg, #1D63FF 0%, #00D2FF 100%); color: white; font-size: 0.72rem; font-weight: 800; padding: 0.25rem 0.65rem; border-radius: 999px; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.35rem;">
+            <i class="fa-solid fa-satellite"></i> LIVE 3D
+          </div>
+          <div style="font-size: 2.5rem; color: #00D2FF; margin-bottom: 1rem;"><i class="fa-solid fa-earth-asia"></i></div>
+          <h3 style="color: white; font-size: 1.4rem; margin-bottom: 0.5rem;">Regal Farms 3D Digital Twin Map</h3>
+          <p style="color: rgba(255,255,255,0.85); font-size: 0.9rem; margin-bottom: 1.5rem;">Full Mapbox satellite basemap with Three.js 3D plot layouts, real-time availability status, and GPS site navigation.</p>
+          <div style="display: flex; gap: 0.75rem; width: 100%; margin-top: auto;">
+            <button type="button" class="btn btn-primary" onclick="launch3DMapPortal('https://regalfarms.vercel.app/')" style="flex: 1; text-align: center; background: linear-gradient(135deg, #1D63FF 0%, #00D2FF 100%); border: none; cursor: pointer; color: white; font-weight: 700; box-shadow: 0 4px 16px rgba(0, 210, 255, 0.35);">
+              <i class="fa-solid fa-cube"></i> Launch 3D Plot Layout
+            </button>
+          </div>
+        </div>
+
         <div class="service-card reveal active" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.22); color: white; backdrop-filter: blur(12px);">
           <div style="font-size: 2.5rem; color: var(--accent-emerald); margin-bottom: 1rem;"><i class="fa-solid fa-cube"></i></div>
           <h3 style="color: white; font-size: 1.4rem; margin-bottom: 0.5rem;" data-i18n="adipur_map_title">Adipur 3D Ward & Commercial Map</h3>
@@ -1275,6 +1290,72 @@
           <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Our senior commercial real estate consultant will connect with you via phone or WhatsApp shortly.</p>
           <button class="btn btn-outline" type="button" onclick="closeModal()">Close Window</button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       CINEMATIC SPATIAL PORTAL TRANSITION OVERLAY
+       High-Tech 3D Satellite & Digital Twin Launch Sequence to Regal Farms
+       ========================================================================== -->
+  <div id="spatialPortalOverlay" class="spatial-portal-overlay" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="portal-backdrop"></div>
+    <div class="portal-grid-lines"></div>
+    <div class="portal-radar-sweep"></div>
+    
+    <div class="portal-content">
+      <!-- Top HUD Telemetry -->
+      <div class="portal-hud-top">
+        <div class="hud-telemetry-badge">
+          <span class="live-blink-dot"></span>
+          <span>SPATIAL DIGITAL TWIN ACTIVE</span>
+        </div>
+        <div class="hud-coords">
+          <i class="fa-solid fa-satellite"></i> 23°07'36.5" N &bull; 70°08'01.3" E &bull; KUTCH, GUJARAT
+        </div>
+      </div>
+
+      <!-- Center 3D Compass & Gyroscopic Orbit Rings -->
+      <div class="portal-core-wrapper" id="portalCoreWrapper">
+        <div class="portal-ring portal-ring-outer"></div>
+        <div class="portal-ring portal-ring-mid"></div>
+        <div class="portal-ring portal-ring-inner"></div>
+        
+        <div class="portal-core-center">
+          <div class="portal-icon-mesh">
+            <i class="fa-solid fa-cube"></i>
+          </div>
+          <div class="portal-scan-line"></div>
+        </div>
+        <div class="portal-orbit-dot"></div>
+      </div>
+
+      <!-- Title & Live Status Telemetry -->
+      <div class="portal-text-group">
+        <span class="portal-badge-target"><i class="fa-solid fa-compass"></i> TARGET: REGAL FARMS 3D PLOT LAYOUT</span>
+        <h2 class="portal-title" id="portalHeadline">CALIBRATING 3D SATELLITE ENGINE</h2>
+        <p class="portal-subtitle" id="portalStatusMsg">Initializing Mapbox satellite basemap &amp; spatial coordinates...</p>
+      </div>
+
+      <!-- Futuristic Progress Track -->
+      <div class="portal-progress-container">
+        <div class="portal-progress-bar">
+          <div class="portal-progress-fill" id="portalProgressFill"></div>
+        </div>
+        <div class="portal-progress-meta">
+          <span id="portalProgressPercent" style="font-family: monospace; font-weight: 700;">0%</span>
+          <span>MAPBOX GL JS &bull; THREE.JS 3D ENGINE</span>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="portal-actions">
+        <button type="button" class="portal-skip-btn" onclick="executePortalRedirect()">
+          <span>Enter 3D Map Now</span> <i class="fa-solid fa-arrow-right"></i>
+        </button>
+        <button type="button" class="portal-cancel-btn" onclick="closePortalOverlay()">
+          Cancel
+        </button>
       </div>
     </div>
   </div>

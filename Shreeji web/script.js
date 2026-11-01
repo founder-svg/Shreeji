@@ -1630,5 +1630,137 @@ document.addEventListener('DOMContentLoaded', () => {
   window.startAutoSlideshow();
 });
 
+/* ==========================================================================
+   CINEMATIC 3D MAP PORTAL ENGINE (REGAL FARMS)
+   ========================================================================== */
+
+let portalActiveTargetUrl = 'https://regalfarms.vercel.app/';
+let portalAnimationTimer = null;
+let portalStepInterval = null;
+
+function playSpatialChime() {
+  try {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) return;
+    const ctx = new AudioContext();
+    if (ctx.state === 'suspended') {
+      ctx.resume();
+    }
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    const now = ctx.currentTime;
+    osc.frequency.setValueAtTime(520, now);
+    osc.frequency.exponentialRampToValueAtTime(880, now + 0.16);
+    osc.frequency.exponentialRampToValueAtTime(1320, now + 0.32);
+    gain.gain.setValueAtTime(0.06, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.42);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.43);
+  } catch (err) {
+    // Autoplay restrictions fallback
+  }
+}
+
+window.launch3DMapPortal = function(url = 'https://regalfarms.vercel.app/') {
+  portalActiveTargetUrl = url;
+  const overlay = document.getElementById('spatialPortalOverlay');
+  const core = document.getElementById('portalCoreWrapper');
+  const fill = document.getElementById('portalProgressFill');
+  const percent = document.getElementById('portalProgressPercent');
+  const headline = document.getElementById('portalHeadline');
+  const statusMsg = document.getElementById('portalStatusMsg');
+
+  // Close mobile nav if open
+  const navLinks = document.getElementById('navLinks');
+  if (navLinks && navLinks.classList.contains('active')) {
+    navLinks.classList.remove('active');
+  }
+
+  if (!overlay) {
+    window.location.href = url;
+    return;
+  }
+
+  // Reset animations
+  if (core) core.classList.remove('warping');
+  if (fill) fill.style.width = '0%';
+  if (percent) percent.textContent = '0%';
+  if (headline) headline.textContent = 'CALIBRATING 3D SATELLITE ENGINE';
+  if (statusMsg) statusMsg.textContent = 'Initializing Mapbox satellite basemap & spatial coordinates...';
+
+  overlay.classList.add('active');
+  overlay.setAttribute('aria-hidden', 'false');
+  playSpatialChime();
+
+  const steps = [
+    { progress: 28, status: 'Connecting to Mapbox Satellite 3D Basemap...', time: 260 },
+    { progress: 62, status: 'Streaming AutoCAD Vector Parcels & 3D Extrusion Mesh...', time: 580 },
+    { progress: 88, status: 'Syncing Real-Time Inventory (Available, Sold, Builder)...', time: 880 },
+    { progress: 100, status: 'Entering 3D Digital Twin...', time: 1120 }
+  ];
+
+  let currentStep = 0;
+  clearInterval(portalStepInterval);
+  clearTimeout(portalAnimationTimer);
+
+  portalStepInterval = setInterval(() => {
+    if (currentStep < steps.length) {
+      const step = steps[currentStep];
+      if (fill) fill.style.width = `${step.progress}%`;
+      if (percent) percent.textContent = `${step.progress}%`;
+      if (statusMsg) statusMsg.textContent = step.status;
+
+      if (step.progress === 100) {
+        if (headline) headline.innerHTML = 'PORTAL ALIGNED &bull; WARPING';
+        if (core) core.classList.add('warping');
+      }
+      currentStep++;
+    } else {
+      clearInterval(portalStepInterval);
+    }
+  }, 280);
+
+  // Smooth redirect after cinematic sequence (~1.3s)
+  portalAnimationTimer = setTimeout(() => {
+    window.executePortalRedirect();
+  }, 1320);
+};
+
+window.executePortalRedirect = function() {
+  clearTimeout(portalAnimationTimer);
+  clearInterval(portalStepInterval);
+  const target = portalActiveTargetUrl || 'https://regalfarms.vercel.app/';
+  window.location.href = target;
+};
+
+window.closePortalOverlay = function() {
+  clearTimeout(portalAnimationTimer);
+  clearInterval(portalStepInterval);
+  const overlay = document.getElementById('spatialPortalOverlay');
+  const core = document.getElementById('portalCoreWrapper');
+  if (overlay) {
+    overlay.classList.remove('active');
+    overlay.setAttribute('aria-hidden', 'true');
+  }
+  if (core) core.classList.remove('warping');
+};
+
+// Wire up global nav map links
+document.addEventListener('DOMContentLoaded', () => {
+  const mapLinks = document.querySelectorAll('#navMapLink, .nav-map-trigger, a[href*="regalfarms.vercel.app"]');
+  mapLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      // Don't intercept if ctrl/cmd key or middle click is used (allow new tab)
+      if (e.metaKey || e.ctrlKey || e.button === 1) return;
+      e.preventDefault();
+      const targetUrl = link.getAttribute('href') || 'https://regalfarms.vercel.app/';
+      window.launch3DMapPortal(targetUrl);
+    });
+  });
+});
+
 
 
