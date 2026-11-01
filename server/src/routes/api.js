@@ -9,6 +9,8 @@ import { projectController } from '../controllers/projectController.js';
 import { plotController } from '../controllers/plotController.js';
 import { propertyInquiryController } from '../controllers/propertyInquiryController.js';
 import { mapAssetController } from '../controllers/mapAssetController.js';
+import { clientAuthController } from '../controllers/clientAuthController.js';
+import { clientKycController } from '../controllers/clientKycController.js';
 import {
   uploadController,
   uploadMiddleware,
@@ -222,5 +224,17 @@ router.get('/admin/property-inquiries', authenticateToken, propertyInquiryContro
 router.get('/property-inquiries/:id', authenticateToken, propertyInquiryController.getById);
 router.patch('/admin/property-inquiries/:id', authenticateToken, propertyInquiryController.updateStatus);
 router.patch('/property-inquiries/:id', authenticateToken, propertyInquiryController.updateStatus);
+
+// --- Client Authentication & KYC Pipeline (Phase 2) ---
+router.post('/client/register', authLimiter, clientAuthController.register);
+router.post('/client/login', authLimiter, clientAuthController.login);
+router.get('/client/me', authenticateToken, clientAuthController.me);
+
+router.post('/client/kyc', authenticateToken, submissionLimiter, clientKycController.submitKyc);
+router.get('/client/kyc/status', authenticateToken, clientKycController.getStatus);
+
+// Admin KYC Management
+router.get('/admin/kyc-applications', authenticateToken, requireAdmin, clientKycController.adminGetAllKyc);
+router.patch('/admin/kyc-applications/:id', authenticateToken, requireAdmin, clientKycController.adminUpdateKycStatus);
 
 export default router;

@@ -757,6 +757,15 @@
         </div>
       `;
 
+      const kycPortalBtn = document.getElementById("btnProceedToKycPortal");
+      if (kycPortalBtn) {
+        const pNum = encodeURIComponent(plotName);
+        const pProj = encodeURIComponent(state.currentProjectId);
+        const pPrice = encodeURIComponent(total);
+        const pArea = encodeURIComponent(document.getElementById("card-plot-area")?.textContent || "182.5 Sq.Yds");
+        kycPortalBtn.href = `../portal.html?plot=${pNum}&project=${pProj}&price=${pPrice}&area=${pArea}`;
+      }
+
       modal.hidden = false;
     });
 

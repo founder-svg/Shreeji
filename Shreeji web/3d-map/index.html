@@ -104,6 +104,11 @@
           <span class="btn-text" id="unit-label">Sq.Yds</span>
         </button>
 
+        <a href="../portal.html" class="hud-btn" title="Client Account &amp; KYC Portal" aria-label="Client Portal">
+          <i class="fa-solid fa-user-shield"></i>
+          <span class="btn-text">Portal</span>
+        </a>
+
         <a href="../index.html" class="hud-btn hud-btn-home" title="Return to Website" aria-label="Return to Website">
           <i class="fa-solid fa-arrow-left"></i>
           <span class="btn-text">Home</span>
@@ -259,19 +264,22 @@
     <div class="modal-dialog">
       <div class="modal-header">
         <div class="modal-title-wrap">
-          <span class="modal-tag">PHASE 1 INTAKE</span>
+          <span class="modal-tag">PHASE 2 CLIENT INTAKE</span>
           <h3 class="modal-heading" id="bookingModalTitle">Reserve Selected Plot</h3>
         </div>
         <button type="button" class="modal-close-btn" id="btnCloseBookingModal">&times;</button>
       </div>
       <div class="modal-body">
-        <p class="modal-sub">Confirm your commercial parcel interest. In Phase 2, this will link to your verified Client ID &amp; Aadhar KYC form.</p>
+        <p class="modal-sub">Confirm your commercial parcel interest. Complete your verified Client ID &amp; Aadhar KYC form to secure your allocation.</p>
         <div class="modal-selected-summary" id="modalSelectedSummary">
           <!-- Populated dynamically -->
         </div>
-        <div class="modal-actions-row">
-          <button type="button" class="btn-modal-confirm" id="btnConfirmBookingInterest">
-            <i class="fa-brands fa-whatsapp"></i> Proceed via WhatsApp Sales
+        <div class="modal-actions-row" style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <a href="../portal.html" class="btn-modal-confirm" id="btnProceedToKycPortal" style="text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 0.5rem; background: linear-gradient(135deg, #00D2FF 0%, #1D63FF 100%); color: #061527; font-weight: 700; padding: 0.85rem;">
+            <i class="fa-solid fa-id-card"></i> Proceed to Client ID &amp; KYC Verification
+          </a>
+          <button type="button" class="btn-modal-confirm" id="btnConfirmBookingInterest" style="background: #25D366; color: #FFF; padding: 0.75rem;">
+            <i class="fa-brands fa-whatsapp"></i> Chat with Sales on WhatsApp
           </button>
           <button type="button" class="btn-modal-cancel" id="btnCancelBookingModal">Cancel</button>
         </div>

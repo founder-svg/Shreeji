@@ -32,6 +32,8 @@ export const localStore = {
   cart: [],
   inquiries: [],
   auditLogs: [],
+  clientUsers: [],
+  kycApplications: [],
   adminUsers: [
     {
       id: 'admin-1',
@@ -89,6 +91,8 @@ const loadLocalStore = () => {
       if (data.cart && Array.isArray(data.cart)) localStore.cart = data.cart;
       if (data.inquiries && Array.isArray(data.inquiries)) localStore.inquiries = data.inquiries;
       if (data.auditLogs && Array.isArray(data.auditLogs)) localStore.auditLogs = data.auditLogs;
+      if (data.clientUsers && Array.isArray(data.clientUsers)) localStore.clientUsers = data.clientUsers;
+      if (data.kycApplications && Array.isArray(data.kycApplications)) localStore.kycApplications = data.kycApplications;
       if (data.adminUsers && Array.isArray(data.adminUsers)) localStore.adminUsers = data.adminUsers;
     } else {
       persistLocalStoreAsync();
