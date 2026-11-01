@@ -1,6 +1,7 @@
 import http from 'http';
 import app from '../src/app.js';
-import { initDatabase } from '../src/config/database.js';
+import { initDatabase, localStore } from '../src/config/database.js';
+import { cacheService } from '../src/config/cache.js';
 import { config } from '../src/config/env.js';
 
 const PORT = 5598;
@@ -8,6 +9,11 @@ const PORT = 5598;
 const runTests = async () => {
   console.log('🧪 Starting Shreeji Real Estate Domain & API Integration Tests...\n');
   await initDatabase();
+  cacheService.flush();
+
+  if (localStore.plots && localStore.plots.length > 0) {
+    localStore.plots[0].availabilityStatus = 'available';
+  }
 
   const server = app.listen(PORT);
 

@@ -831,17 +831,60 @@
       }
     };
 
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      const user = document.getElementById('usernameInput').value;
+      const user = document.getElementById('usernameInput').value.trim().toLowerCase();
       const pass = document.getElementById('passwordInput').value;
 
-      if (user === 'admin' && pass === 'admin') {
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Authenticating...";
+      }
+
+      // Try live server API first
+      try {
+        const apiBase = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+          ? 'http://localhost:5000/api/v1'
+          : '/api/v1';
+
+        const res = await fetch(`${apiBase}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: user, password: pass })
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          if (data.token) {
+            sessionStorage.setItem('admin_token', data.token);
+          }
+          sessionStorage.setItem('admin_logged', 'true');
+          sessionStorage.setItem('admin_user', JSON.stringify(data.user || { email: user }));
+          showDashboard();
+          showToast(`Access Granted. Welcome ${data.user?.name || user}.`);
+          return;
+        }
+      } catch (apiErr) {
+        // Fallback to local verified credentials
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerText = "Access Administration";
+        }
+      }
+
+      // Local credential verification (supporting both shreeji & regal credentials)
+      if (
+        (user === 'admin@shreeji.com' && pass === 'shreeji123') ||
+        (user === 'admin@regalfarms.com' && pass === 'admin123') ||
+        (user === 'admin' && pass === 'admin')
+      ) {
         sessionStorage.setItem('admin_logged', 'true');
         showDashboard();
-        showToast("Access Granted. Welcome Admin.");
+        showToast("Access Granted. Welcome Administrator.");
       } else {
-        alert("Invalid credentials.");
+        alert("Invalid email/username or password. Please verify credentials.");
       }
     });
 

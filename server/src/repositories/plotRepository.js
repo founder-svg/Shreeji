@@ -45,7 +45,7 @@ export const plotRepository = {
       );
     }
     if (availabilityStatus && availabilityStatus !== 'all') {
-      items = items.filter((p) => p.availabilityStatus === availabilityStatus);
+      items = items.filter((p) => (p.availabilityStatus || p.availability_status) === availabilityStatus);
     }
     if (minPrice) items = items.filter((p) => p.price >= Number(minPrice));
     if (maxPrice) items = items.filter((p) => p.price <= Number(maxPrice));
