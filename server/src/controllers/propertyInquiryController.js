@@ -1,5 +1,6 @@
 import { propertyInquiryRepository } from '../repositories/propertyInquiryRepository.js';
 import { jobQueue } from '../jobs/jobQueue.js';
+import { whatsappService } from '../services/whatsappService.js';
 
 export const propertyInquiryController = {
   create: async (req, res, next) => {
@@ -36,6 +37,22 @@ export const propertyInquiryController = {
         propertyCategory: inquiry.propertyCategory || inquiry.property_category,
       });
 
+      // Format WhatsApp sales message and log to database (Phase 3)
+      const waMessageText = whatsappService.formatInquiryMessage({ inquiry });
+      let waDispatch = null;
+      try {
+        waDispatch = await whatsappService.dispatchAndLog({
+          inquiryId: inquiry.id,
+          clientName: inquiry.name,
+          clientPhone: inquiry.phone,
+          messageType: 'property_inquiry',
+          propertyRef: inquiry.propertyCategory || inquiry.property_category || 'Commercial Real Estate',
+          messageText: waMessageText,
+        });
+      } catch (waErr) {
+        console.warn('[Inquiry] WhatsApp auto-dispatch logging non-blocking warning:', waErr.message);
+      }
+
       res.status(201).json({
         success: true,
         message: 'Your commercial inquiry has been registered successfully. Our property advisor will contact you.',
@@ -46,6 +63,14 @@ export const propertyInquiryController = {
           status: inquiry.status,
           createdAt: inquiry.created_at || inquiry.createdAt,
         },
+        whatsAppDispatch: waDispatch ? {
+          dispatchId: waDispatch.dispatchId,
+          phoneNumber: waDispatch.recipientPhone,
+          displayPhone: waDispatch.displayPhone,
+          directUrl: waDispatch.directUrl,
+          webUrl: waDispatch.webUrl,
+          messagePreview: waDispatch.messageBody,
+        } : null,
       });
     } catch (err) {
       next(err);

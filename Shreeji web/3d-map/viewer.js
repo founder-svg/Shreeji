@@ -474,12 +474,30 @@
     document.getElementById("card-plot-rate").textContent = rate;
     document.getElementById("card-plot-total").textContent = total;
 
-    // WhatsApp Action Link
-    const waPhone = "917016270941";
+    // WhatsApp Action Link (Phase 3: +91 98257 99754)
+    const waPhone = "919825799754";
+    const projectName = document.getElementById("header-project-name").textContent;
     const waText = encodeURIComponent(
-      `Hello Shreeji Real Estate, I am interested in booking Plot #${plotName} at ${document.getElementById("header-project-name").textContent}. (Status: ${statusConfig.name}, Value: ${total}). Please share detailed master plan & site visit timings.`
+      `🏛️ *SHREEJI REAL ESTATE CONSULTANT*\n*New Commercial Plot Inquiry via 3D Map*\n----------------------------------------\n📍 *Project:* ${projectName}\n📐 *Plot Number:* #${plotName}\n📊 *Status:* ${statusConfig.name}\n💰 *Estimated Value:* ${total}\n----------------------------------------\nPlease share master plan layout, survey details & schedule site visit.`
     );
-    document.getElementById("btn-card-whatsapp").href = `https://wa.me/${waPhone}?text=${waText}`;
+    const waBtn = document.getElementById("btn-card-whatsapp");
+    waBtn.href = `https://wa.me/${waPhone}?text=${waText}`;
+    waBtn.onclick = function() {
+      // Non-blocking telemetry dispatch log
+      try {
+        fetch("/api/v1/dispatch/whatsapp", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            clientName: "3D Map Visitor",
+            clientPhone: waPhone,
+            messageType: "3d_map_plot_inquiry",
+            propertyRef: `Plot #${plotName} - ${projectName}`,
+            messageText: `Inquiry on Plot #${plotName} (${projectName})`
+          })
+        }).catch(() => {});
+      } catch (e) {}
+    };
 
     card.classList.add("open");
   }

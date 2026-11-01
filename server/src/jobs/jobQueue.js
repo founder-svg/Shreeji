@@ -34,6 +34,16 @@ class JobQueue extends EventEmitter {
       return { recorded: true };
     });
 
+    this.registerHandler('lead-notification', async (data) => {
+      console.log(`📲 [Job: lead-notification] Notifying sales team for lead: ${data.name} (${data.phone}) - Category: ${data.propertyCategory || 'Commercial'}`);
+      return { notified: true, inquiryId: data.inquiryId };
+    });
+
+    this.registerHandler('whatsapp-dispatch', async (data) => {
+      console.log(`💬 [Job: whatsapp-dispatch] Dispatch logged to ${data.recipientPhone} for ${data.clientName}`);
+      return { dispatched: true, recipient: data.recipientPhone };
+    });
+
     // Recover durable pending jobs from disk on boot
     this.loadDurableQueue();
   }

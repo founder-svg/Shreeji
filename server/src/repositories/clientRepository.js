@@ -301,3 +301,4 @@ export const clientRepository = {
     return { ...localStore.kycApplications[idx] };
   },
 };
+

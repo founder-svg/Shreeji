@@ -1,5 +1,6 @@
 import { clientRepository } from '../repositories/clientRepository.js';
 import { propertyInquiryRepository } from '../repositories/propertyInquiryRepository.js';
+import { whatsappService } from '../services/whatsappService.js';
 
 export const clientKycController = {
   submitKyc: async (req, res, next) => {
@@ -98,22 +99,22 @@ export const clientKycController = {
         console.warn('[KYC] Non-blocking warning: CRM lead auto-sync could not complete:', crmErr.message);
       }
 
-      // Generate structured WhatsApp sales message payload
-      const waNumber = '917016270941';
-      const waMessage = encodeURIComponent(
-        `*NEW CLIENT KYC & PLOT APPLICATION - SHREEJI COMMERCIAL*\n\n` +
-        `👤 *Client Name:* ${fullName.trim()}\n` +
-        `🆔 *Client User ID:* ${req.user.clientId}\n` +
-        `📞 *Contact:* ${phone.trim()}\n` +
-        `📍 *Address:* ${addressStreet.trim()}, ${city.trim()} (${pincode.trim()})\n` +
-        `💼 *Work / Business:* ${occupation || 'Business'} (${companyName || 'Private'})\n` +
-        `🪪 *Aadhar:* ${maskedAadhar}\n` +
-        `📐 *Selected Plot:* Plot #${interestedPlotNumber || 'Master Plan'} (${interestedPlotArea || 'Standard'})\n` +
-        `💰 *Estimated Value:* ${interestedPlotValue || 'Market Rate'}\n` +
-        `🤝 *Agent Referral Code:* ${agentCode || 'Direct'}\n` +
-        `📄 *Application Ref:* ${kycApplication.id}\n\n` +
-        `_Please process KYC verification and dispatch site visit schedule._`
-      );
+      // Generate structured WhatsApp sales message payload and log dispatch in database (Phase 3)
+      const waMessageText = whatsappService.formatKycMessage({
+        application: kycApplication,
+        clientUser: req.user,
+        maskedAadhar,
+      });
+
+      const waDispatch = await whatsappService.dispatchAndLog({
+        kycApplicationId: kycApplication.id,
+        clientName: fullName.trim(),
+        clientPhone: phone.trim(),
+        messageType: 'kyc_reservation',
+        propertyRef: `Plot #${interestedPlotNumber || 'Standard'} (${interestedPlotArea || '180 Sq.Yds'})`,
+        agentCode: agentCode || 'Direct Client',
+        messageText: waMessageText,
+      });
 
       return res.status(201).json({
         success: true,
@@ -132,8 +133,12 @@ export const clientKycController = {
           createdAt: kycApplication.created_at || kycApplication.createdAt,
         },
         whatsAppDispatch: {
-          phoneNumber: waNumber,
-          directUrl: `https://wa.me/${waNumber}?text=${waMessage}`,
+          dispatchId: waDispatch.dispatchId,
+          phoneNumber: waDispatch.recipientPhone,
+          displayPhone: waDispatch.displayPhone,
+          directUrl: waDispatch.directUrl,
+          webUrl: waDispatch.webUrl,
+          messagePreview: waDispatch.messageBody,
         },
       });
     } catch (err) {
@@ -235,3 +240,4 @@ export const clientKycController = {
     }
   },
 };
+

@@ -11,6 +11,7 @@ import { propertyInquiryController } from '../controllers/propertyInquiryControl
 import { mapAssetController } from '../controllers/mapAssetController.js';
 import { clientAuthController } from '../controllers/clientAuthController.js';
 import { clientKycController } from '../controllers/clientKycController.js';
+import { whatsappDispatchController } from '../controllers/whatsappDispatchController.js';
 import {
   uploadController,
   uploadMiddleware,
@@ -236,5 +237,9 @@ router.get('/client/kyc/status', authenticateToken, clientKycController.getStatu
 // Admin KYC Management
 router.get('/admin/kyc-applications', authenticateToken, requireAdmin, clientKycController.adminGetAllKyc);
 router.patch('/admin/kyc-applications/:id', authenticateToken, requireAdmin, clientKycController.adminUpdateKycStatus);
+
+// --- WhatsApp Dispatch & Sales Team Handoff (Phase 3) ---
+router.post('/dispatch/whatsapp', submissionLimiter, whatsappDispatchController.recordDispatch);
+router.get('/admin/whatsapp-dispatches', authenticateToken, requireAdmin, whatsappDispatchController.getAllDispatches);
 
 export default router;

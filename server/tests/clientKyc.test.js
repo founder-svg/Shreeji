@@ -185,9 +185,9 @@ async function runTests() {
     assert.ok(kycRes.body.application.id, 'KYC Application ID returned');
     assert.strictEqual(kycRes.body.application.maskedAadhar, 'XXXX-XXXX-1234', 'Aadhar is securely masked');
     assert.ok(kycRes.body.whatsAppDispatch.directUrl, 'WhatsApp sales dispatch URL generated');
-    assert.ok(kycRes.body.whatsAppDispatch.directUrl.includes('917016270941'), 'WhatsApp points to Shreeji +91 70162 70941');
+    assert.ok(kycRes.body.whatsAppDispatch.directUrl.includes('919825799754'), 'WhatsApp points to Shreeji +91 98257 99754');
     kycAppId = kycRes.body.application.id;
-    console.log('  ✅ PASS: Full KYC verification submission with plot reservation & WhatsApp dispatch');
+    console.log('  ✅ PASS: Full KYC verification submission with plot reservation & WhatsApp dispatch (+91 98257 99754)');
 
     // 9. Reject Invalid Aadhar Number (< 12 digits)
     const badAadharRes = await makeRequest(
@@ -266,8 +266,66 @@ async function runTests() {
     assert.strictEqual(unauthRes.status, 401, 'Unauthenticated request rejected with 401');
     console.log('  ✅ PASS: Security: 401 Unauthorized enforced without JWT token');
 
+    // 14. Phase 3: WhatsApp Dispatch Audit & Admin Log Verification
+    const waAuditRes = await makeRequest({
+      hostname: 'localhost',
+      port: PORT,
+      path: '/api/v1/admin/whatsapp-dispatches',
+      method: 'GET',
+      headers: { Authorization: `Bearer ${adminToken}` },
+    });
+    assert.strictEqual(waAuditRes.status, 200, 'Admin retrieves WhatsApp dispatch audit log');
+    assert.strictEqual(waAuditRes.body.targetSalesNumber, '919825799754', 'Target recipient is official Shreeji sales (+91 98257 99754)');
+    assert.ok(Array.isArray(waAuditRes.body.data), 'Dispatch records array returned');
+    const waLog = waAuditRes.body.data.find((d) => d.kyc_application_id === kycAppId || d.kycApplicationId === kycAppId);
+    assert.ok(waLog, 'KYC submission logged in whatsapp_dispatches table');
+    console.log('  ✅ PASS: WhatsApp dispatch logged and verified in database audit store (+91 98257 99754)');
+
+    // 15. Phase 3: Client-side Direct WhatsApp Dispatch API
+    const customDispatchRes = await makeRequest(
+      {
+        hostname: 'localhost',
+        port: PORT,
+        path: '/api/v1/dispatch/whatsapp',
+        method: 'POST',
+      },
+      {
+        clientName: 'Manish V. Patel',
+        clientPhone: '9825012345',
+        messageType: 'quick_inquiry',
+        propertyRef: 'Plot #42 - Nagavaladiya (Survey 374)',
+        messageText: 'Client clicked 3D map quick reserve on Plot #42',
+      }
+    );
+    assert.strictEqual(customDispatchRes.status, 201, 'POST /api/v1/dispatch/whatsapp records dispatch');
+    assert.strictEqual(customDispatchRes.body.data.recipientPhone, '919825799754', 'Recipient is 919825799754');
+    assert.ok(customDispatchRes.body.data.directUrl.includes('919825799754'), 'Direct WhatsApp URL targets 919825799754');
+    console.log('  ✅ PASS: Client-side custom WhatsApp dispatch API functional and tracked');
+
+    // 16. Phase 3: Property Inquiry sync with WhatsApp dispatch
+    const propInqRes = await makeRequest(
+      {
+        hostname: 'localhost',
+        port: PORT,
+        path: '/api/v1/property-inquiries',
+        method: 'POST',
+      },
+      {
+        name: 'Harshil Joshi',
+        phone: '9898011223',
+        role: 'buyer',
+        propertyCategory: 'Commercial Showroom',
+        preferredLocation: 'Station Road, Adipur',
+        message: 'Looking for 1,500 Sq.Ft showroom space for retail branch',
+      }
+    );
+    assert.strictEqual(propInqRes.status, 201, 'Inquiry registered');
+    assert.ok(propInqRes.body.whatsAppDispatch, 'WhatsApp dispatch payload returned for lead');
+    assert.strictEqual(propInqRes.body.whatsAppDispatch.phoneNumber, '919825799754', 'Inquiry WhatsApp targets 919825799754');
+    console.log('  ✅ PASS: Property inquiry leads automatically synced to DB and formatted for WhatsApp (+91 98257 99754)');
+
     console.log('\n----------------------------------------------------');
-    console.log('🎉 All 13 Client Auth & KYC Integration Tests PASSED!');
+    console.log('🎉 All 16 Client Auth, KYC & WhatsApp Dispatch Tests PASSED (Phase 3)!');
     console.log('----------------------------------------------------\n');
   } finally {
     if (server) server.close();

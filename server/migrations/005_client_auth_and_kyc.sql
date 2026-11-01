@@ -58,3 +58,4 @@ CREATE INDEX IF NOT EXISTS idx_kyc_client_id ON client_kyc_applications(client_i
 CREATE INDEX IF NOT EXISTS idx_kyc_verification_status ON client_kyc_applications(verification_status);
 CREATE INDEX IF NOT EXISTS idx_kyc_agent_code ON client_kyc_applications(agent_code);
 CREATE INDEX IF NOT EXISTS idx_kyc_created_at ON client_kyc_applications(created_at DESC);
+

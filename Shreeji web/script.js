@@ -753,7 +753,7 @@ document.addEventListener('DOMContentLoaded', () => {
     home: {
       heroTitle: "Your Premier Partner for <span>Rental Commercial Properties</span> in Gandhidham & Adipur",
       heroSubtitle: "Expert guidance for renting, leasing, buying, and listing commercial shops, corporate offices, showrooms, and commercial plots across Gandhidham & Adipur, Gujarat.",
-      contactPhone: "+91 70162 70941",
+      contactPhone: "+91 98257 99754",
       contactEmail: "shreejirealestate@gmail.com",
       storyHeadline: "Shreeji Real Estate Consultancy",
       storyParagraph: "Shreeji Real Estate is your dedicated commercial property & rental consultancy headquartered in Gandhidham, Kutch, Gujarat. With 10+ years of local market leadership, we connect business owners, retail brands, and corporate tenants with top commercial rental spaces, offices, and plots in Gandhidham and Adipur.",

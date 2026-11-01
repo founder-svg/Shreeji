@@ -78,6 +78,14 @@ export const config = {
     publicUrl: process.env.S3_PUBLIC_URL || '',
   },
 
+  // Official WhatsApp Dispatch Configuration (Phase 3)
+  whatsapp: {
+    salesRecipientPhone: process.env.WHATSAPP_SALES_PHONE || '919825799754',
+    salesDisplayPhone: process.env.WHATSAPP_DISPLAY_PHONE || '+91 98257 99754',
+    apiKey: process.env.WHATSAPP_API_KEY || '',
+    webhookSecret: process.env.WHATSAPP_WEBHOOK_SECRET || '',
+  },
+
   // Paths
   uploadsDir: path.resolve(__dirname, '../../uploads'),
   dataDir: path.resolve(__dirname, '../../data'),
