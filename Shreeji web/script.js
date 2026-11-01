@@ -1762,5 +1762,303 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+/* ==========================================================================
+   3D PERSPECTIVE TUNNEL ENGINE (SHREEJI SPATIAL WARP)
+   Matches Framer-Motion Golden-Angle 3D Z-Space Corridor
+   ========================================================================== */
+
+const SHREEJI_TUNNEL_DATA = [
+  { 
+    title: "Regal Farms 3D Masterplan", 
+    tag: "Spatial Digital Twin",
+    src: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1000&q=80",
+    action: () => window.launch3DMapPortal('https://regalfarms.vercel.app/')
+  },
+  { 
+    title: "Tagore Road Corporate Center", 
+    tag: "Grade-A Commercial HQ",
+    src: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1000&q=80",
+    action: () => openModalWithDetails('Tagore Road Corporate Center', 'Gandhidham Prime', '₹85,000 / month')
+  },
+  { 
+    title: "Station Road Prime Retail", 
+    tag: "High Footfall Showrooms",
+    src: "https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=1000&q=80",
+    action: () => openModalWithDetails('Station Road Prime Retail Showroom', 'Adipur Commercial', '₹1.1 Lakh / month')
+  },
+  { 
+    title: "Gandhidham Commercial Hub", 
+    tag: "Sectors 1-12 Prime Parcels",
+    src: "https://images.unsplash.com/photo-1582407947304-fd86f028f716?auto=format&fit=crop&w=1000&q=80",
+    action: () => openModalWithDetails('Gandhidham Commercial Hub Plots', 'Gandhidham', '₹45 Lakh onwards')
+  },
+  { 
+    title: "Sector 1-12 Corporate Suites", 
+    tag: "Executive Office Floors",
+    src: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1000&q=80",
+    action: () => openModalWithDetails('Sector 1-12 Corporate Suites', 'Gandhidham', '₹65,000 / month')
+  },
+  { 
+    title: "Kandla Logistics & GIDC Belt", 
+    tag: "Heavy Logistics & Warehousing",
+    src: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1000&q=80",
+    action: () => openModalWithDetails('Kandla Logistics & GIDC Warehousing', 'Kandla Highway', '₹1.8 Lakh / month')
+  },
+  { 
+    title: "7/12 Clear Title Parcels", 
+    tag: "100% RERA Due Diligence",
+    src: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1000&q=80",
+    action: () => openModalWithDetails('7/12 Clear Title Commercial Land', 'Kutch Belt', '₹95 Lakh')
+  },
+  { 
+    title: "Spatial Digital Twin GIS", 
+    tag: "Mapbox 3D Elevation Mesh",
+    src: "https://images.unsplash.com/photo-1524813686514-a57563d77d61?auto=format&fit=crop&w=1000&q=80",
+    action: () => window.launch3DMapPortal('https://regalfarms.vercel.app/')
+  },
+  { 
+    title: "Adipur Luxury Showrooms", 
+    tag: "Ward 1A - 5B Commercial Strip",
+    src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1000&q=80",
+    action: () => openModalWithDetails('Adipur Luxury Retail Showrooms', 'Adipur Hub', '₹75,000 / month')
+  }
+];
+
+class PerspectiveTunnelEngine {
+  constructor() {
+    this.container = document.getElementById('tunnelContainer');
+    this.stage = document.getElementById('tunnelCardsStage');
+    this.anchor = document.getElementById('tunnelAnchorText');
+    this.prompt = document.getElementById('tunnelPrompt');
+    this.slider = document.getElementById('tunnelProgressSlider');
+    this.readout = document.getElementById('tunnelPercentReadout');
+
+    if (!this.container || !this.stage) return;
+
+    this.rawProgress = 0;
+    this.smoothProgress = 0;
+    this.rawPointerX = 0;
+    this.rawPointerY = 0;
+    this.pointerX = 0;
+    this.pointerY = 0;
+
+    this.stageWidth = window.innerWidth;
+    this.stageHeight = window.innerHeight;
+    this.isMobile = window.innerWidth < 768;
+
+    this.cards = [];
+    this.initCards();
+    this.initEvents();
+    this.animate();
+  }
+
+  initCards() {
+    this.stage.innerHTML = '';
+    const total = SHREEJI_TUNNEL_DATA.length;
+
+    this.cards = SHREEJI_TUNNEL_DATA.map((item, i) => {
+      const goldenAngle = i * 137.5 * (Math.PI / 180);
+      const radiusFactorX = 0.28 + (i % 3) * 0.08;
+      const radiusFactorY = 0.26 + (i % 2) * 0.09;
+      const rotationZ = (i % 2 === 0 ? 1 : -1) * (3 + (i % 5) * 2);
+
+      const cardEl = document.createElement('div');
+      cardEl.className = 'tunnel-card';
+      cardEl.innerHTML = `
+        <img src="${item.src}" alt="${item.title}" class="tunnel-card-img" draggable="false" loading="lazy">
+        <div class="tunnel-card-overlay">
+          <span class="tunnel-card-tag">${item.tag}</span>
+          <span class="tunnel-card-title">${item.title}</span>
+        </div>
+      `;
+
+      cardEl.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (typeof item.action === 'function') {
+          item.action();
+        }
+      });
+
+      this.stage.appendChild(cardEl);
+
+      return {
+        el: cardEl,
+        item,
+        angleCos: Math.cos(goldenAngle),
+        angleSin: Math.sin(goldenAngle),
+        radiusFactorX,
+        radiusFactorY,
+        rotationZ,
+        index: i,
+        total
+      };
+    });
+  }
+
+  initEvents() {
+    window.addEventListener('resize', () => {
+      this.stageWidth = this.container.clientWidth || window.innerWidth;
+      this.stageHeight = this.container.clientHeight || window.innerHeight;
+      this.isMobile = window.innerWidth < 768;
+    });
+
+    // Pointer move camera parallax
+    window.addEventListener('pointermove', (e) => {
+      this.rawPointerX = (e.clientX / window.innerWidth - 0.5) * 2;
+      this.rawPointerY = (e.clientY / window.innerHeight - 0.5) * 2;
+    }, { passive: true });
+
+    // Wheel listener inside container
+    this.container.addEventListener('wheel', (e) => {
+      // Only capture wheel if cursor is over the tunnel container
+      const delta = e.deltaY * 0.0008;
+      const prev = this.rawProgress;
+      const next = Math.min(1, Math.max(0, this.rawProgress + delta));
+      
+      // If within 0 and 1, absorb the scroll to animate tunnel
+      if ((delta > 0 && prev < 1) || (delta < 0 && prev > 0)) {
+        e.preventDefault();
+        this.rawProgress = next;
+      }
+    }, { passive: false });
+
+    // Touch swipe handling for mobile
+    let touchStartY = 0;
+    this.container.addEventListener('touchstart', (e) => {
+      if (e.touches.length > 0) {
+        touchStartY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+
+    this.container.addEventListener('touchmove', (e) => {
+      if (e.touches.length > 0) {
+        const touchY = e.touches[0].clientY;
+        const delta = (touchStartY - touchY) * 0.0018;
+        touchStartY = touchY;
+        const prev = this.rawProgress;
+        const next = Math.min(1, Math.max(0, this.rawProgress + delta));
+        if ((delta > 0 && prev < 1) || (delta < 0 && prev > 0)) {
+          e.preventDefault();
+          this.rawProgress = next;
+        }
+      }
+    }, { passive: false });
+
+    // Slider control
+    if (this.slider) {
+      this.slider.addEventListener('input', (e) => {
+        this.rawProgress = parseFloat(e.target.value) || 0;
+      });
+    }
+  }
+
+  stepProgress(delta) {
+    this.rawProgress = Math.min(1, Math.max(0, this.rawProgress + delta));
+  }
+
+  animate() {
+    // Spring interpolation (stiffness & damping simulation)
+    const progressDiff = this.rawProgress - this.smoothProgress;
+    this.smoothProgress += progressDiff * 0.12;
+
+    this.pointerX += (this.rawPointerX - this.pointerX) * 0.08;
+    this.pointerY += (this.rawPointerY - this.pointerY) * 0.08;
+
+    const p = this.smoothProgress;
+    const stageWidth = this.stageWidth;
+    const stageHeight = this.stageHeight;
+    const isMobile = this.isMobile;
+
+    const farZ = isMobile ? -1200 : -1700;
+    const nearZ = isMobile ? 350 : 500;
+    const panStrength = isMobile ? 22 : 48;
+    const staggerSpan = 0.55;
+
+    // Card width
+    const cardWidth = isMobile
+      ? Math.max(130, Math.min(180, stageWidth * 0.38))
+      : Math.max(180, Math.min(270, stageWidth * 0.18));
+
+    // Update each tunnel card
+    for (let i = 0; i < this.cards.length; i++) {
+      const card = this.cards[i];
+      const start = (card.index / card.total) * (1 - staggerSpan);
+      const end = start + staggerSpan;
+
+      const localProgress = Math.min(1, Math.max(0, (p - start) / (end - start)));
+
+      const z = farZ + localProgress * (nearZ - farZ);
+
+      // Opacity curve: [0, 0.18, 0.82, 0.98] -> [0, 1, 1, 0]
+      let opacity = 0;
+      if (localProgress <= 0.18) {
+        opacity = localProgress / 0.18;
+      } else if (localProgress <= 0.82) {
+        opacity = 1;
+      } else if (localProgress <= 0.98) {
+        opacity = 1 - (localProgress - 0.82) / (0.98 - 0.82);
+      } else {
+        opacity = 0;
+      }
+
+      const baseX = card.angleCos * (stageWidth * card.radiusFactorX);
+      const baseY = card.angleSin * (stageHeight * card.radiusFactorY);
+
+      const offsetX = baseX - this.pointerX * panStrength;
+      const offsetY = baseY - this.pointerY * panStrength;
+
+      card.el.style.width = `${Math.round(cardWidth)}px`;
+      card.el.style.transform = `translate3d(calc(-50% + ${offsetX.toFixed(1)}px), calc(-50% + ${offsetY.toFixed(1)}px), ${z.toFixed(1)}px) rotateZ(${card.rotationZ}deg)`;
+      card.el.style.opacity = opacity.toFixed(3);
+      card.el.style.zIndex = card.index + 1;
+    }
+
+    // Anchor Title Scaling & Opacity
+    if (this.anchor) {
+      const titleScale = 0.7 + p * 0.65;
+      let titleOpacity = 0.25;
+      if (p <= 0.12) {
+        titleOpacity = 0.25 + (p / 0.12) * 0.75;
+      } else if (p <= 0.85) {
+        titleOpacity = 1;
+      } else {
+        titleOpacity = Math.max(0, 1 - (p - 0.85) / 0.15);
+      }
+
+      this.anchor.style.transform = `scale(${titleScale.toFixed(3)})`;
+      this.anchor.style.opacity = titleOpacity.toFixed(3);
+    }
+
+    // Prompt Indicator Fade
+    if (this.prompt) {
+      const promptOpacity = Math.max(0, 1 - (p / 0.12));
+      this.prompt.style.opacity = promptOpacity.toFixed(2);
+    }
+
+    // Update Slider & Readout
+    if (this.slider && document.activeElement !== this.slider) {
+      this.slider.value = p.toFixed(3);
+    }
+    if (this.readout) {
+      this.readout.textContent = `${Math.round(p * 100)}% DEPTH`;
+    }
+
+    requestAnimationFrame(() => this.animate());
+  }
+}
+
+let tunnelEngineInstance = null;
+
+window.stepTunnelProgress = function(delta) {
+  if (tunnelEngineInstance) {
+    tunnelEngineInstance.stepProgress(delta);
+  }
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  tunnelEngineInstance = new PerspectiveTunnelEngine();
+});
+
+
 
 
