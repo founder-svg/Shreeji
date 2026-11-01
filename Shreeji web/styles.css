@@ -376,6 +376,10 @@ img {
   gap: 2rem;
 }
 
+.mobile-only-link {
+  display: none;
+}
+
 .nav-link {
   font-weight: 500;
   color: rgba(255, 255, 255, 0.9);
@@ -1740,6 +1744,11 @@ float-top-right {
 
   .nav-links.active {
     display: flex !important;
+  }
+
+  .mobile-only-link {
+    display: block !important;
+    width: 100%;
   }
 
   .nav-link {
