@@ -56,7 +56,7 @@
           <li><a href="#story" class="nav-link">About</a></li>
           <li><a href="#properties-section" class="nav-link">Projects</a></li>
           <li><a href="#perspectiveTunnel" class="nav-link">3D Models</a></li>
-          <li><a href="https://regalfarms.vercel.app/" class="nav-link nav-map-trigger" id="navMapLink">Maps <span class="map-badge-3d"><i class="fa-solid fa-cube"></i> 3D</span></a></li>
+          <li><a href="./3d-map/index.html" class="nav-link nav-map-trigger" id="navMapLink">Maps <span class="map-badge-3d"><i class="fa-solid fa-cube"></i> 3D</span></a></li>
           <li><a href="#cinemaSection" class="nav-link">Live Drone Video</a></li>
           <li><a href="#contact" class="nav-link">Contact</a></li>
         </ul>
@@ -116,9 +116,9 @@
             <img src="images/shreeji-3d-spatial-masterplan.jpg" alt="Shreeji 3D Spatial Masterplan Model" class="spatial-visual-img" id="spatialMainImg">
             
             <!-- Interactive Floating Badge -->
-            <div class="badge-interactive-view">
+            <div class="badge-interactive-view" style="cursor: pointer;" onclick="launch3DMapPortal('./3d-map/index.html')" title="Launch Interactive 3D Master Plan">
               <i class="fa-solid fa-cube"></i>
-              <span id="spatialViewBadgeText">3D Model Interactive View</span>
+              <span id="spatialViewBadgeText">Launch 3D Master Plan</span>
             </div>
 
             <!-- Floating Map HUD Controls -->
@@ -219,30 +219,31 @@
       </div>
 
       <div class="spatial-tools-grid">
-        <!-- Tool 1: 3D Models -->
-        <div class="spatial-tool-card reveal" onclick="openModalWithDetails('Interactive 3D Digital Twin Viewer', 'Commercial District Gandhidham', 'Available')">
+        <!-- Tool 1: 3D Models & Master Plan -->
+        <div class="spatial-tool-card reveal" onclick="launch3DMapPortal('./3d-map/index.html')" style="cursor: pointer;">
           <div class="tool-card-thumb-wrap">
             <img src="images/commercial-tower.jpg" alt="3D Model Visualization" class="tool-card-thumb">
+            <span class="tool-badge-live" style="position: absolute; top: 10px; left: 10px; background: rgba(14, 34, 61, 0.85); backdrop-filter: blur(8px); border: 1px solid rgba(0, 210, 255, 0.5); color: #00D2FF; font-size: 0.72rem; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 6px; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.4rem; z-index: 2;"><i class="fa-solid fa-cube"></i> INTERACTIVE 3D</span>
           </div>
           <div class="tool-card-header">
             <div class="tool-card-icon-badge"><i class="fa-solid fa-cubes"></i></div>
             <i class="fa-solid fa-arrow-right tool-card-arrow"></i>
           </div>
-          <h3 class="tool-card-title">3D Models</h3>
-          <p class="tool-card-desc">Interactive and detailed 3D visualizations of real-world locations and commercial development projects.</p>
+          <h3 class="tool-card-title">3D Models &amp; Digital Twins</h3>
+          <p class="tool-card-desc">Interactive and detailed 3D AutoCAD visualizations of commercial development projects with plot boundaries.</p>
         </div>
 
         <!-- Tool 2: 3D Satellite Map & Master Plan -->
-        <div class="spatial-tool-card reveal" onclick="launch3DMapPortal('https://regalfarms.vercel.app/')">
+        <div class="spatial-tool-card reveal" onclick="launch3DMapPortal('./3d-map/index.html')" style="cursor: pointer;">
           <div class="tool-card-thumb-wrap">
             <img src="images/hero-bg.png" alt="3D Plot Master Plan & Mapbox Satellite Basemap" class="tool-card-thumb">
-            <span class="tool-badge-live" style="position: absolute; top: 10px; left: 10px; background: rgba(14, 34, 61, 0.85); backdrop-filter: blur(8px); border: 1px solid rgba(29, 99, 255, 0.5); color: #00D2FF; font-size: 0.72rem; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 6px; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.4rem; z-index: 2;"><i class="fa-solid fa-satellite"></i> 3D DIGITAL TWIN</span>
+            <span class="tool-badge-live" style="position: absolute; top: 10px; left: 10px; background: rgba(14, 34, 61, 0.85); backdrop-filter: blur(8px); border: 1px solid rgba(29, 99, 255, 0.5); color: #00D2FF; font-size: 0.72rem; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 6px; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.4rem; z-index: 2;"><i class="fa-solid fa-satellite"></i> 3D CAD ENGINE</span>
           </div>
           <div class="tool-card-header">
             <div class="tool-card-icon-badge" style="background: rgba(29, 99, 255, 0.12); color: #1D63FF;"><i class="fa-solid fa-map-location-dot"></i></div>
             <i class="fa-solid fa-arrow-right tool-card-arrow"></i>
           </div>
-          <h3 class="tool-card-title">3D Master Map & Plot Layout</h3>
+          <h3 class="tool-card-title">3D Master Map &amp; Plot Layout</h3>
           <p class="tool-card-desc">Navigate live 3D master layout, Mapbox satellite basemap, plot inventory, and GPS navigation.</p>
         </div>
 
@@ -1397,8 +1398,11 @@
 
       <!-- Quick Actions -->
       <div class="portal-actions">
-        <button type="button" class="portal-skip-btn" onclick="executePortalRedirect()">
-          <span>Enter 3D Map Now</span> <i class="fa-solid fa-arrow-right"></i>
+        <button type="button" class="portal-skip-btn" onclick="executePortalRedirect('./3d-map/index.html')">
+          <span>Enter 3D CAD Map</span> <i class="fa-solid fa-arrow-right"></i>
+        </button>
+        <button type="button" class="portal-skip-btn" style="background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2);" onclick="executePortalRedirect('https://regalfarms.vercel.app/')">
+          <span>Regal Farms Vercel</span> <i class="fa-solid fa-arrow-up-right-from-square"></i>
         </button>
         <button type="button" class="portal-cancel-btn" onclick="closePortalOverlay()">
           Cancel

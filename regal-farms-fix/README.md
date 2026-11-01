@@ -37,3 +37,4 @@ REGAL_ADMIN_PASSWORD=admin123
 * **Regal Farms Owner (`/regal`)**:
   * Email / Username: `admin@regalfarms.com` (or `owner`)
   * Password: `admin123`
+

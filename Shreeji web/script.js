@@ -1664,7 +1664,7 @@ function playSpatialChime() {
   }
 }
 
-window.launch3DMapPortal = function(url = 'https://regalfarms.vercel.app/') {
+window.launch3DMapPortal = function(url = './3d-map/index.html') {
   portalActiveTargetUrl = url;
   const overlay = document.getElementById('spatialPortalOverlay');
   const core = document.getElementById('portalCoreWrapper');
@@ -1672,6 +1672,7 @@ window.launch3DMapPortal = function(url = 'https://regalfarms.vercel.app/') {
   const percent = document.getElementById('portalProgressPercent');
   const headline = document.getElementById('portalHeadline');
   const statusMsg = document.getElementById('portalStatusMsg');
+  const targetBadge = document.querySelector('.portal-badge-target');
 
   // Close mobile nav if open
   const navLinks = document.getElementById('navLinks');
@@ -1684,12 +1685,20 @@ window.launch3DMapPortal = function(url = 'https://regalfarms.vercel.app/') {
     return;
   }
 
+  // Update target badge depending on destination
+  if (targetBadge) {
+    const isCad = url.includes('3d-map');
+    targetBadge.innerHTML = isCad 
+      ? '<i class="fa-solid fa-compass"></i> TARGET: SHREEJI 3D AUTOCAD MASTER PLAN'
+      : '<i class="fa-solid fa-compass"></i> TARGET: REGAL FARMS 3D SPATIAL TWIN';
+  }
+
   // Reset animations
   if (core) core.classList.remove('warping');
   if (fill) fill.style.width = '0%';
   if (percent) percent.textContent = '0%';
   if (headline) headline.textContent = 'CALIBRATING 3D SATELLITE ENGINE';
-  if (statusMsg) statusMsg.textContent = 'Initializing Mapbox satellite basemap & spatial coordinates...';
+  if (statusMsg) statusMsg.textContent = 'Initializing AutoCAD vector parcels & 3D WebGL engine...';
 
   overlay.classList.add('active');
   overlay.setAttribute('aria-hidden', 'false');
@@ -1729,10 +1738,10 @@ window.launch3DMapPortal = function(url = 'https://regalfarms.vercel.app/') {
   }, 1320);
 };
 
-window.executePortalRedirect = function() {
+window.executePortalRedirect = function(targetOverride) {
   clearTimeout(portalAnimationTimer);
   clearInterval(portalStepInterval);
-  const target = portalActiveTargetUrl || 'https://regalfarms.vercel.app/';
+  const target = targetOverride || portalActiveTargetUrl || './3d-map/index.html';
   window.location.href = target;
 };
 
@@ -1750,13 +1759,13 @@ window.closePortalOverlay = function() {
 
 // Wire up global nav map links
 document.addEventListener('DOMContentLoaded', () => {
-  const mapLinks = document.querySelectorAll('#navMapLink, .nav-map-trigger, a[href*="regalfarms.vercel.app"]');
+  const mapLinks = document.querySelectorAll('#navMapLink, .nav-map-trigger, a[href*="3d-map"], a[href*="regalfarms.vercel.app"]');
   mapLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       // Don't intercept if ctrl/cmd key or middle click is used (allow new tab)
       if (e.metaKey || e.ctrlKey || e.button === 1) return;
       e.preventDefault();
-      const targetUrl = link.getAttribute('href') || 'https://regalfarms.vercel.app/';
+      const targetUrl = link.getAttribute('href') || './3d-map/index.html';
       window.launch3DMapPortal(targetUrl);
     });
   });
