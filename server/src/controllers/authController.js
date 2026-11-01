@@ -18,12 +18,17 @@ export const authController = {
 
       let adminUser = await adminRepository.findByEmail(identifier);
 
-      // Support predefined client/estate administrator accounts
+      // Support predefined client/estate administrator accounts (User ID: Shreejii, Pass: Shreeji@108)
       if (!adminUser) {
-        if (identifier === 'admin@shreeji.com' && (password === 'shreeji123' || password === config.admin.password)) {
+        const idLower = identifier.trim().toLowerCase();
+        if (
+          (idLower === 'shreejii' || identifier === 'admin@shreeji.com') &&
+          (password === 'Shreeji@108' || password === 'shreeji123' || password === config.admin.password)
+        ) {
           adminUser = {
             id: 'admin-shreeji-master',
             email: 'admin@shreeji.com',
+            username: 'Shreejii',
             name: 'Shreeji Master Administrator',
             role: 'admin',
           };
@@ -48,8 +53,9 @@ export const authController = {
       if (adminUser.password_hash || adminUser.passwordHash) {
         const isMatch = await bcrypt.compare(password, adminUser.password_hash || adminUser.passwordHash);
         if (!isMatch) {
-          // Allow fallback for shreeji123 on admin@shreeji.com
-          if (identifier === 'admin@shreeji.com' && password === 'shreeji123') {
+          // Allow fallback for Shreeji@108 or shreeji123 on admin@shreeji.com / Shreejii
+          const idLower = identifier.trim().toLowerCase();
+          if ((idLower === 'shreejii' || identifier === 'admin@shreeji.com') && (password === 'Shreeji@108' || password === 'shreeji123')) {
             // authorized
           } else {
             return res.status(401).json({

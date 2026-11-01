@@ -102,7 +102,7 @@ const runTests = async () => {
       rProjects.durationMs
     );
 
-    const firstProject = projectsList[0];
+    const firstProject = projectsList.find((p) => p.id === 'proj-1') || projectsList[0];
 
     // 3. Single Project Details
     const rSingleProject = await request(`/api/v1/projects/${firstProject.id}`);
@@ -258,7 +258,97 @@ const runTests = async () => {
       rAsset.durationMs
     );
 
-    // 12. Security: Unauthorized access to Admin endpoints blocked
+    // 12. Admin Authentication with Shreejii / Shreeji@108
+    const rShreejiiAuth = await request('/api/v1/auth/login', {
+      method: 'POST',
+      body: {
+        email: 'Shreejii',
+        password: 'Shreeji@108',
+      },
+    });
+    const shreejiiToken = rShreejiiAuth.body.token;
+    assert(
+      rShreejiiAuth.statusCode === 200 && shreejiiToken,
+      'POST /api/v1/auth/login authenticates with User ID Shreejii and Password Shreeji@108',
+      rShreejiiAuth.durationMs
+    );
+
+    // 13. Admin AutoCAD 3D Project Registration
+    const cadPayload = {
+      name: 'Regal Palm Estates Phase 2',
+      cadFileName: 'regal_palm_cad_layout_rev3.dwg',
+      cadFileUrl: '/uploads/cad/regal_palm_cad_layout_rev3.dwg',
+      fileFormat: 'dwg',
+      surveyNumber: 'Survey 142/B, Mundra Highway',
+      description: 'Comprehensive AutoCAD site map featuring 24 luxury villa plots, 12m wide internal asphalt roads, and 66kV underground power ducting.',
+      totalPlots: 24,
+      totalAreaSqFt: 185000,
+      centerLat: 23.0765,
+      centerLng: 70.1342,
+    };
+    const rCad = await request('/api/v1/admin/cad-project', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${shreejiiToken}` },
+      body: cadPayload,
+    });
+    assert(
+      rCad.statusCode === 201 && rCad.body.success && rCad.body.project,
+      'POST /api/v1/admin/cad-project publishes AutoCAD layout into 3D Map registry',
+      rCad.durationMs
+    );
+
+    // 14. Query Public CAD Projects for 3D Map
+    const rCadList = await request('/api/v1/cad-projects');
+    const cadList = rCadList.body.data || [];
+    assert(
+      rCadList.statusCode === 200 && Array.isArray(cadList) && cadList.length >= 1,
+      'GET /api/v1/cad-projects retrieves dynamic AutoCAD maps for WebGL viewer',
+      rCadList.durationMs
+    );
+
+    // 15. Admin Media Studio: Publish Drone Video with Detailed Content
+    const mediaPayload = {
+      title: 'Phase 1 Aerial Drone Walkthrough & Boundary Survey',
+      mediaType: 'video',
+      url: '/uploads/videos/drone_walkthrough_oct2026.mp4',
+      thumbnailUrl: '/uploads/photos/drone_thumb_oct2026.jpg',
+      category: 'drone',
+      description: 'Ultra-HD 4K aerial survey highlighting the gated main archway, internal 12-meter asphalt roads, water reservoir, and perimeter solar fencing.',
+      tags: ['drone', 'aerial', 'infrastructure', 'phase1'],
+    };
+    const rMedia = await request('/api/v1/admin/media', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${shreejiiToken}` },
+      body: mediaPayload,
+    });
+    const createdMedia = rMedia.body.data;
+    assert(
+      rMedia.statusCode === 201 && createdMedia && createdMedia.title === mediaPayload.title,
+      'POST /api/v1/admin/media publishes media with rich descriptive content below it',
+      rMedia.durationMs
+    );
+
+    // 16. Query Media Studio Items
+    const rMediaList = await request('/api/v1/media?mediaType=video');
+    const mediaList = rMediaList.body.data || [];
+    assert(
+      rMediaList.statusCode === 200 && Array.isArray(mediaList) && mediaList.some((m) => m.id === createdMedia.id),
+      'GET /api/v1/media filters and retrieves media studio catalog',
+      rMediaList.durationMs
+    );
+
+    // 17. Admin Delete Media Item
+    const rMediaDelete = await request(`/api/v1/admin/media/${createdMedia.id}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${shreejiiToken}` },
+    });
+    assert(
+      rMediaDelete.statusCode === 200 && rMediaDelete.body.success,
+      'DELETE /api/v1/admin/media/:id removes media asset cleanly',
+      rMediaDelete.durationMs
+    );
+
+    // 18. Security: Unauthorized access to Admin endpoints blocked
     const rUnauth = await request('/api/v1/admin/property-inquiries');
     assert(
       rUnauth.statusCode === 401,

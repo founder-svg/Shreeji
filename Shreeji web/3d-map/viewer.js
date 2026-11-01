@@ -149,6 +149,27 @@
         }
       }
 
+      // 3. Fallback to custom AutoCAD projects uploaded via Admin Panel
+      if (!data) {
+        try {
+          const customProjects = JSON.parse(localStorage.getItem("shreeji_cad_projects") || "{}");
+          if (customProjects[projectId]) {
+            data = customProjects[projectId];
+          }
+        } catch (e) {}
+      }
+
+      // 4. Fallback to live server API
+      if (!data) {
+        try {
+          const res = await fetch(`/api/v1/projects/${projectId}`);
+          if (res.ok) {
+            const apiRes = await res.json();
+            if (apiRes.data) data = apiRes.data;
+          }
+        } catch (e) {}
+      }
+
       if (!data) {
         throw new Error(`Project dataset '${projectId}' could not be loaded.`);
       }
@@ -815,7 +836,35 @@
 
     // Project Switcher
     const projectSelect = document.getElementById("project-select");
-    projectSelect.addEventListener("change", (e) => {
+
+    // Sync dynamic custom AutoCAD projects uploaded from Admin Panel
+    try {
+      const customProjects = JSON.parse(localStorage.getItem("shreeji_cad_projects") || "{}");
+      Object.keys(customProjects).forEach((slug) => {
+        const cp = customProjects[slug];
+        if (projectSelect && !projectSelect.querySelector(`option[value="${slug}"]`)) {
+          const opt = document.createElement("option");
+          opt.value = slug;
+          opt.textContent = `${cp.project?.name || slug} (AutoCAD Custom)`;
+          const regalOpt = projectSelect.querySelector('option[value="regalfarms"]');
+          if (regalOpt) {
+            projectSelect.insertBefore(opt, regalOpt);
+          } else {
+            projectSelect.appendChild(opt);
+          }
+        }
+      });
+
+      // Handle ?project= query parameter on initial load
+      const urlParams = new URLSearchParams(window.location.search);
+      const paramProj = urlParams.get("project");
+      if (paramProj && projectSelect && projectSelect.querySelector(`option[value="${paramProj}"]`)) {
+        projectSelect.value = paramProj;
+        setTimeout(() => loadProject(paramProj), 100);
+      }
+    } catch (e) {}
+
+    projectSelect?.addEventListener("change", (e) => {
       const val = e.target.value;
       if (val === "regalfarms") {
         window.open("https://regalfarms.vercel.app/", "_blank", "noopener,noreferrer");

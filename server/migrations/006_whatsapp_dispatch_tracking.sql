@@ -22,3 +22,4 @@ CREATE INDEX IF NOT EXISTS idx_wa_recipient ON whatsapp_dispatches(recipient_num
 CREATE INDEX IF NOT EXISTS idx_wa_kyc_app_id ON whatsapp_dispatches(kyc_application_id);
 CREATE INDEX IF NOT EXISTS idx_wa_client_phone ON whatsapp_dispatches(client_phone);
 CREATE INDEX IF NOT EXISTS idx_wa_created_at ON whatsapp_dispatches(created_at DESC);
+

@@ -12,6 +12,8 @@ import { mapAssetController } from '../controllers/mapAssetController.js';
 import { clientAuthController } from '../controllers/clientAuthController.js';
 import { clientKycController } from '../controllers/clientKycController.js';
 import { whatsappDispatchController } from '../controllers/whatsappDispatchController.js';
+import { cadProjectController } from '../controllers/cadProjectController.js';
+import { mediaStudioController } from '../controllers/mediaStudioController.js';
 import {
   uploadController,
   uploadMiddleware,
@@ -241,5 +243,13 @@ router.patch('/admin/kyc-applications/:id', authenticateToken, requireAdmin, cli
 // --- WhatsApp Dispatch & Sales Team Handoff (Phase 3) ---
 router.post('/dispatch/whatsapp', submissionLimiter, whatsappDispatchController.recordDispatch);
 router.get('/admin/whatsapp-dispatches', authenticateToken, requireAdmin, whatsappDispatchController.getAllDispatches);
+
+// --- AutoCAD 3D Projects & Media Studio Studio (Phase 3 Admin) ---
+router.post('/admin/cad-project', authenticateToken, requireAdmin, cadProjectController.createProject);
+router.get('/cad-projects', cacheRoute(60), cadProjectController.getAll);
+
+router.post('/admin/media', authenticateToken, requireAdmin, mediaStudioController.create);
+router.get('/media', cacheRoute(30), mediaStudioController.getAll);
+router.delete('/admin/media/:id', authenticateToken, requireAdmin, mediaStudioController.remove);
 
 export default router;

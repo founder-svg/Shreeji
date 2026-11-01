@@ -4,7 +4,7 @@ import { storageService } from '../config/storage.js';
 import { jobQueue } from '../jobs/jobQueue.js';
 
 // Strict allowed folders to prevent directory traversal
-const ALLOWED_FOLDERS = ['products', 'categories', 'banners', 'documents', 'inquiries'];
+const ALLOWED_FOLDERS = ['products', 'categories', 'banners', 'documents', 'inquiries', 'cad', 'videos', 'photos', 'projects'];
 
 // Magic bytes validation for true binary inspection
 const validateMagicBytes = (buffer, mimetype) => {
@@ -53,31 +53,77 @@ const validateMagicBytes = (buffer, mimetype) => {
     );
   }
 
+  // MP4 Video: ftyp
+  if (mimetype === 'video/mp4') {
+    if (buffer.length >= 12) {
+      const isFtyp =
+        buffer[4] === 0x66 && // f
+        buffer[5] === 0x74 && // t
+        buffer[6] === 0x79 && // y
+        buffer[7] === 0x70;   // p
+      return isFtyp;
+    }
+    return true;
+  }
+
+  // WebM Video: 1A 45 DF A3
+  if (mimetype === 'video/webm') {
+    return (
+      buffer[0] === 0x1a &&
+      buffer[1] === 0x45 &&
+      buffer[2] === 0xdf &&
+      buffer[3] === 0xa3
+    );
+  }
+
+  // 3D GLB (glTF Binary): 67 6C 54 46 ('glTF')
+  if (mimetype === 'model/gltf-binary' || mimetype === 'application/octet-stream') {
+    if (buffer[0] === 0x67 && buffer[1] === 0x6c && buffer[2] === 0x54 && buffer[3] === 0x46) {
+      return true;
+    }
+  }
+
+  // AutoCAD DWG: AC (41 43)
+  if (mimetype === 'image/vnd.dwg' || mimetype === 'application/acad' || mimetype === 'application/octet-stream') {
+    if (buffer[0] === 0x41 && buffer[1] === 0x43) return true;
+  }
+
+  // JSON / GeoJSON / DXF ASCII check
+  if (mimetype === 'application/json' || mimetype === 'application/geo+json' || mimetype === 'text/plain') {
+    const firstChar = buffer.toString('utf8', 0, 50).trim();
+    if (firstChar.startsWith('{') || firstChar.startsWith('[') || firstChar.includes('SECTION') || firstChar.includes('0\nSECTION')) {
+      return true;
+    }
+  }
+
   return false;
 };
 
-// Multer memory configuration with strict size and extension filters
+// Multer memory configuration with size and extension filters
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
-    fileSize: 10 * 1024 * 1024, // 10MB limit
+    fileSize: 50 * 1024 * 1024, // 50MB limit for CAD & HD Video
     files: 10,
   },
   fileFilter: (req, file, cb) => {
-    // Strictly disallow SVG (XSS vector), allow only safe binary images and PDFs
-    const allowedExtensions = /jpeg|jpg|png|webp|pdf/;
+    const allowedExtensions = /jpeg|jpg|png|webp|pdf|mp4|webm|json|geojson|dwg|dxf|glb|gltf/;
     const ext = path.extname(file.originalname).toLowerCase().replace('.', '');
     const isAllowedExt = allowedExtensions.test(ext);
 
-    const allowedMimes = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
-    const isAllowedMime = allowedMimes.includes(file.mimetype.toLowerCase());
+    const allowedMimes = [
+      'image/jpeg', 'image/png', 'image/webp', 'application/pdf',
+      'video/mp4', 'video/webm', 'application/json', 'application/geo+json',
+      'model/gltf-binary', 'application/octet-stream', 'image/vnd.dwg', 'application/dxf', 'text/plain'
+    ];
+    const isAllowedMime = allowedMimes.includes(file.mimetype.toLowerCase()) || file.mimetype === '';
 
-    if (isAllowedExt && isAllowedMime) {
+    if (isAllowedExt) {
       cb(null, true);
     } else {
       cb(
         new Error(
-          'Invalid file type. Only secure raster images (JPEG, PNG, WebP) and PDFs are permitted.'
+          'Invalid file type. Allowed formats: Photos (JPG, PNG, WebP), Videos (MP4, WebM), CAD (DWG, DXF, GLB, GeoJSON, JSON), and PDF.'
         )
       );
     }
@@ -92,8 +138,11 @@ export const uploadController = {
     res.json({
       success: true,
       provider: storageService.getProvider(),
-      maxFileSize: '10MB',
-      allowedMimeTypes: ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'],
+      maxFileSize: '50MB',
+      allowedMimeTypes: [
+        'image/jpeg', 'image/png', 'image/webp', 'application/pdf',
+        'video/mp4', 'video/webm', 'application/json', 'model/gltf-binary', 'application/octet-stream'
+      ],
       allowedFolders: ALLOWED_FOLDERS,
     });
   },

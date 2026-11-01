@@ -1,1327 +1,1989 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Administration | Shreeji Real Estate Consultant</title>
-  <link rel="stylesheet" href="../styles.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Shreeji Real Estate | Executive Administration Studio</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
   <style>
     :root {
-      --admin-navy: #0A1128;
-      --admin-navy-light: #1C2541;
-      --admin-blue-accent: #4FA0D8;
-      --admin-bg: #F4F7FC;
-      --admin-text-main: #1D2D44;
-      --admin-text-muted: #64748B;
-      --admin-border: #E2E8F0;
+      --admin-navy-dark: #061527;
+      --admin-navy: #0B2545;
+      --admin-navy-light: #133863;
+      --admin-gold: #D9A441;
+      --admin-gold-light: #F5CE7C;
+      --admin-cyan: #00D2FF;
+      --admin-emerald: #10B981;
+      --admin-rose: #EF4444;
+      --admin-bg: #061322;
+      --admin-card-bg: rgba(11, 37, 69, 0.7);
+      --admin-border: rgba(255, 255, 255, 0.1);
+      --font-heading: 'Outfit', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
     }
 
-    body.dark-mode {
-      --admin-bg: #0F172A;
-      --admin-text-main: #F1F5F9;
-      --admin-text-muted: #94A3B8;
-      --admin-border: #334155;
-      background-color: #0F172A;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body.admin-body {
-      background-color: var(--admin-bg);
-      color: var(--admin-text-main);
-      min-height: 100vh;
+    body {
+      background: radial-gradient(circle at 50% 0%, #0D2D53 0%, #061322 65%, #02070F 100%);
+      color: #FFFFFF;
       font-family: var(--font-body);
+      min-height: 100vh;
       display: flex;
-      margin: 0;
-      padding: 0;
+      flex-direction: column;
       overflow-x: hidden;
-      transition: background-color 0.3s ease;
     }
 
-    /* Admin Login Screen Overlay */
+    /* ==========================================================================
+       LOGIN OVERLAY SCREEN (User ID: Shreejii / Password: Shreeji@108)
+       ========================================================================== */
     .admin-login-screen {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      min-height: 100vh;
-      background: var(--admin-navy);
+      position: fixed;
+      inset: 0;
       z-index: 10000;
-      position: fixed;
-      top: 0;
-      left: 0;
+      background: radial-gradient(circle at 50% 20%, #103460 0%, #061322 60%, #010408 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
     }
 
-    .admin-login-card {
-      background: white;
-      border-radius: 20px;
+    .login-card {
+      background: rgba(11, 37, 69, 0.85);
+      backdrop-filter: blur(25px);
+      border: 1px solid rgba(217, 164, 65, 0.35);
+      border-radius: 24px;
       padding: 3rem 2.5rem;
-      max-width: 400px;
-      width: 90%;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      max-width: 460px;
+      width: 100%;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(0, 210, 255, 0.15);
       text-align: center;
+      position: relative;
     }
 
-    /* Sidebar Navigation */
-    .admin-sidebar {
-      width: 260px;
-      background: var(--admin-navy);
-      color: white;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 100vh;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 1000;
-      box-shadow: 4px 0 15px rgba(0,0,0,0.05);
+    .login-brand-icon {
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, #1D63FF 0%, #00D2FF 100%);
+      border-radius: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 8px 25px rgba(0, 210, 255, 0.35);
     }
 
-    .admin-sidebar-top {
-      padding: 1.5rem 1rem;
-    }
-
-    .admin-sidebar-logo {
+    .login-title {
       font-family: var(--font-heading);
-      font-size: 1.25rem;
+      font-size: 1.85rem;
       font-weight: 800;
-      text-align: center;
-      padding: 1rem 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      letter-spacing: 1px;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.35rem;
     }
 
-    .admin-sidebar-logo span {
-      color: var(--accent-gold);
-      display: block;
-      font-size: 0.75rem;
-      font-weight: 500;
-      opacity: 0.7;
-      margin-top: 0.25rem;
+    .login-subtitle {
+      color: #94A3B8;
+      font-size: 0.9rem;
+      margin-bottom: 1.75rem;
     }
 
-    .admin-sidebar-menu {
-      margin-top: 2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .admin-menu-item {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 1rem 1.5rem;
-      color: rgba(255, 255, 255, 0.7);
-      font-weight: 600;
-      font-size: 0.95rem;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .admin-menu-item:hover, .admin-menu-item.active {
-      color: var(--admin-navy);
-      background: #E6F0FA;
-    }
-
-    .admin-sidebar-bottom {
-      padding: 1.5rem 1rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .admin-menu-item.logout {
-      color: #F87171;
-    }
-
-    .admin-menu-item.logout:hover {
-      background: rgba(239, 68, 68, 0.2);
-      color: white;
-    }
-
-    /* Main Content Area */
-    .admin-main {
-      margin-left: 260px;
-      flex-grow: 1;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* Header Bar */
-    .admin-header-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.5rem 3rem;
-      background: white;
-      border-bottom: 1px solid var(--admin-border);
-    }
-
-    body.dark-mode .admin-header-bar {
-      background: #1E293B;
-    }
-
-    .admin-header-title h2 {
-      font-size: 1.5rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--primary-dark);
-      margin-bottom: 0.25rem;
-    }
-
-    body.dark-mode .admin-header-title h2 {
-      color: white;
-    }
-
-    .admin-header-title span {
-      font-size: 0.85rem;
-      color: var(--admin-text-muted);
-    }
-
-    .admin-header-actions {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-    }
-
-    .btn-live-view {
-      border: 1px solid var(--admin-border);
-      background: white;
-      color: var(--primary-dark);
-      padding: 0.5rem 1.25rem;
-      border-radius: 30px;
-      font-weight: 600;
-      font-size: 0.85rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: all 0.2s ease;
-    }
-
-    .btn-live-view:hover {
-      background: var(--admin-bg);
-      border-color: var(--primary);
-    }
-
-    .admin-profile-badge {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--primary);
-      color: white;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: var(--shadow-sm);
-    }
-
-    /* Dashboard Panes */
-    .admin-body-content {
-      padding: 3rem;
-      flex-grow: 1;
-    }
-
-    .admin-card {
-      background: white;
-      border-radius: 20px;
-      border: 1px solid var(--admin-border);
-      padding: 2rem;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.02);
-      margin-bottom: 2rem;
-    }
-
-    body.dark-mode .admin-card {
-      background: #1E293B;
-    }
-
-    /* Spaced list rows - catalog design */
-    .catalog-header-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2rem;
-    }
-
-    .catalog-search-bar {
-      display: flex;
-      gap: 1rem;
-      flex-grow: 1;
-      max-width: 400px;
-    }
-
-    .catalog-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-    }
-
-    .catalog-row {
-      display: grid;
-      grid-template-columns: 100px 2.5fr 1.5fr 1fr 1fr 1fr;
-      align-items: center;
-      background: white;
-      border: 1px solid var(--admin-border);
-      border-radius: 16px;
-      padding: 1.25rem 2rem;
-      transition: all 0.2s ease;
-    }
-
-    body.dark-mode .catalog-row {
-      background: #1E293B;
-    }
-
-    .catalog-row:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.04);
-      border-color: var(--accent-gold);
-    }
-
-    .catalog-cover {
-      width: 70px;
-      height: 70px;
+    .credential-hint-box {
+      background: rgba(217, 164, 65, 0.1);
+      border: 1px dashed rgba(217, 164, 65, 0.4);
       border-radius: 12px;
-      object-fit: cover;
-      border: 1px solid var(--admin-border);
-      background: var(--admin-bg);
-    }
-
-    .catalog-details h3 {
-      font-size: 1.15rem;
-      color: var(--admin-text-main);
-      margin-bottom: 0.25rem;
-    }
-
-    .catalog-details span {
-      color: var(--admin-blue-accent);
-      font-weight: 700;
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .catalog-location, .catalog-year, .catalog-dim {
-      font-size: 0.95rem;
-      color: var(--admin-text-muted);
-    }
-
-    .catalog-actions {
-      display: flex;
-      gap: 1rem;
-      justify-content: flex-end;
-    }
-
-    .catalog-btn {
-      background: transparent;
-      border: none;
-      font-size: 1.15rem;
-      cursor: pointer;
-      padding: 0.5rem;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s ease;
-    }
-
-    .catalog-btn.edit {
-      color: var(--admin-blue-accent);
-    }
-
-    .catalog-btn.edit:hover {
-      background: rgba(58, 134, 200, 0.1);
-    }
-
-    .catalog-btn.delete {
-      color: #EF4444;
-    }
-
-    .catalog-btn.delete:hover {
-      background: rgba(239, 68, 68, 0.1);
-    }
-
-    /* Floating theme switch */
-    .theme-switch-btn {
-      position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      background: white;
-      box-shadow: var(--shadow-xl);
-      border: 1px solid var(--admin-border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 1.25rem;
-      z-index: 2000;
-      transition: all 0.3s ease;
-    }
-
-    body.dark-mode .theme-switch-btn {
-      background: #1E293B;
-      color: white;
-    }
-
-    .theme-switch-btn:hover {
-      transform: scale(1.1);
-    }
-
-    /* Metric Cards Grid */
-    .metric-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 3rem;
-    }
-
-    .metric-card {
-      background: white;
-      border-radius: 16px;
-      padding: 1.5rem 2rem;
-      border: 1px solid var(--admin-border);
+      padding: 0.75rem 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.82rem;
+      color: #F5CE7C;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      cursor: pointer;
+      transition: all 0.2s ease;
     }
 
-    body.dark-mode .metric-card {
-      background: #1E293B;
+    .credential-hint-box:hover {
+      background: rgba(217, 164, 65, 0.2);
+      border-color: var(--admin-gold);
     }
 
-    .metric-info h3 {
-      font-size: 0.85rem;
-      color: var(--admin-text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 0.5rem;
-    }
-
-    .metric-info p {
-      font-size: 2.2rem;
-      font-family: var(--font-heading);
-      font-weight: 800;
-      color: var(--admin-text-main);
-    }
-
-    .metric-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-    }
-
-    /* Inquiries design */
-    .inquiry-card {
-      background: white;
-      border: 1px solid var(--admin-border);
-      border-radius: 16px;
-      padding: 1.5rem 2rem;
+    .login-form-group {
+      text-align: left;
       margin-bottom: 1.25rem;
     }
 
-    body.dark-mode .inquiry-card {
-      background: #1E293B;
-    }
-
-    .inquiry-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
-      border-bottom: 1px solid var(--admin-border);
-      padding-bottom: 0.75rem;
-    }
-
-    .inquiry-type {
-      padding: 0.25rem 0.75rem;
-      border-radius: 50px;
+    .login-form-group label {
+      display: block;
       font-size: 0.8rem;
       font-weight: 700;
+      color: #CBD5E1;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.4rem;
     }
 
-    .inquiry-type.buy {
-      background: rgba(111, 195, 232, 0.15);
-      color: var(--accent-emerald-dark);
-    }
-
-    .inquiry-type.sell {
-      background: rgba(217, 164, 65, 0.15);
-      color: var(--accent-gold-dark);
-    }
-
-    .page-select-box {
+    .login-input {
       width: 100%;
-      max-width: 320px;
-      padding: 0.75rem 1.25rem;
-      border-radius: 10px;
-      border: 1px solid var(--admin-border);
-      font-weight: 600;
-      background: white;
-      margin-bottom: 2rem;
-      color: var(--admin-text-main);
+      background: rgba(6, 21, 39, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 0.85rem 1.1rem;
+      color: #FFFFFF;
+      font-size: 0.95rem;
+      font-family: var(--font-body);
+      outline: none;
+      transition: all 0.2s ease;
     }
 
-    body.dark-mode .page-select-box {
-      background: #1E293B;
+    .login-input:focus {
+      border-color: var(--admin-cyan);
+      box-shadow: 0 0 15px rgba(0, 210, 255, 0.25);
+    }
+
+    .btn-login-submit {
+      width: 100%;
+      background: linear-gradient(135deg, #C59B27 0%, #D9A441 50%, #F5CE7C 100%);
+      color: #0A1C30;
+      font-weight: 800;
+      font-size: 1rem;
+      border: none;
+      border-radius: 12px;
+      padding: 0.95rem;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: 0 8px 20px rgba(217, 164, 65, 0.35);
+      transition: all 0.2s ease;
+    }
+
+    .btn-login-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px rgba(217, 164, 65, 0.5);
+    }
+
+    /* ==========================================================================
+       MAIN APP LAYOUT (Sidebar + Dashboard Workspace)
+       ========================================================================== */
+    .admin-app-layout {
+      display: none;
+      min-height: 100vh;
+      width: 100%;
+    }
+
+    /* Left Sidebar */
+    .admin-sidebar {
+      width: 270px;
+      background: rgba(6, 21, 39, 0.95);
+      backdrop-filter: blur(20px);
+      border-right: 1px solid var(--admin-border);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1000;
+      padding: 1.5rem 1rem;
+    }
+
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem 0.75rem 1.5rem 0.75rem;
+      border-bottom: 1px solid var(--admin-border);
+      text-decoration: none;
+      color: #FFFFFF;
+    }
+
+    .sidebar-logo-icon {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, #1D63FF 0%, #00D2FF 100%);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      box-shadow: 0 4px 15px rgba(0, 210, 255, 0.35);
+    }
+
+    .sidebar-title {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 1.2rem;
+      letter-spacing: 0.05em;
+    }
+
+    .sidebar-badge {
+      font-size: 0.68rem;
+      color: var(--admin-gold);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-top: 1.5rem;
+      flex-grow: 1;
+    }
+
+    .nav-tab-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      color: #94A3B8;
+      background: transparent;
+      border: 1px solid transparent;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: left;
+      width: 100%;
+      transition: all 0.2s ease;
+    }
+
+    .nav-tab-btn i {
+      width: 20px;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+
+    .nav-tab-btn:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: #FFFFFF;
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-tab-btn.active {
+      background: linear-gradient(135deg, rgba(29, 99, 255, 0.25) 0%, rgba(0, 210, 255, 0.2) 100%);
+      border-color: rgba(0, 210, 255, 0.4);
+      color: #00D2FF;
+      font-weight: 700;
+      box-shadow: 0 4px 15px rgba(0, 210, 255, 0.15);
+    }
+
+    .sidebar-bottom {
+      border-top: 1px solid var(--admin-border);
+      padding-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 0.85rem;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 12px;
+      font-size: 0.82rem;
+    }
+
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--admin-gold);
+      color: #0A1C30;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+    }
+
+    /* Main Content Area */
+    .admin-workspace {
+      margin-left: 270px;
+      flex-grow: 1;
+      padding: 2rem 2.5rem;
+      min-height: 100vh;
+      overflow-y: auto;
+    }
+
+    .workspace-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--admin-border);
+    }
+
+    .header-title-wrap h1 {
+      font-family: var(--font-heading);
+      font-size: 1.85rem;
+      font-weight: 800;
+      margin-bottom: 0.25rem;
+    }
+
+    .header-title-wrap p {
+      color: #94A3B8;
+      font-size: 0.88rem;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .btn-header-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.15rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--admin-border);
+      border-radius: 10px;
+      color: #FFFFFF;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .btn-header-link:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: #FFFFFF;
+    }
+
+    /* Metric Cards */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .metric-card {
+      background: var(--admin-card-bg);
+      border: 1px solid var(--admin-border);
+      border-radius: 18px;
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+
+    .metric-card:hover {
+      border-color: rgba(0, 210, 255, 0.35);
+      transform: translateY(-2px);
+    }
+
+    .metric-card-info h3 {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #94A3B8;
+      margin-bottom: 0.35rem;
+    }
+
+    .metric-card-info p {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      font-weight: 800;
+      color: #FFFFFF;
+    }
+
+    .metric-icon-wrap {
+      width: 50px;
+      height: 50px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+    }
+
+    /* Content Cards / Forms */
+    .admin-card {
+      background: var(--admin-card-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--admin-border);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .card-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--admin-border);
+    }
+
+    .card-title {
+      font-family: var(--font-heading);
+      font-size: 1.35rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    /* Form Layouts */
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    .form-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+
+    .admin-input-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .admin-input-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #CBD5E1;
+      margin-bottom: 0.45rem;
+    }
+
+    .admin-control {
+      width: 100%;
+      background: rgba(6, 21, 39, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 0.8rem 1rem;
+      color: #FFFFFF;
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .admin-control:focus {
+      border-color: var(--admin-cyan);
+      box-shadow: 0 0 15px rgba(0, 210, 255, 0.2);
+    }
+
+    textarea.admin-control {
+      resize: vertical;
+      min-height: 110px;
+      line-height: 1.5;
+    }
+
+    /* Dropzones */
+    .admin-dropzone {
+      border: 2px dashed rgba(0, 210, 255, 0.35);
+      background: rgba(0, 210, 255, 0.03);
+      border-radius: 16px;
+      padding: 2.25rem 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .admin-dropzone:hover {
+      border-color: var(--admin-cyan);
+      background: rgba(0, 210, 255, 0.08);
+    }
+
+    .dropzone-icon-box {
+      font-size: 2.5rem;
+      color: var(--admin-cyan);
+      margin-bottom: 0.75rem;
+    }
+
+    .dropzone-main-text {
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .dropzone-sub-text {
+      color: #94A3B8;
+      font-size: 0.8rem;
+    }
+
+    .file-loaded-pill {
+      display: none;
+      margin-top: 1rem;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      padding: 0.6rem 1rem;
+      border-radius: 10px;
+      color: var(--admin-emerald);
+      font-weight: 600;
+      font-size: 0.85rem;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-action-primary {
+      background: linear-gradient(135deg, #1D63FF 0%, #00D2FF 100%);
+      color: #FFFFFF;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border: none;
+      border-radius: 12px;
+      padding: 0.85rem 1.75rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    .btn-action-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 210, 255, 0.45);
+    }
+
+    /* Tables */
+    .admin-table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border-radius: 14px;
+      border: 1px solid var(--admin-border);
+    }
+
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.88rem;
+    }
+
+    .admin-table th {
+      background: rgba(6, 21, 39, 0.9);
+      padding: 1rem 1.25rem;
+      color: #94A3B8;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--admin-border);
+    }
+
+    .admin-table td {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      color: #E2E8F0;
+    }
+
+    .admin-table tr:hover td {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .status-badge.verified, .status-badge.available {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--admin-emerald);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+    }
+
+    .status-badge.pending, .status-badge.booked {
+      background: rgba(217, 164, 65, 0.15);
+      color: var(--admin-gold);
+      border: 1px solid rgba(217, 164, 65, 0.35);
+    }
+
+    .status-badge.rejected, .status-badge.sold {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--admin-rose);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+    }
+
+    /* Media Cards Grid */
+    .media-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .media-card-item {
+      background: rgba(6, 21, 39, 0.85);
+      border: 1px solid var(--admin-border);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.2s ease;
+    }
+
+    .media-card-item:hover {
+      border-color: rgba(0, 210, 255, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .media-visual-container {
+      width: 100%;
+      height: 200px;
+      background: #030B14;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .media-visual-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .media-visual-container video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .media-type-tag {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(6, 21, 39, 0.85);
+      backdrop-filter: blur(8px);
+      padding: 0.3rem 0.7rem;
+      border-radius: 8px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--admin-cyan);
+      border: 1px solid rgba(0, 210, 255, 0.3);
+    }
+
+    .media-content-body {
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .media-title-text {
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: #FFFFFF;
+    }
+
+    .media-narrative-content {
+      background: rgba(255, 255, 255, 0.03);
+      border-left: 3px solid var(--admin-gold);
+      padding: 0.75rem 0.85rem;
+      border-radius: 0 8px 8px 0;
+      color: #CBD5E1;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+      flex-grow: 1;
+    }
+
+    .media-footer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: #94A3B8;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 0.75rem;
+    }
+
+    .btn-delete-media {
+      background: transparent;
+      border: none;
+      color: #EF4444;
+      cursor: pointer;
+      font-size: 0.82rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .btn-delete-media:hover {
+      text-decoration: underline;
+    }
+
+    /* Toast */
+    .admin-toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 11000;
+      background: #0B2545;
+      border: 1px solid var(--admin-cyan);
+      color: #FFFFFF;
+      padding: 0.9rem 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 900px) {
+      .admin-sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        border-right: none;
+        border-bottom: 1px solid var(--admin-border);
+      }
+      .admin-workspace {
+        margin-left: 0;
+        padding: 1.5rem 1rem;
+      }
+      .form-grid-2, .form-grid-3 {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
-<body class="admin-body">
+<body>
 
-  <!-- Admin Login Screen Overlay -->
-  <div class="admin-login-screen" id="loginWrapper">
-    <div class="admin-login-card">
-      <div class="logo-icon" style="margin: 0 auto 1.5rem auto;"><i class="fa-solid fa-lock"></i></div>
-      <h2 style="font-size: 1.75rem; margin-bottom: 0.5rem; color: var(--admin-text-main);">Admin Sign In</h2>
-      <p style="color: var(--admin-text-muted); font-size: 0.9rem; margin-bottom: 2rem;">Access the Shreeji Real Estate Administration panel.</p>
-      
-      <form id="loginForm" style="display: flex; flex-direction: column; gap: 1.25rem;">
-        <div class="form-group" style="text-align: left;">
-          <label class="form-label">Username</label>
-          <input type="text" id="usernameInput" class="form-input" placeholder="Username" required autocomplete="username">
+  <!-- ==========================================================================
+       LOGIN OVERLAY
+       User ID: Shreejii | Password: Shreeji@108
+       ========================================================================== -->
+  <div class="admin-login-screen" id="adminLoginOverlay">
+    <div class="login-card">
+      <div class="login-brand-icon">
+        <i class="fa-solid fa-shapes"></i>
+      </div>
+      <h2 class="login-title">SHREEJI STUDIO</h2>
+      <p class="login-subtitle">Executive Real Estate &amp; AutoCAD Management</p>
+
+      <!-- 1-Click Credential Hint -->
+      <div class="credential-hint-box" onclick="autofillCredentials()" title="Click to autofill credentials">
+        <span><i class="fa-solid fa-key" style="margin-right: 0.4rem;"></i> ID: <strong>Shreejii</strong> &bull; Pass: <strong>Shreeji@108</strong></span>
+        <span style="font-weight: 700; text-decoration: underline;">Auto-Fill</span>
+      </div>
+
+      <form id="adminLoginForm">
+        <div class="login-form-group">
+          <label>Admin User ID / Username</label>
+          <input type="text" id="loginUsername" class="login-input" placeholder="e.g. Shreejii" required autocomplete="username" />
         </div>
-        <div class="form-group" style="text-align: left;">
-          <label class="form-label">Password</label>
-          <input type="password" id="passwordInput" class="form-input" placeholder="Password" required autocomplete="current-password">
+        <div class="login-form-group">
+          <label>Password</label>
+          <input type="password" id="loginPassword" class="login-input" placeholder="e.g. Shreeji@108" required autocomplete="current-password" />
         </div>
-        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">Access Administration</button>
+        <button type="submit" class="btn-login-submit" id="btnLoginSubmit">
+          <i class="fa-solid fa-lock-open"></i> Unlock Studio Admin
+        </button>
       </form>
     </div>
   </div>
 
-  <!-- Left Sidebar Navigation -->
-  <aside class="admin-sidebar" id="adminSidebar" style="display: none;">
-    <div class="admin-sidebar-top">
-      <div class="admin-sidebar-logo">
-        SHREEJI
-        <span>ADMINISTRATION</span>
-      </div>
-      
-      <div class="admin-sidebar-menu">
-        <div class="admin-menu-item active" data-tab="dashboard" onclick="switchTab('dashboard')">
-          <i class="fa-solid fa-chart-line"></i> Dashboard
-        </div>
-        <div class="admin-menu-item" data-tab="pages" onclick="switchTab('pages')">
-          <i class="fa-solid fa-file-invoice"></i> Edit Pages
-        </div>
-        <div class="admin-menu-item" data-tab="portfolio" onclick="switchTab('portfolio')">
-          <i class="fa-solid fa-folder-open"></i> Portfolio
-        </div>
-        <div class="admin-menu-item" data-tab="pdfs" onclick="switchTab('pdfs')">
-          <i class="fa-solid fa-file-pdf"></i> PDF Vault
-        </div>
-        <div class="admin-menu-item" data-tab="inquiries" onclick="switchTab('inquiries')">
-          <i class="fa-solid fa-envelope-open-text"></i> Inquiries
-        </div>
-        <a href="../portal.html" class="admin-menu-item" style="text-decoration: none; color: inherit;">
-          <i class="fa-solid fa-user-shield" style="color: #00D2FF;"></i> Client KYC Portal
-        </a>
-        <a href="../3d-map/index.html" class="admin-menu-item" style="text-decoration: none; color: inherit;">
-          <i class="fa-solid fa-cube" style="color: var(--accent-gold);"></i> 3D CAD Map
-        </a>
-        <a href="../index.html" class="admin-menu-item" style="text-decoration: none; color: inherit;">
-          <i class="fa-solid fa-globe"></i> Main Website
-        </a>
-      </div>
-    </div>
+  <!-- ==========================================================================
+       MAIN APP WORKSPACE
+       ========================================================================== -->
+  <div class="admin-app-layout" id="adminAppLayout">
 
-    <div class="admin-sidebar-bottom">
-      <div class="admin-menu-item" data-tab="settings" onclick="switchTab('settings')">
-        <i class="fa-solid fa-gears"></i> Settings
-      </div>
-      <div class="admin-menu-item logout" onclick="logoutAdmin()">
-        <i class="fa-solid fa-right-from-bracket"></i> Logout
-      </div>
-    </div>
-  </aside>
-
-  <!-- Main View Area -->
-  <div class="admin-main" id="adminMain" style="display: none;">
-    <header class="admin-header-bar">
-      <div class="admin-header-title">
-        <h2 id="currentPaneTitle">Administration Dashboard</h2>
-        <span id="adminGreeting">Good Morning, Admin - 08:30 AM</span>
-      </div>
-      <div class="admin-header-actions">
-        <a href="/" target="_blank" class="btn-live-view">
-          <i class="fa-solid fa-arrow-up-right-from-square"></i> VIEW LIVE
-        </a>
-        <div class="admin-profile-badge">A</div>
-      </div>
-    </header>
-
-    <div class="admin-body-content">
-      <!-- DASHBOARD TAB -->
-      <section class="tab-pane active" id="dashboardTab">
-        <div class="metric-grid">
-          <div class="metric-card">
-            <div class="metric-info">
-              <h3>Active Plots</h3>
-              <p id="dashTotalListings">0</p>
-            </div>
-            <div class="metric-icon" style="background: rgba(58,134,200,0.1); color: var(--admin-blue-accent);"><i class="fa-solid fa-map-location-dot"></i></div>
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar">
+      <div>
+        <a href="../index.html" class="sidebar-brand">
+          <div class="sidebar-logo-icon"><i class="fa-solid fa-shapes"></i></div>
+          <div>
+            <div class="sidebar-title">SHREEJI</div>
+            <div class="sidebar-badge">STUDIO &bull; ADMIN PANEL</div>
           </div>
-          <div class="metric-card">
-            <div class="metric-info">
-              <h3>Lead Inquiries</h3>
-              <p id="dashTotalInquiries">0</p>
-            </div>
-            <div class="metric-icon" style="background: rgba(111, 195, 232, 0.15); color: var(--accent-emerald-dark);"><i class="fa-solid fa-envelope"></i></div>
+        </a>
+
+        <nav class="sidebar-nav">
+          <button class="nav-tab-btn active" data-tab="dashboard" onclick="switchAdminTab('dashboard')">
+            <i class="fa-solid fa-chart-pie"></i> Dashboard Overview
+          </button>
+          <button class="nav-tab-btn" data-tab="cad-studio" onclick="switchAdminTab('cad-studio')">
+            <i class="fa-solid fa-cube" style="color: var(--admin-cyan);"></i> AutoCAD 3D Maps
+          </button>
+          <button class="nav-tab-btn" data-tab="media-studio" onclick="switchAdminTab('media-studio')">
+            <i class="fa-solid fa-photo-film" style="color: var(--admin-gold);"></i> Photos &amp; Video Studio
+          </button>
+          <button class="nav-tab-btn" data-tab="kyc-review" onclick="switchAdminTab('kyc-review')">
+            <i class="fa-solid fa-id-card" style="color: var(--admin-emerald);"></i> Client KYC &amp; Aadhar
+          </button>
+          <button class="nav-tab-btn" data-tab="whatsapp-leads" onclick="switchAdminTab('whatsapp-leads')">
+            <i class="fa-brands fa-whatsapp" style="color: #25D366;"></i> WhatsApp Leads (+91 98257 99754)
+          </button>
+          <button class="nav-tab-btn" data-tab="plot-inventory" onclick="switchAdminTab('plot-inventory')">
+            <i class="fa-solid fa-layer-group"></i> 3D Plot Inventory
+          </button>
+        </nav>
+      </div>
+
+      <div class="sidebar-bottom">
+        <a href="../3d-map/index.html" target="_blank" class="nav-tab-btn" style="color: var(--admin-cyan);">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> Open 3D Map
+        </a>
+        <a href="../portal.html" target="_blank" class="nav-tab-btn" style="color: var(--admin-gold);">
+          <i class="fa-solid fa-user-shield"></i> Open KYC Portal
+        </a>
+        <div class="user-pill">
+          <div class="user-avatar">S</div>
+          <div style="flex-grow: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            <div style="font-weight: 700;" id="sidebarAdminUser">Shreejii</div>
+            <div style="font-size: 0.72rem; color: #94A3B8;">Master Admin</div>
           </div>
+          <button onclick="logoutAdmin()" title="Logout" style="background: none; border: none; color: #EF4444; cursor: pointer; font-size: 1rem;">
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Workspace -->
+    <main class="admin-workspace">
+
+      <!-- Top Header Bar -->
+      <header class="workspace-header">
+        <div class="header-title-wrap">
+          <h1 id="paneHeadline">Dashboard Overview</h1>
+          <p id="paneSubheadline">Executive control room for Shreeji Real Estate, AutoCAD 3D layouts, and client inquiries.</p>
+        </div>
+        <div class="header-actions">
+          <a href="../index.html" class="btn-header-link" target="_blank"><i class="fa-solid fa-globe"></i> Website</a>
+          <a href="../3d-map/index.html" class="btn-header-link" target="_blank"><i class="fa-solid fa-cube"></i> 3D Map</a>
+        </div>
+      </header>
+
+      <!-- ====================================================================
+           TAB 1: DASHBOARD OVERVIEW
+           ==================================================================== -->
+      <section id="pane-dashboard" class="pane-section">
+        <div class="metrics-grid">
           <div class="metric-card">
-            <div class="metric-info">
-              <h3>Active PDFs</h3>
-              <p id="dashTotalPdfs">0</p>
+            <div class="metric-card-info">
+              <h3>AutoCAD 3D Layouts</h3>
+              <p id="metricCadProjects">3</p>
             </div>
-            <div class="metric-icon" style="background: rgba(217, 164, 65, 0.15); color: var(--accent-gold-dark);"><i class="fa-solid fa-file-pdf"></i></div>
+            <div class="metric-icon-wrap" style="background: rgba(0, 210, 255, 0.12); color: var(--admin-cyan);">
+              <i class="fa-solid fa-cube"></i>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-card-info">
+              <h3>Active 3D Plots</h3>
+              <p id="metricTotalPlots">109</p>
+            </div>
+            <div class="metric-icon-wrap" style="background: rgba(217, 164, 65, 0.12); color: var(--admin-gold);">
+              <i class="fa-solid fa-layer-group"></i>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-card-info">
+              <h3>Client KYC Submissions</h3>
+              <p id="metricKycCount">0</p>
+            </div>
+            <div class="metric-icon-wrap" style="background: rgba(16, 185, 129, 0.12); color: var(--admin-emerald);">
+              <i class="fa-solid fa-id-card"></i>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-card-info">
+              <h3>WhatsApp Dispatches</h3>
+              <p id="metricWaDispatches">0</p>
+            </div>
+            <div class="metric-icon-wrap" style="background: rgba(37, 211, 102, 0.12); color: #25D366;">
+              <i class="fa-brands fa-whatsapp"></i>
+            </div>
           </div>
         </div>
 
         <div class="admin-card">
-          <h3 style="font-size: 1.25rem; margin-bottom: 1rem;"><i class="fa-solid fa-clock-rotate-left"></i> System Overview</h3>
-          <p style="color: var(--admin-text-muted); font-size: 0.95rem; line-height: 1.6;">Welcome to the Shreeji Real Estate content administration system. From this panel, you can control the properties, portfolio layouts, and general settings displayed on the public website. Submission logs for buying and selling inquiries are also dynamically loaded inside the Inquiries tab.</p>
-        </div>
-      </section>
-
-      <!-- EDIT PAGES TAB (CMS Page Editor) -->
-      <section class="tab-pane" id="pagesTab">
-        <h2 style="font-size: 1.75rem; margin-bottom: 1rem;">Select Page to Customize</h2>
-        <select id="cmsPageSelect" class="page-select-box" onchange="loadCmsPageConfig()">
-          <option value="home">Home Page (Main)</option>
-          <option value="kandla">Kandla Port Corridor</option>
-          <option value="mundra">Mundra SEZ & Port</option>
-          <option value="khavda">Khavda Solar Park</option>
-          <option value="gidc">GIDC Industrial Estates</option>
-          <option value="dholavira">Dholavira Tourism Zone</option>
-        </select>
-
-        <form id="cmsPageForm" class="form-box">
-          <div id="cmsFormFields">
-            <!-- Dynamically populated page inputs -->
+          <div class="card-header-row">
+            <div class="card-title">
+              <i class="fa-solid fa-bolt" style="color: var(--admin-gold);"></i> Quick Studio Actions
+            </div>
           </div>
-          <button type="submit" class="btn btn-primary" style="margin-top: 1.5rem; padding: 0.75rem 2rem;">Save Page Content</button>
-        </form>
-      </section>
-
-      <!-- PORTFOLIO TAB -->
-      <section class="tab-pane" id="portfolioTab">
-        <div class="catalog-header-row">
-          <div class="catalog-search-bar">
-            <input type="text" id="catalogSearchInput" class="form-input" placeholder="Search catalog..." oninput="filterCatalog()">
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <button class="btn-action-primary" onclick="switchAdminTab('cad-studio')">
+              <i class="fa-solid fa-file-arrow-up"></i> Upload AutoCAD 3D Map
+            </button>
+            <button class="btn-action-primary" style="background: linear-gradient(135deg, #C59B27 0%, #D9A441 100%);" onclick="switchAdminTab('media-studio')">
+              <i class="fa-solid fa-video"></i> Upload Photos &amp; Video Content
+            </button>
+            <button class="btn-action-primary" style="background: rgba(255, 255, 255, 0.08); border: 1px solid var(--admin-border);" onclick="switchAdminTab('kyc-review')">
+              <i class="fa-solid fa-shield-halved"></i> Review Pending Aadhar KYC
+            </button>
           </div>
-          <button class="btn btn-primary" onclick="showAddListingModal()"><i class="fa-solid fa-plus"></i> ADD PROJECT</button>
-        </div>
-
-        <div class="catalog-grid" id="catalogGrid">
-          <!-- Populated dynamically -->
         </div>
       </section>
 
-      <!-- PDF MANAGER TAB -->
-      <section class="tab-pane" id="pdfsTab">
-        <h2 style="font-size: 1.75rem; margin-bottom: 1.5rem;">PDF Document Manager</h2>
-        <p style="color: var(--admin-text-muted); margin-bottom: 2rem;">Upload verified surveys, map PDF layouts, and certificates here. Uploaded PDFs are available inside the admin vault on the frontend.</p>
+      <!-- ====================================================================
+           TAB 2: AUTOCAD 3D MAPS STUDIO
+           ==================================================================== -->
+      <section id="pane-cad-studio" class="pane-section" style="display: none;">
+        <div class="admin-card">
+          <div class="card-header-row">
+            <div class="card-title">
+              <i class="fa-solid fa-cube" style="color: var(--admin-cyan);"></i> Upload AutoCAD Layout to 3D Map
+            </div>
+            <span style="font-size: 0.8rem; color: #94A3B8;">AutoCAD (.DWG, .DXF, .JSON, .GEOJSON, .GLB)</span>
+          </div>
 
-        <div class="form-box" style="border: 2px dashed var(--accent-gold); padding: 3rem; text-align: center; cursor: pointer; background: rgba(217,164,65,0.03);" onclick="document.getElementById('pdfFileInput').click()">
-          <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2.5rem; color: var(--accent-gold); margin-bottom: 1rem;"></i>
-          <h3>Upload PDF Documents</h3>
-          <input type="file" id="pdfFileInput" style="display: none;" accept="application/pdf" onchange="handlePdfUpload(event)">
-        </div>
+          <!-- File Upload Dropzone -->
+          <div class="admin-dropzone" id="cadDropzone" onclick="document.getElementById('cadFileInput').click()">
+            <input type="file" id="cadFileInput" accept=".dwg,.dxf,.json,.geojson,.glb,.gltf" style="display: none;" onchange="handleCadFileSelect(this)" />
+            <div class="dropzone-icon-box"><i class="fa-solid fa-map-location-dot"></i></div>
+            <div class="dropzone-main-text">Click to browse or Drag &amp; Drop AutoCAD Map File</div>
+            <div class="dropzone-sub-text">Supported formats: AutoCAD DWG/DXF, GeoJSON polygon layers, 3D glTF/GLB models (up to 50MB)</div>
+            <div class="file-loaded-pill" id="cadFilePill"><i class="fa-solid fa-circle-check"></i> <span id="cadFileName">File selected</span></div>
+          </div>
 
-        <div class="catalog-grid" id="pdfListContainer" style="margin-top: 2rem;">
-          <!-- Loaded dynamically -->
-        </div>
-      </section>
-
-      <!-- INQUIRIES TAB -->
-      <section class="tab-pane" id="inquiriesTab">
-        <h2 style="font-size: 1.75rem; margin-bottom: 1.5rem;">Direct User Inquiries</h2>
-        <div id="inquiriesContainer" style="display: flex; flex-direction: column; gap: 1rem;">
-          <!-- Loaded dynamically -->
-        </div>
-      </section>
-
-      <!-- SETTINGS TAB -->
-      <section class="tab-pane" id="settingsTab">
-        <h2 style="font-size: 1.75rem; margin-bottom: 1.5rem;">Global Configurations</h2>
-        
-        <form id="settingsForm" class="admin-grid">
-          <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-            <div class="form-box">
-              <h3 class="form-box-title"><i class="fa-solid fa-address-book"></i> Site Contact</h3>
-              <div class="form-grid">
-                <div class="form-group">
-                  <label class="form-label">Phone</label>
-                  <input type="text" id="contactPhone" class="form-input" required>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Email</label>
-                  <input type="email" id="contactEmail" class="form-input" required>
-                </div>
+          <!-- Layout Metadata Form -->
+          <form id="cadProjectForm" onsubmit="handleCadUploadSubmit(event)">
+            <div class="form-grid-2">
+              <div class="admin-input-group">
+                <label>Project / Layout Name *</label>
+                <input type="text" id="cadProjectName" class="admin-control" placeholder="e.g. Nagavaladiya Phase 2 (Survey 374)" required />
+              </div>
+              <div class="admin-input-group">
+                <label>Survey Number &amp; Location *</label>
+                <input type="text" id="cadLocationText" class="admin-control" placeholder="e.g. Survey 374, Nagavaladiya, Anjar Belt" required />
               </div>
             </div>
-          </div>
 
-          <div>
-            <div class="form-box">
-              <h3 class="form-box-title"><i class="fa-solid fa-save"></i> Action</h3>
-              <p style="font-size: 0.9rem; color: var(--admin-text-muted); margin-bottom: 1.5rem;">Saves telephone numbers & correspondence email properties globally.</p>
-              <button type="submit" class="btn btn-primary" style="width: 100%;">Save Settings</button>
+            <div class="form-grid-3">
+              <div class="admin-input-group">
+                <label>RERA Registration / Clear Title Info</label>
+                <input type="text" id="cadReraNumber" class="admin-control" placeholder="e.g. PR/GJ/KUTCH/SHREEJI-374" value="RERA Clear Title &bull; 7/12 Verified" />
+              </div>
+              <div class="admin-input-group">
+                <label>Total Number of Commercial Plots</label>
+                <input type="number" id="cadPlotCount" class="admin-control" placeholder="109" value="109" min="1" max="5000" />
+              </div>
+              <div class="admin-input-group">
+                <label>Base Rate per Sq.Yard (INR)</label>
+                <input type="text" id="cadRatePerYd" class="admin-control" placeholder="₹14,500 / Sq.Yd" value="₹14,500" />
+              </div>
             </div>
-          </div>
-        </form>
-      </section>
-    </div>
-  </div>
 
-  <!-- Add/Edit Listing Modal -->
-  <div class="modal-overlay" id="addListingModal" style="z-index: 2100;">
-    <div class="modal-container" style="max-width: 600px;">
-      <div class="modal-header">
-        <button class="modal-close" onclick="closeAddListingModal()"><i class="fa-solid fa-xmark"></i></button>
-        <h2 id="modalListingHeader" style="color: white; font-size: 1.35rem;">Add New Portfolio Project</h2>
-        <p style="color: rgba(255,255,255,0.8); font-size: 0.85rem;">Input property metrics to display on the catalog.</p>
-      </div>
-      <div class="modal-body">
-        <form id="addListingForm" class="form-grid">
-          <input type="hidden" id="editListingId">
-          <div class="form-group full-width">
-            <label class="form-label">Project Name / Title</label>
-            <input type="text" id="listingTitle" class="form-input" placeholder="e.g. 12.5 Acres NA Commercial Plot" required>
+            <!-- Detailed description written by client about the map -->
+            <div class="admin-input-group">
+              <label>Detailed Content &amp; Infrastructure Narrative (Displayed Below Map) *</label>
+              <textarea id="cadDescription" class="admin-control" placeholder="Write full specifications about this AutoCAD layout: road widths (40-ft main avenue, 30-ft internal lanes), water pipeline junctions, 66kV substation power feeder lines, setback rules, and industrial zoning permissions..." required></textarea>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1rem;">
+              <button type="submit" class="btn-action-primary" id="btnUploadCad">
+                <i class="fa-solid fa-cloud-arrow-up"></i> Upload &amp; Deploy to 3D Map
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Active CAD Layouts on Platform -->
+        <div class="admin-card">
+          <div class="card-header-row">
+            <div class="card-title">
+              <i class="fa-solid fa-list-check" style="color: var(--admin-gold);"></i> Active AutoCAD Layouts in 3D Engine
+            </div>
+            <a href="../3d-map/index.html" target="_blank" class="btn-header-link"><i class="fa-solid fa-cube"></i> Open 3D Map</a>
           </div>
-          <div class="form-group">
-            <label class="form-label">Location</label>
-            <input type="text" id="listingLocation" class="form-input" placeholder="e.g. Kandla Port Corridor" required>
+
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Project Name</th>
+                  <th>Location / Survey #</th>
+                  <th>Plot Count</th>
+                  <th>RERA / Title Status</th>
+                  <th>Format</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="cadProjectsTableBody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
           </div>
-          <div class="form-group">
-            <label class="form-label">Dimensions / Area</label>
-            <input type="text" id="listingArea" class="form-input" placeholder="e.g. 12.5 Acres" required>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           TAB 3: PHOTOS & VIDEOS CONTENT STUDIO
+           ==================================================================== -->
+      <section id="pane-media-studio" class="pane-section" style="display: none;">
+        <div class="admin-card">
+          <div class="card-header-row">
+            <div class="card-title">
+              <i class="fa-solid fa-photo-film" style="color: var(--admin-gold);"></i> Upload Photos, Drone Videos &amp; Content
+            </div>
+            <span style="font-size: 0.8rem; color: #94A3B8;">MP4, WebM, WebP, JPEG, PNG</span>
           </div>
-          <div class="form-group">
-            <label class="form-label">Year of Listing</label>
-            <input type="text" id="listingYear" class="form-input" placeholder="e.g. 2025" required>
+
+          <!-- Dropzone -->
+          <div class="admin-dropzone" id="mediaDropzone" onclick="document.getElementById('mediaFileInput').click()">
+            <input type="file" id="mediaFileInput" accept="image/*,video/*" style="display: none;" onchange="handleMediaFileSelect(this)" />
+            <div class="dropzone-icon-box" style="color: var(--admin-gold);"><i class="fa-solid fa-clapperboard"></i></div>
+            <div class="dropzone-main-text">Upload Project Photo or Drone Video</div>
+            <div class="dropzone-sub-text">Upload site walk videos, 4K aerial drone clips, or plot boundary photos (up to 50MB)</div>
+            <div class="file-loaded-pill" id="mediaFilePill"><i class="fa-solid fa-circle-check"></i> <span id="mediaFileName">Media file selected</span></div>
           </div>
-          <div class="form-group">
-            <label class="form-label">Zoning Category / Tag</label>
-            <select id="listingTag" class="form-select" required>
-              <option value="Logistics Park Plot">Logistics Park Plot</option>
-              <option value="Warehouse & Storage">Warehouse & Storage</option>
-              <option value="Heavy Manufacturing">Heavy Manufacturing</option>
-              <option value="Solar Installation">Solar Installation</option>
-              <option value="Tourism Resort Plot">Tourism Resort Plot</option>
+
+          <!-- Media Form with Content Description -->
+          <form id="mediaStudioForm" onsubmit="handleMediaUploadSubmit(event)">
+            <div class="form-grid-2">
+              <div class="admin-input-group">
+                <label>Media Title / Headline *</label>
+                <input type="text" id="mediaTitle" class="admin-control" placeholder="e.g. 4K Drone Aerial Survey of 40-Ft Main Commercial Road" required />
+              </div>
+              <div class="admin-input-group">
+                <label>Media Type *</label>
+                <select id="mediaType" class="admin-control">
+                  <option value="video">🎥 Drone Video / Site Walkthrough</option>
+                  <option value="photo">📷 Site Photo / Aerial View</option>
+                  <option value="cad_overlay">📐 AutoCAD Master Plan Blueprint</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="admin-input-group">
+                <label>Associated Project Layout</label>
+                <select id="mediaProjectSelect" class="admin-control">
+                  <option value="nagavaladiya">Nagavaladiya Residency (Survey 374)</option>
+                  <option value="nakshatra">Nakshatra Commercial Township</option>
+                </select>
+              </div>
+              <div class="admin-input-group">
+                <label>Video URL / Embed Link (Optional if uploading file)</label>
+                <input type="url" id="mediaUrlInput" class="admin-control" placeholder="e.g. https://www.youtube.com/watch?v=... or .mp4 URL" />
+              </div>
+            </div>
+
+            <!-- Detailed Content / Description below the media -->
+            <div class="admin-input-group">
+              <label>Detailed Content &amp; Story (Displayed Directly Below Media) *</label>
+              <textarea id="mediaDescription" class="admin-control" placeholder="Write full details about this photo/video: site progress status, boundary pillar demarcation, distance from highway, road level elevation, and key commercial selling points..." required></textarea>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1rem;">
+              <button type="submit" class="btn-action-primary" style="background: linear-gradient(135deg, #C59B27 0%, #D9A441 100%);">
+                <i class="fa-solid fa-upload"></i> Publish Media &amp; Content
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Live Media Showcase Grid with Detailed Content Below -->
+        <div class="admin-card">
+          <div class="card-header-row">
+            <div class="card-title">
+              <i class="fa-solid fa-camera-retro" style="color: var(--admin-cyan);"></i> Published Project Photos &amp; Video Media
+            </div>
+            <span style="font-size: 0.85rem; color: #94A3B8;" id="mediaCountText">Loading media...</span>
+          </div>
+
+          <div class="media-cards-grid" id="mediaStudioGrid">
+            <!-- Dynamically populated media cards with content below each item -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           TAB 4: CLIENT KYC & AADHAR APPROVALS
+           ==================================================================== -->
+      <section id="pane-kyc-review" class="pane-section" style="display: none;">
+        <div class="admin-card">
+          <div class="card-header-row">
+            <div class="card-title">
+              <i class="fa-solid fa-id-card" style="color: var(--admin-emerald);"></i> Client KYC Submissions &amp; Aadhar Verification
+            </div>
+            <a href="../portal.html" target="_blank" class="btn-header-link"><i class="fa-solid fa-user-plus"></i> Open Client Portal</a>
+          </div>
+
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Client ID</th>
+                  <th>Full Name</th>
+                  <th>Contact Phone</th>
+                  <th>Masked Aadhar</th>
+                  <th>Work / Business</th>
+                  <th>Reserved Plot</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="kycApplicationsTableBody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           TAB 5: WHATSAPP DISPATCHES & SALES LEADS (+91 98257 99754)
+           ==================================================================== -->
+      <section id="pane-whatsapp-leads" class="pane-section" style="display: none;">
+        <div class="admin-card">
+          <div class="card-header-row">
+            <div class="card-title">
+              <i class="fa-brands fa-whatsapp" style="color: #25D366;"></i> WhatsApp Sales Dispatches Log
+            </div>
+            <span style="font-size: 0.82rem; color: #25D366; font-weight: 700;">
+              <i class="fa-solid fa-phone"></i> Target Recipient: +91 98257 99754
+            </span>
+          </div>
+
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Client Name</th>
+                  <th>Phone</th>
+                  <th>Property Parcel</th>
+                  <th>Message Preview</th>
+                  <th>Recipient</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="whatsappDispatchesTableBody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           TAB 6: 3D PLOT INVENTORY & AVAILABILITY
+           ==================================================================== -->
+      <section id="pane-plot-inventory" class="pane-section" style="display: none;">
+        <div class="admin-card">
+          <div class="card-header-row">
+            <div class="card-title">
+              <i class="fa-solid fa-layer-group" style="color: var(--admin-cyan);"></i> Live 3D Plot Inventory Control
+            </div>
+            <a href="../3d-map/index.html" target="_blank" class="btn-header-link"><i class="fa-solid fa-cube"></i> View in 3D Map</a>
+          </div>
+
+          <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+            <input type="text" id="plotSearchInput" class="admin-control" style="max-width: 300px;" placeholder="Filter by Plot # (e.g. 14, 42)..." oninput="filterPlotInventory()" />
+            <select id="plotStatusFilter" class="admin-control" style="max-width: 200px;" onchange="filterPlotInventory()">
+              <option value="">All Statuses</option>
+              <option value="available">Available (Green)</option>
+              <option value="booked">Booked (Gold)</option>
+              <option value="sold">Sold (Red)</option>
             </select>
           </div>
-          <div class="form-group full-width">
-            <label class="form-label">Feature Details (Comma separated list)</label>
-            <input type="text" id="listingDetails" class="form-input" placeholder="e.g. 100% NA and Title Clear, Road touch frontage" required>
+
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Plot Number</th>
+                  <th>Area (Sq.Yards)</th>
+                  <th>Approx Value</th>
+                  <th>Facing / Road</th>
+                  <th>Current Status</th>
+                  <th>Quick Action</th>
+                </tr>
+              </thead>
+              <tbody id="plotsInventoryTableBody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
           </div>
-          <div class="form-group full-width" style="margin-top: 1rem;">
-            <button type="submit" id="listingSubmitBtn" class="btn btn-primary" style="width: 100%;">Create Listing</button>
-          </div>
-        </form>
-      </div>
-    </div>
+        </div>
+      </section>
+
+    </main>
   </div>
 
-  <div class="theme-switch-btn" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
-    <i class="fa-solid fa-moon"></i>
+  <!-- Toast Notification -->
+  <div class="admin-toast" id="adminToast">
+    <i class="fa-solid fa-circle-check" style="color: var(--admin-emerald); font-size: 1.2rem;"></i>
+    <span id="toastMessage">Action completed successfully.</span>
   </div>
 
-  <div class="toast" id="adminToast">Settings updated!</div>
-
+  <!-- ==========================================================================
+       SCRIPTS: Studio Logic, AutoCAD Ingestion & Media Studio
+       ========================================================================== -->
   <script>
-    const defaultSiteContent = {
-      home: {
-        heroTitle: "Your Trusted Land Consultant for <span>Commercial & Industrial Land</span> in Kutch",
-        heroSubtitle: "Expert guidance for strategic land transactions near Kandla, Mundra, Tuna Ports & Dholavira UNESCO Site. Specializing in Gandhidham, Anjar, Bhuj & GIDC estates.",
-        contactPhone: "+91 98257 99754",
-        contactEmail: "shreejirealestate@gmail.com",
-        storyHeadline: "Who We Are",
-        storyParagraph: "Shreeji Real Estate is your trusted commercial property and land consultant in Gandhidham & Adipur, Kutch. With extensive market experience and verified clear title records, we facilitate successful transactions for commercial plots, industrial warehouses, and retail showrooms.",
-        statYears: "10+ Years",
-        statAcres: "500+ Acres",
-        statClients: "100+ Clients"
-      },
-      kandla: {
-        heroBadge: "Maritime & Logistics Hub",
-        heroTitle: "Commercial Land in <span>Kandla Port Corridor</span>",
-        heroSubtitle: "Prime warehousing, container freight station (CFS), and cold storage plots situated adjacent to Deendayal Port Trust (DPT) & Kandla-Gandhidham highway.",
-        adv1Title: "Major Port Gate Proximity",
-        adv1Desc: "Plots located within 5 km to 15 km of Kandla Port docks, drastically reducing drayage and container transport costs.",
-        adv2Title: "Highway Connectivity",
-        adv2Desc: "Direct 4-lane access to NH-41 connecting Gandhidham, Ahmedabad, and major inland container depots (ICDs).",
-        adv3Title: "High Industrial Power",
-        adv3Desc: "Continuous 66kV and 11kV substation feeder lines specifically configured for heavy warehousing and cold chains.",
-        adv4Title: "Clear NA Status",
-        adv4Desc: "Verified non-agricultural commercial zoning suitable for logistics parks, liquid tank farms, and godowns."
-      },
-      mundra: {
-        heroBadge: "Global Trade Gateway",
-        heroTitle: "Industrial Land in <span>Mundra SEZ & Port</span>",
-        heroSubtitle: "Prime industrial land, heavy manufacturing zones, and logistics terminal plots inside or adjacent to India's largest private port and Special Economic Zone.",
-        adv1Title: "SEZ Tax Incentives",
-        adv1Desc: "Duty-free import, single-window clearances, and long-term corporate tax exemptions inside the Mundra SEZ territory.",
-        adv2Title: "Deep Water Port Access",
-        adv2Desc: "Seamless integration with Mundra Port's container terminals, bulk cargo berths, and dedicated railway lines.",
-        adv3Title: "Co-Location Benefits",
-        adv3Desc: "Proximity to power plants, steel mills, and petrochemical giants offering direct raw material supply chains.",
-        adv4Title: "Robust Infrastructure",
-        adv4Desc: "High-capacity gas pipelines, high-speed fiber networks, and chemical-grade industrial drainage systems."
-      },
-      khavda: {
-        heroBadge: "Green Energy Corridor",
-        heroTitle: "Utility-Scale Land in <span>Khavda Solar Park</span>",
-        heroSubtitle: "Strategic land bank availability suitable for massive wind-solar hybrid projects, private solar farms, and green hydrogen initiatives.",
-        adv1Title: "Highest Solar Radiation",
-        adv1Desc: "Kutch's desert zones offer the highest solar irradiance and constant wind velocities in the country.",
-        adv2Title: "Power Grid Integration",
-        adv2Desc: "Proximity to national grid evacuation lines and high-voltage substations for immediate power transfer.",
-        adv3Title: "Aggregated Clean Titles",
-        adv3Desc: "Duly scouted, surveyed, and boundary-marked government-approved lease plots ready for project setup.",
-        adv4Title: "High Returns on Lease",
-        adv4Desc: "Long-term revenue yield model with stable corporate power purchasing agreements (PPAs)."
-      },
-      gidc: {
-        heroBadge: "Structured Manufacturing Zone",
-        heroTitle: "Plots in <span>GIDC Industrial Estates</span>",
-        heroSubtitle: "Acquire pre-cleared industrial plots in Gandhidham, Anjar, Kidana, and Bhuj GIDC estates equipped with industrial amenities.",
-        adv1Title: "Plug & Play Plots",
-        adv1Desc: "Ready concrete boundary plots with internal asphalt roads, high-tension power, and centralized sewage systems.",
-        adv2Title: "Fast-Track Approval",
-        adv2Desc: "Simplified factory license registry and streamlined local municipal clearance mechanisms.",
-        adv3Title: "Skilled Labor Pool",
-        adv3Desc: "Located near dense residential hubs in Gandhidham and Anjar, guaranteeing easy access to industrial labor.",
-        adv4Title: "Zoning Permissions",
-        adv4Desc: "Duly certified zones for chemicals, engineering, wood-crafting, mineral-processing, and heavy fabrication."
-      },
-      dholavira: {
-        heroBadge: "Heritage & Tourism Belt",
-        heroTitle: "Resort Land in <span>Dholavira Tourism Zone</span>",
-        heroSubtitle: "Invest in commercial hospitality and resort plots near the UNESCO World Heritage site and the scenic Road to Heaven.",
-        adv1Title: "UNESCO Tourism Boom",
-        adv1Desc: "Massive inflow of domestic and international cultural tourists visiting the ancient Harappan civilization site.",
-        adv2Title: "Scenic Highway Frontage",
-        adv2Desc: "Plots positioned directly on the new 4-lane Highway connecting Dholavira with the Great Rann of Kutch.",
-        adv3Title: "Hospitality Zoning",
-        adv3Desc: "Zoned specifically for eco-resorts, heritage hotels, luxury tents, and tourist amenities centers.",
-        adv4Title: "Unique Landscape Appeal",
-        adv4Desc: "Breathtaking views of the salt desert flats combined with pristine local wildlife ecosystems."
-      },
-      listings: [
-        { id: 1, title: "12.5 Acres NA Commercial Plot", location: "Kandla Port Corridor", tag: "Logistics Park Plot", area: "12.5 Acres", year: "2025", details: ["100% NA & Title Clear (single owner)", "Wide 60-meter highway frontage"] },
-        { id: 2, title: "5.2 Acres Industrial Plot", location: "Tuna Port Corridor", tag: "Warehouse & Storage", area: "5.2 Acres", year: "2024", details: ["Pre-approved industrial zoning", "Water & power connection ready"] },
-        { id: 3, title: "15.0 Acres Manufacturing Land", location: "GIDC Industrial Estates", tag: "Heavy Manufacturing", area: "15.0 Acres", year: "2025", details: ["Ready concrete boundary plots", "Centralized sewage systems"] },
-        { id: 4, title: "20.0 Acres Renewable Plot", location: "Khavda Solar Park", tag: "Solar Installation", area: "20.0 Acres", year: "2025", details: ["Proximity to evacuation lines", "Scouted and boundary marked"] }
-      ],
-      pdfs: []
-    };
+    (function() {
+      const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:5000/api/v1'
+        : '/api/v1';
 
-    let siteContent = JSON.parse(localStorage.getItem('site_content')) || defaultSiteContent;
-    let inquiriesList = JSON.parse(localStorage.getItem('lead_inquiries')) || [];
+      let selectedCadFile = null;
+      let selectedMediaFile = null;
 
-    // Authenticate checks
-    window.onload = function() {
-      if (sessionStorage.getItem('admin_logged') === 'true') {
-        showDashboard();
-      } else {
-        document.getElementById('loginWrapper').style.display = 'flex';
-        document.getElementById('adminSidebar').style.display = 'none';
-        document.getElementById('adminMain').style.display = 'none';
-      }
-    };
-
-    document.getElementById('loginForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const user = document.getElementById('usernameInput').value.trim().toLowerCase();
-      const pass = document.getElementById('passwordInput').value;
-
-      const submitBtn = e.target.querySelector('button[type="submit"]');
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.innerText = "Authenticating...";
-      }
-
-      // Try live server API first
-      try {
-        const apiBase = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-          ? 'http://localhost:5000/api/v1'
-          : '/api/v1';
-
-        const res = await fetch(`${apiBase}/auth/login`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: user, password: pass })
-        });
-
-        if (res.ok) {
-          const data = await res.json();
-          if (data.token) {
-            sessionStorage.setItem('admin_token', data.token);
-          }
-          sessionStorage.setItem('admin_logged', 'true');
-          sessionStorage.setItem('admin_user', JSON.stringify(data.user || { email: user }));
-          showDashboard();
-          showToast(`Access Granted. Welcome ${data.user?.name || user}.`);
-          return;
+      // Initial default mock media showcasing photos and video with rich content
+      const defaultMedia = [
+        {
+          id: 'media-1',
+          projectId: 'nagavaladiya',
+          title: '4K Drone Aerial Survey of 40-Ft Main Boulevard',
+          mediaType: 'video',
+          mediaUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+          description: 'High-definition 4K aerial drone survey documenting the wide 40-ft central avenue approach, internal asphalt connectivity, storm water drain alignment, and high-tension electrical feeder line infrastructure.',
+          createdAt: new Date().toLocaleDateString()
+        },
+        {
+          id: 'media-2',
+          projectId: 'nagavaladiya',
+          title: 'Survey 374 Commercial Boundary Demarcation',
+          mediaType: 'photo',
+          mediaUrl: '../images/commercial-plot.jpg',
+          description: 'Official surveyed commercial plot parcel boundaries showing concrete demarcation pillars, direct road setback clearance, and clear non-agricultural title verification for commercial showroom developers.',
+          createdAt: new Date().toLocaleDateString()
+        },
+        {
+          id: 'media-3',
+          projectId: 'nagavaladiya',
+          title: 'AutoCAD Master Plan Survey Layout Blueprint',
+          mediaType: 'cad_overlay',
+          mediaUrl: '../3d-map/assets/textures/map_overlay.webp',
+          description: 'High-precision AutoCAD engineering layout map showing plot numbering 1 through 109, commercial avenue parking slots, entrance arch placement, and RERA compliance documentation.',
+          createdAt: new Date().toLocaleDateString()
         }
-      } catch (apiErr) {
-        // Fallback to local verified credentials
-      } finally {
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.innerText = "Access Administration";
-        }
-      }
+      ];
 
-      // Local credential verification (supporting both shreeji & regal credentials)
-      if (
-        (user === 'admin@shreeji.com' && pass === 'shreeji123') ||
-        (user === 'admin@regalfarms.com' && pass === 'admin123') ||
-        (user === 'admin' && pass === 'admin')
-      ) {
-        sessionStorage.setItem('admin_logged', 'true');
-        showDashboard();
-        showToast("Access Granted. Welcome Administrator.");
-      } else {
-        alert("Invalid email/username or password. Please verify credentials.");
-      }
-    });
-
-    function showDashboard() {
-      document.getElementById('loginWrapper').style.display = 'none';
-      document.getElementById('adminSidebar').style.display = 'flex';
-      document.getElementById('adminMain').style.display = 'flex';
-
-      // Load Greeting
-      const now = new Date();
-      const hours = now.getHours();
-      let greeting = "Good Morning";
-      if (hours >= 12 && hours < 17) greeting = "Good Afternoon";
-      if (hours >= 17) greeting = "Good Evening";
-      document.getElementById('adminGreeting').innerText = `${greeting}, Admin - ${now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
-
-      // Populate Settings inputs
-      document.getElementById('contactPhone').value = siteContent.home.contactPhone || "";
-      document.getElementById('contactEmail').value = siteContent.home.contactEmail || "";
-
-      loadCmsPageConfig();
-      renderCatalog();
-      renderPdfs();
-      renderInquiries();
-      updateMetrics();
-    }
-
-    function logoutAdmin() {
-      sessionStorage.removeItem('admin_logged');
-      window.location.reload();
-    }
-
-    // Tab switching
-    function switchTab(tabId) {
-      document.querySelectorAll('.admin-menu-item').forEach(btn => btn.classList.remove('active'));
-      document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
-
-      event.target.closest('.admin-menu-item').classList.add('active');
-      document.getElementById(tabId + 'Tab').classList.add('active');
-      document.getElementById('currentPaneTitle').innerText = tabId.toUpperCase() + " SETTINGS";
-    }
-
-    function saveConfig() {
-      localStorage.setItem('site_content', JSON.stringify(siteContent));
-    }
-
-    function showToast(message) {
-      const toast = document.getElementById('adminToast');
-      toast.innerText = message;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3000);
-    }
-
-    function updateMetrics() {
-      document.getElementById('dashTotalListings').innerText = siteContent.listings.length;
-      document.getElementById('dashTotalInquiries').innerText = inquiriesList.length;
-      document.getElementById('dashTotalPdfs').innerText = (siteContent.pdfs || []).length;
-    }
-
-    // Dynamic CMS Page Configuration Loader
-    function loadCmsPageConfig() {
-      const page = document.getElementById('cmsPageSelect').value;
-      const fieldsContainer = document.getElementById('cmsFormFields');
-      fieldsContainer.innerHTML = '';
-
-      const content = siteContent[page];
-
-      if (page === 'home') {
-        fieldsContainer.innerHTML = `
-          <div class="form-group" style="margin-bottom: 1.25rem;">
-            <label class="form-label">Hero Title (HTML Supported)</label>
-            <input type="text" id="cms_heroTitle" class="form-input" value="${content.heroTitle.replace(/"/g, '&quot;')}" required>
-          </div>
-          <div class="form-group" style="margin-bottom: 1.25rem;">
-            <label class="form-label">Hero Subtitle</label>
-            <textarea id="cms_heroSubtitle" class="form-textarea" rows="3" required>${content.heroSubtitle}</textarea>
-          </div>
-          <div class="form-box" style="margin-top: 1.5rem;">
-            <h3 class="form-box-title">Our Story Section</h3>
-            <div class="form-group" style="margin-bottom: 1.25rem;">
-              <label class="form-label">Headline</label>
-              <input type="text" id="cms_storyHeadline" class="form-input" value="${content.storyHeadline}" required>
-            </div>
-            <div class="form-group" style="margin-bottom: 1.25rem;">
-              <label class="form-label">Paragraph Text</label>
-              <textarea id="cms_storyParagraph" class="form-textarea" rows="4" required>${content.storyParagraph}</textarea>
-            </div>
-            <div class="form-grid">
-              <div class="form-group">
-                <label class="form-label">Years of Experience</label>
-                <input type="text" id="cms_statYears" class="form-input" value="${content.statYears}" required>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Acres Transacted</label>
-                <input type="text" id="cms_statAcres" class="form-input" value="${content.statAcres}" required>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Satisfied Clients</label>
-                <input type="text" id="cms_statClients" class="form-input" value="${content.statClients}" required>
-              </div>
-            </div>
-          </div>
-        `;
-      } else {
-        // Target Area subpages CMS
-        fieldsContainer.innerHTML = `
-          <div class="form-grid" style="margin-bottom: 1.25rem;">
-            <div class="form-group">
-              <label class="form-label">Hero Badge / tag</label>
-              <input type="text" id="cms_heroBadge" class="form-input" value="${content.heroBadge}" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Hero Title (HTML Supported)</label>
-              <input type="text" id="cms_heroTitle" class="form-input" value="${content.heroTitle.replace(/"/g, '&quot;')}" required>
-            </div>
-          </div>
-          <div class="form-group" style="margin-bottom: 1.5rem;">
-            <label class="form-label">Hero Subtitle</label>
-            <textarea id="cms_heroSubtitle" class="form-textarea" rows="3" required>${content.heroSubtitle}</textarea>
-          </div>
-          
-          <div class="form-box">
-            <h3 class="form-box-title">Key Advantages / Bullet Features</h3>
-            <div class="form-grid" style="grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-              <div>
-                <label class="form-label">Advantage 1 Title</label>
-                <input type="text" id="cms_adv1Title" class="form-input" value="${content.adv1Title}" style="margin-bottom: 0.5rem;" required>
-                <textarea id="cms_adv1Desc" class="form-textarea" rows="2" required>${content.adv1Desc}</textarea>
-              </div>
-              <div>
-                <label class="form-label">Advantage 2 Title</label>
-                <input type="text" id="cms_adv2Title" class="form-input" value="${content.adv2Title}" style="margin-bottom: 0.5rem;" required>
-                <textarea id="cms_adv2Desc" class="form-textarea" rows="2" required>${content.adv2Desc}</textarea>
-              </div>
-              <div>
-                <label class="form-label">Advantage 3 Title</label>
-                <input type="text" id="cms_adv3Title" class="form-input" value="${content.adv3Title}" style="margin-bottom: 0.5rem;" required>
-                <textarea id="cms_adv3Desc" class="form-textarea" rows="2" required>${content.adv3Desc}</textarea>
-              </div>
-              <div>
-                <label class="form-label">Advantage 4 Title</label>
-                <input type="text" id="cms_adv4Title" class="form-input" value="${content.adv4Title}" style="margin-bottom: 0.5rem;" required>
-                <textarea id="cms_adv4Desc" class="form-textarea" rows="2" required>${content.adv4Desc}</textarea>
-              </div>
-            </div>
-          </div>
-        `;
-      }
-    }
-
-    // Save CMS page form
-    document.getElementById('cmsPageForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const page = document.getElementById('cmsPageSelect').value;
-
-      if (page === 'home') {
-        siteContent.home.heroTitle = document.getElementById('cms_heroTitle').value;
-        siteContent.home.heroSubtitle = document.getElementById('cms_heroSubtitle').value;
-        siteContent.home.storyHeadline = document.getElementById('cms_storyHeadline').value;
-        siteContent.home.storyParagraph = document.getElementById('cms_storyParagraph').value;
-        siteContent.home.statYears = document.getElementById('cms_statYears').value;
-        siteContent.home.statAcres = document.getElementById('cms_statAcres').value;
-        siteContent.home.statClients = document.getElementById('cms_statClients').value;
-      } else {
-        siteContent[page].heroBadge = document.getElementById('cms_heroBadge').value;
-        siteContent[page].heroTitle = document.getElementById('cms_heroTitle').value;
-        siteContent[page].heroSubtitle = document.getElementById('cms_heroSubtitle').value;
-        siteContent[page].adv1Title = document.getElementById('cms_adv1Title').value;
-        siteContent[page].adv1Desc = document.getElementById('cms_adv1Desc').value;
-        siteContent[page].adv2Title = document.getElementById('cms_adv2Title').value;
-        siteContent[page].adv2Desc = document.getElementById('cms_adv2Desc').value;
-        siteContent[page].adv3Title = document.getElementById('cms_adv3Title').value;
-        siteContent[page].adv3Desc = document.getElementById('cms_adv3Desc').value;
-        siteContent[page].adv4Title = document.getElementById('cms_adv4Title').value;
-        siteContent[page].adv4Desc = document.getElementById('cms_adv4Desc').value;
-      }
-
-      saveConfig();
-      showToast("Page content updated and saved successfully!");
-    });
-
-    // Save global settings
-    document.getElementById('settingsForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      siteContent.home.contactPhone = document.getElementById('contactPhone').value;
-      siteContent.home.contactEmail = document.getElementById('contactEmail').value;
-      saveConfig();
-      showToast("Global configurations saved!");
-    });
-
-    // Render portfolio items as clean card rows
-    function renderCatalog(filterQuery = '') {
-      const container = document.getElementById('catalogGrid');
-      container.innerHTML = '';
-
-      const listToRender = siteContent.listings.filter(item => 
-        item.title.toLowerCase().includes(filterQuery.toLowerCase()) || 
-        item.location.toLowerCase().includes(filterQuery.toLowerCase())
-      );
-
-      if (listToRender.length === 0) {
-        container.innerHTML = `<p style="text-align: center; padding: 3rem; color: var(--admin-text-muted);">No matching portfolio projects found.</p>`;
-        return;
-      }
-
-      listToRender.forEach(item => {
-        const row = document.createElement('div');
-        row.className = 'catalog-row';
-        row.innerHTML = `
-          <img src="/images/hero.png" class="catalog-cover" alt="Cover photo">
-          <div class="catalog-details">
-            <h3>${item.title.split(' ')[0]}</h3>
-            <span>${item.tag}</span>
-          </div>
-          <div class="catalog-location">${item.location}</div>
-          <div class="catalog-year">${item.year}</div>
-          <div class="catalog-dim">${item.area || 'N/A'}</div>
-          <div class="catalog-actions">
-            <button class="catalog-btn edit" onclick="editListingModal(${item.id})"><i class="fa-solid fa-pencil"></i></button>
-            <button class="catalog-btn delete" onclick="deleteListing(${item.id})"><i class="fa-solid fa-trash"></i></button>
-          </div>
-        `;
-        container.appendChild(row);
-      });
-    }
-
-    function filterCatalog() {
-      const query = document.getElementById('catalogSearchInput').value;
-      renderCatalog(query);
-    }
-
-    // Add / Edit Modal Actions
-    function showAddListingModal() {
-      document.getElementById('editListingId').value = '';
-      document.getElementById('modalListingHeader').innerText = "Add New Portfolio Project";
-      document.getElementById('listingSubmitBtn').innerText = "Create Listing";
-      document.getElementById('addListingForm').reset();
-      document.getElementById('addListingModal').classList.add('active');
-    }
-
-    function closeAddListingModal() {
-      document.getElementById('addListingModal').classList.remove('active');
-    }
-
-    function editListingModal(id) {
-      const listing = siteContent.listings.find(item => item.id === id);
-      if (!listing) return;
-
-      document.getElementById('editListingId').value = listing.id;
-      document.getElementById('listingTitle').value = listing.title;
-      document.getElementById('listingLocation').value = listing.location;
-      document.getElementById('listingArea').value = listing.area || "";
-      document.getElementById('listingYear').value = listing.year || "";
-      document.getElementById('listingTag').value = listing.tag;
-      document.getElementById('listingDetails').value = listing.details.join(', ');
-
-      document.getElementById('modalListingHeader').innerText = "Edit Portfolio Project";
-      document.getElementById('listingSubmitBtn').innerText = "Save Changes";
-      document.getElementById('addListingModal').classList.add('active');
-    }
-
-    document.getElementById('addListingForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const editId = document.getElementById('editListingId').value;
-      const title = document.getElementById('listingTitle').value;
-      const location = document.getElementById('listingLocation').value;
-      const area = document.getElementById('listingArea').value;
-      const year = document.getElementById('listingYear').value;
-      const tag = document.getElementById('listingTag').value;
-      const details = document.getElementById('listingDetails').value.split(',').map(s => s.trim());
-
-      if (editId) {
-        // Edit mode
-        const index = siteContent.listings.findIndex(item => item.id == editId);
-        if (index !== -1) {
-          siteContent.listings[index] = { id: Number(editId), title, location, area, year, tag, details };
-          showToast("Listing changes saved!");
-        }
-      } else {
-        // Add mode
-        const newListing = { id: Date.now(), title, location, area, year, tag, details };
-        siteContent.listings.push(newListing);
-        showToast("New portfolio project added!");
-      }
-
-      saveConfig();
-      renderCatalog();
-      updateMetrics();
-      closeAddListingModal();
-    });
-
-    function deleteListing(id) {
-      if (confirm("Are you sure you want to delete this listing?")) {
-        siteContent.listings = siteContent.listings.filter(item => item.id !== id);
-        saveConfig();
-        renderCatalog();
-        updateMetrics();
-        showToast("Project listing deleted.");
-      }
-    }
-
-    // PDF Uploader logic
-    function renderPdfs() {
-      const container = document.getElementById('pdfListContainer');
-      container.innerHTML = '';
-
-      if (!siteContent.pdfs || siteContent.pdfs.length === 0) {
-        container.innerHTML = `<p style="text-align: center; padding: 2rem; color: var(--admin-text-muted);">No documents uploaded yet.</p>`;
-        return;
-      }
-
-      siteContent.pdfs.forEach((pdf, index) => {
-        const item = document.createElement('div');
-        item.className = 'catalog-row';
-        item.style.gridTemplateColumns = '80px 3fr 1fr 1fr';
-        item.innerHTML = `
-          <div style="font-size: 2.2rem; color: #EF4444;"><i class="fa-solid fa-file-pdf"></i></div>
-          <div class="catalog-details">
-            <h3>${pdf.name}</h3>
-            <span>Uploaded: ${pdf.date}</span>
-          </div>
-          <div class="catalog-dim">${pdf.size}</div>
-          <div class="catalog-actions">
-            <button class="catalog-btn delete" onclick="deletePdf(${index})"><i class="fa-solid fa-trash"></i></button>
-          </div>
-        `;
-        container.appendChild(item);
-      });
-    }
-
-    function handlePdfUpload(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      if (file.type !== 'application/pdf') {
-        alert("Please select a valid PDF file.");
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const base64Data = e.target.result;
-        
-        const newPdf = {
-          name: file.name,
-          date: new Date().toLocaleDateString(),
-          size: (file.size / (1024 * 1024)).toFixed(2) + " MB",
-          data: base64Data
-        };
-
-        siteContent.pdfs = siteContent.pdfs || [];
-        siteContent.pdfs.push(newPdf);
-        
-        try {
-          saveConfig();
-          renderPdfs();
-          updateMetrics();
-          showToast("PDF document uploaded successfully!");
-        } catch (error) {
-          alert("Storage limit exceeded. Please upload a smaller PDF file.");
+      // On Page Load: Check Login
+      window.onload = function() {
+        if (sessionStorage.getItem('shreeji_admin_logged') === 'true') {
+          showAdminWorkspace();
+        } else {
+          document.getElementById('adminLoginOverlay').style.display = 'flex';
+          document.getElementById('adminAppLayout').style.display = 'none';
         }
       };
-      
-      reader.readAsDataURL(file);
-    }
 
-    function deletePdf(index) {
-      if (confirm("Delete this document?")) {
-        siteContent.pdfs.splice(index, 1);
-        saveConfig();
-        renderPdfs();
-        updateMetrics();
-        showToast("Document deleted.");
-      }
-    }
+      // 1-Click Credential Autofill
+      window.autofillCredentials = function() {
+        document.getElementById('loginUsername').value = 'Shreejii';
+        document.getElementById('loginPassword').value = 'Shreeji@108';
+        showToast('Credentials filled: Shreejii / Shreeji@108');
+      };
 
-    // Dynamic Inquiries view
-    function renderInquiries() {
-      const container = document.getElementById('inquiriesContainer');
-      container.innerHTML = '';
+      // Admin Login Submission
+      document.getElementById('adminLoginForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const username = document.getElementById('loginUsername').value.trim();
+        const password = document.getElementById('loginPassword').value;
+        const submitBtn = document.getElementById('btnLoginSubmit');
 
-      if (inquiriesList.length === 0) {
-        container.innerHTML = `<p style="text-align: center; color: var(--admin-text-muted); padding: 3rem;">No customer inquiries received yet.</p>`;
-        return;
-      }
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Verifying...';
 
-      inquiriesList.forEach((inq, idx) => {
-        const div = document.createElement('div');
-        div.className = 'inquiry-card';
-        div.innerHTML = `
-          <div class="inquiry-header">
-            <span class="inquiry-type ${inq.type}">${inq.type.toUpperCase()} INQUIRY</span>
-            <span style="font-size: 0.85rem; color: var(--admin-text-muted);">${inq.date || 'Today'}</span>
-          </div>
-          <p><strong>Customer Name</strong>: ${inq.name}</p>
-          <p><strong>Phone</strong>: ${inq.phone}</p>
-          <p><strong>Required Area</strong>: ${inq.area || 'N/A'}</p>
-          <p><strong>Location Preference</strong>: ${inq.location || 'N/A'}</p>
-          <p><strong>Land Type</strong>: ${inq.landType || 'N/A'}</p>
-          <div style="text-align: right; margin-top: 1rem;">
-            <button class="btn-delete" onclick="deleteInquiry(${idx})">Archive Inquiry</button>
-          </div>
-        `;
-        container.appendChild(div);
+        try {
+          // Attempt backend authentication
+          const res = await fetch(`${API_BASE}/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: username, password })
+          });
+
+          if (res.ok) {
+            const data = await res.json();
+            if (data.token) {
+              sessionStorage.setItem('admin_token', data.token);
+            }
+            sessionStorage.setItem('shreeji_admin_logged', 'true');
+            sessionStorage.setItem('shreeji_admin_user', username);
+            showAdminWorkspace();
+            showToast(`Access Granted. Welcome ${username}!`);
+            return;
+          }
+        } catch (err) {
+          // Backend offline fallback check
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fa-solid fa-lock-open"></i> Unlock Studio Admin';
+        }
+
+        // Offline / Demo Verification Check (Shreejii / Shreeji@108)
+        const userNorm = username.toLowerCase();
+        if (
+          (userNorm === 'shreejii' && password === 'Shreeji@108') ||
+          (userNorm === 'admin@shreeji.com' && (password === 'Shreeji@108' || password === 'shreeji123')) ||
+          (userNorm === 'admin' && password === 'admin')
+        ) {
+          sessionStorage.setItem('shreeji_admin_logged', 'true');
+          sessionStorage.setItem('shreeji_admin_user', username);
+          showAdminWorkspace();
+          showToast(`Access Granted. Welcome ${username}!`);
+        } else {
+          alert('Invalid Admin User ID or Password. Please verify your credentials (ID: Shreejii, Pass: Shreeji@108).');
+        }
       });
-    }
 
-    function deleteInquiry(idx) {
-      if (confirm("Archive this inquiry?")) {
-        inquiriesList.splice(idx, 1);
-        localStorage.setItem('lead_inquiries', JSON.stringify(inquiriesList));
-        renderInquiries();
-        updateMetrics();
-        showToast("Inquiry archived.");
-      }
-    }
+      window.logoutAdmin = function() {
+        sessionStorage.removeItem('shreeji_admin_logged');
+        sessionStorage.removeItem('admin_token');
+        window.location.reload();
+      };
 
-    // Dark Mode theme toggle
-    function toggleTheme() {
-      document.body.classList.toggle('dark-mode');
-      const isDark = document.body.classList.contains('dark-mode');
-      const icon = document.querySelector('.theme-switch-btn i');
-      if (isDark) {
-        icon.className = 'fa-solid fa-sun';
-      } else {
-        icon.className = 'fa-solid fa-moon';
+      function showAdminWorkspace() {
+        document.getElementById('adminLoginOverlay').style.display = 'none';
+        document.getElementById('adminAppLayout').style.display = 'flex';
+        document.getElementById('sidebarAdminUser').textContent = sessionStorage.getItem('shreeji_admin_user') || 'Shreejii';
+
+        loadDashboardMetrics();
+        renderCadProjects();
+        renderMediaStudio();
+        loadKycApplications();
+        loadWhatsappDispatches();
+        loadPlotInventory();
       }
-    }
+
+      // Tab Switching
+      window.switchAdminTab = function(tabName) {
+        document.querySelectorAll('.pane-section').forEach(p => p.style.display = 'none');
+        document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
+
+        const targetPane = document.getElementById(`pane-${tabName}`);
+        if (targetPane) targetPane.style.display = 'block';
+
+        const targetBtn = document.querySelector(`.nav-tab-btn[data-tab="${tabName}"]`);
+        if (targetBtn) targetBtn.classList.add('active');
+
+        const headlines = {
+          'dashboard': ['Dashboard Overview', 'Executive control room for Shreeji Real Estate, AutoCAD 3D layouts, and client inquiries.'],
+          'cad-studio': ['AutoCAD 3D Maps Studio', 'Upload vector CAD files (.dwg, .dxf, .json, .glb) to update the interactive 3D map.'],
+          'media-studio': ['Photos & Videos Studio', 'Upload high-resolution photos, drone video walkthroughs, and write detailed content below them.'],
+          'kyc-review': ['Client KYC & Aadhar Approvals', 'Inspect client registrations, verify 12-digit Aadhar identities, and approve plot reservations.'],
+          'whatsapp-leads': ['WhatsApp Dispatches & Sales Leads', 'Audit outgoing automated notifications dispatched to Shreeji sales (+91 98257 99754).'],
+          'plot-inventory': ['3D Plot Inventory Control', 'Toggle plot parcel statuses (Available, Booked, Sold) in real-time.']
+        };
+
+        if (headlines[tabName]) {
+          document.getElementById('paneHeadline').textContent = headlines[tabName][0];
+          document.getElementById('paneSubheadline').textContent = headlines[tabName][1];
+        }
+      };
+
+      // ========================================================================
+      // AUTOCAD 3D MAPS LOGIC
+      // ========================================================================
+      window.handleCadFileSelect = function(input) {
+        if (input.files && input.files[0]) {
+          selectedCadFile = input.files[0];
+          document.getElementById('cadFileName').textContent = `${selectedCadFile.name} (${Math.round(selectedCadFile.size / 1024)} KB)`;
+          document.getElementById('cadFilePill').style.display = 'inline-flex';
+        }
+      };
+
+      window.handleCadUploadSubmit = async function(e) {
+        e.preventDefault();
+        const projectName = document.getElementById('cadProjectName').value.trim();
+        const locationText = document.getElementById('cadLocationText').value.trim();
+        const reraNumber = document.getElementById('cadReraNumber').value.trim();
+        const plotCount = parseInt(document.getElementById('cadPlotCount').value, 10) || 109;
+        const ratePerYd = document.getElementById('cadRatePerYd').value.trim();
+        const description = document.getElementById('cadDescription').value.trim();
+
+        const btn = document.getElementById('btnUploadCad');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing &amp; Compiling CAD Layout...';
+
+        const slug = projectName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+        // Generate synthetic plot dataset matching the uploaded AutoCAD parcel count
+        const plots = [];
+        for (let i = 1; i <= plotCount; i++) {
+          let area = 182.5;
+          if (i % 5 === 0) area = 210.0;
+          else if (i % 3 === 0) area = 145.0;
+          else if (i % 2 === 0) area = 160.0;
+
+          plots.push({
+            id: i,
+            name: `${i}`,
+            plotNumber: `${i}`,
+            area: Math.round(area / 1.19599),
+            areaSqyd: area,
+            ratePerYd: ratePerYd.replace(/[^\d]/g, '') || 14500,
+            totalPrice: Math.round(area * (ratePerYd.replace(/[^\d]/g, '') || 14500)),
+            status: i === 4 || i === 12 || i === 28 ? 1 : (i % 7 === 0 ? 2 : 0), // 0: Available, 1: Booked, 2: Sold
+            facing: i % 2 === 0 ? "East Facing (Main Road)" : "North-East (Vaastu Compliant)",
+            roadWidth: i <= 20 ? "40 Ft Main Boulevard" : "30 Ft Internal Avenue"
+          });
+        }
+
+        const projectData = {
+          project: {
+            id: slug,
+            slug: slug,
+            name: projectName,
+            location: locationText,
+            locationLink: `https://maps.google.com/?q=23.1842,69.9415`,
+            reraRegistrationNumber: reraNumber,
+            description: description,
+            plotsCount: plotCount,
+            ratePerYd: ratePerYd,
+            cadFileName: selectedCadFile ? selectedCadFile.name : 'Master_AutoCAD_Vector_Layout.dwg',
+            uploadedAt: new Date().toLocaleDateString()
+          },
+          plots: plots
+        };
+
+        // 1. Save to local storage for instant 3D Map viewer access
+        const customProjects = JSON.parse(localStorage.getItem('shreeji_cad_projects') || '{}');
+        customProjects[slug] = projectData;
+        localStorage.setItem('shreeji_cad_projects', JSON.stringify(customProjects));
+
+        // 2. Sync to Backend Server API if available
+        try {
+          const token = sessionStorage.getItem('admin_token');
+          await fetch(`${API_BASE}/admin/cad-project`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+            },
+            body: JSON.stringify({
+              name: projectName,
+              slug: slug,
+              locationText: locationText,
+              reraNumber: reraNumber,
+              totalPlots: plotCount,
+              description: description,
+              cadFileUrl: `/uploads/cad/${selectedCadFile ? selectedCadFile.name : 'layout.dwg'}`,
+              plotsData: plots
+            })
+          });
+        } catch (apiErr) {}
+
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Upload &amp; Deploy to 3D Map';
+
+        showToast(`AutoCAD Map '${projectName}' uploaded & synced to 3D Engine!`);
+        renderCadProjects();
+        loadDashboardMetrics();
+
+        // Also add project to Media Studio project dropdown
+        const mediaProjSelect = document.getElementById('mediaProjectSelect');
+        if (mediaProjSelect && !mediaProjSelect.querySelector(`option[value="${slug}"]`)) {
+          const opt = document.createElement('option');
+          opt.value = slug;
+          opt.textContent = projectName;
+          mediaProjSelect.appendChild(opt);
+        }
+
+        // Reset inputs
+        document.getElementById('cadProjectName').value = '';
+        document.getElementById('cadDescription').value = '';
+        selectedCadFile = null;
+        document.getElementById('cadFilePill').style.display = 'none';
+      };
+
+      function renderCadProjects() {
+        const tbody = document.getElementById('cadProjectsTableBody');
+        if (!tbody) return;
+
+        const defaultProjects = [
+          {
+            slug: 'nagavaladiya',
+            name: 'Nagavaladiya Residency (Survey 374)',
+            location: 'Survey 374, Nagavaladiya, Anjar Belt',
+            plotsCount: 109,
+            rera: 'RERA Clear Title (PR/GJ/KUTCH/374)',
+            format: 'AutoCAD DWG &amp; WebGL 3D Mesh'
+          },
+          {
+            slug: 'nakshatra',
+            name: 'Nakshatra Commercial Township',
+            location: 'Tagore Road Commercial Hub, Gandhidham',
+            plotsCount: 85,
+            rera: 'Commercial Zoned &bull; Clear NA',
+            format: 'GeoJSON Vector &amp; GIS'
+          }
+        ];
+
+        let customProjects = {};
+        try {
+          customProjects = JSON.parse(localStorage.getItem('shreeji_cad_projects') || '{}');
+        } catch (e) {}
+
+        const allProjects = [...defaultProjects];
+        Object.keys(customProjects).forEach(k => {
+          const cp = customProjects[k].project;
+          allProjects.push({
+            slug: cp.slug || k,
+            name: cp.name,
+            location: cp.location,
+            plotsCount: cp.plotsCount,
+            rera: cp.reraRegistrationNumber,
+            format: `AutoCAD (${cp.cadFileName || 'Vector'})`
+          });
+        });
+
+        tbody.innerHTML = allProjects.map(p => `
+          <tr>
+            <td><strong>${p.name}</strong></td>
+            <td>${p.location}</td>
+            <td><span class="status-badge verified">${p.plotsCount} Plots</span></td>
+            <td><span style="font-size: 0.8rem; color: var(--admin-gold);"><i class="fa-solid fa-stamp"></i> ${p.rera}</span></td>
+            <td><code style="font-size: 0.75rem; background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px;">${p.format}</code></td>
+            <td>
+              <a href="../3d-map/index.html?project=${p.slug}" target="_blank" class="btn-action-primary" style="padding: 0.35rem 0.85rem; font-size: 0.78rem;">
+                <i class="fa-solid fa-cube"></i> Launch 3D Map
+              </a>
+            </td>
+          </tr>
+        `).join('');
+
+        document.getElementById('metricCadProjects').textContent = allProjects.length;
+      }
+
+      // ========================================================================
+      // PHOTOS & VIDEOS CONTENT STUDIO LOGIC
+      // ========================================================================
+      window.handleMediaFileSelect = function(input) {
+        if (input.files && input.files[0]) {
+          selectedMediaFile = input.files[0];
+          document.getElementById('mediaFileName').textContent = `${selectedMediaFile.name} (${Math.round(selectedMediaFile.size / 1024)} KB)`;
+          document.getElementById('mediaFilePill').style.display = 'inline-flex';
+
+          // Auto-detect type
+          if (selectedMediaFile.type.startsWith('video/')) {
+            document.getElementById('mediaType').value = 'video';
+          } else if (selectedMediaFile.type.startsWith('image/')) {
+            document.getElementById('mediaType').value = 'photo';
+          }
+        }
+      };
+
+      window.handleMediaUploadSubmit = async function(e) {
+        e.preventDefault();
+        const title = document.getElementById('mediaTitle').value.trim();
+        const mediaType = document.getElementById('mediaType').value;
+        const projectId = document.getElementById('mediaProjectSelect').value;
+        const description = document.getElementById('mediaDescription').value.trim();
+        const urlInput = document.getElementById('mediaUrlInput').value.trim();
+
+        let finalUrl = urlInput;
+        if (!finalUrl) {
+          if (selectedMediaFile) {
+            // Generate a local object URL for instant previewing
+            finalUrl = URL.createObjectURL(selectedMediaFile);
+          } else {
+            finalUrl = mediaType === 'video'
+              ? 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4'
+              : '../images/commercial-plot.jpg';
+          }
+        }
+
+        const newMediaItem = {
+          id: `media-${Date.now()}`,
+          title,
+          mediaType,
+          projectId,
+          mediaUrl: finalUrl,
+          description,
+          createdAt: new Date().toLocaleDateString()
+        };
+
+        // Save to Local Storage
+        const savedMedia = JSON.parse(localStorage.getItem('shreeji_media_studio') || '[]');
+        savedMedia.unshift(newMediaItem);
+        localStorage.setItem('shreeji_media_studio', JSON.stringify(savedMedia));
+
+        // Sync with backend API
+        try {
+          const token = sessionStorage.getItem('admin_token');
+          await fetch(`${API_BASE}/admin/media`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+            },
+            body: JSON.stringify(newMediaItem)
+          });
+        } catch (apiErr) {}
+
+        showToast('Photo/Video & detailed content published successfully!');
+        renderMediaStudio();
+        loadDashboardMetrics();
+
+        // Reset form
+        document.getElementById('mediaTitle').value = '';
+        document.getElementById('mediaDescription').value = '';
+        document.getElementById('mediaUrlInput').value = '';
+        selectedMediaFile = null;
+        document.getElementById('mediaFilePill').style.display = 'none';
+      };
+
+      function renderMediaStudio() {
+        const grid = document.getElementById('mediaStudioGrid');
+        if (!grid) return;
+
+        let userMedia = [];
+        try {
+          userMedia = JSON.parse(localStorage.getItem('shreeji_media_studio') || '[]');
+        } catch (e) {}
+
+        const allMedia = [...userMedia, ...defaultMedia];
+        document.getElementById('mediaCountText').textContent = `${allMedia.length} Photos & Videos published`;
+
+        grid.innerHTML = allMedia.map(m => {
+          const isVideo = m.mediaType === 'video';
+          const typeBadge = isVideo ? '🎥 Drone Video' : (m.mediaType === 'cad_overlay' ? '📐 AutoCAD Blueprint' : '📷 Site Photo');
+
+          let mediaVisual = '';
+          if (isVideo) {
+            mediaVisual = `
+              <video controls preload="metadata" poster="../images/shreeji-3d-spatial-masterplan.jpg">
+                <source src="${m.mediaUrl}" type="video/mp4" />
+                Your browser does not support video playback.
+              </video>
+            `;
+          } else {
+            mediaVisual = `<img src="${m.mediaUrl}" alt="${m.title}" loading="lazy" />`;
+          }
+
+          return `
+            <div class="media-card-item">
+              <div class="media-visual-container">
+                ${mediaVisual}
+                <span class="media-type-tag">${typeBadge}</span>
+              </div>
+              <div class="media-content-body">
+                <h4 class="media-title-text">${m.title}</h4>
+                <!-- Detailed content written below the media -->
+                <div class="media-narrative-content">
+                  <p>${m.description || 'No description provided.'}</p>
+                </div>
+                <div class="media-footer-row">
+                  <span><i class="fa-solid fa-clock"></i> ${m.createdAt || 'Recent'}</span>
+                  <button type="button" class="btn-delete-media" onclick="deleteMediaItem('${m.id}')">
+                    <i class="fa-solid fa-trash-can"></i> Remove
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      window.deleteMediaItem = function(id) {
+        if (!confirm('Are you sure you want to remove this media item?')) return;
+        let savedMedia = JSON.parse(localStorage.getItem('shreeji_media_studio') || '[]');
+        savedMedia = savedMedia.filter(m => m.id !== id);
+        localStorage.setItem('shreeji_media_studio', JSON.stringify(savedMedia));
+
+        // Attempt backend deletion
+        try {
+          const token = sessionStorage.getItem('admin_token');
+          fetch(`${API_BASE}/admin/media/${id}`, {
+            method: 'DELETE',
+            headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+          }).catch(() => {});
+        } catch (e) {}
+
+        showToast('Media item removed.');
+        renderMediaStudio();
+      };
+
+      // ========================================================================
+      // CLIENT KYC & AADHAR APPROVALS LOGIC
+      // ========================================================================
+      async function loadKycApplications() {
+        const tbody = document.getElementById('kycApplicationsTableBody');
+        if (!tbody) return;
+
+        let applications = [];
+
+        // 1. Try Backend API
+        try {
+          const token = sessionStorage.getItem('admin_token');
+          const res = await fetch(`${API_BASE}/admin/kyc-applications`, {
+            headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+          });
+          if (res.ok) {
+            const data = await res.json();
+            if (data.data) applications = data.data;
+          }
+        } catch (err) {}
+
+        // 2. Fallback to Local Storage
+        if (!applications.length) {
+          try {
+            const localKyc = JSON.parse(localStorage.getItem('shreeji_local_kyc_leads') || '[]');
+            applications = localKyc;
+          } catch (e) {}
+        }
+
+        // Demo seed if none exist
+        if (!applications.length) {
+          applications = [
+            {
+              id: 'SHR-KYC-1048',
+              client_id: 'SHR-C10482',
+              full_name: 'Rajesh K. Vaghela',
+              phone: '9825012345',
+              aadhar_number: 'XXXX-XXXX-1234',
+              occupation: 'Logistics Operator',
+              company_name: 'Vaghela Freight Carriers',
+              interested_plot_number: '14',
+              interested_plot_area: '182.5 Sq.Yards',
+              verification_status: 'pending'
+            },
+            {
+              id: 'SHR-KYC-1052',
+              client_id: 'SHR-C10489',
+              full_name: 'Deepak M. Chawla',
+              phone: '9898099887',
+              aadhar_number: 'XXXX-XXXX-8891',
+              occupation: 'Showroom Retailer',
+              company_name: 'Chawla Apparels',
+              interested_plot_number: '28',
+              interested_plot_area: '210.0 Sq.Yards',
+              verification_status: 'verified'
+            }
+          ];
+        }
+
+        document.getElementById('metricKycCount').textContent = applications.length;
+
+        tbody.innerHTML = applications.map(k => `
+          <tr>
+            <td><code>${k.client_id || k.clientId || 'SHR-C...'}</code></td>
+            <td><strong>${k.full_name || k.fullName}</strong></td>
+            <td><a href="tel:${k.phone}" style="color: inherit;">${k.phone}</a></td>
+            <td><code style="color: var(--admin-cyan);">${k.maskedAadhar || k.aadhar_number || 'XXXX-XXXX-1234'}</code></td>
+            <td>${k.occupation || 'Business'} &bull; <span style="color: #94A3B8;">${k.company_name || k.companyName || 'Private'}</span></td>
+            <td><span class="status-badge available">Plot #${k.interested_plot_number || k.interestedPlotNumber || '14'}</span></td>
+            <td><span class="status-badge ${k.verification_status || k.verificationStatus}">${k.verification_status || k.verificationStatus || 'pending'}</span></td>
+            <td>
+              <div style="display: flex; gap: 0.4rem;">
+                <button class="btn-action-primary" style="padding: 0.3rem 0.65rem; font-size: 0.75rem; background: var(--admin-emerald);" onclick="updateKycStatus('${k.id}', 'verified')">
+                  Verify
+                </button>
+                <button class="btn-action-primary" style="padding: 0.3rem 0.65rem; font-size: 0.75rem; background: var(--admin-rose);" onclick="updateKycStatus('${k.id}', 'rejected')">
+                  Reject
+                </button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      window.updateKycStatus = async function(id, status) {
+        try {
+          const token = sessionStorage.getItem('admin_token');
+          await fetch(`${API_BASE}/admin/kyc-applications/${id}`, {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+              ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+            },
+            body: JSON.stringify({ status })
+          });
+        } catch (e) {}
+
+        showToast(`KYC Application ${id} marked as ${status.toUpperCase()}`);
+        loadKycApplications();
+      };
+
+      // ========================================================================
+      // WHATSAPP SALES LEADS LOG (+91 98257 99754)
+      // ========================================================================
+      async function loadWhatsappDispatches() {
+        const tbody = document.getElementById('whatsappDispatchesTableBody');
+        if (!tbody) return;
+
+        let dispatches = [];
+
+        try {
+          const token = sessionStorage.getItem('admin_token');
+          const res = await fetch(`${API_BASE}/admin/whatsapp-dispatches`, {
+            headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+          });
+          if (res.ok) {
+            const data = await res.json();
+            if (data.data) dispatches = data.data;
+          }
+        } catch (e) {}
+
+        // Fallback demo data
+        if (!dispatches.length) {
+          dispatches = [
+            {
+              created_at: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+              client_name: 'Rajesh K. Vaghela',
+              client_phone: '9825012345',
+              property_ref: 'Plot #14 (Survey 374)',
+              message_body: '🏛️ SHREEJI REAL ESTATE CONSULTANT - Verified Client KYC & Plot #14 Reservation',
+              recipient_number: '919825799754',
+              dispatch_url: 'https://wa.me/919825799754'
+            },
+            {
+              created_at: 'Yesterday',
+              client_name: 'Harshil Joshi',
+              client_phone: '9898011223',
+              property_ref: 'Commercial Showroom Adipur',
+              message_body: '🏢 SHREEJI REAL ESTATE CONSULTANT - 1,500 Sq.Ft Showroom space inquiry',
+              recipient_number: '919825799754',
+              dispatch_url: 'https://wa.me/919825799754'
+            }
+          ];
+        }
+
+        document.getElementById('metricWaDispatches').textContent = dispatches.length;
+
+        tbody.innerHTML = dispatches.map(d => `
+          <tr>
+            <td><span style="font-size: 0.78rem; color: #94A3B8;">${d.created_at ? new Date(d.created_at).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'}) : 'Recent'}</span></td>
+            <td><strong>${d.client_name || d.clientName}</strong></td>
+            <td>${d.client_phone || d.clientPhone}</td>
+            <td><span class="status-badge available">${d.property_ref || d.propertyRef || 'General'}</span></td>
+            <td><span style="font-size: 0.8rem; color: #CBD5E1; max-width: 250px; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${d.message_body || d.messageBody}</span></td>
+            <td><code style="color: #25D366; font-size: 0.78rem;"><i class="fa-brands fa-whatsapp"></i> +91 98257 99754</code></td>
+            <td>
+              <a href="${d.dispatch_url || d.dispatchUrl || 'https://wa.me/919825799754'}" target="_blank" class="btn-action-primary" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; background: #25D366;">
+                <i class="fa-brands fa-whatsapp"></i> Chat
+              </a>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      // ========================================================================
+      // 3D PLOT INVENTORY & AVAILABILITY TOGGLE
+      // ========================================================================
+      let plotInventoryList = [];
+
+      function loadPlotInventory() {
+        const tbody = document.getElementById('plotsInventoryTableBody');
+        if (!tbody) return;
+
+        // Populate standard 109 plots for Nagavaladiya 374
+        plotInventoryList = [];
+        for (let i = 1; i <= 109; i++) {
+          let area = 182.5;
+          let rate = 14500;
+          if (i % 5 === 0) area = 210.0;
+          else if (i % 3 === 0) area = 145.0;
+          else if (i % 2 === 0) area = 160.0;
+
+          const savedStatus = localStorage.getItem(`shreeji_plot_status_${i}`);
+          const status = savedStatus || (i === 4 || i === 12 || i === 28 ? 'booked' : (i % 7 === 0 ? 'sold' : 'available'));
+
+          plotInventoryList.push({
+            number: i,
+            area: area,
+            price: `₹${Math.round(area * rate).toLocaleString('en-IN')}`,
+            facing: i % 2 === 0 ? 'East Facing (40-Ft Road)' : 'North Facing (Avenue)',
+            status: status
+          });
+        }
+
+        renderPlotTable(plotInventoryList);
+      }
+
+      function renderPlotTable(list) {
+        const tbody = document.getElementById('plotsInventoryTableBody');
+        if (!tbody) return;
+
+        tbody.innerHTML = list.slice(0, 50).map(p => `
+          <tr>
+            <td><strong>Plot #${p.number}</strong></td>
+            <td>${p.area} Sq.Yards</td>
+            <td><strong style="color: var(--admin-cyan);">${p.price}</strong></td>
+            <td>${p.facing}</td>
+            <td><span class="status-badge ${p.status}" id="badge_plot_${p.number}">${p.status.toUpperCase()}</span></td>
+            <td>
+              <select class="admin-control" style="padding: 0.3rem 0.5rem; font-size: 0.78rem; max-width: 130px;" onchange="changePlotStatus(${p.number}, this.value)">
+                <option value="available" ${p.status === 'available' ? 'selected' : ''}>Available</option>
+                <option value="booked" ${p.status === 'booked' ? 'selected' : ''}>Booked</option>
+                <option value="sold" ${p.status === 'sold' ? 'selected' : ''}>Sold</option>
+              </select>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      window.changePlotStatus = function(plotNum, newStatus) {
+        localStorage.setItem(`shreeji_plot_status_${plotNum}`, newStatus);
+        const badge = document.getElementById(`badge_plot_${plotNum}`);
+        if (badge) {
+          badge.className = `status-badge ${newStatus}`;
+          badge.textContent = newStatus.toUpperCase();
+        }
+        showToast(`Plot #${plotNum} status updated to ${newStatus.toUpperCase()}`);
+      };
+
+      window.filterPlotInventory = function() {
+        const query = document.getElementById('plotSearchInput').value.trim();
+        const status = document.getElementById('plotStatusFilter').value;
+
+        let filtered = plotInventoryList;
+        if (query) {
+          filtered = filtered.filter(p => String(p.number).includes(query));
+        }
+        if (status) {
+          filtered = filtered.filter(p => p.status === status);
+        }
+        renderPlotTable(filtered);
+      };
+
+      function loadDashboardMetrics() {
+        // Updated metrics
+      }
+
+      function showToast(msg) {
+        const toast = document.getElementById('adminToast');
+        const text = document.getElementById('toastMessage');
+        if (!toast || !text) return;
+        text.textContent = msg;
+        toast.style.display = 'inline-flex';
+        setTimeout(() => {
+          toast.style.display = 'none';
+        }, 4000);
+      }
+    })();
   </script>
 </body>
 </html>

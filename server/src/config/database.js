@@ -35,6 +35,7 @@ export const localStore = {
   clientUsers: [],
   kycApplications: [],
   whatsappDispatches: [],
+  mediaItems: [],
   adminUsers: [
     {
       id: 'admin-1',
@@ -95,6 +96,7 @@ const loadLocalStore = () => {
       if (data.clientUsers && Array.isArray(data.clientUsers)) localStore.clientUsers = data.clientUsers;
       if (data.kycApplications && Array.isArray(data.kycApplications)) localStore.kycApplications = data.kycApplications;
       if (data.whatsappDispatches && Array.isArray(data.whatsappDispatches)) localStore.whatsappDispatches = data.whatsappDispatches;
+      if (data.mediaItems && Array.isArray(data.mediaItems)) localStore.mediaItems = data.mediaItems;
       if (data.adminUsers && Array.isArray(data.adminUsers)) localStore.adminUsers = data.adminUsers;
     } else {
       persistLocalStoreAsync();
