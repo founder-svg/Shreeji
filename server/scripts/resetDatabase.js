@@ -59,3 +59,4 @@ try {
   console.error('❌ [Reset] Failed to write clean database:', err.message);
   process.exit(1);
 }
+
