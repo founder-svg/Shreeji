@@ -7,7 +7,27 @@ export const adminRepository = {
       const res = await pool.query('SELECT * FROM admin_users WHERE email = $1', [email]);
       return res.rows[0] || null;
     }
-    return localStore.adminUsers.find((u) => u.email.toLowerCase() === email.toLowerCase()) || null;
+    return localStore.adminUsers.find((u) => u.email && u.email.toLowerCase() === email.toLowerCase()) || null;
+  },
+
+  findByIdentifier: async (identifier) => {
+    if (!identifier) return null;
+    const clean = identifier.trim().toLowerCase();
+    if (isPostgresActive()) {
+      const pool = getPool();
+      const res = await pool.query(
+        'SELECT * FROM admin_users WHERE LOWER(email) = $1 OR LOWER(username) = $1 LIMIT 1',
+        [clean]
+      );
+      return res.rows[0] || null;
+    }
+    return (
+      localStore.adminUsers.find(
+        (u) =>
+          (u.email && u.email.toLowerCase() === clean) ||
+          (u.username && u.username.toLowerCase() === clean)
+      ) || null
+    );
   },
 
   updateLastLogin: async (id) => {

@@ -7,13 +7,14 @@ services:
     restart: always # Ensures container runs 24/7 and auto-restarts on reboot or crash
     ports:
       - "5000:5000"
+    env_file:
+      - ./server/.env
     environment:
       - NODE_ENV=production
       - PORT=5000
       - CORS_ORIGIN=https://founder-svg.github.io,http://localhost:3000,http://localhost:5173,http://localhost:5000
       - CACHE_TTL_SECONDS=60
       - STORAGE_PROVIDER=local
-      # Set DATABASE_URL, JWT_SECRET, ADMIN_PASSWORD via .env
     volumes:
       - ./server/uploads:/app/uploads
       - ./server/data:/app/data

@@ -23,7 +23,7 @@ if (isProduction) {
   ) {
     errors.push('A cryptographically secure JWT_SECRET of at least 32 characters is strictly required in production!');
   }
-  if (!process.env.ADMIN_PASSWORD || process.env.ADMIN_PASSWORD === 'Admin@Shreeji2026') {
+  if (!process.env.ADMIN_PASSWORD || process.env.ADMIN_PASSWORD === 'Admin@Shreeji2026' || process.env.ADMIN_PASSWORD === 'dev_password') {
     errors.push('Default ADMIN_PASSWORD is not allowed in production! Set a custom secure password via ADMIN_PASSWORD.');
   }
 
@@ -63,7 +63,7 @@ export const config = {
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '24h',
   admin: {
     email: process.env.ADMIN_EMAIL || 'admin@shreeji.com',
-    password: process.env.ADMIN_PASSWORD || 'Admin@Shreeji2026',
+    password: process.env.ADMIN_PASSWORD || 'Shreeji@108',
     name: process.env.ADMIN_NAME || 'Shreeji Master Administrator',
   },
 

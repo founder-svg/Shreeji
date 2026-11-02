@@ -1,7 +1,7 @@
 {
   "name": "shreeji-server",
   "version": "1.0.0",
-  "description": "High-performance, ultra-responsive backend server for Shreeji with PostgreSQL/Supabase and Cloud Storage (S3/R2/Local)",
+  "description": "High-performance backend API and 3D spatial twin platform for Shreeji Real Estate Consultancy, AutoCAD layouts, and property consultation management",
   "main": "src/server.js",
   "type": "module",
   "scripts": {

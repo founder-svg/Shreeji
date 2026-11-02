@@ -16,31 +16,7 @@ export const authController = {
         });
       }
 
-      let adminUser = await adminRepository.findByEmail(identifier);
-
-      // Support predefined client/estate administrator accounts (User ID: Shreejii, Pass: Shreeji@108)
-      if (!adminUser) {
-        const idLower = identifier.trim().toLowerCase();
-        if (
-          (idLower === 'shreejii' || identifier === 'admin@shreeji.com') &&
-          (password === 'Shreeji@108' || password === 'shreeji123' || password === config.admin.password)
-        ) {
-          adminUser = {
-            id: 'admin-shreeji-master',
-            email: 'admin@shreeji.com',
-            username: 'Shreejii',
-            name: 'Shreeji Master Administrator',
-            role: 'admin',
-          };
-        } else if (identifier === 'admin@regalfarms.com' && password === 'admin123') {
-          adminUser = {
-            id: 'admin-regal-farms',
-            email: 'admin@regalfarms.com',
-            name: 'Regal Farms Estate Administrator',
-            role: 'admin',
-          };
-        }
-      }
+      const adminUser = await adminRepository.findByIdentifier(identifier);
 
       if (!adminUser) {
         return res.status(401).json({
@@ -49,21 +25,20 @@ export const authController = {
         });
       }
 
-      // Check password if hash exists
-      if (adminUser.password_hash || adminUser.passwordHash) {
-        const isMatch = await bcrypt.compare(password, adminUser.password_hash || adminUser.passwordHash);
-        if (!isMatch) {
-          // Allow fallback for Shreeji@108 or shreeji123 on admin@shreeji.com / Shreejii
-          const idLower = identifier.trim().toLowerCase();
-          if ((idLower === 'shreejii' || identifier === 'admin@shreeji.com') && (password === 'Shreeji@108' || password === 'shreeji123')) {
-            // authorized
-          } else {
-            return res.status(401).json({
-              success: false,
-              error: 'Invalid email or password',
-            });
-          }
-        }
+      const passwordHash = adminUser.password_hash || adminUser.passwordHash;
+      if (!passwordHash) {
+        return res.status(401).json({
+          success: false,
+          error: 'Invalid email or password',
+        });
+      }
+
+      const isMatch = await bcrypt.compare(password, passwordHash);
+      if (!isMatch) {
+        return res.status(401).json({
+          success: false,
+          error: 'Invalid email or password',
+        });
       }
 
       // Generate signed JWT token

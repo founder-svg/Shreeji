@@ -256,7 +256,17 @@
 
             if (isPlotMesh) {
               const displayName = (meta && meta.name) ? String(meta.name) : (plotName || fallbackName || child.name);
-              const statusId = meta ? meta.statusId : 112;
+              
+              // Check real-time admin status override
+              let statusId = meta ? meta.statusId : 112;
+              const savedStatus = localStorage.getItem(`shreeji_plot_status_${displayName}`) ||
+                                  localStorage.getItem(`shreeji_plot_status_${plotName}`) ||
+                                  localStorage.getItem(`shreeji_plot_status_${fallbackName}`);
+              if (savedStatus) {
+                if (savedStatus === 'sold') statusId = 110;
+                else if (savedStatus === 'booked' || savedStatus === 'builder' || savedStatus === 'under_offer') statusId = 111;
+                else if (savedStatus === 'available') statusId = 112;
+              }
 
               child.userData = {
                 isPlot: true,
@@ -410,6 +420,56 @@
       state.satellitePlane.visible = enabled;
     }
   }
+
+  /* Real-Time Admin Inventory Sync */
+  function updatePlotMeshStatus(plotIdentifier, statusStr) {
+    if (!plotIdentifier || !statusStr) return;
+    const cleanId = String(plotIdentifier).trim();
+    const cleanStatus = statusStr.toLowerCase();
+
+    let sId = 112;
+    if (cleanStatus === 'sold') sId = 110;
+    else if (cleanStatus === 'booked' || cleanStatus === 'builder' || cleanStatus === 'under_offer') sId = 111;
+    else if (cleanStatus === 'available') sId = 112;
+
+    const mesh = state.plots.get(cleanId) ||
+                 state.plots.get(`Plot_${cleanId}`) ||
+                 state.plots.get(`Mesh_${cleanId}`) ||
+                 state.plots.get(cleanId.replace(/^Plot_?/i, ''));
+
+    if (mesh) {
+      mesh.userData.statusId = sId;
+      if (mesh.userData.meta) {
+        mesh.userData.meta.statusId = sId;
+      }
+      if (state.statusColoringEnabled) {
+        const cfg = STATUS_COLORS[sId] || STATUS_COLORS[112];
+        mesh.material.color.setHex(cfg.hex);
+      }
+      if (state.selectedMesh === mesh) {
+        openPlotCard(mesh);
+      }
+    }
+  }
+
+  // Cross-Tab & Broadcast Channel Real-Time Sync
+  try {
+    const invSyncChannel = new BroadcastChannel('shreeji_inventory_sync');
+    invSyncChannel.onmessage = (event) => {
+      if (event.data && event.data.type === 'PLOT_STATUS_CHANGED') {
+        updatePlotMeshStatus(event.data.plotNumber, event.data.newStatus);
+        updateStatusLegendCounts();
+      }
+    };
+  } catch (e) {}
+
+  window.addEventListener('storage', (e) => {
+    if (e.key && e.key.startsWith('shreeji_plot_status_')) {
+      const pNum = e.key.replace('shreeji_plot_status_', '');
+      updatePlotMeshStatus(pNum, e.newValue);
+      updateStatusLegendCounts();
+    }
+  });
 
   /* ==========================================================================
      PLOT SELECTION & FLY-TO

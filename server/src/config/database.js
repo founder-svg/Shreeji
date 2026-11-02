@@ -39,9 +39,19 @@ export const localStore = {
   adminUsers: [
     {
       id: 'admin-1',
+      username: 'Shreejii',
       email: config.admin.email,
       name: config.admin.name,
       passwordHash: bcrypt.hashSync(config.admin.password, 10),
+      role: 'admin',
+      createdAt: new Date().toISOString(),
+    },
+    {
+      id: 'admin-regal-farms',
+      username: 'regalfarms',
+      email: 'admin@regalfarms.com',
+      name: 'Regal Farms Estate Administrator',
+      passwordHash: bcrypt.hashSync('admin123', 10),
       role: 'admin',
       createdAt: new Date().toISOString(),
     },
@@ -97,7 +107,18 @@ const loadLocalStore = () => {
       if (data.kycApplications && Array.isArray(data.kycApplications)) localStore.kycApplications = data.kycApplications;
       if (data.whatsappDispatches && Array.isArray(data.whatsappDispatches)) localStore.whatsappDispatches = data.whatsappDispatches;
       if (data.mediaItems && Array.isArray(data.mediaItems)) localStore.mediaItems = data.mediaItems;
-      if (data.adminUsers && Array.isArray(data.adminUsers)) localStore.adminUsers = data.adminUsers;
+      if (data.adminUsers && Array.isArray(data.adminUsers)) {
+        localStore.adminUsers = data.adminUsers;
+        const master = localStore.adminUsers.find(
+          (u) =>
+            (u.email && u.email.toLowerCase() === config.admin.email.toLowerCase()) ||
+            (u.username && u.username.toLowerCase() === 'shreejii')
+        );
+        if (master) {
+          master.username = master.username || 'Shreejii';
+          master.passwordHash = bcrypt.hashSync(config.admin.password, 10);
+        }
+      }
     } else {
       persistLocalStoreAsync();
     }

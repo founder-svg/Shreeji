@@ -259,10 +259,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Backend Server Integration Helper (http://localhost:5000/api/v1/inquiries)
-  const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:5000/api/v1'
-    : 'https://founder-svg.github.io/Shreeji/api/v1';
+  // Centralized Backend Server Integration Helper
+  const API_BASE = window.SHREEJI_API_BASE || (
+    window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      ? 'http://localhost:5000/api/v1'
+      : (window.location.origin.includes('github.io') ? 'https://shreeji-server.onrender.com/api/v1' : '/api/v1')
+  );
 
   async function postInquiryToServer(payload) {
     try {
@@ -1237,64 +1239,107 @@ window.handleInquirySubmit = async function(e, role) {
   const originalBtnText = btn ? btn.innerHTML : '';
   if (btn) {
     btn.disabled = true;
-    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Registering...';
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
   }
 
-  let payload = {
-    role: role,
-    timestamp: new Date().toISOString(),
-    source: 'Shreeji Web Portal'
+  const nameVal = role === 'landlord'
+    ? (document.getElementById('sellerName')?.value || '').trim()
+    : (document.getElementById('buyerName')?.value || '').trim();
+  const phoneVal = role === 'landlord'
+    ? (document.getElementById('sellerPhone')?.value || '').trim()
+    : (document.getElementById('buyerPhone')?.value || '').trim();
+  const locVal = role === 'landlord'
+    ? (document.getElementById('sellerLoc')?.value || '').trim()
+    : (document.getElementById('buyerLoc')?.value || '').trim();
+
+  if (!nameVal || !phoneVal) {
+    alert('Please enter your full name and a valid contact phone number.');
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = originalBtnText;
+    }
+    return;
+  }
+
+  const realEstatePayload = {
+    name: nameVal,
+    phone: phoneVal,
+    role: role === 'landlord' ? 'seller' : 'buyer',
+    propertyCategory: role === 'landlord' ? 'Commercial Land Listing' : (document.getElementById('buyerCategory')?.value || 'Commercial Plot'),
+    preferredLocation: locVal || 'Gandhidham Belt',
+    builtupArea: role === 'landlord' ? (document.getElementById('sellerArea')?.value || '') : '',
+    message: role === 'landlord'
+      ? `Landlord Listing in ${locVal}. Expected Value: ${document.getElementById('sellerExpected')?.value || 'Market Valuation'}`
+      : `Commercial Space Inquiry: ${document.getElementById('buyerCategory')?.value || 'Plot'} in ${locVal}. Notes: ${document.getElementById('buyerNotes')?.value || 'Site visit request'}`,
+    source: 'shreeji_web_modal'
   };
 
-  if (role === 'landlord') {
-    payload.location = document.getElementById('sellerLoc')?.value || '';
-    payload.area = document.getElementById('sellerArea')?.value || '';
-    payload.name = document.getElementById('sellerName')?.value || '';
-    payload.phone = document.getElementById('sellerPhone')?.value || '';
-    payload.expected = document.getElementById('sellerExpected')?.value || '';
-    payload.subject = `Landlord Property Listing: ${payload.location} (${payload.area})`;
-  } else {
-    payload.location = document.getElementById('buyerLoc')?.value || '';
-    payload.category = document.getElementById('buyerCategory')?.value || '';
-    payload.name = document.getElementById('buyerName')?.value || '';
-    payload.phone = document.getElementById('buyerPhone')?.value || '';
-    payload.notes = document.getElementById('buyerNotes')?.value || '';
-    payload.subject = `Commercial Space Inquiry: ${payload.category} in ${payload.location}`;
-  }
+  const API_TARGET = window.SHREEJI_API_BASE || (
+    window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      ? 'http://localhost:5000/api/v1'
+      : (window.location.origin.includes('github.io') ? 'https://shreeji-server.onrender.com/api/v1' : '/api/v1')
+  );
 
-  // 1. Store locally as fail-safe
-  try {
-    const existing = JSON.parse(localStorage.getItem('shreeji_inquiries') || '[]');
-    existing.push(payload);
-    localStorage.setItem('shreeji_inquiries', JSON.stringify(existing));
-  } catch (err) {
-    console.warn('Local storage write skipped:', err);
-  }
+  let isSuccess = false;
 
-  // 2. Transmit to Backend Server (port 5000)
   try {
-    const response = await fetch('http://localhost:5000/api/v1/inquiries', {
+    const response = await fetch(`${API_TARGET}/property-inquiries`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Client-Platform': 'web'
+      },
+      body: JSON.stringify(realEstatePayload)
     });
-    console.log('Backend response status:', response.status);
+
+    if (response.ok) {
+      isSuccess = true;
+      const resJson = await response.json();
+      console.log('✅ Lead synced with server:', resJson);
+
+      // Save local backup marked synced
+      try {
+        const existing = JSON.parse(localStorage.getItem('shreeji_inquiries') || '[]');
+        existing.push({ ...realEstatePayload, synced: true, timestamp: new Date().toISOString() });
+        localStorage.setItem('shreeji_inquiries', JSON.stringify(existing));
+      } catch (e) {}
+
+      // If WhatsApp dispatch info returned, update direct contact button
+      if (resJson.whatsAppDispatch && resJson.whatsAppDispatch.directUrl) {
+        const waLink = document.getElementById('successWaLink');
+        if (waLink) {
+          waLink.href = resJson.whatsAppDispatch.directUrl;
+        }
+      }
+    } else {
+      const errData = await response.json().catch(() => ({}));
+      alert(errData.error || 'Unable to register inquiry. Please try again or contact us via WhatsApp.');
+    }
   } catch (networkErr) {
-    console.log('Backend offline or starting up, inquiry securely logged locally:', payload);
+    console.warn('Backend currently unreachable, saving inquiry locally for retry:', networkErr);
+    // Offline local queue
+    try {
+      const existing = JSON.parse(localStorage.getItem('shreeji_inquiries') || '[]');
+      existing.push({ ...realEstatePayload, synced: false, timestamp: new Date().toISOString() });
+      localStorage.setItem('shreeji_inquiries', JSON.stringify(existing));
+      isSuccess = true; // Allow offline grace for user
+    } catch (e) {}
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = originalBtnText;
+    }
   }
 
-  // 3. Show Success Screen
-  if (btn) {
-    btn.disabled = false;
-    btn.innerHTML = originalBtnText;
-  }
-  const buyerForm = document.getElementById('buyerForm');
-  const sellerForm = document.getElementById('sellerForm');
-  const successBox = document.getElementById('formSuccess');
+  if (isSuccess) {
+    const buyerForm = document.getElementById('buyerForm');
+    const sellerForm = document.getElementById('sellerForm');
+    const successBox = document.getElementById('formSuccess');
 
-  if (buyerForm) buyerForm.style.display = 'none';
-  if (sellerForm) sellerForm.style.display = 'none';
-  if (successBox) successBox.style.display = 'block';
+    if (buyerForm) buyerForm.style.display = 'none';
+    if (sellerForm) sellerForm.style.display = 'none';
+    if (successBox) successBox.style.display = 'block';
+  }
 };
 
 // Close modal if user clicks on backdrop

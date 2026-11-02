@@ -51,7 +51,7 @@ async function runTests() {
     // 0. Admin Login for CRM management tests
     const adminLoginRes = await makeRequest(
       { hostname: 'localhost', port: PORT, path: '/api/v1/auth/login', method: 'POST' },
-      { email: 'admin@shreeji.com', password: 'shreeji123' }
+      { email: 'admin@shreeji.com', password: 'Shreeji@108' }
     );
     assert.strictEqual(adminLoginRes.status, 200, 'Admin authenticates successfully');
     adminToken = adminLoginRes.body.token;

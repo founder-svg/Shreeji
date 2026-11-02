@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Shreeji Client Portal | Account Onboarding &amp; KYC Verification</title>
-  <meta name="description" content="Exclusive client onboarding portal for Shreeji Real Estate. Create your User ID and password, complete KYC verification with Aadhar, and reserve your 3D commercial parcel." />
+  <title>Shreeji VIP Portal | Property Consultation &amp; Plot Inquiry</title>
+  <meta name="description" content="Exclusive property consultation and plot inquiry portal for Shreeji Real Estate. Explore commercial parcels, submit requirements, and schedule site inspections directly on WhatsApp." />
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -702,13 +702,13 @@
     <!-- Hero Title -->
     <section class="portal-hero">
       <div class="portal-tag">
-        <i class="fa-solid fa-shield-halved"></i> SECURE DIGITAL ONBOARDING
+        <i class="fa-solid fa-sparkles"></i> VIP REAL ESTATE CONSULTATION
       </div>
       <h1 class="portal-hero-title">
-        Client Account &amp; <span class="gold-text">KYC Verification</span>
+        Client Account &amp; <span class="gold-text">Property Consultation</span>
       </h1>
       <p class="portal-hero-desc">
-        Create your exclusive buyer/investor User ID, complete your verified Aadhar KYC, and reserve commercial plots with direct WhatsApp sales dispatch.
+        Register your commercial property requirements, select 3D surveyed plot parcels, and connect directly with Shreeji's executive sales team on WhatsApp.
       </p>
     </section>
 
@@ -720,7 +720,7 @@
       </div>
       <div class="step-item" id="stepper2" onclick="switchSection('kyc')">
         <span class="step-circle">2</span>
-        <span>Aadhar KYC &amp; Plot Intake</span>
+        <span>Property Requirements</span>
       </div>
       <div class="step-item" id="stepper3">
         <span class="step-circle">3</span>
@@ -782,7 +782,7 @@
 
           <div class="form-group full-width" style="margin-top: 0.5rem;">
             <button type="submit" class="btn-submit-kyc" id="btnRegisterSubmit">
-              <i class="fa-solid fa-user-plus"></i> Create Account &amp; Proceed to KYC
+              <i class="fa-solid fa-user-plus"></i> Create Account &amp; Proceed to Inquiry
             </button>
           </div>
         </div>
@@ -811,17 +811,26 @@
     </section>
 
     <!-- ==========================================================================
-         STEP 2: CLIENT KYC & PLOT INTAKE FORM
+         STEP 2: PROPERTY INTAKE & CONSULTATION REQUIREMENTS FORM
          ========================================================================== -->
     <section class="portal-card" id="cardKyc" style="display: none;">
       <div class="card-header-row">
         <div class="card-title-group">
-          <h2>Client KYC &amp; Commercial Parcel Intake Form</h2>
-          <p>Verified information is synchronized to Shreeji's database and forwarded to our sales desk for immediate plot reservation.</p>
+          <h2>Commercial Property &amp; Parcel Inquiry</h2>
+          <p>Your requirements are synchronized directly with Shreeji's advisory desk and dispatched via WhatsApp to schedule a personal site inspection.</p>
         </div>
         <button type="button" class="nav-btn nav-btn-secondary" onclick="signOutClient()" title="Log out">
           <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
         </button>
+      </div>
+
+      <!-- Offline Verification & Policy Banner -->
+      <div style="background: rgba(217, 164, 65, 0.08); border: 1px solid rgba(217, 164, 65, 0.3); border-radius: 12px; padding: 0.9rem 1.25rem; margin-bottom: 1.5rem; display: flex; align-items: flex-start; gap: 0.85rem;">
+        <i class="fa-solid fa-handshake" style="color: var(--accent-gold); font-size: 1.3rem; margin-top: 0.2rem;"></i>
+        <div style="font-size: 0.84rem; color: #E2E8F0; line-height: 1.5;">
+          <strong style="color: var(--accent-gold);">Shreeji In-Person Verification &amp; Offline Payment Policy:</strong><br />
+          In adherence to our strict client privacy and legal standards, all document verification (KYC), title search reviews, and booking transactions are performed <strong>manually in person</strong> by Shreeji's certified property attorneys during your scheduled site visit. No identity documents (Aadhaar/PAN) or online payments are collected on this website.
+        </div>
       </div>
 
       <!-- Selected Plot Parcel HUD (Auto-populated if from 3D Map) -->
@@ -850,7 +859,7 @@
           <!-- Section 1: Personal & Contact -->
           <div class="form-group full-width">
             <h3 style="font-size: 1.05rem; color: #00D2FF; margin-top: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
-              <i class="fa-solid fa-address-card"></i> 1. Personal &amp; Communication Details
+              <i class="fa-solid fa-address-card"></i> 1. Contact &amp; Communication Details
             </h3>
           </div>
 
@@ -870,23 +879,23 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label">Pincode <span class="req">*</span></label>
-            <input type="text" id="kycPincode" class="form-input" placeholder="e.g. 370201" maxlength="6" required />
+            <label class="form-label">Pincode</label>
+            <input type="text" id="kycPincode" class="form-input" placeholder="e.g. 370201" maxlength="6" />
           </div>
 
           <div class="form-group full-width">
-            <label class="form-label">Residential / Office Street Address <span class="req">*</span></label>
-            <textarea id="kycAddress" class="form-textarea" placeholder="Flat/Plot No., Building Name, Road, Area..." required></textarea>
+            <label class="form-label">Residential / Office Street Address</label>
+            <textarea id="kycAddress" class="form-textarea" placeholder="Flat/Plot No., Building Name, Road, Area..."></textarea>
           </div>
 
           <div class="form-group">
-            <label class="form-label">City <span class="req">*</span></label>
-            <input type="text" id="kycCity" class="form-input" value="Gandhidham" required />
+            <label class="form-label">City</label>
+            <input type="text" id="kycCity" class="form-input" value="Gandhidham" />
           </div>
 
           <div class="form-group">
-            <label class="form-label">State <span class="req">*</span></label>
-            <input type="text" id="kycState" class="form-input" value="Gujarat" required />
+            <label class="form-label">State</label>
+            <input type="text" id="kycState" class="form-input" value="Gujarat" />
           </div>
 
           <!-- Section 2: Profession & Work Details -->
@@ -929,56 +938,10 @@
             </select>
           </div>
 
-          <div class="form-group">
-            <label class="form-label">PAN Card Number (Optional)</label>
-            <input type="text" id="kycPan" class="form-input" placeholder="e.g. ABCDE1234F" maxlength="10" />
-          </div>
-
-          <!-- Section 3: Aadhar Card Verification & Document Upload -->
+          <!-- Section 3: Plot Parcel Selection -->
           <div class="form-group full-width">
             <h3 style="font-size: 1.05rem; color: #00D2FF; margin-top: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-              <i class="fa-solid fa-id-card"></i> 3. UIDAI Aadhar Card Verification
-            </h3>
-          </div>
-
-          <div class="form-group full-width">
-            <label class="form-label">12-Digit Aadhar Card Number <span class="req">*</span></label>
-            <input type="text" id="kycAadhar" class="form-input" placeholder="XXXX-XXXX-XXXX" maxlength="14" oninput="formatAadhar(this)" required />
-            <span style="font-size: 0.72rem; color: #94A3B8; margin-top: 3px; display: block;">
-              <i class="fa-solid fa-lock"></i> Secured with 256-bit encryption. Stored securely and masked on all client receipts.
-            </span>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Aadhar Card Document (Front Side) <span class="req">*</span></label>
-            <div class="upload-dropzone" onclick="document.getElementById('fileAadharFront').click()">
-              <input type="file" id="fileAadharFront" accept="image/*,application/pdf" style="display: none;" onchange="handleFileSelected(this, 'frontPreview')" />
-              <div class="dropzone-icon"><i class="fa-solid fa-file-arrow-up"></i></div>
-              <div class="dropzone-text">Upload Front Copy</div>
-              <div class="dropzone-hint">PNG, JPG, PDF up to 5MB</div>
-            </div>
-            <div class="file-preview-wrap" id="frontPreview">
-              <span class="file-preview-name"><i class="fa-solid fa-check"></i> <span class="name-text">front.jpg</span></span>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Aadhar Card Document (Back Side / Address)</label>
-            <div class="upload-dropzone" onclick="document.getElementById('fileAadharBack').click()">
-              <input type="file" id="fileAadharBack" accept="image/*,application/pdf" style="display: none;" onchange="handleFileSelected(this, 'backPreview')" />
-              <div class="dropzone-icon"><i class="fa-solid fa-file-arrow-up"></i></div>
-              <div class="dropzone-text">Upload Back Copy</div>
-              <div class="dropzone-hint">PNG, JPG, PDF up to 5MB</div>
-            </div>
-            <div class="file-preview-wrap" id="backPreview">
-              <span class="file-preview-name"><i class="fa-solid fa-check"></i> <span class="name-text">back.jpg</span></span>
-            </div>
-          </div>
-
-          <!-- Section 4: Plot Parcel Confirmation -->
-          <div class="form-group full-width">
-            <h3 style="font-size: 1.05rem; color: #00D2FF; margin-top: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-              <i class="fa-solid fa-map"></i> 4. Commercial Master Plot Selection
+              <i class="fa-solid fa-map"></i> 3. Commercial Master Plot Selection
             </h3>
           </div>
 
@@ -1001,13 +964,13 @@
               <div class="trust-seal"><i class="fa-solid fa-circle-check"></i> 100% Clear Title (7/12 &amp; 8A Certified)</div>
               <div class="trust-seal"><i class="fa-solid fa-circle-check"></i> RERA Approved Plotted Scheme</div>
               <div class="trust-seal"><i class="fa-solid fa-circle-check"></i> 40 Ft Asphalt Main Avenue Access</div>
-              <div class="trust-seal"><i class="fa-solid fa-circle-check"></i> Direct Shreeji Executive Allocation</div>
+              <div class="trust-seal"><i class="fa-solid fa-circle-check"></i> In-Person Title &amp; Document Review</div>
             </div>
           </div>
 
           <div class="form-group full-width" style="margin-top: 1rem;">
             <button type="submit" class="btn-submit-kyc" id="btnKycSubmit">
-              <i class="fa-solid fa-paper-plane"></i> Submit KYC &amp; Reserve Commercial Plot
+              <i class="fa-brands fa-whatsapp"></i> Submit Inquiry &amp; Dispatch to WhatsApp (+91 98257 99754)
             </button>
           </div>
         </div>
@@ -1023,17 +986,17 @@
       </div>
 
       <h2 style="font-family: var(--font-heading); font-size: 1.85rem; margin-bottom: 0.5rem; color: #FFFFFF;">
-        KYC Application Submitted Successfully!
+        Property Inquiry Registered Successfully!
       </h2>
       <p style="color: #94A3B8; max-width: 580px; margin: 0 auto 1.5rem auto;">
-        Your identity verification and commercial plot reservation request have been recorded in Shreeji's database. Dispatch your application to our sales desk on WhatsApp to confirm your site visit.
+        Your commercial plot inquiry has been recorded in Shreeji's system. Connect directly with our sales desk on WhatsApp to confirm your site inspection and review title documents in person.
       </p>
 
       <!-- Application Receipt Summary -->
       <div class="receipt-box">
         <div class="receipt-row">
-          <span class="receipt-label">Application Reference:</span>
-          <span class="receipt-val" id="receiptRef">SHR-KYC-XXXX</span>
+          <span class="receipt-label">Inquiry Reference:</span>
+          <span class="receipt-val" id="receiptRef">SHR-INQ-XXXX</span>
         </div>
         <div class="receipt-row">
           <span class="receipt-label">Client User ID:</span>
@@ -1048,11 +1011,7 @@
           <span class="receipt-val" id="receiptPhone">98250 12345</span>
         </div>
         <div class="receipt-row">
-          <span class="receipt-label">Aadhar Verification:</span>
-          <span class="receipt-val" id="receiptAadhar">XXXX-XXXX-1234</span>
-        </div>
-        <div class="receipt-row">
-          <span class="receipt-label">Reserved Parcel:</span>
+          <span class="receipt-label">Selected Parcel:</span>
           <span class="receipt-val" id="receiptPlot">Plot #1 (Nagavaladiya 374)</span>
         </div>
         <div class="receipt-row">
@@ -1060,8 +1019,8 @@
           <span class="receipt-val" style="color: #00D2FF; font-weight: 700;" id="receiptPrice">₹29,46,620</span>
         </div>
         <div class="receipt-row">
-          <span class="receipt-label">Assigned Consultant:</span>
-          <span class="receipt-val" id="receiptAgent">AGENT-SHREEJI-01</span>
+          <span class="receipt-label">Assigned Advisor:</span>
+          <span class="receipt-val" id="receiptAgent">Shreeji Sales Team (+91 98257 99754)</span>
         </div>
       </div>
 
@@ -1069,7 +1028,7 @@
         <!-- WhatsApp Dispatch -->
         <a href="#" target="_blank" rel="noopener noreferrer" class="btn-whatsapp-dispatch" id="btnDispatchWhatsapp">
           <i class="fa-brands fa-whatsapp" style="font-size: 1.4rem;"></i>
-          <span>Send Application to Shreeji Sales (+91 98257 99754)</span>
+          <span>Chat with Shreeji Sales Desk on WhatsApp (+91 98257 99754)</span>
         </a>
 
         <!-- Explore 3D Map -->
@@ -1086,7 +1045,11 @@
     (function() {
       "use strict";
 
-      const API_BASE = "/api/v1";
+      const API_BASE = window.SHREEJI_API_BASE || (
+        window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+          ? 'http://localhost:5000/api/v1'
+          : (window.location.origin.includes('github.io') ? 'https://shreeji-server.onrender.com/api/v1' : '/api/v1')
+      );
       const STORAGE_KEY_TOKEN = "shreeji_client_token";
       const STORAGE_KEY_CLIENT = "shreeji_client_user";
 
@@ -1365,102 +1328,97 @@
         }
       };
 
-      // Handle KYC Submission
+      // Handle Property Intake & Consultation Submission
       window.handleKycSubmit = async function(e) {
         e.preventDefault();
         const submitBtn = document.getElementById("btnKycSubmit");
         submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Encrypting & Submitting KYC...';
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Registering Inquiry...';
 
-        const token = localStorage.getItem(STORAGE_KEY_TOKEN);
-        const aadharRaw = document.getElementById("kycAadhar").value.replace(/[\s-]/g, "");
+        const fullName = document.getElementById("kycFullName").value.trim();
+        const phone = document.getElementById("kycPhone").value.trim();
+        const email = document.getElementById("kycEmail").value.trim();
+        const address = document.getElementById("kycAddress").value.trim();
+        const city = document.getElementById("kycCity").value.trim();
+        const pincode = document.getElementById("kycPincode").value.trim();
+        const occupation = document.getElementById("kycOccupation").value;
+        const company = document.getElementById("kycCompanyName").value.trim();
+        const workDetails = document.getElementById("kycWorkDetails").value.trim();
+        const budget = document.getElementById("kycBudget").value;
+        const plotNum = document.getElementById("kycPlotNum").value.trim() || "1";
+        const plotArea = document.getElementById("hudPlotArea").textContent;
+        const plotValue = document.getElementById("hudPlotValue").textContent;
+        const projectName = document.getElementById("hudProjectName").textContent;
 
-        if (aadharRaw.length !== 12 || !/^\d{12}$/.test(aadharRaw)) {
-          showAlert("Please enter a valid 12-digit UIDAI Aadhar number.", "error");
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Submit KYC & Reserve Commercial Plot';
-          return;
-        }
+        const propertyPayload = {
+          name: fullName,
+          phone: phone,
+          email: email || undefined,
+          role: 'investor',
+          propertyCategory: 'Commercial Plot Parcel',
+          preferredLocation: city || 'Gandhidham Belt',
+          builtupArea: plotArea,
+          budgetOrExpected: plotValue || budget,
+          message: `[VIP CLIENT INQUIRY]\nProfession: ${occupation}\nCompany: ${company || 'Self-Employed'}\nCommercial Activity: ${workDetails || 'Commercial development'}\nAddress: ${address}, ${city} (${pincode})\nSelected Plot: #${plotNum} (${plotArea}) in ${projectName}\nAgent Referral: ${paramRef || 'Direct Client'}`,
+          source: 'vip_portal'
+        };
 
-        const payload = {
-          fullName: document.getElementById("kycFullName").value.trim(),
-          phone: document.getElementById("kycPhone").value.trim(),
-          email: document.getElementById("kycEmail").value.trim() || undefined,
-          addressStreet: document.getElementById("kycAddress").value.trim(),
-          city: document.getElementById("kycCity").value.trim(),
-          state: document.getElementById("kycState").value.trim(),
-          pincode: document.getElementById("kycPincode").value.trim(),
-          occupation: document.getElementById("kycOccupation").value,
-          companyName: document.getElementById("kycCompanyName").value.trim(),
-          workDetails: document.getElementById("kycWorkDetails").value.trim(),
-          annualIncomeOrBudget: document.getElementById("kycBudget").value,
-          aadharNumber: aadharRaw,
-          panNumber: document.getElementById("kycPan").value.trim() || undefined,
-          interestedProjectId: document.getElementById("kycProjectSelect").value,
-          interestedPlotNumber: document.getElementById("kycPlotNum").value.trim() || "1",
-          interestedPlotArea: document.getElementById("hudPlotArea").textContent,
-          interestedPlotValue: document.getElementById("hudPlotValue").textContent,
+        const waNumber = "919825799754";
+        const waText = encodeURIComponent(
+          `*🏛️ SHREEJI REAL ESTATE CONSULTANT - VIP INQUIRY*\n\n` +
+          `👤 *Client Name:* ${fullName}\n` +
+          `🆔 *Client ID:* ${currentUser?.clientId || 'SHR-VIP'}\n` +
+          `📞 *Contact:* ${phone}\n` +
+          `📍 *Address / City:* ${address ? address + ', ' : ''}${city} (${pincode})\n` +
+          `💼 *Work Profile:* ${occupation} (${company || 'Private'})\n` +
+          `📐 *Selected Plot:* Plot #${plotNum} (${plotArea})\n` +
+          `💰 *Estimated Value / Budget:* ${plotValue}\n` +
+          `🤝 *Referral Code:* ${paramRef || 'Direct'}\n\n` +
+          `_Client requests personal site inspection and in-person document review._`
+        );
+
+        let inquiryApp = {
+          id: `SHR-INQ-${Math.floor(1000 + Math.random() * 9000)}`,
+          fullName: fullName,
+          phone: phone,
+          interestedPlotNumber: plotNum,
+          interestedPlotArea: plotArea,
+          interestedPlotValue: plotValue,
           agentCode: paramRef
         };
 
         try {
-          const res = await fetch(`${API_BASE}/client/kyc`, {
+          const res = await fetch(`${API_BASE}/property-inquiries`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              ...(token ? { Authorization: `Bearer ${token}` } : {})
+              "X-Client-Platform": "web"
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(propertyPayload)
           });
 
           const data = await res.json();
-          if (!res.ok || !data.success) {
-            throw new Error(data.error || "Failed to submit KYC");
+          if (res.ok && data.data) {
+            inquiryApp.id = data.data.id || inquiryApp.id;
           }
-
-          renderSuccessScreen(data.application, data.whatsAppDispatch);
         } catch (err) {
-          console.warn("Backend KYC endpoint offline, generating local receipt:", err.message);
-          const fallbackApp = {
-            id: `SHR-KYC-${Math.floor(1000 + Math.random() * 9000)}`,
-            fullName: payload.fullName,
-            phone: payload.phone,
-            maskedAadhar: `XXXX-XXXX-${aadharRaw.slice(-4)}`,
-            interestedPlotNumber: payload.interestedPlotNumber,
-            interestedPlotArea: payload.interestedPlotArea,
-            interestedPlotValue: payload.interestedPlotValue,
-            agentCode: payload.agentCode
-          };
-
-          const waNumber = "919825799754";
-          const waText = encodeURIComponent(
-            `*NEW CLIENT KYC & PLOT APPLICATION - SHREEJI COMMERCIAL*\n\n` +
-            `👤 *Client Name:* ${payload.fullName}\n` +
-            `🆔 *Client User ID:* ${currentUser?.clientId || 'SHR-C10482'}\n` +
-            `📞 *Contact:* ${payload.phone}\n` +
-            `📍 *Address:* ${payload.addressStreet}, ${payload.city} (${payload.pincode})\n` +
-            `💼 *Work / Business:* ${payload.occupation} (${payload.companyName || 'Private'})\n` +
-            `🪪 *Aadhar:* XXXX-XXXX-${aadharRaw.slice(-4)}\n` +
-            `📐 *Selected Plot:* Plot #${payload.interestedPlotNumber} (${payload.interestedPlotArea})\n` +
-            `💰 *Estimated Value:* ${payload.interestedPlotValue}\n` +
-            `🤝 *Agent Referral Code:* ${payload.agentCode}\n` +
-            `📄 *Application Ref:* ${fallbackApp.id}\n\n` +
-            `_Please process KYC verification and dispatch site visit schedule._`
-          );
-
-          renderSuccessScreen(fallbackApp, {
-            phoneNumber: waNumber,
-            directUrl: `https://wa.me/${waNumber}?text=${waText}`
-          });
+          console.warn("Backend lead sync network fallback:", err.message);
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fa-brands fa-whatsapp"></i> Submit Inquiry &amp; Dispatch to WhatsApp (+91 98257 99754)';
         }
+
+        renderSuccessScreen(inquiryApp, {
+          phoneNumber: waNumber,
+          directUrl: `https://wa.me/${waNumber}?text=${waText}`
+        });
       };
 
       function renderSuccessScreen(app, waDispatch) {
-        document.getElementById("receiptRef").textContent = app.id || "SHR-KYC-PENDING";
-        document.getElementById("receiptClientId").textContent = currentUser?.clientId || "SHR-C10482";
+        document.getElementById("receiptRef").textContent = app.id || "SHR-INQ-SUCCESS";
+        document.getElementById("receiptClientId").textContent = currentUser?.clientId || "SHR-VIP";
         document.getElementById("receiptName").textContent = app.fullName;
         document.getElementById("receiptPhone").textContent = app.phone;
-        document.getElementById("receiptAadhar").textContent = app.maskedAadhar || "XXXX-XXXX-1234";
         document.getElementById("receiptPlot").textContent = `Plot #${app.interestedPlotNumber || '1'} (${app.interestedPlotArea || '180 Sq.Yards'})`;
         document.getElementById("receiptPrice").textContent = app.interestedPlotValue || "₹29,46,620";
         document.getElementById("receiptAgent").textContent = app.agentCode || paramRef;

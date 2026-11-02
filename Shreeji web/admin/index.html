@@ -840,8 +840,8 @@
           <button class="nav-tab-btn" data-tab="media-studio" onclick="switchAdminTab('media-studio')">
             <i class="fa-solid fa-photo-film" style="color: var(--admin-gold);"></i> Photos &amp; Video Studio
           </button>
-          <button class="nav-tab-btn" data-tab="kyc-review" onclick="switchAdminTab('kyc-review')">
-            <i class="fa-solid fa-id-card" style="color: var(--admin-emerald);"></i> Client KYC &amp; Aadhar
+          <button class="nav-tab-btn" data-tab="inquiries" onclick="switchAdminTab('inquiries')">
+            <i class="fa-solid fa-clipboard-list" style="color: var(--admin-emerald);"></i> Property Inquiries &amp; Leads
           </button>
           <button class="nav-tab-btn" data-tab="whatsapp-leads" onclick="switchAdminTab('whatsapp-leads')">
             <i class="fa-brands fa-whatsapp" style="color: #25D366;"></i> WhatsApp Leads (+91 98257 99754)
@@ -857,7 +857,7 @@
           <i class="fa-solid fa-arrow-up-right-from-square"></i> Open 3D Map
         </a>
         <a href="../portal.html" target="_blank" class="nav-tab-btn" style="color: var(--admin-gold);">
-          <i class="fa-solid fa-user-shield"></i> Open KYC Portal
+          <i class="fa-solid fa-user-tie"></i> Open VIP Client Portal
         </a>
         <div class="user-pill">
           <div class="user-avatar">S</div>
@@ -914,11 +914,11 @@
 
           <div class="metric-card">
             <div class="metric-card-info">
-              <h3>Client KYC Submissions</h3>
-              <p id="metricKycCount">0</p>
+              <h3>Client Inquiries &amp; Leads</h3>
+              <p id="metricInquiriesCount">0</p>
             </div>
             <div class="metric-icon-wrap" style="background: rgba(16, 185, 129, 0.12); color: var(--admin-emerald);">
-              <i class="fa-solid fa-id-card"></i>
+              <i class="fa-solid fa-clipboard-list"></i>
             </div>
           </div>
 
@@ -946,8 +946,8 @@
             <button class="btn-action-primary" style="background: linear-gradient(135deg, #C59B27 0%, #D9A441 100%);" onclick="switchAdminTab('media-studio')">
               <i class="fa-solid fa-video"></i> Upload Photos &amp; Video Content
             </button>
-            <button class="btn-action-primary" style="background: rgba(255, 255, 255, 0.08); border: 1px solid var(--admin-border);" onclick="switchAdminTab('kyc-review')">
-              <i class="fa-solid fa-shield-halved"></i> Review Pending Aadhar KYC
+            <button class="btn-action-primary" style="background: rgba(255, 255, 255, 0.08); border: 1px solid var(--admin-border);" onclick="switchAdminTab('inquiries')">
+              <i class="fa-solid fa-clipboard-list"></i> Review Client Inquiries &amp; Leads
             </button>
           </div>
         </div>
@@ -1127,13 +1127,20 @@
       </section>
 
       <!-- ====================================================================
-           TAB 4: CLIENT KYC & AADHAR APPROVALS
+           TAB 4: CLIENT PROPERTY INQUIRIES & LEADS MANAGEMENT
+           (Replaced Online KYC & Payment with In-Person Advisory & CRM Workflow)
            ==================================================================== -->
-      <section id="pane-kyc-review" class="pane-section" style="display: none;">
+      <section id="pane-inquiries" class="pane-section" style="display: none;">
         <div class="admin-card">
           <div class="card-header-row">
-            <div class="card-title">
-              <i class="fa-solid fa-id-card" style="color: var(--admin-emerald);"></i> Client KYC Submissions &amp; Aadhar Verification
+            <div>
+              <div class="card-title">
+                <i class="fa-solid fa-clipboard-list" style="color: var(--admin-emerald);"></i> Client Property Inquiries &amp; Consultation Leads
+              </div>
+              <p style="font-size: 0.8rem; color: #94A3B8; margin-top: 0.25rem;">
+                <i class="fa-solid fa-circle-info" style="color: var(--admin-gold);"></i> 
+                <strong>Offline Policy:</strong> Physical KYC verification, title documentation, and token booking payments are processed in person by Shreeji Advisory.
+              </p>
             </div>
             <a href="../portal.html" target="_blank" class="btn-header-link"><i class="fa-solid fa-user-plus"></i> Open Client Portal</a>
           </div>
@@ -1142,17 +1149,17 @@
             <table class="admin-table">
               <thead>
                 <tr>
-                  <th>Client ID</th>
-                  <th>Full Name</th>
+                  <th>Inquiry ID</th>
+                  <th>Client Name</th>
                   <th>Contact Phone</th>
-                  <th>Masked Aadhar</th>
-                  <th>Work / Business</th>
-                  <th>Reserved Plot</th>
+                  <th>Role / Requirement</th>
+                  <th>Property Parcel</th>
+                  <th>Location / Area</th>
                   <th>Status</th>
-                  <th>Actions</th>
+                  <th>Quick Action</th>
                 </tr>
               </thead>
-              <tbody id="kycApplicationsTableBody">
+              <tbody id="inquiriesTableBody">
                 <!-- Dynamically populated -->
               </tbody>
             </table>
@@ -1334,27 +1341,28 @@
             showAdminWorkspace();
             showToast(`Access Granted. Welcome ${username}!`);
             return;
+          } else {
+            const errData = await res.json().catch(() => ({}));
+            alert(errData.error || 'Invalid Admin User ID or Password.');
+            return;
           }
         } catch (err) {
-          // Backend offline fallback check
+          console.warn('[Admin Auth] API connection warning:', err.message);
+          // Only standalone offline fallback if file: protocol and matching exact credentials
+          if (window.location.protocol === 'file:' || !navigator.onLine) {
+            const userNorm = username.toLowerCase();
+            if (userNorm === 'shreejii' && password === 'Shreeji@108') {
+              sessionStorage.setItem('shreeji_admin_logged', 'true');
+              sessionStorage.setItem('shreeji_admin_user', username);
+              showAdminWorkspace();
+              showToast(`Offline Access Granted. Welcome ${username}!`);
+              return;
+            }
+          }
+          alert('Could not connect to authentication server. Please verify backend is running on http://localhost:5000.');
         } finally {
           submitBtn.disabled = false;
           submitBtn.innerHTML = '<i class="fa-solid fa-lock-open"></i> Unlock Studio Admin';
-        }
-
-        // Offline / Demo Verification Check (Shreejii / Shreeji@108)
-        const userNorm = username.toLowerCase();
-        if (
-          (userNorm === 'shreejii' && password === 'Shreeji@108') ||
-          (userNorm === 'admin@shreeji.com' && (password === 'Shreeji@108' || password === 'shreeji123')) ||
-          (userNorm === 'admin' && password === 'admin')
-        ) {
-          sessionStorage.setItem('shreeji_admin_logged', 'true');
-          sessionStorage.setItem('shreeji_admin_user', username);
-          showAdminWorkspace();
-          showToast(`Access Granted. Welcome ${username}!`);
-        } else {
-          alert('Invalid Admin User ID or Password. Please verify your credentials (ID: Shreejii, Pass: Shreeji@108).');
         }
       });
 
@@ -1372,7 +1380,7 @@
         loadDashboardMetrics();
         renderCadProjects();
         renderMediaStudio();
-        loadKycApplications();
+        loadInquiries();
         loadWhatsappDispatches();
         loadPlotInventory();
       }
@@ -1392,15 +1400,16 @@
           'dashboard': ['Dashboard Overview', 'Executive control room for Shreeji Real Estate, AutoCAD 3D layouts, and client inquiries.'],
           'cad-studio': ['AutoCAD 3D Maps Studio', 'Upload vector CAD files (.dwg, .dxf, .json, .glb) to update the interactive 3D map.'],
           'media-studio': ['Photos & Videos Studio', 'Upload high-resolution photos, drone video walkthroughs, and write detailed content below them.'],
-          'kyc-review': ['Client KYC & Aadhar Approvals', 'Inspect client registrations, verify 12-digit Aadhar identities, and approve plot reservations.'],
+          'inquiries': ['Client Property Inquiries & Leads', 'Manage client consultation requests, track sales follow-ups, and coordinate in-person site visits.'],
           'whatsapp-leads': ['WhatsApp Dispatches & Sales Leads', 'Audit outgoing automated notifications dispatched to Shreeji sales (+91 98257 99754).'],
-          'plot-inventory': ['3D Plot Inventory Control', 'Toggle plot parcel statuses (Available, Booked, Sold) in real-time.']
+          'plot-inventory': ['3D Plot Inventory Control', 'Toggle plot parcel statuses (Available, Booked, Sold) in real-time with instant 3D Map sync.']
         };
 
         if (headlines[tabName]) {
           document.getElementById('paneHeadline').textContent = headlines[tabName][0];
           document.getElementById('paneSubheadline').textContent = headlines[tabName][1];
         }
+      };
       };
 
       // ========================================================================
@@ -1468,14 +1477,42 @@
           plots: plots
         };
 
-        // 1. Save to local storage for instant 3D Map viewer access
+        // 1. Stream binary file to /api/v1/uploads if file was selected
+        let realCadUrl = `/uploads/cad/${selectedCadFile ? selectedCadFile.name : 'layout.dwg'}`;
+        const token = sessionStorage.getItem('admin_token');
+
+        if (selectedCadFile && token) {
+          try {
+            const formData = new FormData();
+            formData.append('file', selectedCadFile);
+            formData.append('folder', 'cad');
+
+            const upRes = await fetch(`${API_BASE}/uploads`, {
+              method: 'POST',
+              headers: { Authorization: `Bearer ${token}` },
+              body: formData
+            });
+
+            if (upRes.ok) {
+              const upJson = await upRes.json();
+              if (upJson.data && upJson.data.url) {
+                realCadUrl = upJson.data.url;
+              }
+            }
+          } catch (uploadErr) {
+            console.warn('[CAD Upload] Binary upload error:', uploadErr.message);
+          }
+        }
+
+        projectData.project.cadFileUrl = realCadUrl;
+
+        // 2. Save to local storage for instant 3D Map viewer access
         const customProjects = JSON.parse(localStorage.getItem('shreeji_cad_projects') || '{}');
         customProjects[slug] = projectData;
         localStorage.setItem('shreeji_cad_projects', JSON.stringify(customProjects));
 
-        // 2. Sync to Backend Server API if available
+        // 3. Sync to Backend Server API if available
         try {
-          const token = sessionStorage.getItem('admin_token');
           await fetch(`${API_BASE}/admin/cad-project`, {
             method: 'POST',
             headers: {
@@ -1489,7 +1526,7 @@
               reraNumber: reraNumber,
               totalPlots: plotCount,
               description: description,
-              cadFileUrl: `/uploads/cad/${selectedCadFile ? selectedCadFile.name : 'layout.dwg'}`,
+              cadFileUrl: realCadUrl,
               plotsData: plots
             })
           });
@@ -1604,15 +1641,41 @@
         const urlInput = document.getElementById('mediaUrlInput').value.trim();
 
         let finalUrl = urlInput;
-        if (!finalUrl) {
-          if (selectedMediaFile) {
-            // Generate a local object URL for instant previewing
-            finalUrl = URL.createObjectURL(selectedMediaFile);
-          } else {
-            finalUrl = mediaType === 'video'
-              ? 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4'
-              : '../images/commercial-plot.jpg';
+        const token = sessionStorage.getItem('admin_token');
+
+        if (!finalUrl && selectedMediaFile) {
+          // Attempt real binary upload to server storage
+          if (token) {
+            try {
+              const formData = new FormData();
+              formData.append('file', selectedMediaFile);
+              formData.append('folder', mediaType === 'video' ? 'videos' : 'photos');
+
+              const upRes = await fetch(`${API_BASE}/uploads`, {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${token}` },
+                body: formData
+              });
+
+              if (upRes.ok) {
+                const upData = await upRes.json();
+                if (upData.data && upData.data.url) {
+                  finalUrl = upData.data.url;
+                }
+              }
+            } catch (upErr) {
+              console.warn('[Media Upload] Binary upload error:', upErr.message);
+            }
           }
+
+          // Fallback to local object URL if offline
+          if (!finalUrl) {
+            finalUrl = URL.createObjectURL(selectedMediaFile);
+          }
+        } else if (!finalUrl) {
+          finalUrl = mediaType === 'video'
+            ? 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4'
+            : '../images/commercial-plot.jpg';
         }
 
         const newMediaItem = {
@@ -1727,93 +1790,102 @@
       };
 
       // ========================================================================
-      // CLIENT KYC & AADHAR APPROVALS LOGIC
+      // CLIENT PROPERTY INQUIRIES & CRM LEADS MANAGEMENT
       // ========================================================================
-      async function loadKycApplications() {
-        const tbody = document.getElementById('kycApplicationsTableBody');
+      async function loadInquiries() {
+        const tbody = document.getElementById('inquiriesTableBody');
         if (!tbody) return;
 
-        let applications = [];
+        let inquiries = [];
 
         // 1. Try Backend API
         try {
           const token = sessionStorage.getItem('admin_token');
-          const res = await fetch(`${API_BASE}/admin/kyc-applications`, {
+          const res = await fetch(`${API_BASE}/admin/property-inquiries`, {
             headers: token ? { 'Authorization': `Bearer ${token}` } : {}
           });
           if (res.ok) {
             const data = await res.json();
-            if (data.data) applications = data.data;
+            if (data.data && Array.isArray(data.data)) inquiries = data.data;
           }
         } catch (err) {}
 
         // 2. Fallback to Local Storage
-        if (!applications.length) {
+        if (!inquiries.length) {
           try {
-            const localKyc = JSON.parse(localStorage.getItem('shreeji_local_kyc_leads') || '[]');
-            applications = localKyc;
+            const localInq = JSON.parse(localStorage.getItem('shreeji_local_inquiries') || '[]');
+            inquiries = localInq;
           } catch (e) {}
         }
 
         // Demo seed if none exist
-        if (!applications.length) {
-          applications = [
+        if (!inquiries.length) {
+          inquiries = [
             {
-              id: 'SHR-KYC-1048',
-              client_id: 'SHR-C10482',
-              full_name: 'Rajesh K. Vaghela',
+              id: 'INQ-1048',
+              name: 'Dr. Rajesh Patel',
               phone: '9825012345',
-              aadhar_number: 'XXXX-XXXX-1234',
-              occupation: 'Logistics Operator',
-              company_name: 'Vaghela Freight Carriers',
-              interested_plot_number: '14',
-              interested_plot_area: '182.5 Sq.Yards',
-              verification_status: 'pending'
+              role: 'investor',
+              propertyCategory: 'Commercial Showroom',
+              preferredLocation: 'Nagavaladiya (Survey 374)',
+              builtupArea: '210 Sq.Yards',
+              status: 'new'
             },
             {
-              id: 'SHR-KYC-1052',
-              client_id: 'SHR-C10489',
-              full_name: 'Deepak M. Chawla',
-              phone: '9898099887',
-              aadhar_number: 'XXXX-XXXX-8891',
-              occupation: 'Showroom Retailer',
-              company_name: 'Chawla Apparels',
-              interested_plot_number: '28',
-              interested_plot_area: '210.0 Sq.Yards',
-              verification_status: 'verified'
+              id: 'INQ-1052',
+              name: 'Manish V. Patel',
+              phone: '9898011223',
+              role: 'buyer',
+              propertyCategory: 'Industrial Warehouse',
+              preferredLocation: 'Tagore Road, Gandhidham',
+              builtupArea: '182.5 Sq.Yards',
+              status: 'contacted'
             }
           ];
         }
 
-        document.getElementById('metricKycCount').textContent = applications.length;
+        const countEl = document.getElementById('metricInquiriesCount');
+        if (countEl) countEl.textContent = inquiries.length;
 
-        tbody.innerHTML = applications.map(k => `
-          <tr>
-            <td><code>${k.client_id || k.clientId || 'SHR-C...'}</code></td>
-            <td><strong>${k.full_name || k.fullName}</strong></td>
-            <td><a href="tel:${k.phone}" style="color: inherit;">${k.phone}</a></td>
-            <td><code style="color: var(--admin-cyan);">${k.maskedAadhar || k.aadhar_number || 'XXXX-XXXX-1234'}</code></td>
-            <td>${k.occupation || 'Business'} &bull; <span style="color: #94A3B8;">${k.company_name || k.companyName || 'Private'}</span></td>
-            <td><span class="status-badge available">Plot #${k.interested_plot_number || k.interestedPlotNumber || '14'}</span></td>
-            <td><span class="status-badge ${k.verification_status || k.verificationStatus}">${k.verification_status || k.verificationStatus || 'pending'}</span></td>
-            <td>
-              <div style="display: flex; gap: 0.4rem;">
-                <button class="btn-action-primary" style="padding: 0.3rem 0.65rem; font-size: 0.75rem; background: var(--admin-emerald);" onclick="updateKycStatus('${k.id}', 'verified')">
-                  Verify
-                </button>
-                <button class="btn-action-primary" style="padding: 0.3rem 0.65rem; font-size: 0.75rem; background: var(--admin-rose);" onclick="updateKycStatus('${k.id}', 'rejected')">
-                  Reject
-                </button>
-              </div>
-            </td>
-          </tr>
-        `).join('');
+        tbody.innerHTML = inquiries.map(inq => {
+          const cleanPhone = String(inq.phone || '').replace(/[^\d]/g, '');
+          const waText = encodeURIComponent(`Namaste ${inq.name || 'Client'}, this is Shreeji Real Estate Consultant following up on your property inquiry for ${inq.preferredLocation || 'Survey 374'}.`);
+          const waUrl = `https://wa.me/91${cleanPhone}?text=${waText}`;
+
+          return `
+            <tr>
+              <td><code>${inq.id || 'INQ-...'}</code></td>
+              <td><strong>${inq.name || inq.fullName || 'Client'}</strong></td>
+              <td><a href="tel:${inq.phone}" style="color: inherit;">${inq.phone}</a></td>
+              <td><span style="text-transform: capitalize;">${inq.role || 'Buyer'}</span></td>
+              <td><span class="status-badge available">${inq.propertyCategory || inq.property_category || 'Commercial'}</span></td>
+              <td>${inq.preferredLocation || inq.preferred_location || 'Nagavaladiya'} &bull; <span style="color: #94A3B8;">${inq.builtupArea || inq.builtup_area || '182.5 Sq.Yd'}</span></td>
+              <td>
+                <select class="admin-control" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; max-width: 130px;" onchange="updateInquiryStatus('${inq.id}', this.value)">
+                  <option value="new" ${inq.status === 'new' ? 'selected' : ''}>New</option>
+                  <option value="contacted" ${inq.status === 'contacted' ? 'selected' : ''}>Contacted</option>
+                  <option value="site_visit_scheduled" ${inq.status === 'site_visit_scheduled' ? 'selected' : ''}>Site Visit</option>
+                  <option value="negotiation" ${inq.status === 'negotiation' ? 'selected' : ''}>Negotiation</option>
+                  <option value="closed_won" ${inq.status === 'closed_won' ? 'selected' : ''}>Closed (Won)</option>
+                  <option value="closed_lost" ${inq.status === 'closed_lost' ? 'selected' : ''}>Closed (Lost)</option>
+                </select>
+              </td>
+              <td>
+                <div style="display: flex; gap: 0.4rem;">
+                  <a href="${waUrl}" target="_blank" class="btn-action-primary" style="padding: 0.3rem 0.65rem; font-size: 0.75rem; background: #25D366; text-decoration: none;">
+                    <i class="fa-brands fa-whatsapp"></i> Chat
+                  </a>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('');
       }
 
-      window.updateKycStatus = async function(id, status) {
+      window.updateInquiryStatus = async function(id, status) {
         try {
           const token = sessionStorage.getItem('admin_token');
-          await fetch(`${API_BASE}/admin/kyc-applications/${id}`, {
+          await fetch(`${API_BASE}/admin/property-inquiries/${id}`, {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',
@@ -1823,8 +1895,7 @@
           });
         } catch (e) {}
 
-        showToast(`KYC Application ${id} marked as ${status.toUpperCase()}`);
-        loadKycApplications();
+        showToast(`Inquiry ${id} status updated to ${status.toUpperCase()}`);
       };
 
       // ========================================================================
@@ -1945,14 +2016,38 @@
         `).join('');
       }
 
-      window.changePlotStatus = function(plotNum, newStatus) {
+      window.changePlotStatus = async function(plotNum, newStatus) {
         localStorage.setItem(`shreeji_plot_status_${plotNum}`, newStatus);
         const badge = document.getElementById(`badge_plot_${plotNum}`);
         if (badge) {
           badge.className = `status-badge ${newStatus}`;
           badge.textContent = newStatus.toUpperCase();
         }
-        showToast(`Plot #${plotNum} status updated to ${newStatus.toUpperCase()}`);
+
+        // Real-time broadcast sync with interactive 3D Map viewer
+        try {
+          const syncChannel = new BroadcastChannel('shreeji_inventory_sync');
+          syncChannel.postMessage({
+            plotNumber: plotNum,
+            status: newStatus,
+            timestamp: Date.now()
+          });
+        } catch (bcErr) {}
+
+        // Sync with backend API
+        try {
+          const token = sessionStorage.getItem('admin_token');
+          await fetch(`${API_BASE}/admin/plots/${plotNum}`, {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+              ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+            },
+            body: JSON.stringify({ availabilityStatus: newStatus })
+          });
+        } catch (apiErr) {}
+
+        showToast(`Plot #${plotNum} status updated to ${newStatus.toUpperCase()} (synced with 3D Map)`);
       };
 
       window.filterPlotInventory = function() {
@@ -1970,7 +2065,15 @@
       };
 
       function loadDashboardMetrics() {
-        // Updated metrics
+        try {
+          const customProjects = JSON.parse(localStorage.getItem('shreeji_cad_projects') || '{}');
+          const totalCad = 2 + Object.keys(customProjects).length;
+          const cadEl = document.getElementById('metricCadProjects');
+          if (cadEl) cadEl.textContent = totalCad;
+
+          const totalPlotsEl = document.getElementById('metricTotalPlots');
+          if (totalPlotsEl) totalPlotsEl.textContent = 109;
+        } catch (e) {}
       }
 
       function showToast(msg) {
