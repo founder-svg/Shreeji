@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Shreeji 3D CAD Spatial Map | Interactive Masterplot Digital Twin</title>
+  <meta name="description" content="Explore commercial plots and master layouts with Shreeji's interactive 3D WebGL engine, Mapbox satellite basemap, live availability, and direct WhatsApp booking." />
+
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="./viewer.css" />
+
+  <!-- Zero-CORS Local WebGL & 3D Libraries -->
+  <script src="./assets/libs/three.min.js"></script>
+  <script src="./assets/libs/OrbitControls.js"></script>
+  <script src="./assets/libs/GLTFLoader.js"></script>
+  <script src="./assets/libs/gsap.min.js"></script>
+
+  <!-- Embedded 3D Data & AutoCAD Plot Geometry -->
+  <script src="./assets/models/model_data.js"></script>
+  <script src="./assets/textures/texture_data.js"></script>
+  <script src="./projects/nagavaladiya_data.js"></script>
+  <script src="./projects/nakshatra_data.js"></script>
+</head>
+<body>
+
+  <!-- 3D Engine Loading Screen -->
+  <div id="loader-screen">
+    <div class="loader-spinner"></div>
+    <div class="loader-logo">
+      <span class="logo-accent">SHREEJI</span> SPATIAL 3D
+    </div>
+    <div class="loader-text" id="loader-status">Initializing AutoCAD Vector Layout &amp; 3D Engine...</div>
+    <div class="loader-progress-bar">
+      <div class="loader-progress-fill" id="loader-fill"></div>
+    </div>
+  </div>
+
+  <!-- WebGL Three.js Canvas Container -->
+  <div id="canvas-container"></div>
+
+  <!-- ==========================================================================
+       TOP APP HEADER & BRANDING
+       ========================================================================== -->
+  <header class="viewer-header">
+    <div class="brand-card">
+      <a href="../index.html" class="brand-logo-btn" title="Back to Shreeji Home">
+        <i class="fa-solid fa-shapes"></i>
+      </a>
+      <div class="brand-details">
+        <div class="project-title-row">
+          <h1 class="project-name" id="header-project-name">Nagavaladiya Residency (Survey 374)</h1>
+          <span class="verified-pill" id="header-status-pill"><i class="fa-solid fa-stamp"></i> RERA Clear Title</span>
+        </div>
+        <div class="project-meta-row">
+          <a href="https://maps.google.com/?q=23.1842,69.9415" target="_blank" rel="noopener noreferrer" class="meta-item" id="header-location-link">
+            <i class="fa-solid fa-location-dot"></i>
+            <span id="header-location-text">Nagavaladiya, Ta. Anjar - Gandhidham Belt</span>
+          </a>
+          <span class="meta-separator">&bull;</span>
+          <span class="meta-item">
+            <i class="fa-solid fa-layer-group"></i>
+            <span id="header-plots-count">109 Master Plots</span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Header Actions & Controls -->
+    <div class="header-actions">
+      <!-- Project Switcher Dropdown -->
+      <div class="project-switcher-wrap">
+        <select id="project-select" class="hud-select" aria-label="Select 3D Project Layout">
+          <option value="nagavaladiya">Nagavaladiya (Survey 374) — 109 Plots</option>
+          <option value="nakshatra">Nakshatra Commercial Township</option>
+          <option value="regalfarms">↗ Launch Regal Farms Live Twin</option>
+        </select>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="hud-btn-group">
+        <button type="button" class="hud-btn" id="btn-view-mode" title="Toggle 2D / 3D Perspective" aria-label="Toggle 2D / 3D Perspective">
+          <i class="fa-solid fa-cube"></i>
+          <span class="btn-text">3D</span>
+        </button>
+
+        <button type="button" class="hud-btn active" id="btn-satellite-layer" title="Toggle Satellite Basemap" aria-label="Toggle Satellite Basemap">
+          <i class="fa-solid fa-satellite"></i>
+          <span class="btn-text">Satellite</span>
+        </button>
+
+        <button type="button" class="hud-btn active" id="btn-status-coloring" title="Toggle Plot Availability Colors" aria-label="Toggle Plot Status Colors">
+          <i class="fa-solid fa-palette"></i>
+          <span class="btn-text">Status</span>
+        </button>
+
+        <button type="button" class="hud-btn" id="btn-unit-mode" title="Switch Measurement Unit" aria-label="Switch Measurement Unit">
+          <i class="fa-solid fa-ruler-combined"></i>
+          <span class="btn-text" id="unit-label">Sq.Yds</span>
+        </button>
+
+        <a href="../portal.html" class="hud-btn" title="Client Account &amp; KYC Portal" aria-label="Client Portal">
+          <i class="fa-solid fa-user-shield"></i>
+          <span class="btn-text">Portal</span>
+        </a>
+
+        <a href="../index.html" class="hud-btn hud-btn-home" title="Return to Website" aria-label="Return to Website">
+          <i class="fa-solid fa-arrow-left"></i>
+          <span class="btn-text">Home</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       SEARCH BAR & AUTOCOMPLETE HUD
+       ========================================================================== -->
+  <div class="search-hud-container">
+    <div class="search-input-wrap">
+      <i class="fa-solid fa-magnifying-glass search-icon"></i>
+      <input type="text" id="plot-search-input" class="search-input" placeholder="Search Plot # (e.g. 1, 42, 105)..." autocomplete="off" />
+      <button type="button" id="search-clear-btn" class="search-clear-btn" title="Clear search" aria-label="Clear Search">&times;</button>
+    </div>
+    <div class="search-suggestions" id="search-suggestions-box"></div>
+  </div>
+
+  <!-- ==========================================================================
+       COMPASS WIDGET (Reset North)
+       ========================================================================== -->
+  <div class="compass-widget" id="compass-btn" title="Click to Reset North orientation">
+    <div class="compass-dial" id="compass-dial">
+      <span class="compass-label compass-n">N</span>
+      <span class="compass-label compass-e">E</span>
+      <span class="compass-label compass-s">S</span>
+      <span class="compass-label compass-w">W</span>
+      <div class="compass-needle">
+        <div class="needle-north"></div>
+        <div class="needle-south"></div>
+        <div class="needle-center"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Camera Reset Home Button -->
+  <button type="button" class="camera-home-btn" id="btn-camera-home" title="Reset Camera View" aria-label="Reset Camera View">
+    <i class="fa-solid fa-crosshairs"></i>
+  </button>
+
+  <!-- ==========================================================================
+       BOTTOM STATUS LEGEND & FILTER BAR
+       ========================================================================== -->
+  <footer class="viewer-footer">
+    <div class="status-legend-bar">
+      <span class="legend-title"><i class="fa-solid fa-layer-group"></i> INVENTORY:</span>
+
+      <div class="legend-item legend-available" data-filter="112" title="Filter by Available plots">
+        <span class="status-dot dot-available"></span>
+        <span class="legend-name">Available</span>
+        <span class="legend-count" id="count-available">0</span>
+      </div>
+
+      <div class="legend-item legend-builder" data-filter="111" title="Filter by Builder plots">
+        <span class="status-dot dot-builder"></span>
+        <span class="legend-name">Builder</span>
+        <span class="legend-count" id="count-builder">0</span>
+      </div>
+
+      <div class="legend-item legend-sold" data-filter="110" title="Filter by Sold plots">
+        <span class="status-dot dot-sold"></span>
+        <span class="legend-name">Sold</span>
+        <span class="legend-count" id="count-sold">0</span>
+      </div>
+
+      <button type="button" class="legend-reset-btn" id="btn-clear-filter" title="Show all plots">
+        <i class="fa-solid fa-rotate-left"></i> All
+      </button>
+    </div>
+
+    <!-- Telemetry Readout -->
+    <div class="footer-telemetry">
+      <span class="telemetry-badge"><i class="fa-solid fa-satellite"></i> MAPBOX GIS 3D</span>
+      <span class="telemetry-coords">23.1842° N • 69.9415° E</span>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       SLIDING PLOT DETAIL CARD (DRAWER)
+       ========================================================================== -->
+  <aside class="plot-card-drawer" id="plot-card-drawer" aria-label="Selected Plot Information">
+    <div class="drawer-header">
+      <div class="drawer-title-group">
+        <span class="drawer-badge" id="card-plot-tag">PLOT PARCEL</span>
+        <h2 class="drawer-plot-name" id="card-plot-name">Plot #--</h2>
+      </div>
+      <button type="button" class="drawer-close-btn" id="btn-close-plot-card" aria-label="Close plot details">&times;</button>
+    </div>
+
+    <div class="drawer-status-banner" id="card-status-banner">
+      <span class="status-indicator-dot" id="card-status-dot"></span>
+      <span class="status-text" id="card-status-text">Available for Booking</span>
+    </div>
+
+    <div class="drawer-specs-grid">
+      <div class="spec-box">
+        <span class="spec-label"><i class="fa-solid fa-ruler-combined"></i> Total Area</span>
+        <span class="spec-value" id="card-plot-area">--</span>
+      </div>
+
+      <div class="spec-box">
+        <span class="spec-label"><i class="fa-solid fa-arrows-left-right"></i> Dimensions</span>
+        <span class="spec-value" id="card-plot-dimensions">--</span>
+      </div>
+
+      <div class="spec-box">
+        <span class="spec-label"><i class="fa-solid fa-road"></i> Road Access</span>
+        <span class="spec-value" id="card-plot-road">40 Ft Avenue</span>
+      </div>
+
+      <div class="spec-box">
+        <span class="spec-label"><i class="fa-solid fa-compass"></i> Orientation</span>
+        <span class="spec-value" id="card-plot-facing">North Facing</span>
+      </div>
+    </div>
+
+    <!-- Pricing Summary Card -->
+    <div class="drawer-pricing-card">
+      <div class="pricing-row">
+        <span class="pricing-label">Rate / Sq.Yard</span>
+        <span class="pricing-value" id="card-plot-rate">₹13,500</span>
+      </div>
+      <div class="pricing-divider"></div>
+      <div class="pricing-row total-row">
+        <span class="pricing-label">Estimated Value</span>
+        <span class="pricing-total" id="card-plot-total">₹29,46,620</span>
+      </div>
+    </div>
+
+    <!-- Trust Badges -->
+    <div class="drawer-trust-badges">
+      <span class="trust-badge"><i class="fa-solid fa-shield-halved"></i> 100% Clear Title (7/12)</span>
+      <span class="trust-badge"><i class="fa-solid fa-certificate"></i> RERA Approved</span>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="drawer-actions-stack">
+      <button type="button" class="btn-drawer-primary" id="btn-card-book">
+        <i class="fa-solid fa-file-signature"></i> Book / Submit Application
+      </button>
+
+      <a href="#" target="_blank" rel="noopener noreferrer" class="btn-drawer-whatsapp" id="btn-card-whatsapp">
+        <i class="fa-brands fa-whatsapp"></i> Chat with Shreeji on WhatsApp
+      </a>
+    </div>
+  </aside>
+
+  <!-- Application / Booking Modal Launcher -->
+  <div class="cad-booking-modal" id="cadBookingModal" hidden>
+    <div class="modal-backdrop" id="bookingModalBackdrop"></div>
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-tag">PHASE 2 CLIENT INTAKE</span>
+          <h3 class="modal-heading" id="bookingModalTitle">Reserve Selected Plot</h3>
+        </div>
+        <button type="button" class="modal-close-btn" id="btnCloseBookingModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-sub">Confirm your commercial parcel interest. Complete your verified Client ID &amp; Aadhar KYC form to secure your allocation.</p>
+        <div class="modal-selected-summary" id="modalSelectedSummary">
+          <!-- Populated dynamically -->
+        </div>
+        <div class="modal-actions-row" style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <a href="../portal.html" class="btn-modal-confirm" id="btnProceedToKycPortal" style="text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 0.5rem; background: linear-gradient(135deg, #00D2FF 0%, #1D63FF 100%); color: #061527; font-weight: 700; padding: 0.85rem;">
+            <i class="fa-solid fa-id-card"></i> Proceed to Client ID &amp; KYC Verification
+          </a>
+          <button type="button" class="btn-modal-confirm" id="btnConfirmBookingInterest" style="background: #25D366; color: #FFF; padding: 0.75rem;">
+            <i class="fa-brands fa-whatsapp"></i> Chat with Sales on WhatsApp
+          </button>
+          <button type="button" class="btn-modal-cancel" id="btnCancelBookingModal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main 3D Engine Script -->
+  <script src="./viewer.js"></script>
+</body>
+</html>

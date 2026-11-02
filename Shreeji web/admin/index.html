@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -8,7 +9,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    rel="stylesheet" />
 
   <style>
     :root {
@@ -28,7 +31,11 @@
       --font-mono: 'JetBrains Mono', monospace;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
       background: radial-gradient(circle at 50% 0%, #0D2D53 0%, #061322 65%, #02070F 100%);
@@ -611,19 +618,22 @@
       text-transform: uppercase;
     }
 
-    .status-badge.verified, .status-badge.available {
+    .status-badge.verified,
+    .status-badge.available {
       background: rgba(16, 185, 129, 0.15);
       color: var(--admin-emerald);
       border: 1px solid rgba(16, 185, 129, 0.35);
     }
 
-    .status-badge.pending, .status-badge.booked {
+    .status-badge.pending,
+    .status-badge.booked {
       background: rgba(217, 164, 65, 0.15);
       color: var(--admin-gold);
       border: 1px solid rgba(217, 164, 65, 0.35);
     }
 
-    .status-badge.rejected, .status-badge.sold {
+    .status-badge.rejected,
+    .status-badge.sold {
       background: rgba(239, 68, 68, 0.15);
       color: var(--admin-rose);
       border: 1px solid rgba(239, 68, 68, 0.35);
@@ -752,7 +762,7 @@
       color: #FFFFFF;
       padding: 0.9rem 1.5rem;
       border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
       display: none;
       align-items: center;
       gap: 0.75rem;
@@ -768,16 +778,20 @@
         border-right: none;
         border-bottom: 1px solid var(--admin-border);
       }
+
       .admin-workspace {
         margin-left: 0;
         padding: 1.5rem 1rem;
       }
-      .form-grid-2, .form-grid-3 {
+
+      .form-grid-2,
+      .form-grid-3 {
         grid-template-columns: 1fr;
       }
     }
   </style>
 </head>
+
 <body>
 
   <!-- ==========================================================================
@@ -794,18 +808,21 @@
 
       <!-- 1-Click Credential Hint -->
       <div class="credential-hint-box" onclick="autofillCredentials()" title="Click to autofill credentials">
-        <span><i class="fa-solid fa-key" style="margin-right: 0.4rem;"></i> ID: <strong>Shreejii</strong> &bull; Pass: <strong>Shreeji@108</strong></span>
+        <span><i class="fa-solid fa-key" style="margin-right: 0.4rem;"></i> ID: <strong>Shreejii</strong> &bull; Pass:
+          <strong>Shreeji@108</strong></span>
         <span style="font-weight: 700; text-decoration: underline;">Auto-Fill</span>
       </div>
 
       <form id="adminLoginForm">
         <div class="login-form-group">
           <label>Admin User ID / Username</label>
-          <input type="text" id="loginUsername" class="login-input" placeholder="e.g. Shreejii" required autocomplete="username" />
+          <input type="text" id="loginUsername" class="login-input" placeholder="e.g. Shreejii" required
+            autocomplete="username" />
         </div>
         <div class="login-form-group">
           <label>Password</label>
-          <input type="password" id="loginPassword" class="login-input" placeholder="e.g. Shreeji@108" required autocomplete="current-password" />
+          <input type="password" id="loginPassword" class="login-input" placeholder="e.g. Shreeji@108" required
+            autocomplete="current-password" />
         </div>
         <button type="submit" class="btn-login-submit" id="btnLoginSubmit">
           <i class="fa-solid fa-lock-open"></i> Unlock Studio Admin
@@ -841,7 +858,8 @@
             <i class="fa-solid fa-photo-film" style="color: var(--admin-gold);"></i> Photos &amp; Video Studio
           </button>
           <button class="nav-tab-btn" data-tab="inquiries" onclick="switchAdminTab('inquiries')">
-            <i class="fa-solid fa-clipboard-list" style="color: var(--admin-emerald);"></i> Property Inquiries &amp; Leads
+            <i class="fa-solid fa-clipboard-list" style="color: var(--admin-emerald);"></i> Property Inquiries &amp;
+            Leads
           </button>
           <button class="nav-tab-btn" data-tab="whatsapp-leads" onclick="switchAdminTab('whatsapp-leads')">
             <i class="fa-brands fa-whatsapp" style="color: #25D366;"></i> WhatsApp Leads (+91 98257 99754)
@@ -865,7 +883,8 @@
             <div style="font-weight: 700;" id="sidebarAdminUser">Shreejii</div>
             <div style="font-size: 0.72rem; color: #94A3B8;">Master Admin</div>
           </div>
-          <button onclick="logoutAdmin()" title="Logout" style="background: none; border: none; color: #EF4444; cursor: pointer; font-size: 1rem;">
+          <button onclick="logoutAdmin()" title="Logout"
+            style="background: none; border: none; color: #EF4444; cursor: pointer; font-size: 1rem;">
             <i class="fa-solid fa-right-from-bracket"></i>
           </button>
         </div>
@@ -879,11 +898,13 @@
       <header class="workspace-header">
         <div class="header-title-wrap">
           <h1 id="paneHeadline">Dashboard Overview</h1>
-          <p id="paneSubheadline">Executive control room for Shreeji Real Estate, AutoCAD 3D layouts, and client inquiries.</p>
+          <p id="paneSubheadline">Executive control room for Shreeji Real Estate, AutoCAD 3D layouts, and client
+            inquiries.</p>
         </div>
         <div class="header-actions">
           <a href="../index.html" class="btn-header-link" target="_blank"><i class="fa-solid fa-globe"></i> Website</a>
-          <a href="../3d-map/index.html" class="btn-header-link" target="_blank"><i class="fa-solid fa-cube"></i> 3D Map</a>
+          <a href="../3d-map/index.html" class="btn-header-link" target="_blank"><i class="fa-solid fa-cube"></i> 3D
+            Map</a>
         </div>
       </header>
 
@@ -943,10 +964,13 @@
             <button class="btn-action-primary" onclick="switchAdminTab('cad-studio')">
               <i class="fa-solid fa-file-arrow-up"></i> Upload AutoCAD 3D Map
             </button>
-            <button class="btn-action-primary" style="background: linear-gradient(135deg, #C59B27 0%, #D9A441 100%);" onclick="switchAdminTab('media-studio')">
+            <button class="btn-action-primary" style="background: linear-gradient(135deg, #C59B27 0%, #D9A441 100%);"
+              onclick="switchAdminTab('media-studio')">
               <i class="fa-solid fa-video"></i> Upload Photos &amp; Video Content
             </button>
-            <button class="btn-action-primary" style="background: rgba(255, 255, 255, 0.08); border: 1px solid var(--admin-border);" onclick="switchAdminTab('inquiries')">
+            <button class="btn-action-primary"
+              style="background: rgba(255, 255, 255, 0.08); border: 1px solid var(--admin-border);"
+              onclick="switchAdminTab('inquiries')">
               <i class="fa-solid fa-clipboard-list"></i> Review Client Inquiries &amp; Leads
             </button>
           </div>
@@ -967,11 +991,14 @@
 
           <!-- File Upload Dropzone -->
           <div class="admin-dropzone" id="cadDropzone" onclick="document.getElementById('cadFileInput').click()">
-            <input type="file" id="cadFileInput" accept=".dwg,.dxf,.json,.geojson,.glb,.gltf" style="display: none;" onchange="handleCadFileSelect(this)" />
+            <input type="file" id="cadFileInput" accept=".dwg,.dxf,.json,.geojson,.glb,.gltf" style="display: none;"
+              onchange="handleCadFileSelect(this)" />
             <div class="dropzone-icon-box"><i class="fa-solid fa-map-location-dot"></i></div>
             <div class="dropzone-main-text">Click to browse or Drag &amp; Drop AutoCAD Map File</div>
-            <div class="dropzone-sub-text">Supported formats: AutoCAD DWG/DXF, GeoJSON polygon layers, 3D glTF/GLB models (up to 50MB)</div>
-            <div class="file-loaded-pill" id="cadFilePill"><i class="fa-solid fa-circle-check"></i> <span id="cadFileName">File selected</span></div>
+            <div class="dropzone-sub-text">Supported formats: AutoCAD DWG/DXF, GeoJSON polygon layers, 3D glTF/GLB
+              models (up to 50MB)</div>
+            <div class="file-loaded-pill" id="cadFilePill"><i class="fa-solid fa-circle-check"></i> <span
+                id="cadFileName">File selected</span></div>
           </div>
 
           <!-- Layout Metadata Form -->
@@ -979,33 +1006,40 @@
             <div class="form-grid-2">
               <div class="admin-input-group">
                 <label>Project / Layout Name *</label>
-                <input type="text" id="cadProjectName" class="admin-control" placeholder="e.g. Nagavaladiya Phase 2 (Survey 374)" required />
+                <input type="text" id="cadProjectName" class="admin-control"
+                  placeholder="e.g. Nagavaladiya Phase 2 (Survey 374)" required />
               </div>
               <div class="admin-input-group">
                 <label>Survey Number &amp; Location *</label>
-                <input type="text" id="cadLocationText" class="admin-control" placeholder="e.g. Survey 374, Nagavaladiya, Anjar Belt" required />
+                <input type="text" id="cadLocationText" class="admin-control"
+                  placeholder="e.g. Survey 374, Nagavaladiya, Anjar Belt" required />
               </div>
             </div>
 
             <div class="form-grid-3">
               <div class="admin-input-group">
                 <label>RERA Registration / Clear Title Info</label>
-                <input type="text" id="cadReraNumber" class="admin-control" placeholder="e.g. PR/GJ/KUTCH/SHREEJI-374" value="RERA Clear Title &bull; 7/12 Verified" />
+                <input type="text" id="cadReraNumber" class="admin-control" placeholder="e.g. PR/GJ/KUTCH/SHREEJI-374"
+                  value="RERA Clear Title &bull; 7/12 Verified" />
               </div>
               <div class="admin-input-group">
                 <label>Total Number of Commercial Plots</label>
-                <input type="number" id="cadPlotCount" class="admin-control" placeholder="109" value="109" min="1" max="5000" />
+                <input type="number" id="cadPlotCount" class="admin-control" placeholder="109" value="109" min="1"
+                  max="5000" />
               </div>
               <div class="admin-input-group">
                 <label>Base Rate per Sq.Yard (INR)</label>
-                <input type="text" id="cadRatePerYd" class="admin-control" placeholder="₹14,500 / Sq.Yd" value="₹14,500" />
+                <input type="text" id="cadRatePerYd" class="admin-control" placeholder="₹14,500 / Sq.Yd"
+                  value="₹14,500" />
               </div>
             </div>
 
             <!-- Detailed description written by client about the map -->
             <div class="admin-input-group">
               <label>Detailed Content &amp; Infrastructure Narrative (Displayed Below Map) *</label>
-              <textarea id="cadDescription" class="admin-control" placeholder="Write full specifications about this AutoCAD layout: road widths (40-ft main avenue, 30-ft internal lanes), water pipeline junctions, 66kV substation power feeder lines, setback rules, and industrial zoning permissions..." required></textarea>
+              <textarea id="cadDescription" class="admin-control"
+                placeholder="Write full specifications about this AutoCAD layout: road widths (40-ft main avenue, 30-ft internal lanes), water pipeline junctions, 66kV substation power feeder lines, setback rules, and industrial zoning permissions..."
+                required></textarea>
             </div>
 
             <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1rem;">
@@ -1020,9 +1054,11 @@
         <div class="admin-card">
           <div class="card-header-row">
             <div class="card-title">
-              <i class="fa-solid fa-list-check" style="color: var(--admin-gold);"></i> Active AutoCAD Layouts in 3D Engine
+              <i class="fa-solid fa-list-check" style="color: var(--admin-gold);"></i> Active AutoCAD Layouts in 3D
+              Engine
             </div>
-            <a href="../3d-map/index.html" target="_blank" class="btn-header-link"><i class="fa-solid fa-cube"></i> Open 3D Map</a>
+            <a href="../3d-map/index.html" target="_blank" class="btn-header-link"><i class="fa-solid fa-cube"></i> Open
+              3D Map</a>
           </div>
 
           <div class="admin-table-wrap">
@@ -1052,18 +1088,23 @@
         <div class="admin-card">
           <div class="card-header-row">
             <div class="card-title">
-              <i class="fa-solid fa-photo-film" style="color: var(--admin-gold);"></i> Upload Photos, Drone Videos &amp; Content
+              <i class="fa-solid fa-photo-film" style="color: var(--admin-gold);"></i> Upload Photos, Drone Videos &amp;
+              Content
             </div>
             <span style="font-size: 0.8rem; color: #94A3B8;">MP4, WebM, WebP, JPEG, PNG</span>
           </div>
 
           <!-- Dropzone -->
           <div class="admin-dropzone" id="mediaDropzone" onclick="document.getElementById('mediaFileInput').click()">
-            <input type="file" id="mediaFileInput" accept="image/*,video/*" style="display: none;" onchange="handleMediaFileSelect(this)" />
-            <div class="dropzone-icon-box" style="color: var(--admin-gold);"><i class="fa-solid fa-clapperboard"></i></div>
+            <input type="file" id="mediaFileInput" accept="image/*,video/*" style="display: none;"
+              onchange="handleMediaFileSelect(this)" />
+            <div class="dropzone-icon-box" style="color: var(--admin-gold);"><i class="fa-solid fa-clapperboard"></i>
+            </div>
             <div class="dropzone-main-text">Upload Project Photo or Drone Video</div>
-            <div class="dropzone-sub-text">Upload site walk videos, 4K aerial drone clips, or plot boundary photos (up to 50MB)</div>
-            <div class="file-loaded-pill" id="mediaFilePill"><i class="fa-solid fa-circle-check"></i> <span id="mediaFileName">Media file selected</span></div>
+            <div class="dropzone-sub-text">Upload site walk videos, 4K aerial drone clips, or plot boundary photos (up
+              to 50MB)</div>
+            <div class="file-loaded-pill" id="mediaFilePill"><i class="fa-solid fa-circle-check"></i> <span
+                id="mediaFileName">Media file selected</span></div>
           </div>
 
           <!-- Media Form with Content Description -->
@@ -1071,7 +1112,8 @@
             <div class="form-grid-2">
               <div class="admin-input-group">
                 <label>Media Title / Headline *</label>
-                <input type="text" id="mediaTitle" class="admin-control" placeholder="e.g. 4K Drone Aerial Survey of 40-Ft Main Commercial Road" required />
+                <input type="text" id="mediaTitle" class="admin-control"
+                  placeholder="e.g. 4K Drone Aerial Survey of 40-Ft Main Commercial Road" required />
               </div>
               <div class="admin-input-group">
                 <label>Media Type *</label>
@@ -1093,18 +1135,22 @@
               </div>
               <div class="admin-input-group">
                 <label>Video URL / Embed Link (Optional if uploading file)</label>
-                <input type="url" id="mediaUrlInput" class="admin-control" placeholder="e.g. https://www.youtube.com/watch?v=... or .mp4 URL" />
+                <input type="url" id="mediaUrlInput" class="admin-control"
+                  placeholder="e.g. https://www.youtube.com/watch?v=... or .mp4 URL" />
               </div>
             </div>
 
             <!-- Detailed Content / Description below the media -->
             <div class="admin-input-group">
               <label>Detailed Content &amp; Story (Displayed Directly Below Media) *</label>
-              <textarea id="mediaDescription" class="admin-control" placeholder="Write full details about this photo/video: site progress status, boundary pillar demarcation, distance from highway, road level elevation, and key commercial selling points..." required></textarea>
+              <textarea id="mediaDescription" class="admin-control"
+                placeholder="Write full details about this photo/video: site progress status, boundary pillar demarcation, distance from highway, road level elevation, and key commercial selling points..."
+                required></textarea>
             </div>
 
             <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1rem;">
-              <button type="submit" class="btn-action-primary" style="background: linear-gradient(135deg, #C59B27 0%, #D9A441 100%);">
+              <button type="submit" class="btn-action-primary"
+                style="background: linear-gradient(135deg, #C59B27 0%, #D9A441 100%);">
                 <i class="fa-solid fa-upload"></i> Publish Media &amp; Content
               </button>
             </div>
@@ -1115,7 +1161,8 @@
         <div class="admin-card">
           <div class="card-header-row">
             <div class="card-title">
-              <i class="fa-solid fa-camera-retro" style="color: var(--admin-cyan);"></i> Published Project Photos &amp; Video Media
+              <i class="fa-solid fa-camera-retro" style="color: var(--admin-cyan);"></i> Published Project Photos &amp;
+              Video Media
             </div>
             <span style="font-size: 0.85rem; color: #94A3B8;" id="mediaCountText">Loading media...</span>
           </div>
@@ -1135,14 +1182,17 @@
           <div class="card-header-row">
             <div>
               <div class="card-title">
-                <i class="fa-solid fa-clipboard-list" style="color: var(--admin-emerald);"></i> Client Property Inquiries &amp; Consultation Leads
+                <i class="fa-solid fa-clipboard-list" style="color: var(--admin-emerald);"></i> Client Property
+                Inquiries &amp; Consultation Leads
               </div>
               <p style="font-size: 0.8rem; color: #94A3B8; margin-top: 0.25rem;">
-                <i class="fa-solid fa-circle-info" style="color: var(--admin-gold);"></i> 
-                <strong>Offline Policy:</strong> Physical KYC verification, title documentation, and token booking payments are processed in person by Shreeji Advisory.
+                <i class="fa-solid fa-circle-info" style="color: var(--admin-gold);"></i>
+                <strong>Offline Policy:</strong> Physical KYC verification, title documentation, and token booking
+                payments are processed in person by Shreeji Advisory.
               </p>
             </div>
-            <a href="../portal.html" target="_blank" class="btn-header-link"><i class="fa-solid fa-user-plus"></i> Open Client Portal</a>
+            <a href="../portal.html" target="_blank" class="btn-header-link"><i class="fa-solid fa-user-plus"></i> Open
+              Client Portal</a>
           </div>
 
           <div class="admin-table-wrap">
@@ -1211,12 +1261,15 @@
             <div class="card-title">
               <i class="fa-solid fa-layer-group" style="color: var(--admin-cyan);"></i> Live 3D Plot Inventory Control
             </div>
-            <a href="../3d-map/index.html" target="_blank" class="btn-header-link"><i class="fa-solid fa-cube"></i> View in 3D Map</a>
+            <a href="../3d-map/index.html" target="_blank" class="btn-header-link"><i class="fa-solid fa-cube"></i> View
+              in 3D Map</a>
           </div>
 
           <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
-            <input type="text" id="plotSearchInput" class="admin-control" style="max-width: 300px;" placeholder="Filter by Plot # (e.g. 14, 42)..." oninput="filterPlotInventory()" />
-            <select id="plotStatusFilter" class="admin-control" style="max-width: 200px;" onchange="filterPlotInventory()">
+            <input type="text" id="plotSearchInput" class="admin-control" style="max-width: 300px;"
+              placeholder="Filter by Plot # (e.g. 14, 42)..." oninput="filterPlotInventory()" />
+            <select id="plotStatusFilter" class="admin-control" style="max-width: 200px;"
+              onchange="filterPlotInventory()">
               <option value="">All Statuses</option>
               <option value="available">Available (Green)</option>
               <option value="booked">Booked (Gold)</option>
@@ -1257,7 +1310,7 @@
        SCRIPTS: Studio Logic, AutoCAD Ingestion & Media Studio
        ========================================================================== -->
   <script>
-    (function() {
+    (function () {
       const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
         ? 'http://localhost:5000/api/v1'
         : '/api/v1';
@@ -1297,7 +1350,7 @@
       ];
 
       // On Page Load: Check Login
-      window.onload = function() {
+      window.onload = function () {
         if (sessionStorage.getItem('shreeji_admin_logged') === 'true') {
           showAdminWorkspace();
         } else {
@@ -1307,14 +1360,14 @@
       };
 
       // 1-Click Credential Autofill
-      window.autofillCredentials = function() {
+      window.autofillCredentials = function () {
         document.getElementById('loginUsername').value = 'Shreejii';
         document.getElementById('loginPassword').value = 'Shreeji@108';
         showToast('Credentials filled: Shreejii / Shreeji@108');
       };
 
       // Admin Login Submission
-      document.getElementById('adminLoginForm').addEventListener('submit', async function(e) {
+      document.getElementById('adminLoginForm').addEventListener('submit', async function (e) {
         e.preventDefault();
         const username = document.getElementById('loginUsername').value.trim();
         const password = document.getElementById('loginPassword').value;
@@ -1366,7 +1419,7 @@
         }
       });
 
-      window.logoutAdmin = function() {
+      window.logoutAdmin = function () {
         sessionStorage.removeItem('shreeji_admin_logged');
         sessionStorage.removeItem('admin_token');
         window.location.reload();
@@ -1386,7 +1439,7 @@
       }
 
       // Tab Switching
-      window.switchAdminTab = function(tabName) {
+      window.switchAdminTab = function (tabName) {
         document.querySelectorAll('.pane-section').forEach(p => p.style.display = 'none');
         document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
 
@@ -1410,193 +1463,193 @@
           document.getElementById('paneSubheadline').textContent = headlines[tabName][1];
         }
       };
-      };
+    };
 
-      // ========================================================================
-      // AUTOCAD 3D MAPS LOGIC
-      // ========================================================================
-      window.handleCadFileSelect = function(input) {
-        if (input.files && input.files[0]) {
-          selectedCadFile = input.files[0];
-          document.getElementById('cadFileName').textContent = `${selectedCadFile.name} (${Math.round(selectedCadFile.size / 1024)} KB)`;
-          document.getElementById('cadFilePill').style.display = 'inline-flex';
-        }
-      };
+    // ========================================================================
+    // AUTOCAD 3D MAPS LOGIC
+    // ========================================================================
+    window.handleCadFileSelect = function (input) {
+      if (input.files && input.files[0]) {
+        selectedCadFile = input.files[0];
+        document.getElementById('cadFileName').textContent = `${selectedCadFile.name} (${Math.round(selectedCadFile.size / 1024)} KB)`;
+        document.getElementById('cadFilePill').style.display = 'inline-flex';
+      }
+    };
 
-      window.handleCadUploadSubmit = async function(e) {
-        e.preventDefault();
-        const projectName = document.getElementById('cadProjectName').value.trim();
-        const locationText = document.getElementById('cadLocationText').value.trim();
-        const reraNumber = document.getElementById('cadReraNumber').value.trim();
-        const plotCount = parseInt(document.getElementById('cadPlotCount').value, 10) || 109;
-        const ratePerYd = document.getElementById('cadRatePerYd').value.trim();
-        const description = document.getElementById('cadDescription').value.trim();
+    window.handleCadUploadSubmit = async function (e) {
+      e.preventDefault();
+      const projectName = document.getElementById('cadProjectName').value.trim();
+      const locationText = document.getElementById('cadLocationText').value.trim();
+      const reraNumber = document.getElementById('cadReraNumber').value.trim();
+      const plotCount = parseInt(document.getElementById('cadPlotCount').value, 10) || 109;
+      const ratePerYd = document.getElementById('cadRatePerYd').value.trim();
+      const description = document.getElementById('cadDescription').value.trim();
 
-        const btn = document.getElementById('btnUploadCad');
-        btn.disabled = true;
-        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing &amp; Compiling CAD Layout...';
+      const btn = document.getElementById('btnUploadCad');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing &amp; Compiling CAD Layout...';
 
-        const slug = projectName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      const slug = projectName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
-        // Generate synthetic plot dataset matching the uploaded AutoCAD parcel count
-        const plots = [];
-        for (let i = 1; i <= plotCount; i++) {
-          let area = 182.5;
-          if (i % 5 === 0) area = 210.0;
-          else if (i % 3 === 0) area = 145.0;
-          else if (i % 2 === 0) area = 160.0;
+      // Generate synthetic plot dataset matching the uploaded AutoCAD parcel count
+      const plots = [];
+      for (let i = 1; i <= plotCount; i++) {
+        let area = 182.5;
+        if (i % 5 === 0) area = 210.0;
+        else if (i % 3 === 0) area = 145.0;
+        else if (i % 2 === 0) area = 160.0;
 
-          plots.push({
-            id: i,
-            name: `${i}`,
-            plotNumber: `${i}`,
-            area: Math.round(area / 1.19599),
-            areaSqyd: area,
-            ratePerYd: ratePerYd.replace(/[^\d]/g, '') || 14500,
-            totalPrice: Math.round(area * (ratePerYd.replace(/[^\d]/g, '') || 14500)),
-            status: i === 4 || i === 12 || i === 28 ? 1 : (i % 7 === 0 ? 2 : 0), // 0: Available, 1: Booked, 2: Sold
-            facing: i % 2 === 0 ? "East Facing (Main Road)" : "North-East (Vaastu Compliant)",
-            roadWidth: i <= 20 ? "40 Ft Main Boulevard" : "30 Ft Internal Avenue"
-          });
-        }
-
-        const projectData = {
-          project: {
-            id: slug,
-            slug: slug,
-            name: projectName,
-            location: locationText,
-            locationLink: `https://maps.google.com/?q=23.1842,69.9415`,
-            reraRegistrationNumber: reraNumber,
-            description: description,
-            plotsCount: plotCount,
-            ratePerYd: ratePerYd,
-            cadFileName: selectedCadFile ? selectedCadFile.name : 'Master_AutoCAD_Vector_Layout.dwg',
-            uploadedAt: new Date().toLocaleDateString()
-          },
-          plots: plots
-        };
-
-        // 1. Stream binary file to /api/v1/uploads if file was selected
-        let realCadUrl = `/uploads/cad/${selectedCadFile ? selectedCadFile.name : 'layout.dwg'}`;
-        const token = sessionStorage.getItem('admin_token');
-
-        if (selectedCadFile && token) {
-          try {
-            const formData = new FormData();
-            formData.append('file', selectedCadFile);
-            formData.append('folder', 'cad');
-
-            const upRes = await fetch(`${API_BASE}/uploads`, {
-              method: 'POST',
-              headers: { Authorization: `Bearer ${token}` },
-              body: formData
-            });
-
-            if (upRes.ok) {
-              const upJson = await upRes.json();
-              if (upJson.data && upJson.data.url) {
-                realCadUrl = upJson.data.url;
-              }
-            }
-          } catch (uploadErr) {
-            console.warn('[CAD Upload] Binary upload error:', uploadErr.message);
-          }
-        }
-
-        projectData.project.cadFileUrl = realCadUrl;
-
-        // 2. Save to local storage for instant 3D Map viewer access
-        const customProjects = JSON.parse(localStorage.getItem('shreeji_cad_projects') || '{}');
-        customProjects[slug] = projectData;
-        localStorage.setItem('shreeji_cad_projects', JSON.stringify(customProjects));
-
-        // 3. Sync to Backend Server API if available
-        try {
-          await fetch(`${API_BASE}/admin/cad-project`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              ...(token ? { 'Authorization': `Bearer ${token}` } : {})
-            },
-            body: JSON.stringify({
-              name: projectName,
-              slug: slug,
-              locationText: locationText,
-              reraNumber: reraNumber,
-              totalPlots: plotCount,
-              description: description,
-              cadFileUrl: realCadUrl,
-              plotsData: plots
-            })
-          });
-        } catch (apiErr) {}
-
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Upload &amp; Deploy to 3D Map';
-
-        showToast(`AutoCAD Map '${projectName}' uploaded & synced to 3D Engine!`);
-        renderCadProjects();
-        loadDashboardMetrics();
-
-        // Also add project to Media Studio project dropdown
-        const mediaProjSelect = document.getElementById('mediaProjectSelect');
-        if (mediaProjSelect && !mediaProjSelect.querySelector(`option[value="${slug}"]`)) {
-          const opt = document.createElement('option');
-          opt.value = slug;
-          opt.textContent = projectName;
-          mediaProjSelect.appendChild(opt);
-        }
-
-        // Reset inputs
-        document.getElementById('cadProjectName').value = '';
-        document.getElementById('cadDescription').value = '';
-        selectedCadFile = null;
-        document.getElementById('cadFilePill').style.display = 'none';
-      };
-
-      function renderCadProjects() {
-        const tbody = document.getElementById('cadProjectsTableBody');
-        if (!tbody) return;
-
-        const defaultProjects = [
-          {
-            slug: 'nagavaladiya',
-            name: 'Nagavaladiya Residency (Survey 374)',
-            location: 'Survey 374, Nagavaladiya, Anjar Belt',
-            plotsCount: 109,
-            rera: 'RERA Clear Title (PR/GJ/KUTCH/374)',
-            format: 'AutoCAD DWG &amp; WebGL 3D Mesh'
-          },
-          {
-            slug: 'nakshatra',
-            name: 'Nakshatra Commercial Township',
-            location: 'Tagore Road Commercial Hub, Gandhidham',
-            plotsCount: 85,
-            rera: 'Commercial Zoned &bull; Clear NA',
-            format: 'GeoJSON Vector &amp; GIS'
-          }
-        ];
-
-        let customProjects = {};
-        try {
-          customProjects = JSON.parse(localStorage.getItem('shreeji_cad_projects') || '{}');
-        } catch (e) {}
-
-        const allProjects = [...defaultProjects];
-        Object.keys(customProjects).forEach(k => {
-          const cp = customProjects[k].project;
-          allProjects.push({
-            slug: cp.slug || k,
-            name: cp.name,
-            location: cp.location,
-            plotsCount: cp.plotsCount,
-            rera: cp.reraRegistrationNumber,
-            format: `AutoCAD (${cp.cadFileName || 'Vector'})`
-          });
+        plots.push({
+          id: i,
+          name: `${i}`,
+          plotNumber: `${i}`,
+          area: Math.round(area / 1.19599),
+          areaSqyd: area,
+          ratePerYd: ratePerYd.replace(/[^\d]/g, '') || 14500,
+          totalPrice: Math.round(area * (ratePerYd.replace(/[^\d]/g, '') || 14500)),
+          status: i === 4 || i === 12 || i === 28 ? 1 : (i % 7 === 0 ? 2 : 0), // 0: Available, 1: Booked, 2: Sold
+          facing: i % 2 === 0 ? "East Facing (Main Road)" : "North-East (Vaastu Compliant)",
+          roadWidth: i <= 20 ? "40 Ft Main Boulevard" : "30 Ft Internal Avenue"
         });
+      }
 
-        tbody.innerHTML = allProjects.map(p => `
+      const projectData = {
+        project: {
+          id: slug,
+          slug: slug,
+          name: projectName,
+          location: locationText,
+          locationLink: `https://maps.google.com/?q=23.1842,69.9415`,
+          reraRegistrationNumber: reraNumber,
+          description: description,
+          plotsCount: plotCount,
+          ratePerYd: ratePerYd,
+          cadFileName: selectedCadFile ? selectedCadFile.name : 'Master_AutoCAD_Vector_Layout.dwg',
+          uploadedAt: new Date().toLocaleDateString()
+        },
+        plots: plots
+      };
+
+      // 1. Stream binary file to /api/v1/uploads if file was selected
+      let realCadUrl = `/uploads/cad/${selectedCadFile ? selectedCadFile.name : 'layout.dwg'}`;
+      const token = sessionStorage.getItem('admin_token');
+
+      if (selectedCadFile && token) {
+        try {
+          const formData = new FormData();
+          formData.append('file', selectedCadFile);
+          formData.append('folder', 'cad');
+
+          const upRes = await fetch(`${API_BASE}/uploads`, {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${token}` },
+            body: formData
+          });
+
+          if (upRes.ok) {
+            const upJson = await upRes.json();
+            if (upJson.data && upJson.data.url) {
+              realCadUrl = upJson.data.url;
+            }
+          }
+        } catch (uploadErr) {
+          console.warn('[CAD Upload] Binary upload error:', uploadErr.message);
+        }
+      }
+
+      projectData.project.cadFileUrl = realCadUrl;
+
+      // 2. Save to local storage for instant 3D Map viewer access
+      const customProjects = JSON.parse(localStorage.getItem('shreeji_cad_projects') || '{}');
+      customProjects[slug] = projectData;
+      localStorage.setItem('shreeji_cad_projects', JSON.stringify(customProjects));
+
+      // 3. Sync to Backend Server API if available
+      try {
+        await fetch(`${API_BASE}/admin/cad-project`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+          },
+          body: JSON.stringify({
+            name: projectName,
+            slug: slug,
+            locationText: locationText,
+            reraNumber: reraNumber,
+            totalPlots: plotCount,
+            description: description,
+            cadFileUrl: realCadUrl,
+            plotsData: plots
+          })
+        });
+      } catch (apiErr) { }
+
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Upload &amp; Deploy to 3D Map';
+
+      showToast(`AutoCAD Map '${projectName}' uploaded & synced to 3D Engine!`);
+      renderCadProjects();
+      loadDashboardMetrics();
+
+      // Also add project to Media Studio project dropdown
+      const mediaProjSelect = document.getElementById('mediaProjectSelect');
+      if (mediaProjSelect && !mediaProjSelect.querySelector(`option[value="${slug}"]`)) {
+        const opt = document.createElement('option');
+        opt.value = slug;
+        opt.textContent = projectName;
+        mediaProjSelect.appendChild(opt);
+      }
+
+      // Reset inputs
+      document.getElementById('cadProjectName').value = '';
+      document.getElementById('cadDescription').value = '';
+      selectedCadFile = null;
+      document.getElementById('cadFilePill').style.display = 'none';
+    };
+
+    function renderCadProjects() {
+      const tbody = document.getElementById('cadProjectsTableBody');
+      if (!tbody) return;
+
+      const defaultProjects = [
+        {
+          slug: 'nagavaladiya',
+          name: 'Nagavaladiya Residency (Survey 374)',
+          location: 'Survey 374, Nagavaladiya, Anjar Belt',
+          plotsCount: 109,
+          rera: 'RERA Clear Title (PR/GJ/KUTCH/374)',
+          format: 'AutoCAD DWG &amp; WebGL 3D Mesh'
+        },
+        {
+          slug: 'nakshatra',
+          name: 'Nakshatra Commercial Township',
+          location: 'Tagore Road Commercial Hub, Gandhidham',
+          plotsCount: 85,
+          rera: 'Commercial Zoned &bull; Clear NA',
+          format: 'GeoJSON Vector &amp; GIS'
+        }
+      ];
+
+      let customProjects = {};
+      try {
+        customProjects = JSON.parse(localStorage.getItem('shreeji_cad_projects') || '{}');
+      } catch (e) { }
+
+      const allProjects = [...defaultProjects];
+      Object.keys(customProjects).forEach(k => {
+        const cp = customProjects[k].project;
+        allProjects.push({
+          slug: cp.slug || k,
+          name: cp.name,
+          location: cp.location,
+          plotsCount: cp.plotsCount,
+          rera: cp.reraRegistrationNumber,
+          format: `AutoCAD (${cp.cadFileName || 'Vector'})`
+        });
+      });
+
+      tbody.innerHTML = allProjects.map(p => `
           <tr>
             <td><strong>${p.name}</strong></td>
             <td>${p.location}</td>
@@ -1611,142 +1664,142 @@
           </tr>
         `).join('');
 
-        document.getElementById('metricCadProjects').textContent = allProjects.length;
+      document.getElementById('metricCadProjects').textContent = allProjects.length;
+    }
+
+    // ========================================================================
+    // PHOTOS & VIDEOS CONTENT STUDIO LOGIC
+    // ========================================================================
+    window.handleMediaFileSelect = function (input) {
+      if (input.files && input.files[0]) {
+        selectedMediaFile = input.files[0];
+        document.getElementById('mediaFileName').textContent = `${selectedMediaFile.name} (${Math.round(selectedMediaFile.size / 1024)} KB)`;
+        document.getElementById('mediaFilePill').style.display = 'inline-flex';
+
+        // Auto-detect type
+        if (selectedMediaFile.type.startsWith('video/')) {
+          document.getElementById('mediaType').value = 'video';
+        } else if (selectedMediaFile.type.startsWith('image/')) {
+          document.getElementById('mediaType').value = 'photo';
+        }
+      }
+    };
+
+    window.handleMediaUploadSubmit = async function (e) {
+      e.preventDefault();
+      const title = document.getElementById('mediaTitle').value.trim();
+      const mediaType = document.getElementById('mediaType').value;
+      const projectId = document.getElementById('mediaProjectSelect').value;
+      const description = document.getElementById('mediaDescription').value.trim();
+      const urlInput = document.getElementById('mediaUrlInput').value.trim();
+
+      let finalUrl = urlInput;
+      const token = sessionStorage.getItem('admin_token');
+
+      if (!finalUrl && selectedMediaFile) {
+        // Attempt real binary upload to server storage
+        if (token) {
+          try {
+            const formData = new FormData();
+            formData.append('file', selectedMediaFile);
+            formData.append('folder', mediaType === 'video' ? 'videos' : 'photos');
+
+            const upRes = await fetch(`${API_BASE}/uploads`, {
+              method: 'POST',
+              headers: { Authorization: `Bearer ${token}` },
+              body: formData
+            });
+
+            if (upRes.ok) {
+              const upData = await upRes.json();
+              if (upData.data && upData.data.url) {
+                finalUrl = upData.data.url;
+              }
+            }
+          } catch (upErr) {
+            console.warn('[Media Upload] Binary upload error:', upErr.message);
+          }
+        }
+
+        // Fallback to local object URL if offline
+        if (!finalUrl) {
+          finalUrl = URL.createObjectURL(selectedMediaFile);
+        }
+      } else if (!finalUrl) {
+        finalUrl = mediaType === 'video'
+          ? 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4'
+          : '../images/commercial-plot.jpg';
       }
 
-      // ========================================================================
-      // PHOTOS & VIDEOS CONTENT STUDIO LOGIC
-      // ========================================================================
-      window.handleMediaFileSelect = function(input) {
-        if (input.files && input.files[0]) {
-          selectedMediaFile = input.files[0];
-          document.getElementById('mediaFileName').textContent = `${selectedMediaFile.name} (${Math.round(selectedMediaFile.size / 1024)} KB)`;
-          document.getElementById('mediaFilePill').style.display = 'inline-flex';
-
-          // Auto-detect type
-          if (selectedMediaFile.type.startsWith('video/')) {
-            document.getElementById('mediaType').value = 'video';
-          } else if (selectedMediaFile.type.startsWith('image/')) {
-            document.getElementById('mediaType').value = 'photo';
-          }
-        }
+      const newMediaItem = {
+        id: `media-${Date.now()}`,
+        title,
+        mediaType,
+        projectId,
+        mediaUrl: finalUrl,
+        description,
+        createdAt: new Date().toLocaleDateString()
       };
 
-      window.handleMediaUploadSubmit = async function(e) {
-        e.preventDefault();
-        const title = document.getElementById('mediaTitle').value.trim();
-        const mediaType = document.getElementById('mediaType').value;
-        const projectId = document.getElementById('mediaProjectSelect').value;
-        const description = document.getElementById('mediaDescription').value.trim();
-        const urlInput = document.getElementById('mediaUrlInput').value.trim();
+      // Save to Local Storage
+      const savedMedia = JSON.parse(localStorage.getItem('shreeji_media_studio') || '[]');
+      savedMedia.unshift(newMediaItem);
+      localStorage.setItem('shreeji_media_studio', JSON.stringify(savedMedia));
 
-        let finalUrl = urlInput;
+      // Sync with backend API
+      try {
         const token = sessionStorage.getItem('admin_token');
+        await fetch(`${API_BASE}/admin/media`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+          },
+          body: JSON.stringify(newMediaItem)
+        });
+      } catch (apiErr) { }
 
-        if (!finalUrl && selectedMediaFile) {
-          // Attempt real binary upload to server storage
-          if (token) {
-            try {
-              const formData = new FormData();
-              formData.append('file', selectedMediaFile);
-              formData.append('folder', mediaType === 'video' ? 'videos' : 'photos');
+      showToast('Photo/Video & detailed content published successfully!');
+      renderMediaStudio();
+      loadDashboardMetrics();
 
-              const upRes = await fetch(`${API_BASE}/uploads`, {
-                method: 'POST',
-                headers: { Authorization: `Bearer ${token}` },
-                body: formData
-              });
+      // Reset form
+      document.getElementById('mediaTitle').value = '';
+      document.getElementById('mediaDescription').value = '';
+      document.getElementById('mediaUrlInput').value = '';
+      selectedMediaFile = null;
+      document.getElementById('mediaFilePill').style.display = 'none';
+    };
 
-              if (upRes.ok) {
-                const upData = await upRes.json();
-                if (upData.data && upData.data.url) {
-                  finalUrl = upData.data.url;
-                }
-              }
-            } catch (upErr) {
-              console.warn('[Media Upload] Binary upload error:', upErr.message);
-            }
-          }
+    function renderMediaStudio() {
+      const grid = document.getElementById('mediaStudioGrid');
+      if (!grid) return;
 
-          // Fallback to local object URL if offline
-          if (!finalUrl) {
-            finalUrl = URL.createObjectURL(selectedMediaFile);
-          }
-        } else if (!finalUrl) {
-          finalUrl = mediaType === 'video'
-            ? 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4'
-            : '../images/commercial-plot.jpg';
-        }
+      let userMedia = [];
+      try {
+        userMedia = JSON.parse(localStorage.getItem('shreeji_media_studio') || '[]');
+      } catch (e) { }
 
-        const newMediaItem = {
-          id: `media-${Date.now()}`,
-          title,
-          mediaType,
-          projectId,
-          mediaUrl: finalUrl,
-          description,
-          createdAt: new Date().toLocaleDateString()
-        };
+      const allMedia = [...userMedia, ...defaultMedia];
+      document.getElementById('mediaCountText').textContent = `${allMedia.length} Photos & Videos published`;
 
-        // Save to Local Storage
-        const savedMedia = JSON.parse(localStorage.getItem('shreeji_media_studio') || '[]');
-        savedMedia.unshift(newMediaItem);
-        localStorage.setItem('shreeji_media_studio', JSON.stringify(savedMedia));
+      grid.innerHTML = allMedia.map(m => {
+        const isVideo = m.mediaType === 'video';
+        const typeBadge = isVideo ? '🎥 Drone Video' : (m.mediaType === 'cad_overlay' ? '📐 AutoCAD Blueprint' : '📷 Site Photo');
 
-        // Sync with backend API
-        try {
-          const token = sessionStorage.getItem('admin_token');
-          await fetch(`${API_BASE}/admin/media`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              ...(token ? { 'Authorization': `Bearer ${token}` } : {})
-            },
-            body: JSON.stringify(newMediaItem)
-          });
-        } catch (apiErr) {}
-
-        showToast('Photo/Video & detailed content published successfully!');
-        renderMediaStudio();
-        loadDashboardMetrics();
-
-        // Reset form
-        document.getElementById('mediaTitle').value = '';
-        document.getElementById('mediaDescription').value = '';
-        document.getElementById('mediaUrlInput').value = '';
-        selectedMediaFile = null;
-        document.getElementById('mediaFilePill').style.display = 'none';
-      };
-
-      function renderMediaStudio() {
-        const grid = document.getElementById('mediaStudioGrid');
-        if (!grid) return;
-
-        let userMedia = [];
-        try {
-          userMedia = JSON.parse(localStorage.getItem('shreeji_media_studio') || '[]');
-        } catch (e) {}
-
-        const allMedia = [...userMedia, ...defaultMedia];
-        document.getElementById('mediaCountText').textContent = `${allMedia.length} Photos & Videos published`;
-
-        grid.innerHTML = allMedia.map(m => {
-          const isVideo = m.mediaType === 'video';
-          const typeBadge = isVideo ? '🎥 Drone Video' : (m.mediaType === 'cad_overlay' ? '📐 AutoCAD Blueprint' : '📷 Site Photo');
-
-          let mediaVisual = '';
-          if (isVideo) {
-            mediaVisual = `
+        let mediaVisual = '';
+        if (isVideo) {
+          mediaVisual = `
               <video controls preload="metadata" poster="../images/shreeji-3d-spatial-masterplan.jpg">
                 <source src="${m.mediaUrl}" type="video/mp4" />
                 Your browser does not support video playback.
               </video>
             `;
-          } else {
-            mediaVisual = `<img src="${m.mediaUrl}" alt="${m.title}" loading="lazy" />`;
-          }
+        } else {
+          mediaVisual = `<img src="${m.mediaUrl}" alt="${m.title}" loading="lazy" />`;
+        }
 
-          return `
+        return `
             <div class="media-card-item">
               <div class="media-visual-container">
                 ${mediaVisual}
@@ -1767,92 +1820,92 @@
               </div>
             </div>
           `;
-        }).join('');
+      }).join('');
+    }
+
+    window.deleteMediaItem = function (id) {
+      if (!confirm('Are you sure you want to remove this media item?')) return;
+      let savedMedia = JSON.parse(localStorage.getItem('shreeji_media_studio') || '[]');
+      savedMedia = savedMedia.filter(m => m.id !== id);
+      localStorage.setItem('shreeji_media_studio', JSON.stringify(savedMedia));
+
+      // Attempt backend deletion
+      try {
+        const token = sessionStorage.getItem('admin_token');
+        fetch(`${API_BASE}/admin/media/${id}`, {
+          method: 'DELETE',
+          headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+        }).catch(() => { });
+      } catch (e) { }
+
+      showToast('Media item removed.');
+      renderMediaStudio();
+    };
+
+    // ========================================================================
+    // CLIENT PROPERTY INQUIRIES & CRM LEADS MANAGEMENT
+    // ========================================================================
+    async function loadInquiries() {
+      const tbody = document.getElementById('inquiriesTableBody');
+      if (!tbody) return;
+
+      let inquiries = [];
+
+      // 1. Try Backend API
+      try {
+        const token = sessionStorage.getItem('admin_token');
+        const res = await fetch(`${API_BASE}/admin/property-inquiries`, {
+          headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.data && Array.isArray(data.data)) inquiries = data.data;
+        }
+      } catch (err) { }
+
+      // 2. Fallback to Local Storage
+      if (!inquiries.length) {
+        try {
+          const localInq = JSON.parse(localStorage.getItem('shreeji_local_inquiries') || '[]');
+          inquiries = localInq;
+        } catch (e) { }
       }
 
-      window.deleteMediaItem = function(id) {
-        if (!confirm('Are you sure you want to remove this media item?')) return;
-        let savedMedia = JSON.parse(localStorage.getItem('shreeji_media_studio') || '[]');
-        savedMedia = savedMedia.filter(m => m.id !== id);
-        localStorage.setItem('shreeji_media_studio', JSON.stringify(savedMedia));
-
-        // Attempt backend deletion
-        try {
-          const token = sessionStorage.getItem('admin_token');
-          fetch(`${API_BASE}/admin/media/${id}`, {
-            method: 'DELETE',
-            headers: token ? { 'Authorization': `Bearer ${token}` } : {}
-          }).catch(() => {});
-        } catch (e) {}
-
-        showToast('Media item removed.');
-        renderMediaStudio();
-      };
-
-      // ========================================================================
-      // CLIENT PROPERTY INQUIRIES & CRM LEADS MANAGEMENT
-      // ========================================================================
-      async function loadInquiries() {
-        const tbody = document.getElementById('inquiriesTableBody');
-        if (!tbody) return;
-
-        let inquiries = [];
-
-        // 1. Try Backend API
-        try {
-          const token = sessionStorage.getItem('admin_token');
-          const res = await fetch(`${API_BASE}/admin/property-inquiries`, {
-            headers: token ? { 'Authorization': `Bearer ${token}` } : {}
-          });
-          if (res.ok) {
-            const data = await res.json();
-            if (data.data && Array.isArray(data.data)) inquiries = data.data;
+      // Demo seed if none exist
+      if (!inquiries.length) {
+        inquiries = [
+          {
+            id: 'INQ-1048',
+            name: 'Dr. Rajesh Patel',
+            phone: '9825012345',
+            role: 'investor',
+            propertyCategory: 'Commercial Showroom',
+            preferredLocation: 'Nagavaladiya (Survey 374)',
+            builtupArea: '210 Sq.Yards',
+            status: 'new'
+          },
+          {
+            id: 'INQ-1052',
+            name: 'Manish V. Patel',
+            phone: '9898011223',
+            role: 'buyer',
+            propertyCategory: 'Industrial Warehouse',
+            preferredLocation: 'Tagore Road, Gandhidham',
+            builtupArea: '182.5 Sq.Yards',
+            status: 'contacted'
           }
-        } catch (err) {}
+        ];
+      }
 
-        // 2. Fallback to Local Storage
-        if (!inquiries.length) {
-          try {
-            const localInq = JSON.parse(localStorage.getItem('shreeji_local_inquiries') || '[]');
-            inquiries = localInq;
-          } catch (e) {}
-        }
+      const countEl = document.getElementById('metricInquiriesCount');
+      if (countEl) countEl.textContent = inquiries.length;
 
-        // Demo seed if none exist
-        if (!inquiries.length) {
-          inquiries = [
-            {
-              id: 'INQ-1048',
-              name: 'Dr. Rajesh Patel',
-              phone: '9825012345',
-              role: 'investor',
-              propertyCategory: 'Commercial Showroom',
-              preferredLocation: 'Nagavaladiya (Survey 374)',
-              builtupArea: '210 Sq.Yards',
-              status: 'new'
-            },
-            {
-              id: 'INQ-1052',
-              name: 'Manish V. Patel',
-              phone: '9898011223',
-              role: 'buyer',
-              propertyCategory: 'Industrial Warehouse',
-              preferredLocation: 'Tagore Road, Gandhidham',
-              builtupArea: '182.5 Sq.Yards',
-              status: 'contacted'
-            }
-          ];
-        }
+      tbody.innerHTML = inquiries.map(inq => {
+        const cleanPhone = String(inq.phone || '').replace(/[^\d]/g, '');
+        const waText = encodeURIComponent(`Namaste ${inq.name || 'Client'}, this is Shreeji Real Estate Consultant following up on your property inquiry for ${inq.preferredLocation || 'Survey 374'}.`);
+        const waUrl = `https://wa.me/91${cleanPhone}?text=${waText}`;
 
-        const countEl = document.getElementById('metricInquiriesCount');
-        if (countEl) countEl.textContent = inquiries.length;
-
-        tbody.innerHTML = inquiries.map(inq => {
-          const cleanPhone = String(inq.phone || '').replace(/[^\d]/g, '');
-          const waText = encodeURIComponent(`Namaste ${inq.name || 'Client'}, this is Shreeji Real Estate Consultant following up on your property inquiry for ${inq.preferredLocation || 'Survey 374'}.`);
-          const waUrl = `https://wa.me/91${cleanPhone}?text=${waText}`;
-
-          return `
+        return `
             <tr>
               <td><code>${inq.id || 'INQ-...'}</code></td>
               <td><strong>${inq.name || inq.fullName || 'Client'}</strong></td>
@@ -1879,74 +1932,74 @@
               </td>
             </tr>
           `;
-        }).join('');
+      }).join('');
+    }
+
+    window.updateInquiryStatus = async function (id, status) {
+      try {
+        const token = sessionStorage.getItem('admin_token');
+        await fetch(`${API_BASE}/admin/property-inquiries/${id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+          },
+          body: JSON.stringify({ status })
+        });
+      } catch (e) { }
+
+      showToast(`Inquiry ${id} status updated to ${status.toUpperCase()}`);
+    };
+
+    // ========================================================================
+    // WHATSAPP SALES LEADS LOG (+91 98257 99754)
+    // ========================================================================
+    async function loadWhatsappDispatches() {
+      const tbody = document.getElementById('whatsappDispatchesTableBody');
+      if (!tbody) return;
+
+      let dispatches = [];
+
+      try {
+        const token = sessionStorage.getItem('admin_token');
+        const res = await fetch(`${API_BASE}/admin/whatsapp-dispatches`, {
+          headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.data) dispatches = data.data;
+        }
+      } catch (e) { }
+
+      // Fallback demo data
+      if (!dispatches.length) {
+        dispatches = [
+          {
+            created_at: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            client_name: 'Rajesh K. Vaghela',
+            client_phone: '9825012345',
+            property_ref: 'Plot #14 (Survey 374)',
+            message_body: '🏛️ SHREEJI REAL ESTATE CONSULTANT - Verified Client KYC & Plot #14 Reservation',
+            recipient_number: '919825799754',
+            dispatch_url: 'https://wa.me/919825799754'
+          },
+          {
+            created_at: 'Yesterday',
+            client_name: 'Harshil Joshi',
+            client_phone: '9898011223',
+            property_ref: 'Commercial Showroom Adipur',
+            message_body: '🏢 SHREEJI REAL ESTATE CONSULTANT - 1,500 Sq.Ft Showroom space inquiry',
+            recipient_number: '919825799754',
+            dispatch_url: 'https://wa.me/919825799754'
+          }
+        ];
       }
 
-      window.updateInquiryStatus = async function(id, status) {
-        try {
-          const token = sessionStorage.getItem('admin_token');
-          await fetch(`${API_BASE}/admin/property-inquiries/${id}`, {
-            method: 'PATCH',
-            headers: {
-              'Content-Type': 'application/json',
-              ...(token ? { 'Authorization': `Bearer ${token}` } : {})
-            },
-            body: JSON.stringify({ status })
-          });
-        } catch (e) {}
+      document.getElementById('metricWaDispatches').textContent = dispatches.length;
 
-        showToast(`Inquiry ${id} status updated to ${status.toUpperCase()}`);
-      };
-
-      // ========================================================================
-      // WHATSAPP SALES LEADS LOG (+91 98257 99754)
-      // ========================================================================
-      async function loadWhatsappDispatches() {
-        const tbody = document.getElementById('whatsappDispatchesTableBody');
-        if (!tbody) return;
-
-        let dispatches = [];
-
-        try {
-          const token = sessionStorage.getItem('admin_token');
-          const res = await fetch(`${API_BASE}/admin/whatsapp-dispatches`, {
-            headers: token ? { 'Authorization': `Bearer ${token}` } : {}
-          });
-          if (res.ok) {
-            const data = await res.json();
-            if (data.data) dispatches = data.data;
-          }
-        } catch (e) {}
-
-        // Fallback demo data
-        if (!dispatches.length) {
-          dispatches = [
-            {
-              created_at: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-              client_name: 'Rajesh K. Vaghela',
-              client_phone: '9825012345',
-              property_ref: 'Plot #14 (Survey 374)',
-              message_body: '🏛️ SHREEJI REAL ESTATE CONSULTANT - Verified Client KYC & Plot #14 Reservation',
-              recipient_number: '919825799754',
-              dispatch_url: 'https://wa.me/919825799754'
-            },
-            {
-              created_at: 'Yesterday',
-              client_name: 'Harshil Joshi',
-              client_phone: '9898011223',
-              property_ref: 'Commercial Showroom Adipur',
-              message_body: '🏢 SHREEJI REAL ESTATE CONSULTANT - 1,500 Sq.Ft Showroom space inquiry',
-              recipient_number: '919825799754',
-              dispatch_url: 'https://wa.me/919825799754'
-            }
-          ];
-        }
-
-        document.getElementById('metricWaDispatches').textContent = dispatches.length;
-
-        tbody.innerHTML = dispatches.map(d => `
+      tbody.innerHTML = dispatches.map(d => `
           <tr>
-            <td><span style="font-size: 0.78rem; color: #94A3B8;">${d.created_at ? new Date(d.created_at).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'}) : 'Recent'}</span></td>
+            <td><span style="font-size: 0.78rem; color: #94A3B8;">${d.created_at ? new Date(d.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Recent'}</span></td>
             <td><strong>${d.client_name || d.clientName}</strong></td>
             <td>${d.client_phone || d.clientPhone}</td>
             <td><span class="status-badge available">${d.property_ref || d.propertyRef || 'General'}</span></td>
@@ -1959,46 +2012,46 @@
             </td>
           </tr>
         `).join('');
+    }
+
+    // ========================================================================
+    // 3D PLOT INVENTORY & AVAILABILITY TOGGLE
+    // ========================================================================
+    let plotInventoryList = [];
+
+    function loadPlotInventory() {
+      const tbody = document.getElementById('plotsInventoryTableBody');
+      if (!tbody) return;
+
+      // Populate standard 109 plots for Nagavaladiya 374
+      plotInventoryList = [];
+      for (let i = 1; i <= 109; i++) {
+        let area = 182.5;
+        let rate = 14500;
+        if (i % 5 === 0) area = 210.0;
+        else if (i % 3 === 0) area = 145.0;
+        else if (i % 2 === 0) area = 160.0;
+
+        const savedStatus = localStorage.getItem(`shreeji_plot_status_${i}`);
+        const status = savedStatus || (i === 4 || i === 12 || i === 28 ? 'booked' : (i % 7 === 0 ? 'sold' : 'available'));
+
+        plotInventoryList.push({
+          number: i,
+          area: area,
+          price: `₹${Math.round(area * rate).toLocaleString('en-IN')}`,
+          facing: i % 2 === 0 ? 'East Facing (40-Ft Road)' : 'North Facing (Avenue)',
+          status: status
+        });
       }
 
-      // ========================================================================
-      // 3D PLOT INVENTORY & AVAILABILITY TOGGLE
-      // ========================================================================
-      let plotInventoryList = [];
+      renderPlotTable(plotInventoryList);
+    }
 
-      function loadPlotInventory() {
-        const tbody = document.getElementById('plotsInventoryTableBody');
-        if (!tbody) return;
+    function renderPlotTable(list) {
+      const tbody = document.getElementById('plotsInventoryTableBody');
+      if (!tbody) return;
 
-        // Populate standard 109 plots for Nagavaladiya 374
-        plotInventoryList = [];
-        for (let i = 1; i <= 109; i++) {
-          let area = 182.5;
-          let rate = 14500;
-          if (i % 5 === 0) area = 210.0;
-          else if (i % 3 === 0) area = 145.0;
-          else if (i % 2 === 0) area = 160.0;
-
-          const savedStatus = localStorage.getItem(`shreeji_plot_status_${i}`);
-          const status = savedStatus || (i === 4 || i === 12 || i === 28 ? 'booked' : (i % 7 === 0 ? 'sold' : 'available'));
-
-          plotInventoryList.push({
-            number: i,
-            area: area,
-            price: `₹${Math.round(area * rate).toLocaleString('en-IN')}`,
-            facing: i % 2 === 0 ? 'East Facing (40-Ft Road)' : 'North Facing (Avenue)',
-            status: status
-          });
-        }
-
-        renderPlotTable(plotInventoryList);
-      }
-
-      function renderPlotTable(list) {
-        const tbody = document.getElementById('plotsInventoryTableBody');
-        if (!tbody) return;
-
-        tbody.innerHTML = list.slice(0, 50).map(p => `
+      tbody.innerHTML = list.slice(0, 50).map(p => `
           <tr>
             <td><strong>Plot #${p.number}</strong></td>
             <td>${p.area} Sq.Yards</td>
@@ -2014,79 +2067,80 @@
             </td>
           </tr>
         `).join('');
+    }
+
+    window.changePlotStatus = async function (plotNum, newStatus) {
+      localStorage.setItem(`shreeji_plot_status_${plotNum}`, newStatus);
+      const badge = document.getElementById(`badge_plot_${plotNum}`);
+      if (badge) {
+        badge.className = `status-badge ${newStatus}`;
+        badge.textContent = newStatus.toUpperCase();
       }
 
-      window.changePlotStatus = async function(plotNum, newStatus) {
-        localStorage.setItem(`shreeji_plot_status_${plotNum}`, newStatus);
-        const badge = document.getElementById(`badge_plot_${plotNum}`);
-        if (badge) {
-          badge.className = `status-badge ${newStatus}`;
-          badge.textContent = newStatus.toUpperCase();
-        }
+      // Real-time broadcast sync with interactive 3D Map viewer
+      try {
+        const syncChannel = new BroadcastChannel('shreeji_inventory_sync');
+        syncChannel.postMessage({
+          plotNumber: plotNum,
+          status: newStatus,
+          timestamp: Date.now()
+        });
+      } catch (bcErr) { }
 
-        // Real-time broadcast sync with interactive 3D Map viewer
-        try {
-          const syncChannel = new BroadcastChannel('shreeji_inventory_sync');
-          syncChannel.postMessage({
-            plotNumber: plotNum,
-            status: newStatus,
-            timestamp: Date.now()
-          });
-        } catch (bcErr) {}
+      // Sync with backend API
+      try {
+        const token = sessionStorage.getItem('admin_token');
+        await fetch(`${API_BASE}/admin/plots/${plotNum}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+          },
+          body: JSON.stringify({ availabilityStatus: newStatus })
+        });
+      } catch (apiErr) { }
 
-        // Sync with backend API
-        try {
-          const token = sessionStorage.getItem('admin_token');
-          await fetch(`${API_BASE}/admin/plots/${plotNum}`, {
-            method: 'PATCH',
-            headers: {
-              'Content-Type': 'application/json',
-              ...(token ? { 'Authorization': `Bearer ${token}` } : {})
-            },
-            body: JSON.stringify({ availabilityStatus: newStatus })
-          });
-        } catch (apiErr) {}
+      showToast(`Plot #${plotNum} status updated to ${newStatus.toUpperCase()} (synced with 3D Map)`);
+    };
 
-        showToast(`Plot #${plotNum} status updated to ${newStatus.toUpperCase()} (synced with 3D Map)`);
-      };
+    window.filterPlotInventory = function () {
+      const query = document.getElementById('plotSearchInput').value.trim();
+      const status = document.getElementById('plotStatusFilter').value;
 
-      window.filterPlotInventory = function() {
-        const query = document.getElementById('plotSearchInput').value.trim();
-        const status = document.getElementById('plotStatusFilter').value;
-
-        let filtered = plotInventoryList;
-        if (query) {
-          filtered = filtered.filter(p => String(p.number).includes(query));
-        }
-        if (status) {
-          filtered = filtered.filter(p => p.status === status);
-        }
-        renderPlotTable(filtered);
-      };
-
-      function loadDashboardMetrics() {
-        try {
-          const customProjects = JSON.parse(localStorage.getItem('shreeji_cad_projects') || '{}');
-          const totalCad = 2 + Object.keys(customProjects).length;
-          const cadEl = document.getElementById('metricCadProjects');
-          if (cadEl) cadEl.textContent = totalCad;
-
-          const totalPlotsEl = document.getElementById('metricTotalPlots');
-          if (totalPlotsEl) totalPlotsEl.textContent = 109;
-        } catch (e) {}
+      let filtered = plotInventoryList;
+      if (query) {
+        filtered = filtered.filter(p => String(p.number).includes(query));
       }
-
-      function showToast(msg) {
-        const toast = document.getElementById('adminToast');
-        const text = document.getElementById('toastMessage');
-        if (!toast || !text) return;
-        text.textContent = msg;
-        toast.style.display = 'inline-flex';
-        setTimeout(() => {
-          toast.style.display = 'none';
-        }, 4000);
+      if (status) {
+        filtered = filtered.filter(p => p.status === status);
       }
-    })();
+      renderPlotTable(filtered);
+    };
+
+    function loadDashboardMetrics() {
+      try {
+        const customProjects = JSON.parse(localStorage.getItem('shreeji_cad_projects') || '{}');
+        const totalCad = 2 + Object.keys(customProjects).length;
+        const cadEl = document.getElementById('metricCadProjects');
+        if (cadEl) cadEl.textContent = totalCad;
+
+        const totalPlotsEl = document.getElementById('metricTotalPlots');
+        if (totalPlotsEl) totalPlotsEl.textContent = 109;
+      } catch (e) { }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('adminToast');
+      const text = document.getElementById('toastMessage');
+      if (!toast || !text) return;
+      text.textContent = msg;
+      toast.style.display = 'inline-flex';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 4000);
+    }
+    }) ();
   </script>
 </body>
+
 </html>

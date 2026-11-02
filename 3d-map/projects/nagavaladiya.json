@@ -1,0 +1,1292 @@
+{
+    "project":  {
+                    "projectId":  "nagavaladiya-374",
+                    "name":  "Nagavaladiya Residency (Survey 374)",
+                    "surveyNo":  "Revenue Survey No. 374",
+                    "location":  "Nagavaladiya, Ta. Anjar, Dist. Kutch, Gujarat",
+                    "locationLink":  "https://maps.google.com/?q=23.1842,69.9415",
+                    "description":  "Premium RERA-approved plotted scheme located at Revenue Survey No. 374, Nagavaladiya, Ta. Anjar, Kutch. Equipped with black-top internal asphalt roads, children\u0027s garden, decorative arch gate, 24/7 security cabin, and underground utilities.",
+                    "developer":  "WixFox Real Estate Tech \u0026 Partner Developers",
+                    "contact":  {
+                                    "phone":  "+919662906600",
+                                    "whatsapp":  "919662906600",
+                                    "email":  "contact@wixfox.com",
+                                    "office":  "Anjar - Gandhidham Highway, Kutch, Gujarat"
+                                },
+                    "subscription":  {
+                                         "plan":  "5 Years Developer Enterprise License",
+                                         "price":  "â‚¹20,000",
+                                         "revenueShare":  "40% WixFox Platform Share (â‚¹8,000)",
+                                         "status":  "Active",
+                                         "validUntil":  "2031-09-30",
+                                         "startDate":  "2026-10-01",
+                                         "daysRemaining":  1825
+                                     },
+                    "mapLatLong":  {
+                                       "lat":  23.1842,
+                                       "lng":  69.9415
+                                   },
+                    "mapOverlayBounds":  {
+                                             "north":  23.1865,
+                                             "south":  23.182,
+                                             "east":  69.944,
+                                             "west":  69.939
+                                         },
+                    "mapNorthDeg":  0,
+                    "mapOverlayZoom":  18,
+                    "mapScale":  1,
+                    "unitsLength":  {
+                                        "name":  "m",
+                                        "symbol":  "m",
+                                        "rateToMeter":  1
+                                    },
+                    "unitsAreaPrimary":  {
+                                             "name":  "m2",
+                                             "symbol":  "mÂ²",
+                                             "rateToM2":  1,
+                                             "snapTolerance":  0.01
+                                         },
+                    "unitsAreaSecondary":  {
+                                               "name":  "yd2",
+                                               "symbol":  "ydÂ²",
+                                               "rateToM2":  1.19599,
+                                               "snapTolerance":  0.001
+                                           },
+                    "baseGlb":  "./assets/models/SM_Base_Model.glb",
+                    "mapOverlayImage":  "./assets/textures/map_overlay.webp",
+                    "stage":  "published"
+                },
+    "statuses":  {
+                     "110":  {
+                                 "name":  "Sold",
+                                 "colorCode":  "#db6579"
+                             },
+                     "111":  {
+                                 "name":  "Builder / Hold",
+                                 "colorCode":  "#ebc04b"
+                             },
+                     "112":  {
+                                 "name":  "Available",
+                                 "colorCode":  "#528fff"
+                             }
+                 },
+    "plots":  [
+                  {
+                      "id":  1,
+                      "name":  "1",
+                      "area":  182.5,
+                      "statusId":  112,
+                      "dimensions":  "12.5m x 14.6m (Corner)",
+                      "roadWidth":  "40 Ft Main Avenue",
+                      "facing":  "North Facing",
+                      "ratePerYd":  13500,
+                      "totalPrice":  2946620
+                  },
+                  {
+                      "id":  2,
+                      "name":  "2",
+                      "area":  138,
+                      "statusId":  111,
+                      "dimensions":  "10m x 13.8m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "Garden Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2063083
+                  },
+                  {
+                      "id":  3,
+                      "name":  "3",
+                      "area":  144.5,
+                      "statusId":  111,
+                      "dimensions":  "10m x 14.45m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "West Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2160257
+                  },
+                  {
+                      "id":  4,
+                      "name":  "4",
+                      "area":  151,
+                      "statusId":  110,
+                      "dimensions":  "10m x 15.1m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "East Facing (Vastu Compliant)",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2257431
+                  },
+                  {
+                      "id":  5,
+                      "name":  "5",
+                      "area":  157.5,
+                      "statusId":  112,
+                      "dimensions":  "10m x 15.75m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "North Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2354605
+                  },
+                  {
+                      "id":  6,
+                      "name":  "6",
+                      "area":  125,
+                      "statusId":  110,
+                      "dimensions":  "10m x 12.5m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "Garden Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1868734
+                  },
+                  {
+                      "id":  7,
+                      "name":  "7",
+                      "area":  131.5,
+                      "statusId":  112,
+                      "dimensions":  "10m x 13.15m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "West Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1965909
+                  },
+                  {
+                      "id":  8,
+                      "name":  "8",
+                      "area":  138,
+                      "statusId":  111,
+                      "dimensions":  "10m x 13.8m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "East Facing (Vastu Compliant)",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2063083
+                  },
+                  {
+                      "id":  9,
+                      "name":  "9",
+                      "area":  144.5,
+                      "statusId":  110,
+                      "dimensions":  "10m x 14.45m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "North Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2160257
+                  },
+                  {
+                      "id":  10,
+                      "name":  "10",
+                      "area":  170,
+                      "statusId":  112,
+                      "dimensions":  "12.5m x 13.6m (Corner)",
+                      "roadWidth":  "40 Ft Main Avenue",
+                      "facing":  "Garden Facing",
+                      "ratePerYd":  13500,
+                      "totalPrice":  2744797
+                  },
+                  {
+                      "id":  11,
+                      "name":  "11",
+                      "area":  182.5,
+                      "statusId":  110,
+                      "dimensions":  "12.5m x 14.6m (Corner)",
+                      "roadWidth":  "40 Ft Main Avenue",
+                      "facing":  "West Facing",
+                      "ratePerYd":  13500,
+                      "totalPrice":  2946620
+                  },
+                  {
+                      "id":  12,
+                      "name":  "12",
+                      "area":  125,
+                      "statusId":  112,
+                      "dimensions":  "10m x 12.5m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "East Facing (Vastu Compliant)",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1868734
+                  },
+                  {
+                      "id":  13,
+                      "name":  "13",
+                      "area":  131.5,
+                      "statusId":  112,
+                      "dimensions":  "10m x 13.15m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "North Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1965909
+                  },
+                  {
+                      "id":  14,
+                      "name":  "14",
+                      "area":  138,
+                      "statusId":  111,
+                      "dimensions":  "10m x 13.8m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "Garden Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2063083
+                  },
+                  {
+                      "id":  15,
+                      "name":  "15",
+                      "area":  144.5,
+                      "statusId":  110,
+                      "dimensions":  "10m x 14.45m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "West Facing",
+                      "ratePerYd":  13000,
+                      "totalPrice":  2246667
+                  },
+                  {
+                      "id":  16,
+                      "name":  "16",
+                      "area":  151,
+                      "statusId":  112,
+                      "dimensions":  "10m x 15.1m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "East Facing (Vastu Compliant)",
+                      "ratePerYd":  13000,
+                      "totalPrice":  2347728
+                  },
+                  {
+                      "id":  17,
+                      "name":  "17",
+                      "area":  157.5,
+                      "statusId":  112,
+                      "dimensions":  "10m x 15.75m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "North Facing",
+                      "ratePerYd":  13000,
+                      "totalPrice":  2448790
+                  },
+                  {
+                      "id":  18,
+                      "name":  "18",
+                      "area":  125,
+                      "statusId":  110,
+                      "dimensions":  "10m x 12.5m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "Garden Facing",
+                      "ratePerYd":  13000,
+                      "totalPrice":  1943484
+                  },
+                  {
+                      "id":  19,
+                      "name":  "19",
+                      "area":  131.5,
+                      "statusId":  112,
+                      "dimensions":  "10m x 13.15m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "West Facing",
+                      "ratePerYd":  13000,
+                      "totalPrice":  2044545
+                  },
+                  {
+                      "id":  20,
+                      "name":  "20",
+                      "area":  170,
+                      "statusId":  111,
+                      "dimensions":  "12.5m x 13.6m (Corner)",
+                      "roadWidth":  "40 Ft Main Avenue",
+                      "facing":  "East Facing (Vastu Compliant)",
+                      "ratePerYd":  14000,
+                      "totalPrice":  2846456
+                  },
+                  {
+                      "id":  21,
+                      "name":  "21",
+                      "area":  182.5,
+                      "statusId":  112,
+                      "dimensions":  "12.5m x 14.6m (Corner)",
+                      "roadWidth":  "40 Ft Main Avenue",
+                      "facing":  "North Facing",
+                      "ratePerYd":  14000,
+                      "totalPrice":  3055754
+                  },
+                  {
+                      "id":  22,
+                      "name":  "22",
+                      "area":  151,
+                      "statusId":  112,
+                      "dimensions":  "10m x 15.1m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "Garden Facing",
+                      "ratePerYd":  13000,
+                      "totalPrice":  2347728
+                  },
+                  {
+                      "id":  23,
+                      "name":  "23",
+                      "area":  157.5,
+                      "statusId":  112,
+                      "dimensions":  "10m x 15.75m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "West Facing",
+                      "ratePerYd":  13000,
+                      "totalPrice":  2448790
+                  },
+                  {
+                      "id":  24,
+                      "name":  "24",
+                      "area":  125,
+                      "statusId":  112,
+                      "dimensions":  "10m x 12.5m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "East Facing (Vastu Compliant)",
+                      "ratePerYd":  13000,
+                      "totalPrice":  1943484
+                  },
+                  {
+                      "id":  25,
+                      "name":  "25",
+                      "area":  131.5,
+                      "statusId":  112,
+                      "dimensions":  "10m x 13.15m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "North Facing",
+                      "ratePerYd":  13000,
+                      "totalPrice":  2044545
+                  },
+                  {
+                      "id":  26,
+                      "name":  "26",
+                      "area":  138,
+                      "statusId":  112,
+                      "dimensions":  "10m x 13.8m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "Garden Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2063083
+                  },
+                  {
+                      "id":  27,
+                      "name":  "27",
+                      "area":  144.5,
+                      "statusId":  112,
+                      "dimensions":  "10m x 14.45m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "West Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2160257
+                  },
+                  {
+                      "id":  28,
+                      "name":  "28",
+                      "area":  207.5,
+                      "statusId":  112,
+                      "dimensions":  "12.5m x 16.6m (Corner)",
+                      "roadWidth":  "40 Ft Main Avenue",
+                      "facing":  "East Facing (Vastu Compliant)",
+                      "ratePerYd":  13500,
+                      "totalPrice":  3350267
+                  },
+                  {
+                      "id":  29,
+                      "name":  "29",
+                      "area":  220,
+                      "statusId":  112,
+                      "dimensions":  "12.5m x 17.6m (Corner)",
+                      "roadWidth":  "40 Ft Main Avenue",
+                      "facing":  "North Facing",
+                      "ratePerYd":  13500,
+                      "totalPrice":  3552090
+                  },
+                  {
+                      "id":  30,
+                      "name":  "30",
+                      "area":  125,
+                      "statusId":  112,
+                      "dimensions":  "10m x 12.5m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "Garden Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1868734
+                  },
+                  {
+                      "id":  31,
+                      "name":  "31",
+                      "area":  131.5,
+                      "statusId":  111,
+                      "dimensions":  "10m x 13.15m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "West Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1965909
+                  },
+                  {
+                      "id":  32,
+                      "name":  "32",
+                      "area":  138,
+                      "statusId":  112,
+                      "dimensions":  "10m x 13.8m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "East Facing (Vastu Compliant)",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2063083
+                  },
+                  {
+                      "id":  33,
+                      "name":  "33",
+                      "area":  144.5,
+                      "statusId":  112,
+                      "dimensions":  "10m x 14.45m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "North Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2160257
+                  },
+                  {
+                      "id":  34,
+                      "name":  "34",
+                      "area":  151,
+                      "statusId":  112,
+                      "dimensions":  "10m x 15.1m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "Garden Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2257431
+                  },
+                  {
+                      "id":  35,
+                      "name":  "35",
+                      "area":  157.5,
+                      "statusId":  112,
+                      "dimensions":  "10m x 15.75m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "West Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2354605
+                  },
+                  {
+                      "id":  36,
+                      "name":  "36",
+                      "area":  125,
+                      "statusId":  112,
+                      "dimensions":  "10m x 12.5m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "East Facing (Vastu Compliant)",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1868734
+                  },
+                  {
+                      "id":  37,
+                      "name":  "37",
+                      "area":  131.5,
+                      "statusId":  112,
+                      "dimensions":  "10m x 13.15m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "North Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1965909
+                  },
+                  {
+                      "id":  38,
+                      "name":  "38",
+                      "area":  138,
+                      "statusId":  111,
+                      "dimensions":  "10m x 13.8m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "Garden Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2063083
+                  },
+                  {
+                      "id":  39,
+                      "name":  "39",
+                      "area":  220,
+                      "statusId":  112,
+                      "dimensions":  "12.5m x 17.6m (Corner)",
+                      "roadWidth":  "40 Ft Main Avenue",
+                      "facing":  "West Facing",
+                      "ratePerYd":  13500,
+                      "totalPrice":  3552090
+                  },
+                  {
+                      "id":  40,
+                      "name":  "40",
+                      "area":  170,
+                      "statusId":  112,
+                      "dimensions":  "12.5m x 13.6m (Corner)",
+                      "roadWidth":  "40 Ft Main Avenue",
+                      "facing":  "East Facing (Vastu Compliant)",
+                      "ratePerYd":  13500,
+                      "totalPrice":  2744797
+                  },
+                  {
+                      "id":  41,
+                      "name":  "41",
+                      "area":  157.5,
+                      "statusId":  111,
+                      "dimensions":  "10m x 15.75m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "North Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2354605
+                  },
+                  {
+                      "id":  42,
+                      "name":  "42",
+                      "area":  125,
+                      "statusId":  112,
+                      "dimensions":  "10m x 12.5m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "Garden Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1868734
+                  },
+                  {
+                      "id":  43,
+                      "name":  "43",
+                      "area":  131.5,
+                      "statusId":  112,
+                      "dimensions":  "10m x 13.15m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "West Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1965909
+                  },
+                  {
+                      "id":  44,
+                      "name":  "44",
+                      "area":  138,
+                      "statusId":  111,
+                      "dimensions":  "10m x 13.8m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "East Facing (Vastu Compliant)",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2063083
+                  },
+                  {
+                      "id":  45,
+                      "name":  "45",
+                      "area":  144.5,
+                      "statusId":  112,
+                      "dimensions":  "10m x 14.45m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "North Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2160257
+                  },
+                  {
+                      "id":  46,
+                      "name":  "46",
+                      "area":  151,
+                      "statusId":  112,
+                      "dimensions":  "10m x 15.1m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "Garden Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2257431
+                  },
+                  {
+                      "id":  47,
+                      "name":  "47",
+                      "area":  157.5,
+                      "statusId":  112,
+                      "dimensions":  "10m x 15.75m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "West Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2354605
+                  },
+                  {
+                      "id":  48,
+                      "name":  "48",
+                      "area":  125,
+                      "statusId":  110,
+                      "dimensions":  "10m x 12.5m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "East Facing (Vastu Compliant)",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1868734
+                  },
+                  {
+                      "id":  49,
+                      "name":  "49",
+                      "area":  131.5,
+                      "statusId":  112,
+                      "dimensions":  "10m x 13.15m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "North Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1965909
+                  },
+                  {
+                      "id":  50,
+                      "name":  "50",
+                      "area":  170,
+                      "statusId":  112,
+                      "dimensions":  "12.5m x 13.6m (Corner)",
+                      "roadWidth":  "40 Ft Main Avenue",
+                      "facing":  "Garden Facing",
+                      "ratePerYd":  13500,
+                      "totalPrice":  2744797
+                  },
+                  {
+                      "id":  51,
+                      "name":  "51",
+                      "area":  182.5,
+                      "statusId":  112,
+                      "dimensions":  "12.5m x 14.6m (Corner)",
+                      "roadWidth":  "40 Ft Main Avenue",
+                      "facing":  "West Facing",
+                      "ratePerYd":  13500,
+                      "totalPrice":  2946620
+                  },
+                  {
+                      "id":  52,
+                      "name":  "52",
+                      "area":  151,
+                      "statusId":  112,
+                      "dimensions":  "10m x 15.1m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "East Facing (Vastu Compliant)",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2257431
+                  },
+                  {
+                      "id":  53,
+                      "name":  "53",
+                      "area":  157.5,
+                      "statusId":  112,
+                      "dimensions":  "10m x 15.75m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "North Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2354605
+                  },
+                  {
+                      "id":  54,
+                      "name":  "54",
+                      "area":  125,
+                      "statusId":  112,
+                      "dimensions":  "10m x 12.5m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "Garden Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1868734
+                  },
+                  {
+                      "id":  55,
+                      "name":  "55",
+                      "area":  131.5,
+                      "statusId":  112,
+                      "dimensions":  "10m x 13.15m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "West Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1965909
+                  },
+                  {
+                      "id":  56,
+                      "name":  "56",
+                      "area":  138,
+                      "statusId":  110,
+                      "dimensions":  "10m x 13.8m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "East Facing (Vastu Compliant)",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2063083
+                  },
+                  {
+                      "id":  57,
+                      "name":  "57",
+                      "area":  144.5,
+                      "statusId":  112,
+                      "dimensions":  "10m x 14.45m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "North Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2160257
+                  },
+                  {
+                      "id":  58,
+                      "name":  "58",
+                      "area":  151,
+                      "statusId":  112,
+                      "dimensions":  "10m x 15.1m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "Garden Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2257431
+                  },
+                  {
+                      "id":  59,
+                      "name":  "59",
+                      "area":  157.5,
+                      "statusId":  112,
+                      "dimensions":  "10m x 15.75m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "West Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2354605
+                  },
+                  {
+                      "id":  60,
+                      "name":  "60",
+                      "area":  125,
+                      "statusId":  112,
+                      "dimensions":  "10m x 12.5m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "East Facing (Vastu Compliant)",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1868734
+                  },
+                  {
+                      "id":  61,
+                      "name":  "61",
+                      "area":  131.5,
+                      "statusId":  112,
+                      "dimensions":  "10m x 13.15m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "North Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1965909
+                  },
+                  {
+                      "id":  62,
+                      "name":  "62",
+                      "area":  138,
+                      "statusId":  112,
+                      "dimensions":  "10m x 13.8m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "Garden Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2063083
+                  },
+                  {
+                      "id":  63,
+                      "name":  "63",
+                      "area":  144.5,
+                      "statusId":  112,
+                      "dimensions":  "10m x 14.45m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "West Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2160257
+                  },
+                  {
+                      "id":  64,
+                      "name":  "64",
+                      "area":  151,
+                      "statusId":  112,
+                      "dimensions":  "10m x 15.1m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "East Facing (Vastu Compliant)",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2257431
+                  },
+                  {
+                      "id":  65,
+                      "name":  "65",
+                      "area":  157.5,
+                      "statusId":  112,
+                      "dimensions":  "10m x 15.75m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "North Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2354605
+                  },
+                  {
+                      "id":  66,
+                      "name":  "66",
+                      "area":  182.5,
+                      "statusId":  112,
+                      "dimensions":  "12.5m x 14.6m (Corner)",
+                      "roadWidth":  "40 Ft Main Avenue",
+                      "facing":  "Garden Facing",
+                      "ratePerYd":  13500,
+                      "totalPrice":  2946620
+                  },
+                  {
+                      "id":  67,
+                      "name":  "67",
+                      "area":  195,
+                      "statusId":  112,
+                      "dimensions":  "12.5m x 15.6m (Corner)",
+                      "roadWidth":  "40 Ft Main Avenue",
+                      "facing":  "West Facing",
+                      "ratePerYd":  13500,
+                      "totalPrice":  3148444
+                  },
+                  {
+                      "id":  68,
+                      "name":  "68",
+                      "area":  138,
+                      "statusId":  112,
+                      "dimensions":  "10m x 13.8m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "East Facing (Vastu Compliant)",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2063083
+                  },
+                  {
+                      "id":  69,
+                      "name":  "69",
+                      "area":  144.5,
+                      "statusId":  112,
+                      "dimensions":  "10m x 14.45m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "North Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2160257
+                  },
+                  {
+                      "id":  70,
+                      "name":  "70",
+                      "area":  151,
+                      "statusId":  110,
+                      "dimensions":  "10m x 15.1m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "Garden Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2257431
+                  },
+                  {
+                      "id":  71,
+                      "name":  "71",
+                      "area":  157.5,
+                      "statusId":  112,
+                      "dimensions":  "10m x 15.75m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "West Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2354605
+                  },
+                  {
+                      "id":  72,
+                      "name":  "72",
+                      "area":  125,
+                      "statusId":  112,
+                      "dimensions":  "10m x 12.5m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "East Facing (Vastu Compliant)",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1868734
+                  },
+                  {
+                      "id":  73,
+                      "name":  "73",
+                      "area":  131.5,
+                      "statusId":  112,
+                      "dimensions":  "10m x 13.15m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "North Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1965909
+                  },
+                  {
+                      "id":  74,
+                      "name":  "74",
+                      "area":  138,
+                      "statusId":  112,
+                      "dimensions":  "10m x 13.8m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "Garden Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2063083
+                  },
+                  {
+                      "id":  75,
+                      "name":  "75",
+                      "area":  144.5,
+                      "statusId":  112,
+                      "dimensions":  "10m x 14.45m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "West Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2160257
+                  },
+                  {
+                      "id":  76,
+                      "name":  "76",
+                      "area":  151,
+                      "statusId":  111,
+                      "dimensions":  "10m x 15.1m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "East Facing (Vastu Compliant)",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2257431
+                  },
+                  {
+                      "id":  77,
+                      "name":  "77",
+                      "area":  157.5,
+                      "statusId":  111,
+                      "dimensions":  "10m x 15.75m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "North Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2354605
+                  },
+                  {
+                      "id":  78,
+                      "name":  "78",
+                      "area":  125,
+                      "statusId":  111,
+                      "dimensions":  "10m x 12.5m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "Garden Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1868734
+                  },
+                  {
+                      "id":  79,
+                      "name":  "79",
+                      "area":  131.5,
+                      "statusId":  111,
+                      "dimensions":  "10m x 13.15m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "West Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1965909
+                  },
+                  {
+                      "id":  80,
+                      "name":  "80",
+                      "area":  138,
+                      "statusId":  111,
+                      "dimensions":  "10m x 13.8m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "East Facing (Vastu Compliant)",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2063083
+                  },
+                  {
+                      "id":  81,
+                      "name":  "81",
+                      "area":  144.5,
+                      "statusId":  111,
+                      "dimensions":  "10m x 14.45m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "North Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2160257
+                  },
+                  {
+                      "id":  82,
+                      "name":  "82",
+                      "area":  151,
+                      "statusId":  111,
+                      "dimensions":  "10m x 15.1m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "Garden Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2257431
+                  },
+                  {
+                      "id":  83,
+                      "name":  "83",
+                      "area":  157.5,
+                      "statusId":  111,
+                      "dimensions":  "10m x 15.75m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "West Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2354605
+                  },
+                  {
+                      "id":  84,
+                      "name":  "84",
+                      "area":  220,
+                      "statusId":  112,
+                      "dimensions":  "12.5m x 17.6m (Corner)",
+                      "roadWidth":  "40 Ft Main Avenue",
+                      "facing":  "East Facing (Vastu Compliant)",
+                      "ratePerYd":  13500,
+                      "totalPrice":  3552090
+                  },
+                  {
+                      "id":  85,
+                      "name":  "85",
+                      "area":  170,
+                      "statusId":  112,
+                      "dimensions":  "12.5m x 13.6m (Corner)",
+                      "roadWidth":  "40 Ft Main Avenue",
+                      "facing":  "North Facing",
+                      "ratePerYd":  13500,
+                      "totalPrice":  2744797
+                  },
+                  {
+                      "id":  86,
+                      "name":  "86",
+                      "area":  138,
+                      "statusId":  112,
+                      "dimensions":  "10m x 13.8m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "Garden Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2063083
+                  },
+                  {
+                      "id":  87,
+                      "name":  "87",
+                      "area":  144.5,
+                      "statusId":  112,
+                      "dimensions":  "10m x 14.45m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "West Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2160257
+                  },
+                  {
+                      "id":  88,
+                      "name":  "88",
+                      "area":  151,
+                      "statusId":  112,
+                      "dimensions":  "10m x 15.1m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "East Facing (Vastu Compliant)",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2257431
+                  },
+                  {
+                      "id":  89,
+                      "name":  "89",
+                      "area":  157.5,
+                      "statusId":  110,
+                      "dimensions":  "10m x 15.75m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "North Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  2354605
+                  },
+                  {
+                      "id":  90,
+                      "name":  "90",
+                      "area":  125,
+                      "statusId":  112,
+                      "dimensions":  "10m x 12.5m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "Garden Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1868734
+                  },
+                  {
+                      "id":  91,
+                      "name":  "91",
+                      "area":  119.6,
+                      "statusId":  112,
+                      "dimensions":  "10m x 11.96m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "West Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1788005
+                  },
+                  {
+                      "id":  92,
+                      "name":  "92",
+                      "area":  195,
+                      "statusId":  112,
+                      "dimensions":  "12.5m x 15.6m (Corner)",
+                      "roadWidth":  "40 Ft Main Avenue",
+                      "facing":  "East Facing (Vastu Compliant)",
+                      "ratePerYd":  13500,
+                      "totalPrice":  3148444
+                  },
+                  {
+                      "id":  93,
+                      "name":  "93",
+                      "area":  207.5,
+                      "statusId":  112,
+                      "dimensions":  "12.5m x 16.6m (Corner)",
+                      "roadWidth":  "40 Ft Main Avenue",
+                      "facing":  "North Facing",
+                      "ratePerYd":  13500,
+                      "totalPrice":  3350267
+                  },
+                  {
+                      "id":  94,
+                      "name":  "94",
+                      "area":  111.4,
+                      "statusId":  110,
+                      "dimensions":  "10m x 11.14m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "Garden Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1665416
+                  },
+                  {
+                      "id":  95,
+                      "name":  "95",
+                      "area":  119.6,
+                      "statusId":  110,
+                      "dimensions":  "10m x 11.96m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "West Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1788005
+                  },
+                  {
+                      "id":  96,
+                      "name":  "96",
+                      "area":  95,
+                      "statusId":  110,
+                      "dimensions":  "10m x 9.5m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "East Facing (Vastu Compliant)",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1420238
+                  },
+                  {
+                      "id":  97,
+                      "name":  "97",
+                      "area":  103.2,
+                      "statusId":  110,
+                      "dimensions":  "10m x 10.32m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "North Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1542827
+                  },
+                  {
+                      "id":  98,
+                      "name":  "98",
+                      "area":  111.4,
+                      "statusId":  110,
+                      "dimensions":  "10m x 11.14m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "Garden Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1665416
+                  },
+                  {
+                      "id":  99,
+                      "name":  "99",
+                      "area":  119.6,
+                      "statusId":  110,
+                      "dimensions":  "10m x 11.96m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "West Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1788005
+                  },
+                  {
+                      "id":  100,
+                      "name":  "100",
+                      "area":  95,
+                      "statusId":  110,
+                      "dimensions":  "10m x 9.5m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "East Facing (Vastu Compliant)",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1420238
+                  },
+                  {
+                      "id":  101,
+                      "name":  "101",
+                      "area":  103.2,
+                      "statusId":  110,
+                      "dimensions":  "10m x 10.32m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "North Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1542827
+                  },
+                  {
+                      "id":  102,
+                      "name":  "102",
+                      "area":  195,
+                      "statusId":  110,
+                      "dimensions":  "12.5m x 15.6m (Corner)",
+                      "roadWidth":  "40 Ft Main Avenue",
+                      "facing":  "Garden Facing",
+                      "ratePerYd":  13500,
+                      "totalPrice":  3148444
+                  },
+                  {
+                      "id":  103,
+                      "name":  "103",
+                      "area":  207.5,
+                      "statusId":  112,
+                      "dimensions":  "12.5m x 16.6m (Corner)",
+                      "roadWidth":  "40 Ft Main Avenue",
+                      "facing":  "West Facing",
+                      "ratePerYd":  13500,
+                      "totalPrice":  3350267
+                  },
+                  {
+                      "id":  104,
+                      "name":  "104",
+                      "area":  95,
+                      "statusId":  111,
+                      "dimensions":  "10m x 9.5m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "East Facing (Vastu Compliant)",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1420238
+                  },
+                  {
+                      "id":  105,
+                      "name":  "105",
+                      "area":  103.2,
+                      "statusId":  111,
+                      "dimensions":  "10m x 10.32m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "North Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1542827
+                  },
+                  {
+                      "id":  106,
+                      "name":  "106",
+                      "area":  111.4,
+                      "statusId":  111,
+                      "dimensions":  "10m x 11.14m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "Garden Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1665416
+                  },
+                  {
+                      "id":  107,
+                      "name":  "107",
+                      "area":  119.6,
+                      "statusId":  111,
+                      "dimensions":  "10m x 11.96m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "West Facing",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1788005
+                  },
+                  {
+                      "id":  108,
+                      "name":  "108",
+                      "area":  95,
+                      "statusId":  111,
+                      "dimensions":  "10m x 9.5m",
+                      "roadWidth":  "30 Ft Internal Road",
+                      "facing":  "East Facing (Vastu Compliant)",
+                      "ratePerYd":  12500,
+                      "totalPrice":  1420238
+                  },
+                  {
+                      "id":  109,
+                      "name":  "109",
+                      "area":  220,
+                      "statusId":  112,
+                      "dimensions":  "12.5m x 17.6m (Corner)",
+                      "roadWidth":  "40 Ft Main Avenue",
+                      "facing":  "North Facing",
+                      "ratePerYd":  13500,
+                      "totalPrice":  3552090
+                  }
+              ],
+    "gallery":  [
+                    {
+                        "title":  "Entrance Arch \u0026 Security Gate",
+                        "url":  "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format\u0026fit=crop\u0026w=800\u0026q=80"
+                    },
+                    {
+                        "title":  "Landscaped Garden \u0026 Jogging Track",
+                        "url":  "https://images.unsplash.com/photo-1584467735871-8e85353a8413?auto=format\u0026fit=crop\u0026w=800\u0026q=80"
+                    },
+                    {
+                        "title":  "Clubhouse \u0026 Recreation Center",
+                        "url":  "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format\u0026fit=crop\u0026w=800\u0026q=80"
+                    },
+                    {
+                        "title":  "Asphalt Avenue \u0026 Streetlights",
+                        "url":  "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format\u0026fit=crop\u0026w=800\u0026q=80"
+                    }
+                ]
+}

@@ -7,6 +7,7 @@ node_modules/
 .env
 .env.local
 .env.production
+server/.env
 
 # Logs
 logs/
@@ -14,12 +15,12 @@ logs/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+server/logs/
 
-# Uploads & local storage data
+# Uploads & local transient state
 server/uploads/*
 !server/uploads/.gitkeep
-server/data/*
-!server/data/.gitkeep
+server/data/pending-jobs.json
 
 # OS files
 .DS_Store
@@ -29,3 +30,7 @@ Thumbs.db
 dist/
 build/
 .cache/
+.next/
+adipur/3d-map/node_modules/
+adipur/3d-map/.next/
+adipur/3d-map/out/

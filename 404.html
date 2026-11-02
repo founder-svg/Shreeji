@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shreeji Real Estate | Redirecting...</title>
+  <script>
+    (function() {
+      var fullPath = window.location.pathname;
+      var repoBase = '/Shreeji';
+      var relativePath = fullPath;
+      
+      if (fullPath.toLowerCase().indexOf(repoBase.toLowerCase()) === 0) {
+        relativePath = fullPath.substring(repoBase.length);
+      }
+      
+      // Normalize slashes
+      var clean = relativePath.replace(/\/+$/, '').toLowerCase();
+      
+      if (clean === '/admin' || clean === '/admin/index.html') {
+        window.location.replace(window.location.origin + repoBase + '/admin/index.html' + window.location.search);
+        return;
+      }
+      if (clean === '/3d-map' || clean === '/3d-map/index.html') {
+        window.location.replace(window.location.origin + repoBase + '/3d-map/index.html' + window.location.search);
+        return;
+      }
+      if (clean === '/portal' || clean === '/portal.html') {
+        window.location.replace(window.location.origin + repoBase + '/portal.html' + window.location.search);
+        return;
+      }
+      if (clean === '/shreeji' || clean === '/regal') {
+        window.location.replace(window.location.origin + repoBase + '/index.html' + window.location.search);
+        return;
+      }
+      
+      // Default fallback
+      window.location.replace(window.location.origin + repoBase + '/index.html');
+    })();
+  </script>
+</head>
+<body style="background: #061322; color: #FFFFFF; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
+  <div style="text-align: center;">
+    <h2>Shreeji Real Estate Platform</h2>
+    <p>Navigating to requested destination...</p>
+    <a href="./index.html" style="color: #00D2FF;">Click here if not redirected automatically</a>
+  </div>
+</body>
+</html>

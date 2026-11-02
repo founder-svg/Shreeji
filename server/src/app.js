@@ -3,12 +3,18 @@ import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
 import morgan from 'morgan';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { config } from './config/env.js';
 import { timingMiddleware } from './middleware/timing.js';
 import { requestIdMiddleware } from './middleware/requestId.js';
 import { timeoutMiddleware } from './middleware/timeout.js';
 import { notFoundHandler, errorHandler } from './middleware/errorHandler.js';
 import apiRoutes from './routes/api.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const webRootDir = path.resolve(__dirname, '../../');
 
 const app = express();
 
@@ -85,8 +91,21 @@ if (config.nodeEnv !== 'test') {
 // 7. Serve local uploads statically
 app.use('/uploads', express.static(config.uploadsDir));
 
-// 8. Root Server Status & API Reference
+// 8. Serve Web Client, Executive Admin Studio & 3D Spatial Twin
+app.use('/admin', express.static(path.join(webRootDir, 'admin')));
+app.use('/3d-map', express.static(path.join(webRootDir, '3d-map')));
+app.use('/portal', (req, res) => res.sendFile(path.join(webRootDir, 'portal.html')));
+app.use('/portal.html', (req, res) => res.sendFile(path.join(webRootDir, 'portal.html')));
+app.use('/Shreeji', express.static(webRootDir));
+app.use(express.static(webRootDir, { index: false }));
+
+// 9. Root Server Status & Web Client
 app.get('/', (req, res) => {
+  // If browser client requests HTML, serve website index.html
+  if (req.headers.accept && req.headers.accept.includes('text/html')) {
+    return res.sendFile(path.join(webRootDir, 'index.html'));
+  }
+  // Otherwise serve API versioning metadata JSON for automated checks & API clients
   res.json({
     service: 'Shreeji API Server',
     status: 'online',
@@ -112,7 +131,7 @@ app.get('/', (req, res) => {
   });
 });
 
-// 9. Mount Versioned API Routes (/api/v1 and legacy /api)
+// 10. Mount Versioned API Routes (/api/v1 and legacy /api)
 app.use('/api/v1', apiRoutes);
 app.use('/api', apiRoutes);
 
