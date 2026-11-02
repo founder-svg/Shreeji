@@ -15,5 +15,10 @@
     "default": true,
     "MD013": false,
     "MD033": false
-  }
+  },
+  "vscode-edge-devtools.webhint": false,
+  "edge-devtools.webhint": false,
+  "html.validate.styles": false,
+  "css.lint.unknownVendorSpecificProperties": "ignore",
+  "css.lint.vendorPrefix": "ignore"
 }

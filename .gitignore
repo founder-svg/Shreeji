@@ -22,9 +22,11 @@ server/uploads/*
 !server/uploads/.gitkeep
 server/data/pending-jobs.json
 
-# OS files
+# OS & Office lock files
 .DS_Store
 Thumbs.db
+~$*
+*.tmp
 
 # Build & Dist
 dist/

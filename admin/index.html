@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shreeji Real Estate | Executive Administration Studio</title>
   <link rel="stylesheet" href="../styles.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -63,6 +63,7 @@
 
     .login-card {
       background: rgba(11, 37, 69, 0.85);
+      -webkit-backdrop-filter: blur(25px);
       backdrop-filter: blur(25px);
       border: 1px solid rgba(217, 164, 65, 0.35);
       border-radius: 24px;
@@ -191,6 +192,7 @@
     .admin-sidebar {
       width: 270px;
       background: rgba(6, 21, 39, 0.95);
+      -webkit-backdrop-filter: blur(20px);
       backdrop-filter: blur(20px);
       border-right: 1px solid var(--admin-border);
       display: flex;
@@ -426,6 +428,7 @@
     /* Content Cards / Forms */
     .admin-card {
       background: var(--admin-card-bg);
+      -webkit-backdrop-filter: blur(20px);
       backdrop-filter: blur(20px);
       border: 1px solid var(--admin-border);
       border-radius: 20px;
@@ -690,6 +693,7 @@
       top: 10px;
       right: 10px;
       background: rgba(6, 21, 39, 0.85);
+      -webkit-backdrop-filter: blur(8px);
       backdrop-filter: blur(8px);
       padding: 0.3rem 0.7rem;
       border-radius: 8px;
@@ -871,10 +875,10 @@
       </div>
 
       <div class="sidebar-bottom">
-        <a href="../3d-map/index.html" target="_blank" class="nav-tab-btn" style="color: var(--admin-cyan);">
+        <a href="../3d-map/index.html" target="_blank" rel="noopener noreferrer" class="nav-tab-btn" style="color: var(--admin-cyan);">
           <i class="fa-solid fa-arrow-up-right-from-square"></i> Open 3D Map
         </a>
-        <a href="../portal.html" target="_blank" class="nav-tab-btn" style="color: var(--admin-gold);">
+        <a href="../portal.html" target="_blank" rel="noopener noreferrer" class="nav-tab-btn" style="color: var(--admin-gold);">
           <i class="fa-solid fa-user-tie"></i> Open VIP Client Portal
         </a>
         <div class="user-pill">
@@ -902,8 +906,8 @@
             inquiries.</p>
         </div>
         <div class="header-actions">
-          <a href="../index.html" class="btn-header-link" target="_blank"><i class="fa-solid fa-globe"></i> Website</a>
-          <a href="../3d-map/index.html" class="btn-header-link" target="_blank"><i class="fa-solid fa-cube"></i> 3D
+          <a href="../index.html" class="btn-header-link" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-globe"></i> Website</a>
+          <a href="../3d-map/index.html" class="btn-header-link" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-cube"></i> 3D
             Map</a>
         </div>
       </header>
@@ -1057,7 +1061,7 @@
               <i class="fa-solid fa-list-check" style="color: var(--admin-gold);"></i> Active AutoCAD Layouts in 3D
               Engine
             </div>
-            <a href="../3d-map/index.html" target="_blank" class="btn-header-link"><i class="fa-solid fa-cube"></i> Open
+            <a href="../3d-map/index.html" target="_blank" rel="noopener noreferrer" class="btn-header-link"><i class="fa-solid fa-cube"></i> Open
               3D Map</a>
           </div>
 
@@ -1191,7 +1195,7 @@
                 payments are processed in person by Shreeji Advisory.
               </p>
             </div>
-            <a href="../portal.html" target="_blank" class="btn-header-link"><i class="fa-solid fa-user-plus"></i> Open
+            <a href="../portal.html" target="_blank" rel="noopener noreferrer" class="btn-header-link"><i class="fa-solid fa-user-plus"></i> Open
               Client Portal</a>
           </div>
 
@@ -1261,7 +1265,7 @@
             <div class="card-title">
               <i class="fa-solid fa-layer-group" style="color: var(--admin-cyan);"></i> Live 3D Plot Inventory Control
             </div>
-            <a href="../3d-map/index.html" target="_blank" class="btn-header-link"><i class="fa-solid fa-cube"></i> View
+            <a href="../3d-map/index.html" target="_blank" rel="noopener noreferrer" class="btn-header-link"><i class="fa-solid fa-cube"></i> View
               in 3D Map</a>
           </div>
 
@@ -1463,7 +1467,6 @@
           document.getElementById('paneSubheadline').textContent = headlines[tabName][1];
         }
       };
-    };
 
     // ========================================================================
     // AUTOCAD 3D MAPS LOGIC
@@ -1657,7 +1660,7 @@
             <td><span style="font-size: 0.8rem; color: var(--admin-gold);"><i class="fa-solid fa-stamp"></i> ${p.rera}</span></td>
             <td><code style="font-size: 0.75rem; background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px;">${p.format}</code></td>
             <td>
-              <a href="../3d-map/index.html?project=${p.slug}" target="_blank" class="btn-action-primary" style="padding: 0.35rem 0.85rem; font-size: 0.78rem;">
+              <a href="../3d-map/index.html?project=${p.slug}" target="_blank" rel="noopener noreferrer" class="btn-action-primary" style="padding: 0.35rem 0.85rem; font-size: 0.78rem;">
                 <i class="fa-solid fa-cube"></i> Launch 3D Map
               </a>
             </td>
@@ -1925,7 +1928,7 @@
               </td>
               <td>
                 <div style="display: flex; gap: 0.4rem;">
-                  <a href="${waUrl}" target="_blank" class="btn-action-primary" style="padding: 0.3rem 0.65rem; font-size: 0.75rem; background: #25D366; text-decoration: none;">
+                  <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn-action-primary" style="padding: 0.3rem 0.65rem; font-size: 0.75rem; background: #25D366; text-decoration: none;">
                     <i class="fa-brands fa-whatsapp"></i> Chat
                   </a>
                 </div>
@@ -2006,7 +2009,7 @@
             <td><span style="font-size: 0.8rem; color: #CBD5E1; max-width: 250px; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${d.message_body || d.messageBody}</span></td>
             <td><code style="color: #25D366; font-size: 0.78rem;"><i class="fa-brands fa-whatsapp"></i> +91 98257 99754</code></td>
             <td>
-              <a href="${d.dispatch_url || d.dispatchUrl || 'https://wa.me/919825799754'}" target="_blank" class="btn-action-primary" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; background: #25D366;">
+              <a href="${d.dispatch_url || d.dispatchUrl || 'https://wa.me/919825799754'}" target="_blank" rel="noopener noreferrer" class="btn-action-primary" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; background: #25D366;">
                 <i class="fa-brands fa-whatsapp"></i> Chat
               </a>
             </td>
