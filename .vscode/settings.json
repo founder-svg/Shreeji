@@ -5,17 +5,12 @@
   "sqltools.connections": [
     {
       "name": "Shreeji Database (PostgreSQL / Supabase)",
-      "dialect": "PostgreSQL",
+      "driver": "PostgreSQL",
       "connectString": "${env:DATABASE_URL}"
     }
   ],
   "editor.tabSize": 2,
   "editor.formatOnSave": true,
-  "markdownlint.config": {
-    "default": true,
-    "MD013": false,
-    "MD033": false
-  },
   "vscode-edge-devtools.webhint": false,
   "edge-devtools.webhint": false,
   "html.validate.styles": false,
