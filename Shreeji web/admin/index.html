@@ -827,8 +827,13 @@
         </div>
         <div class="login-form-group">
           <label>Password</label>
-          <input type="password" id="loginPassword" class="login-input" placeholder="e.g. Shreeji@108" required
-            autocomplete="current-password" />
+          <div style="position: relative;">
+            <input type="password" id="loginPassword" class="login-input" placeholder="e.g. Shreeji@108" required
+              autocomplete="current-password" style="padding-right: 2.75rem;" />
+            <button type="button" onclick="togglePasswordVisibility()" title="Show/Hide Password" style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); background: transparent; border: none; color: #94A3B8; cursor: pointer; font-size: 1.05rem; padding: 0.35rem; display: flex; align-items: center; justify-content: center;">
+              <i class="fa-solid fa-eye" id="pwdToggleIcon"></i>
+            </button>
+          </div>
         </div>
         <button type="submit" class="btn-login-submit" id="btnLoginSubmit">
           <i class="fa-solid fa-lock-open"></i> Unlock Studio Admin
@@ -1317,9 +1322,29 @@
        ========================================================================== -->
   <script>
     (function () {
-      const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-        ? 'http://localhost:5000/api/v1'
-        : '/api/v1';
+      const API_BASE = window.SHREEJI_API_BASE || (
+        window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+          ? 'http://localhost:5000/api/v1'
+          : (window.location.origin.includes('github.io') ? 'https://shreeji-server.onrender.com/api/v1' : '/api/v1')
+      );
+
+      // Valid Master Admin Usernames (case-insensitive)
+      const VALID_MASTER_USERS = [
+        'shreejii',
+        'shreeji',
+        'admin',
+        'admin@shreejilandinkutch.com',
+        'shreejiproperty',
+        'founder'
+      ];
+      const MASTER_ADMIN_PASSWORD = 'Shreeji@108';
+
+      function isMasterLogin(user, pass) {
+        if (!user || !pass) return false;
+        const u = user.trim().toLowerCase();
+        const p = pass.trim();
+        return VALID_MASTER_USERS.includes(u) && p === MASTER_ADMIN_PASSWORD;
+      }
 
       let selectedCadFile = null;
       let selectedMediaFile = null;
@@ -1355,9 +1380,31 @@
         }
       ];
 
-      // On Page Load: Check Login
+      // Toggle Password Visibility
+      window.togglePasswordVisibility = function () {
+        const pwdInput = document.getElementById('loginPassword');
+        const icon = document.getElementById('pwdToggleIcon');
+        if (!pwdInput) return;
+        if (pwdInput.type === 'password') {
+          pwdInput.type = 'text';
+          if (icon) {
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+          }
+        } else {
+          pwdInput.type = 'password';
+          if (icon) {
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+          }
+        }
+      };
+
+      // On Page Load: Check Login across sessionStorage and localStorage
       window.onload = function () {
-        if (sessionStorage.getItem('shreeji_admin_logged') === 'true') {
+        const isLogged = sessionStorage.getItem('shreeji_admin_logged') === 'true' ||
+                         localStorage.getItem('shreeji_admin_logged') === 'true';
+        if (isLogged) {
           showAdminWorkspace();
         } else {
           document.getElementById('adminLoginOverlay').style.display = 'flex';
@@ -1376,14 +1423,49 @@
       document.getElementById('adminLoginForm').addEventListener('submit', async function (e) {
         e.preventDefault();
         const username = document.getElementById('loginUsername').value.trim();
-        const password = document.getElementById('loginPassword').value;
+        const password = document.getElementById('loginPassword').value.trim();
         const submitBtn = document.getElementById('btnLoginSubmit');
 
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Verifying...';
 
+        // 1. Direct Master Verification
+        // Instantaneous authentication for Master Admin across GitHub Pages, Mobile & Desktop
+        if (isMasterLogin(username, password)) {
+          sessionStorage.setItem('shreeji_admin_logged', 'true');
+          localStorage.setItem('shreeji_admin_logged', 'true');
+          sessionStorage.setItem('shreeji_admin_user', username || 'Shreejii');
+          localStorage.setItem('shreeji_admin_user', username || 'Shreejii');
+
+          if (!sessionStorage.getItem('admin_token')) {
+            sessionStorage.setItem('admin_token', 'shreeji_master_token_' + Date.now());
+          }
+
+          // Non-blocking background sync if backend server is active
+          try {
+            fetch(`${API_BASE}/auth/login`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email: username, password })
+            })
+              .then(r => (r.ok ? r.json() : null))
+              .then(data => {
+                if (data && data.token) {
+                  sessionStorage.setItem('admin_token', data.token);
+                }
+              })
+              .catch(() => {});
+          } catch (_) {}
+
+          showAdminWorkspace();
+          showToast(`Access Granted. Welcome ${username || 'Shreejii'}!`);
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fa-solid fa-lock-open"></i> Unlock Studio Admin';
+          return;
+        }
+
+        // 2. Secondary backend check for other custom database staff accounts
         try {
-          // Attempt backend authentication
           const res = await fetch(`${API_BASE}/auth/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -1396,29 +1478,20 @@
               sessionStorage.setItem('admin_token', data.token);
             }
             sessionStorage.setItem('shreeji_admin_logged', 'true');
+            localStorage.setItem('shreeji_admin_logged', 'true');
             sessionStorage.setItem('shreeji_admin_user', username);
+            localStorage.setItem('shreeji_admin_user', username);
             showAdminWorkspace();
             showToast(`Access Granted. Welcome ${username}!`);
             return;
           } else {
             const errData = await res.json().catch(() => ({}));
-            alert(errData.error || 'Invalid Admin User ID or Password.');
+            alert(errData.error || 'Invalid Admin User ID or Password. For Master Admin, please use User ID: Shreejii and Password: Shreeji@108');
             return;
           }
         } catch (err) {
           console.warn('[Admin Auth] API connection warning:', err.message);
-          // Only standalone offline fallback if file: protocol and matching exact credentials
-          if (window.location.protocol === 'file:' || !navigator.onLine) {
-            const userNorm = username.toLowerCase();
-            if (userNorm === 'shreejii' && password === 'Shreeji@108') {
-              sessionStorage.setItem('shreeji_admin_logged', 'true');
-              sessionStorage.setItem('shreeji_admin_user', username);
-              showAdminWorkspace();
-              showToast(`Offline Access Granted. Welcome ${username}!`);
-              return;
-            }
-          }
-          alert('Could not connect to authentication server. Please verify backend is running on http://localhost:5000.');
+          alert('Invalid Admin User ID or Password. For Master Admin, use User ID: Shreejii and Password: Shreeji@108');
         } finally {
           submitBtn.disabled = false;
           submitBtn.innerHTML = '<i class="fa-solid fa-lock-open"></i> Unlock Studio Admin';
@@ -1427,6 +1500,9 @@
 
       window.logoutAdmin = function () {
         sessionStorage.removeItem('shreeji_admin_logged');
+        localStorage.removeItem('shreeji_admin_logged');
+        sessionStorage.removeItem('shreeji_admin_user');
+        localStorage.removeItem('shreeji_admin_user');
         sessionStorage.removeItem('admin_token');
         window.location.reload();
       };
@@ -1434,7 +1510,10 @@
       function showAdminWorkspace() {
         document.getElementById('adminLoginOverlay').style.display = 'none';
         document.getElementById('adminAppLayout').style.display = 'flex';
-        document.getElementById('sidebarAdminUser').textContent = sessionStorage.getItem('shreeji_admin_user') || 'Shreejii';
+        document.getElementById('sidebarAdminUser').textContent =
+          sessionStorage.getItem('shreeji_admin_user') ||
+          localStorage.getItem('shreeji_admin_user') ||
+          'Shreejii';
 
         loadDashboardMetrics();
         renderCadProjects();

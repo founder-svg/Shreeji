@@ -76,3 +76,4 @@ for (const relPath of targets) {
 
 console.log(`\n🎉 [Security:Obfuscator] Completed! ${filesProcessed} files armored against reverse engineering.`);
 console.log('💡 Protected files generated with .protected.js suffix for secure deployment.\n');
+

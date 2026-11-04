@@ -14,3 +14,4 @@ console.log('====================================================');
 console.log(`\nENCRYPTION_KEY=${keyHex}\n`);
 console.log('Paste this key into your server/.env file.');
 console.log('Never commit this key or your .env file into Git repository.\n');
+
