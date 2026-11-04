@@ -1,11 +1,25 @@
 import { getPool, isPostgresActive, localStore, persistLocalStoreAsync } from '../config/database.js';
+import { encryptField, decryptField } from '../utils/cryptoSecurity.js';
+
+function decryptDispatch(d) {
+  if (!d) return d;
+  return {
+    ...d,
+    client_phone: decryptField(d.client_phone),
+    clientPhone: decryptField(d.clientPhone || d.client_phone),
+    message_body: decryptField(d.message_body),
+    messageBody: decryptField(d.messageBody || d.message_body),
+    dispatch_url: decryptField(d.dispatch_url),
+    dispatchUrl: decryptField(d.dispatchUrl || d.dispatch_url),
+  };
+}
 
 export const whatsappDispatchRepository = {
   create: async (data) => {
     const id = data.id || `wa-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
     const now = new Date().toISOString();
 
-    const record = {
+    const rawRecord = {
       id,
       kyc_application_id: data.kycApplicationId || data.kyc_application_id || null,
       inquiry_id: data.inquiryId || data.inquiry_id || null,
@@ -20,6 +34,14 @@ export const whatsappDispatchRepository = {
       delivery_channel: data.deliveryChannel || data.delivery_channel || 'whatsapp_direct',
       status: data.status || 'dispatched',
       created_at: now,
+    };
+
+    // Encrypt sensitive fields at rest using AES-256-GCM
+    const record = {
+      ...rawRecord,
+      client_phone: encryptField(rawRecord.client_phone),
+      message_body: encryptField(rawRecord.message_body),
+      dispatch_url: encryptField(rawRecord.dispatch_url),
     };
 
     if (isPostgresActive() && getPool()) {
@@ -48,7 +70,7 @@ export const whatsappDispatchRepository = {
           record.status,
           record.created_at,
         ]);
-        return res.rows[0];
+        return decryptDispatch(res.rows[0]);
       } catch (err) {
         console.warn('[DB:WhatsApp] Fallback to local store on insert:', err.message);
       }
@@ -56,7 +78,7 @@ export const whatsappDispatchRepository = {
 
     localStore.whatsappDispatches.push(record);
     persistLocalStoreAsync();
-    return { ...record };
+    return decryptDispatch({ ...record });
   },
 
   findById: async (id) => {
@@ -64,12 +86,13 @@ export const whatsappDispatchRepository = {
       try {
         const pool = getPool();
         const res = await pool.query('SELECT * FROM whatsapp_dispatches WHERE id = $1 LIMIT 1;', [id]);
-        return res.rows[0] || null;
+        return res.rows[0] ? decryptDispatch(res.rows[0]) : null;
       } catch (err) {
         console.warn('[DB:WhatsApp] Fallback to local store on findById:', err.message);
       }
     }
-    return localStore.whatsappDispatches.find((d) => d.id === id) || null;
+    const found = localStore.whatsappDispatches.find((d) => d.id === id);
+    return found ? decryptDispatch(found) : null;
   },
 
   getAll: async ({ page = 1, limit = 50, recipient, status } = {}) => {
@@ -97,7 +120,7 @@ export const whatsappDispatchRepository = {
         const countRes = await pool.query(countSql, params);
 
         return {
-          dispatches: dataRes.rows,
+          dispatches: dataRes.rows.map(decryptDispatch),
           total: parseInt(countRes.rows[0].count, 10),
           page,
           limit,
@@ -113,7 +136,7 @@ export const whatsappDispatchRepository = {
 
     const total = filtered.length;
     const offset = (page - 1) * limit;
-    const dispatches = filtered.slice(offset, offset + limit);
+    const dispatches = filtered.slice(offset, offset + limit).map(decryptDispatch);
 
     return { dispatches, total, page, limit };
   },

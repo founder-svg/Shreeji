@@ -16,6 +16,8 @@
     "db:reset": "node scripts/resetDatabase.js",
     "db:backup": "node scripts/backup.js",
     "db:restore": "node scripts/restore.js",
+    "build:obfuscate": "node scripts/obfuscateFrontend.js",
+    "security:keygen": "node scripts/generateEncryptionKey.js",
     "prod:start": "pm2 start ecosystem.config.cjs --env production",
     "prod:stop": "pm2 stop ecosystem.config.cjs",
     "prod:restart": "pm2 reload ecosystem.config.cjs",
@@ -54,6 +56,7 @@
   },
   "devDependencies": {
     "autocannon": "^8.0.0",
+    "javascript-obfuscator": "^5.10.0",
     "nodemon": "^3.1.9",
     "pg-mem": "^3.0.14",
     "pm2": "^7.0.4"

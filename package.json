@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "npx live-server --port=8080",
     "start": "npx live-server --port=8080",
-    "serve": "python -m http.server 8080"
+    "serve": "python -m http.server 8080",
+    "build:obfuscate": "node server/scripts/obfuscateFrontend.js",
+    "security:keygen": "node server/scripts/generateEncryptionKey.js"
   },
   "keywords": [
     "real-estate",

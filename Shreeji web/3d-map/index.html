@@ -12,6 +12,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
+  <!-- Shreeji Anti-Reverse Engineering & Client Security Armor -->
+  <script src="../js/shreeji-security-shield.js"></script>
+
   <!-- Stylesheet -->
   <link rel="stylesheet" href="./viewer.css" />
 
@@ -287,7 +290,7 @@
     </div>
   </div>
 
-  <!-- Main 3D Engine Script -->
-  <script src="./viewer.js"></script>
+  <!-- Main 3D Engine Armored Script with Fallback -->
+  <script src="./viewer.protected.js" onerror="this.onerror=null;this.src='./viewer.js';"></script>
 </body>
 </html>

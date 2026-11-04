@@ -1,4 +1,16 @@
 import { getPool, isPostgresActive, localStore, persistLocalStoreAsync } from '../config/database.js';
+import { encryptField, decryptField } from '../utils/cryptoSecurity.js';
+
+function decryptInquiry(inq) {
+  if (!inq) return inq;
+  return {
+    ...inq,
+    phone: decryptField(inq.phone),
+    email: decryptField(inq.email),
+    message: decryptField(inq.message),
+    notes: decryptField(inq.notes),
+  };
+}
 
 export const propertyInquiryRepository = {
   findAndCountAll: async ({ page = 1, limit = 20, status, role } = {}) => {
@@ -35,7 +47,7 @@ export const propertyInquiryRepository = {
       );
 
       return {
-        inquiries: res.rows,
+        inquiries: res.rows.map(decryptInquiry),
         total,
         page: pageNum,
         limit: limitNum,
@@ -51,7 +63,7 @@ export const propertyInquiryRepository = {
     const paginated = filtered.slice(offset, offset + limitNum);
 
     return {
-      inquiries: paginated,
+      inquiries: paginated.map(decryptInquiry),
       total,
       page: pageNum,
       limit: limitNum,
@@ -63,15 +75,16 @@ export const propertyInquiryRepository = {
     if (isPostgresActive()) {
       const pool = getPool();
       const res = await pool.query('SELECT * FROM property_inquiries WHERE id = $1 LIMIT 1', [id]);
-      return res.rows[0] || null;
+      return res.rows[0] ? decryptInquiry(res.rows[0]) : null;
     }
 
-    return localStore.propertyInquiries.find((i) => i.id === id) || null;
+    const found = localStore.propertyInquiries.find((i) => i.id === id);
+    return found ? decryptInquiry(found) : null;
   },
 
   create: async (data) => {
     const id = data.id || `lead-${Date.now()}`;
-    const record = {
+    const rawRecord = {
       id,
       name: data.name,
       email: data.email || '',
@@ -90,6 +103,15 @@ export const propertyInquiryRepository = {
       notes: '',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+    };
+
+    // Protect sensitive fields at rest using AES-256-GCM
+    const record = {
+      ...rawRecord,
+      phone: encryptField(rawRecord.phone),
+      email: encryptField(rawRecord.email),
+      message: encryptField(rawRecord.message),
+      notes: encryptField(rawRecord.notes),
     };
 
     if (isPostgresActive()) {
@@ -123,12 +145,12 @@ export const propertyInquiryRepository = {
           record.updatedAt,
         ]
       );
-      return res.rows[0];
+      return decryptInquiry(res.rows[0]);
     }
 
     localStore.propertyInquiries.unshift(record);
     await persistLocalStoreAsync();
-    return record;
+    return decryptInquiry(record);
   },
 
   updateStatus: async (id, { status, assignedStaffId, notes }) => {
@@ -140,7 +162,7 @@ export const propertyInquiryRepository = {
 
       const newStatus = status || existing.status;
       const newStaff = assignedStaffId !== undefined ? assignedStaffId : existing.assigned_staff_id;
-      const newNotes = notes !== undefined ? notes : existing.notes;
+      const newNotes = notes !== undefined ? encryptField(notes) : existing.notes;
 
       const res = await pool.query(
         `UPDATE property_inquiries SET
@@ -149,7 +171,7 @@ export const propertyInquiryRepository = {
         RETURNING *`,
         [newStatus, newStaff, newNotes, now, id]
       );
-      return res.rows[0];
+      return decryptInquiry(res.rows[0]);
     }
 
     const index = localStore.propertyInquiries.findIndex((i) => i.id === id);
@@ -159,10 +181,10 @@ export const propertyInquiryRepository = {
     if (assignedStaffId !== undefined) {
       localStore.propertyInquiries[index].assignedStaffId = assignedStaffId;
     }
-    if (notes !== undefined) localStore.propertyInquiries[index].notes = notes;
+    if (notes !== undefined) localStore.propertyInquiries[index].notes = encryptField(notes);
     localStore.propertyInquiries[index].updatedAt = now;
 
     await persistLocalStoreAsync();
-    return localStore.propertyInquiries[index];
+    return decryptInquiry(localStore.propertyInquiries[index]);
   },
 };
