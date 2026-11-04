@@ -1440,30 +1440,30 @@ window.rotateSpatialCompass = function() {
 };
 
 /* ==========================================================================
-   SHASHWAT ASHAPURA GROUP STYLE CINEMA THEATER & MUSIC ENGINE
+   SHREEJI OFFICIAL CINEMA THEATER & AMBIENT MUSIC ENGINE
    ========================================================================== */
 
 const SHREEJI_VIDEOS = [
   {
-    src: 'videos/highrise-skyline.mp4',
+    src: 'videos/shreeji-corporate-highrise.mp4',
     poster: 'images/commercial-tower.jpg',
-    badge: 'Live Drone Capture • Gandhidham Highrise Skyline',
-    headline: 'Gandhidham Skyline & Corporate Highrise Development',
-    desc: 'Live aerial drone capture of premier commercial complexes, Tagore Road corporate corridor, and high-footfall business districts.'
+    badge: 'Shreeji Verified Asset • Gandhidham Corporate Highrise',
+    headline: 'Shreeji Corporate Highrise & Executive Plaza',
+    desc: 'Live aerial footage of prime commercial towers and Grade-A office suites along Tagore Road, Gandhidham. Exclusive Shreeji listing with direct developer advisory.'
   },
   {
-    src: 'videos/commercial-site-development.mp4',
-    poster: 'images/commercial-plot.jpg',
-    badge: 'Live Ground Capture • Heavy Infrastructure Grading',
-    headline: 'Commercial Infrastructure & Heavy Earthwork Grading',
-    desc: 'Live on-site progress across Gandhidham-Kandla Port commercial corridor: heavy compaction, boundary demarcation, and highway road apron.'
+    src: 'videos/shreeji-retail-showroom.mp4',
+    poster: 'images/retail-showroom.jpg',
+    badge: 'Shreeji Commercial Showroom • Station Road, Adipur',
+    headline: 'Shreeji Corner Retail Showroom & Market Hub',
+    desc: 'High-footfall double-height showroom with 35-ft glass frontage opposite central commercial hub in Adipur. Directly listed by Shreeji Real Estate Consultant.'
   },
   {
-    src: 'videos/foundation-pouring.mp4',
+    src: 'videos/shreeji-logistics-warehouse.mp4',
     poster: 'images/industrial-logistics.jpg',
-    badge: 'Engineered Construction • RCC Foundation Casting',
-    headline: 'Reinforced Concrete Foundation & Structural Casting',
-    desc: 'Live concrete pour and heavy steel rebar framing for multi-story logistics warehousing and corporate commercial plaza.'
+    badge: 'Shreeji Industrial Portfolio • Kandla Port Corridor',
+    headline: 'Shreeji PEB Logistics Warehouse Park',
+    desc: 'Heavy-duty 25,000 sq.ft engineered warehouse with automated dock levelers and container trailer aprons near Kandla Port. Certified title-clear Shreeji listing.'
   }
 ];
 
