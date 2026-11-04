@@ -1883,14 +1883,15 @@ class PerspectiveTunnelEngine {
     this.container = document.getElementById('tunnelContainer');
     this.stage = document.getElementById('tunnelCardsStage');
     this.anchor = document.getElementById('tunnelAnchorText');
-    this.prompt = document.getElementById('tunnelPrompt');
-    this.slider = document.getElementById('tunnelProgressSlider');
-    this.readout = document.getElementById('tunnelPercentReadout');
 
     if (!this.container || !this.stage) return;
 
-    this.rawProgress = 0;
-    this.smoothProgress = 0;
+    // Automatic continuous animation state
+    this.autoProgress = 0;
+    this.baseSpeed = 0.00075; // Cinematic flight speed
+    this.currentSpeed = 0.00075;
+    this.isHovered = false;
+
     this.rawPointerX = 0;
     this.rawPointerY = 0;
     this.pointerX = 0;
@@ -1901,9 +1902,12 @@ class PerspectiveTunnelEngine {
     this.isMobile = window.innerWidth < 768;
 
     this.cards = [];
+    this.lastTime = performance.now();
+
     this.initCards();
     this.initEvents();
-    this.animate();
+    this.animate = this.animate.bind(this);
+    requestAnimationFrame(this.animate);
   }
 
   initCards() {
@@ -1956,158 +1960,116 @@ class PerspectiveTunnelEngine {
       this.isMobile = window.innerWidth < 768;
     });
 
-    // Pointer move camera parallax
+    // Pointer move camera parallax tilt
     window.addEventListener('pointermove', (e) => {
       this.rawPointerX = (e.clientX / window.innerWidth - 0.5) * 2;
       this.rawPointerY = (e.clientY / window.innerHeight - 0.5) * 2;
     }, { passive: true });
 
-    // Wheel listener inside container
+    // Smooth hover deceleration so user can easily inspect and click on any flying card
+    this.container.addEventListener('mouseenter', () => {
+      this.isHovered = true;
+    });
+
+    this.container.addEventListener('mouseleave', () => {
+      this.isHovered = false;
+      this.rawPointerX = 0;
+      this.rawPointerY = 0;
+    });
+
+    // Gentle scroll assist (does not block native page scrolling)
     this.container.addEventListener('wheel', (e) => {
-      // Only capture wheel if cursor is over the tunnel container
-      const delta = e.deltaY * 0.0008;
-      const prev = this.rawProgress;
-      const next = Math.min(1, Math.max(0, this.rawProgress + delta));
-      
-      // If within 0 and 1, absorb the scroll to animate tunnel
-      if ((delta > 0 && prev < 1) || (delta < 0 && prev > 0)) {
-        e.preventDefault();
-        this.rawProgress = next;
-      }
-    }, { passive: false });
-
-    // Touch swipe handling for mobile
-    let touchStartY = 0;
-    this.container.addEventListener('touchstart', (e) => {
-      if (e.touches.length > 0) {
-        touchStartY = e.touches[0].clientY;
-      }
+      this.autoProgress = (this.autoProgress + e.deltaY * 0.0003) % 1;
+      if (this.autoProgress < 0) this.autoProgress += 1;
     }, { passive: true });
-
-    this.container.addEventListener('touchmove', (e) => {
-      if (e.touches.length > 0) {
-        const touchY = e.touches[0].clientY;
-        const delta = (touchStartY - touchY) * 0.0018;
-        touchStartY = touchY;
-        const prev = this.rawProgress;
-        const next = Math.min(1, Math.max(0, this.rawProgress + delta));
-        if ((delta > 0 && prev < 1) || (delta < 0 && prev > 0)) {
-          e.preventDefault();
-          this.rawProgress = next;
-        }
-      }
-    }, { passive: false });
-
-    // Slider control
-    if (this.slider) {
-      this.slider.addEventListener('input', (e) => {
-        this.rawProgress = parseFloat(e.target.value) || 0;
-      });
-    }
   }
 
-  stepProgress(delta) {
-    this.rawProgress = Math.min(1, Math.max(0, this.rawProgress + delta));
-  }
+  animate(now = performance.now()) {
+    const dt = Math.min(50, Math.max(1, now - this.lastTime));
+    this.lastTime = now;
 
-  animate() {
-    // Spring interpolation (stiffness & damping simulation)
-    const progressDiff = this.rawProgress - this.smoothProgress;
-    this.smoothProgress += progressDiff * 0.12;
+    // Smooth speed transition on hover
+    const targetSpeed = this.isHovered ? 0.00018 : this.baseSpeed;
+    this.currentSpeed += (targetSpeed - this.currentSpeed) * 0.08;
 
+    // Advance continuous depth progress seamlessly
+    this.autoProgress = (this.autoProgress + this.currentSpeed * (dt / 16.67)) % 1;
+    if (this.autoProgress < 0) this.autoProgress += 1;
+
+    // Smooth pointer parallax easing
     this.pointerX += (this.rawPointerX - this.pointerX) * 0.08;
     this.pointerY += (this.rawPointerY - this.pointerY) * 0.08;
 
-    const p = this.smoothProgress;
     const stageWidth = this.stageWidth;
     const stageHeight = this.stageHeight;
     const isMobile = this.isMobile;
 
-    const farZ = isMobile ? -1200 : -1700;
-    const nearZ = isMobile ? 350 : 500;
-    const panStrength = isMobile ? 22 : 48;
-    const staggerSpan = 0.55;
+    const farZ = isMobile ? -1400 : -1900;
+    const nearZ = isMobile ? 380 : 540;
+    const panStrength = isMobile ? 24 : 48;
 
-    // Card width
     const cardWidth = isMobile
       ? Math.max(130, Math.min(180, stageWidth * 0.38))
       : Math.max(180, Math.min(270, stageWidth * 0.18));
 
-    // Update each tunnel card
-    for (let i = 0; i < this.cards.length; i++) {
+    const total = this.cards.length;
+
+    // Distribute all cards along the infinite looping corridor
+    for (let i = 0; i < total; i++) {
       const card = this.cards[i];
-      const start = (card.index / card.total) * (1 - staggerSpan);
-      const end = start + staggerSpan;
 
-      const localProgress = Math.min(1, Math.max(0, (p - start) / (end - start)));
+      // Normalized depth progress for this card [0, 1)
+      let cardProgress = (this.autoProgress + (i / total)) % 1;
+      if (cardProgress < 0) cardProgress += 1;
 
-      const z = farZ + localProgress * (nearZ - farZ);
+      // Z-depth interpolation
+      const z = farZ + cardProgress * (nearZ - farZ);
 
-      // Opacity curve: [0, 0.18, 0.82, 0.98] -> [0, 1, 1, 0]
+      // Opacity envelope for seamless looping:
+      // Emerges at farZ (0 -> 1 over 0.16)
+      // Fully visible mid-flight (1.0 between 0.16 and 0.82)
+      // Glides smoothly past camera (1 -> 0 between 0.82 and 0.98)
+      // Completely invisible at wrap boundary (0 between 0.98 and 1.0)
       let opacity = 0;
-      if (localProgress <= 0.18) {
-        opacity = localProgress / 0.18;
-      } else if (localProgress <= 0.82) {
+      if (cardProgress < 0.16) {
+        opacity = cardProgress / 0.16;
+      } else if (cardProgress <= 0.82) {
         opacity = 1;
-      } else if (localProgress <= 0.98) {
-        opacity = 1 - (localProgress - 0.82) / (0.98 - 0.82);
+      } else if (cardProgress <= 0.98) {
+        opacity = 1 - (cardProgress - 0.82) / (0.98 - 0.82);
       } else {
         opacity = 0;
       }
 
+      // Golden-angle spiral radial coordinates
       const baseX = card.angleCos * (stageWidth * card.radiusFactorX);
       const baseY = card.angleSin * (stageHeight * card.radiusFactorY);
 
       const offsetX = baseX - this.pointerX * panStrength;
       const offsetY = baseY - this.pointerY * panStrength;
 
+      const rotZ = card.rotationZ * (1 - cardProgress * 0.3);
+
       card.el.style.width = `${Math.round(cardWidth)}px`;
-      card.el.style.transform = `translate3d(calc(-50% + ${offsetX.toFixed(1)}px), calc(-50% + ${offsetY.toFixed(1)}px), ${z.toFixed(1)}px) rotateZ(${card.rotationZ}deg)`;
+      card.el.style.transform = `translate3d(calc(-50% + ${offsetX.toFixed(1)}px), calc(-50% + ${offsetY.toFixed(1)}px), ${z.toFixed(1)}px) rotateZ(${rotZ.toFixed(1)}deg)`;
       card.el.style.opacity = opacity.toFixed(3);
-      card.el.style.zIndex = card.index + 1;
+      card.el.style.zIndex = Math.round(cardProgress * 100);
+      card.el.style.pointerEvents = opacity > 0.4 ? 'auto' : 'none';
     }
 
-    // Anchor Title Scaling & Opacity
+    // Anchor title remains elegantly centered in the corridor
     if (this.anchor) {
-      const titleScale = 0.7 + p * 0.65;
-      let titleOpacity = 0.25;
-      if (p <= 0.12) {
-        titleOpacity = 0.25 + (p / 0.12) * 0.75;
-      } else if (p <= 0.85) {
-        titleOpacity = 1;
-      } else {
-        titleOpacity = Math.max(0, 1 - (p - 0.85) / 0.15);
-      }
-
-      this.anchor.style.transform = `scale(${titleScale.toFixed(3)})`;
-      this.anchor.style.opacity = titleOpacity.toFixed(3);
+      this.anchor.style.opacity = '1';
+      this.anchor.style.transform = 'scale(1)';
     }
 
-    // Prompt Indicator Fade
-    if (this.prompt) {
-      const promptOpacity = Math.max(0, 1 - (p / 0.12));
-      this.prompt.style.opacity = promptOpacity.toFixed(2);
-    }
-
-    // Update Slider & Readout
-    if (this.slider && document.activeElement !== this.slider) {
-      this.slider.value = p.toFixed(3);
-    }
-    if (this.readout) {
-      this.readout.textContent = `${Math.round(p * 100)}% DEPTH`;
-    }
-
-    requestAnimationFrame(() => this.animate());
+    requestAnimationFrame(this.animate);
   }
 }
 
 let tunnelEngineInstance = null;
 
-window.stepTunnelProgress = function(delta) {
-  if (tunnelEngineInstance) {
-    tunnelEngineInstance.stepProgress(delta);
-  }
-};
+window.stepTunnelProgress = function() {};
 
 document.addEventListener('DOMContentLoaded', () => {
   tunnelEngineInstance = new PerspectiveTunnelEngine();

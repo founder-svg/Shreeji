@@ -209,8 +209,8 @@
         "/images/market-shop.jpg"
       ],
       "publicationState": "published",
-      "createdAt": "2026-11-02T18:18:00.607Z",
-      "updatedAt": "2026-11-02T18:18:00.608Z"
+      "createdAt": "2026-11-04T19:02:00.135Z",
+      "updatedAt": "2026-11-04T19:02:00.136Z"
     },
     {
       "id": "proj-2",
@@ -255,8 +255,8 @@
         "/images/retail-showroom.jpg"
       ],
       "publicationState": "published",
-      "createdAt": "2026-11-02T18:18:00.608Z",
-      "updatedAt": "2026-11-02T18:18:00.608Z"
+      "createdAt": "2026-11-04T19:02:00.136Z",
+      "updatedAt": "2026-11-04T19:02:00.136Z"
     },
     {
       "id": "proj-3",
@@ -302,8 +302,8 @@
         "/images/commercial-plot.jpg"
       ],
       "publicationState": "published",
-      "createdAt": "2026-11-02T18:18:00.608Z",
-      "updatedAt": "2026-11-02T18:18:00.608Z"
+      "createdAt": "2026-11-04T19:02:00.137Z",
+      "updatedAt": "2026-11-04T19:02:00.137Z"
     }
   ],
   "plots": [
@@ -357,8 +357,8 @@
         "Attached pantry & dedicated covered parking"
       ],
       "imageUrl": "/images/executive-office.jpg",
-      "createdAt": "2026-11-02T18:18:00.608Z",
-      "updatedAt": "2026-11-02T18:18:00.608Z"
+      "createdAt": "2026-11-04T19:02:00.137Z",
+      "updatedAt": "2026-11-04T19:02:00.137Z"
     },
     {
       "id": "plot-2",
@@ -410,8 +410,8 @@
         "11-month or multi-year registered lease option"
       ],
       "imageUrl": "/images/market-shop.jpg",
-      "createdAt": "2026-11-02T18:18:00.608Z",
-      "updatedAt": "2026-11-02T18:18:00.608Z"
+      "createdAt": "2026-11-04T19:02:00.137Z",
+      "updatedAt": "2026-11-04T19:02:00.137Z"
     },
     {
       "id": "plot-3",
@@ -463,8 +463,8 @@
         "Perfect for jewelry, fashion flagship, or luxury retail"
       ],
       "imageUrl": "/images/retail-showroom.jpg",
-      "createdAt": "2026-11-02T18:18:00.608Z",
-      "updatedAt": "2026-11-02T18:18:00.608Z"
+      "createdAt": "2026-11-04T19:02:00.137Z",
+      "updatedAt": "2026-11-04T19:02:00.137Z"
     },
     {
       "id": "plot-4",
@@ -516,8 +516,8 @@
         "Available on long-term 5 to 10-year registered lease deed"
       ],
       "imageUrl": "/images/commercial-plot.jpg",
-      "createdAt": "2026-11-02T18:18:00.608Z",
-      "updatedAt": "2026-11-02T18:18:00.608Z"
+      "createdAt": "2026-11-04T19:02:00.137Z",
+      "updatedAt": "2026-11-04T19:02:00.137Z"
     },
     {
       "id": "plot-5",
@@ -569,8 +569,8 @@
         "5 mins from Deendayal Port cargo gates & railway sidings"
       ],
       "imageUrl": "/images/industrial-logistics.jpg",
-      "createdAt": "2026-11-02T18:18:00.608Z",
-      "updatedAt": "2026-11-02T18:18:00.608Z"
+      "createdAt": "2026-11-04T19:02:00.137Z",
+      "updatedAt": "2026-11-04T19:02:00.137Z"
     },
     {
       "id": "plot-6",
@@ -622,8 +622,8 @@
         "Ideal for shipping lines, customs broking, and tech firms"
       ],
       "imageUrl": "/images/commercial-tower.jpg",
-      "createdAt": "2026-11-02T18:18:00.608Z",
-      "updatedAt": "2026-11-02T18:18:00.608Z"
+      "createdAt": "2026-11-04T19:02:00.137Z",
+      "updatedAt": "2026-11-04T19:02:00.137Z"
     }
   ],
   "mapAssets": [
@@ -638,7 +638,7 @@
       "coordinateReferenceSystem": "EPSG:4326",
       "version": "1.0",
       "publicationStatus": "published",
-      "createdAt": "2026-11-02T18:18:00.608Z"
+      "createdAt": "2026-11-04T19:02:00.137Z"
     },
     {
       "id": "asset-2",
@@ -651,7 +651,7 @@
       "coordinateReferenceSystem": "EPSG:4326",
       "version": "1.0",
       "publicationStatus": "published",
-      "createdAt": "2026-11-02T18:18:00.608Z"
+      "createdAt": "2026-11-04T19:02:00.137Z"
     }
   ],
   "propertyInquiries": [],
@@ -670,18 +670,18 @@
       "username": "Shreejii",
       "email": "admin@shreeji.com",
       "name": "Shreeji Master Administrator",
-      "passwordHash": "$2b$10$ZdjRqs.NlZMP35b6OYLWkOUWkTpfvnGAEheeHHATjE5fcZl0LGeDm",
+      "passwordHash": "$2b$10$/U6UYM0X739XbB6i6FrVc.qIkYaQ/SluYQ31bJ0U8DelQHGP.uw5K",
       "role": "admin",
-      "createdAt": "2026-11-02T18:18:00.695Z"
+      "createdAt": "2026-11-04T19:02:00.262Z"
     },
     {
       "id": "admin-regal-farms",
       "username": "regalfarms",
       "email": "admin@regalfarms.com",
       "name": "Regal Farms Estate Administrator",
-      "passwordHash": "$2b$10$UeUCwE9cOaKpi8Jg1jCCAOGPvKHbTV2GezNpbfiuKBEGeIcRyt3bG",
+      "passwordHash": "$2b$10$u/07/jIEqeN6cVU8UjekTO8b6HgXED6o7MyYmML/aaSeaNE58h18C",
       "role": "admin",
-      "createdAt": "2026-11-02T18:18:00.770Z"
+      "createdAt": "2026-11-04T19:02:00.384Z"
     }
   ]
 }
