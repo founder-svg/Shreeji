@@ -1820,6 +1820,23 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+// Dynamic Category Filtering for Kutch Infrastructure Corridors
+window.filterCorridors = function(category, btnEl) {
+  const pills = document.querySelectorAll('.corridor-filter-pill');
+  pills.forEach(p => p.classList.remove('active'));
+  if (btnEl) btnEl.classList.add('active');
+
+  const cards = document.querySelectorAll('.corridor-card');
+  cards.forEach(card => {
+    const cardCat = card.getAttribute('data-category');
+    if (category === 'all' || cardCat === category) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+};
+
 /* ==========================================================================
    3D PERSPECTIVE TUNNEL ENGINE (SHREEJI SPATIAL WARP)
    Matches Framer-Motion Golden-Angle 3D Z-Space Corridor
@@ -1833,58 +1850,64 @@ const SHREEJI_TUNNEL_DATA = [
     action: () => openModalWithDetails('Luxury Commercial Villa & Pavilion', 'Survey 374, Gandhidham & Adipur', 'Available for Lease & Investment')
   },
   { 
-    title: "Regal Farms 3D Masterplan", 
-    tag: "Spatial Digital Twin",
-    src: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1000&q=80",
-    action: () => window.launch3DMapPortal('https://regalfarms.vercel.app/')
+    title: "Gandhidham–Adipur Twin City Axis", 
+    tag: "Commercial Core & Metro Corridor",
+    src: "images/Gandhidham Adipur Golden-Hour Cityscape.png",
+    action: () => openModalWithDetails('Gandhidham-Adipur Commercial Axis', 'Sectors 1-12 & Wards 1A-5B', 'Commercial Lease & Sale')
   },
   { 
-    title: "Tagore Road Corporate Center", 
-    tag: "Grade-A Commercial HQ",
-    src: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1000&q=80",
-    action: () => openModalWithDetails('Tagore Road Corporate Center', 'Gandhidham Prime', '₹85,000 / month')
+    title: "Kandla Major Port Terminal", 
+    tag: "Deendayal Port Authority CFS",
+    src: "images/Golden Hour at Kandla Port.png",
+    action: () => openModalWithDetails('Kandla Port Logistics Hub', 'Deendayal Port Corridor, Kandla', 'Logistics & Warehousing')
   },
   { 
-    title: "Station Road Prime Retail", 
-    tag: "High Footfall Showrooms",
-    src: "https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=1000&q=80",
-    action: () => openModalWithDetails('Station Road Prime Retail Showroom', 'Adipur Commercial', '₹1.1 Lakh / month')
+    title: "Mega Container Logistics Zone", 
+    tag: "Intermodal Supply Chain Gateway",
+    src: "images/Panoramic Container Port at Sunset.png",
+    action: () => openModalWithDetails('Mega Container Freight Zone', 'Kutch Maritime Corridor', 'Industrial / Freight')
   },
   { 
-    title: "Gandhidham Commercial Hub", 
-    tag: "Sectors 1-12 Prime Parcels",
-    src: "https://images.unsplash.com/photo-1582407947304-fd86f028f716?auto=format&fit=crop&w=1000&q=80",
-    action: () => openModalWithDetails('Gandhidham Commercial Hub Plots', 'Gandhidham', '₹45 Lakh onwards')
+    title: "Mundra–Anjar Heavy Industrial SEZ", 
+    tag: "Private Port & Multi-Product SEZ",
+    src: "images/Mundra-Anjar Industrial Port at Sunset.png",
+    action: () => openModalWithDetails('Mundra-Anjar Industrial Belt', 'Mundra-Anjar Highway', 'Industrial Plots & Warehousing')
   },
   { 
-    title: "Sector 1-12 Corporate Suites", 
-    tag: "Executive Office Floors",
-    src: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1000&q=80",
-    action: () => openModalWithDetails('Sector 1-12 Corporate Suites', 'Gandhidham', '₹65,000 / month')
+    title: "NH-41 Dedicated Freight Expressway", 
+    tag: "Multi-Lane National Logistics Arterial",
+    src: "images/Golden Highway to the Horizon.png",
+    action: () => openModalWithDetails('NH-41 Highway Logistics Frontage', 'National Highway 41 Corridor', 'Highway Commercial Land')
   },
   { 
-    title: "Kandla Logistics & GIDC Belt", 
-    tag: "Heavy Logistics & Warehousing",
-    src: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1000&q=80",
-    action: () => openModalWithDetails('Kandla Logistics & GIDC Warehousing', 'Kandla Highway', '₹1.8 Lakh / month')
+    title: "Bhuj–Gandhidham Rail Freight Line", 
+    tag: "Electrified Broad-Gauge Trunk",
+    src: "images/Sunset Express Beside Bhuj Sign.png",
+    action: () => openModalWithDetails('Bhuj-Gandhidham Rail Corridor Properties', 'Railway Junction Corridor', 'Industrial & Commercial')
   },
   { 
-    title: "7/12 Clear Title Parcels", 
-    tag: "100% RERA Due Diligence",
-    src: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1000&q=80",
-    action: () => openModalWithDetails('7/12 Clear Title Commercial Land', 'Kutch Belt', '₹95 Lakh')
+    title: "Khavda 30GW Hybrid Renewable Park", 
+    tag: "Clean Solar-Wind Mega Energy Belt",
+    src: "images/Solar Panels and Wind Turbines at Sunset.png",
+    action: () => openModalWithDetails('Khavda Renewable Energy Zone', 'Khavda Mega Park, Kutch', 'Green Energy Industrial Land')
   },
   { 
-    title: "Spatial Digital Twin GIS", 
-    tag: "Mapbox 3D Elevation Mesh",
-    src: "https://images.unsplash.com/photo-1524813686514-a57563d77d61?auto=format&fit=crop&w=1000&q=80",
-    action: () => window.launch3DMapPortal('https://regalfarms.vercel.app/')
+    title: "Smart Kutch Next-Gen Business Hub", 
+    tag: "Grade-A Corporate Architecture",
+    src: "images/Kutch Future-Ready Urban Vision.png",
+    action: () => openModalWithDetails('Smart Kutch Commercial Center', 'Tagore Road Ext., Gandhidham', 'Corporate Floors')
   },
   { 
-    title: "Adipur Luxury Showrooms", 
-    tag: "Ward 1A - 5B Commercial Strip",
-    src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1000&q=80",
-    action: () => openModalWithDetails('Adipur Luxury Retail Showrooms', 'Adipur Hub', '₹75,000 / month')
+    title: "Bhuj Heritage & District Civic Hub", 
+    tag: "District Capital Commercial Zone",
+    src: "images/Golden-Hour Panorama of Bhuj and Fort.png",
+    action: () => openModalWithDetails('Bhuj Administrative Epicenter Land', 'Bhuj Hub, Kutch', 'Prime Land & Commercial')
+  },
+  { 
+    title: "Mandvi Coastal Tourism & Resort Strip", 
+    tag: "Arabian Sea Luxury Hospitality",
+    src: "images/Mandvi Sunset Beach and Heritage Pier.png",
+    action: () => openModalWithDetails('Mandvi Coastal Tourism Land', 'Mandvi Beach Road', 'Hospitality & Resort Land')
   }
 ];
 

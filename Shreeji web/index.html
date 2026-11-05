@@ -57,6 +57,7 @@
           <li><a href="./index.html" class="nav-link active">Home</a></li>
           <li><a href="#story" class="nav-link">About</a></li>
           <li><a href="#properties-section" class="nav-link">Projects</a></li>
+          <li><a href="#kutchCorridors" class="nav-link">Corridors</a></li>
           <li><a href="#perspectiveTunnel" class="nav-link">3D Models</a></li>
           <li><a href="./3d-map/index.html" class="nav-link nav-map-trigger" id="navMapLink">Maps <span class="map-badge-3d"><i class="fa-solid fa-cube"></i> 3D</span></a></li>
           <li><a href="#cinemaSection" class="nav-link">Live Drone Video</a></li>
@@ -472,6 +473,247 @@
         <span class="indicator-dot" onclick="window.goToSlide(1)"></span>
         <span class="indicator-dot" onclick="window.goToSlide(2)"></span>
         <span class="indicator-dot" onclick="window.goToSlide(3)"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       KUTCH STRATEGIC INVESTMENT & INFRASTRUCTURE CORRIDORS
+       High-Resolution Regional Development Showcase (All 10 Assets from images.zip)
+       ========================================================================== -->
+  <section class="corridors-section" id="kutchCorridors" aria-label="Kutch Regional Infrastructure and Investment Corridors">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag emerald"><i class="fa-solid fa-map-location-dot"></i> Regional Growth Engine</span>
+        <h2 class="section-title">Kutch Strategic Investment & Infrastructure Corridors</h2>
+        <p class="section-subtitle">
+          Explore Gandhidham, Kandla, Mundra, Bhuj, and Mandvi — India’s highest-growth maritime, industrial, and commercial investment belt. Direct access to Deendayal Port, NH-41, and dedicated freight corridors.
+        </p>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="corridors-filter-bar reveal">
+        <button class="corridor-filter-pill active" onclick="window.filterCorridors('all', this)"><i class="fa-solid fa-border-all"></i> All Corridors (10)</button>
+        <button class="corridor-filter-pill" onclick="window.filterCorridors('maritime', this)"><i class="fa-solid fa-anchor"></i> Maritime Ports & SEZ</button>
+        <button class="corridor-filter-pill" onclick="window.filterCorridors('urban', this)"><i class="fa-solid fa-city"></i> Twin City & Urban Hubs</button>
+        <button class="corridor-filter-pill" onclick="window.filterCorridors('connectivity', this)"><i class="fa-solid fa-road"></i> Expressways & Freight Rail</button>
+        <button class="corridor-filter-pill" onclick="window.filterCorridors('renewable', this)"><i class="fa-solid fa-solar-panel"></i> Renewable Energy Parks</button>
+        <button class="corridor-filter-pill" onclick="window.filterCorridors('tourism', this)"><i class="fa-solid fa-umbrella-beach"></i> Coastal Hospitality</button>
+      </div>
+
+      <!-- Corridor Cards Grid -->
+      <div class="corridors-grid reveal" id="corridorsGrid">
+
+        <!-- Corridor 1: Gandhidham Adipur Cityscape -->
+        <article class="corridor-card" data-category="urban">
+          <div class="corridor-img-wrap">
+            <span class="corridor-badge-float"><i class="fa-solid fa-city"></i> Twin City Axis</span>
+            <img src="images/Gandhidham Adipur Golden-Hour Cityscape.png" alt="Gandhidham Adipur Twin City Corridor" class="corridor-img" loading="lazy">
+          </div>
+          <div class="corridor-info">
+            <span class="corridor-category-tag">Gandhidham & Adipur Hub</span>
+            <h3 class="corridor-title">Gandhidham–Adipur Twin City Commercial Axis</h3>
+            <p class="corridor-desc">High-density retail high-streets, major national banking centers, and Grade-A office complexes spanning Sectors 1–12 and Wards 1A–5B with unmatched pedestrian and transport connectivity.</p>
+            <div class="corridor-stats-row">
+              <span class="corridor-stat-item"><i class="fa-solid fa-location-dot"></i> Sectors 1–12 & Wards 1A–5B</span>
+              <span class="corridor-stat-item"><i class="fa-solid fa-stamp"></i> Clear 7/12 Title</span>
+            </div>
+            <div class="corridor-actions">
+              <button class="btn-corridor-inquire" onclick="openModalWithDetails('Gandhidham-Adipur Commercial Axis', 'Sectors 1-12 & Wards 1A-5B', 'Commercial Lease & Sale')">Inquire Details &rarr;</button>
+              <a href="https://wa.me/919825799754?text=Hello%20Shreeji,%20I%20am%20interested%20in%20Gandhidham-Adipur%20Commercial%20Corridor." target="_blank" rel="noopener noreferrer" class="btn-corridor-wa" aria-label="WhatsApp Inquiry for Gandhidham-Adipur Commercial Axis"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Corridor 2: Kandla Port -->
+        <article class="corridor-card" data-category="maritime">
+          <div class="corridor-img-wrap">
+            <span class="corridor-badge-float"><i class="fa-solid fa-anchor"></i> Major Port Gateway</span>
+            <img src="images/Golden Hour at Kandla Port.png" alt="Kandla Port Maritime Gateway" class="corridor-img" loading="lazy">
+          </div>
+          <div class="corridor-info">
+            <span class="corridor-category-tag">Deendayal Port Authority • Kandla</span>
+            <h3 class="corridor-title">Kandla Major Port Logistics & Container Hub</h3>
+            <p class="corridor-desc">Direct proximity plots to India's premier major cargo port, featuring container freight stations (CFS), bonded warehousing zones, and heavy-haul expressway spurs.</p>
+            <div class="corridor-stats-row">
+              <span class="corridor-stat-item"><i class="fa-solid fa-ship"></i> Deendayal Port Terminal</span>
+              <span class="corridor-stat-item"><i class="fa-solid fa-truck-ramp-box"></i> Bonded Warehousing</span>
+            </div>
+            <div class="corridor-actions">
+              <button class="btn-corridor-inquire" onclick="openModalWithDetails('Kandla Port Logistics Hub', 'Deendayal Port Corridor, Kandla', 'Logistics & Warehousing')">Inquire Details &rarr;</button>
+              <a href="https://wa.me/919825799754?text=Hello%20Shreeji,%20I%20am%20interested%20in%20Kandla%20Port%20Logistics%20properties." target="_blank" rel="noopener noreferrer" class="btn-corridor-wa" aria-label="WhatsApp Inquiry for Kandla Port Hub"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Corridor 3: Mega Container Port -->
+        <article class="corridor-card" data-category="maritime">
+          <div class="corridor-img-wrap">
+            <span class="corridor-badge-float"><i class="fa-solid fa-boxes-stacked"></i> Mega Terminal</span>
+            <img src="images/Panoramic Container Port at Sunset.png" alt="Container Port Sunset Terminal" class="corridor-img" loading="lazy">
+          </div>
+          <div class="corridor-info">
+            <span class="corridor-category-tag">Maritime Logistics Corridor</span>
+            <h3 class="corridor-title">Mega Container Terminal & Intermodal Freight Zone</h3>
+            <p class="corridor-desc">World-class maritime container berths and automated cargo yards with seamless multi-modal rail dispatch linking Gandhidham and north-western India.</p>
+            <div class="corridor-stats-row">
+              <span class="corridor-stat-item"><i class="fa-solid fa-dolly"></i> High-Throughput CFS</span>
+              <span class="corridor-stat-item"><i class="fa-solid fa-train"></i> Multi-Modal Rail Link</span>
+            </div>
+            <div class="corridor-actions">
+              <button class="btn-corridor-inquire" onclick="openModalWithDetails('Mega Container Freight Zone', 'Kutch Maritime Corridor', 'Industrial / Freight')">Inquire Details &rarr;</button>
+              <a href="https://wa.me/919825799754?text=Hello%20Shreeji,%20I%20am%20interested%20in%20Mega%20Container%20Freight%20Zone." target="_blank" rel="noopener noreferrer" class="btn-corridor-wa" aria-label="WhatsApp Inquiry for Container Freight Zone"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Corridor 4: Mundra-Anjar Port & SEZ -->
+        <article class="corridor-card" data-category="maritime">
+          <div class="corridor-img-wrap">
+            <span class="corridor-badge-float"><i class="fa-solid fa-industry"></i> Mega SEZ Belt</span>
+            <img src="images/Mundra-Anjar Industrial Port at Sunset.png" alt="Mundra Anjar Industrial Port" class="corridor-img" loading="lazy">
+          </div>
+          <div class="corridor-info">
+            <span class="corridor-category-tag">Mundra–Anjar Corridor</span>
+            <h3 class="corridor-title">Mundra–Anjar Industrial Belt & Private Port SEZ</h3>
+            <p class="corridor-desc">Strategic industrial estates, export processing zones, and large-scale manufacturing plots backed by India's largest private commercial port infrastructure.</p>
+            <div class="corridor-stats-row">
+              <span class="corridor-stat-item"><i class="fa-solid fa-warehouse"></i> Heavy Engineering SEZ</span>
+              <span class="corridor-stat-item"><i class="fa-solid fa-shield-check"></i> Export-Ready Utilities</span>
+            </div>
+            <div class="corridor-actions">
+              <button class="btn-corridor-inquire" onclick="openModalWithDetails('Mundra-Anjar Industrial Belt', 'Mundra-Anjar Highway', 'Industrial Plots & Warehousing')">Inquire Details &rarr;</button>
+              <a href="https://wa.me/919825799754?text=Hello%20Shreeji,%20I%20am%20interested%20in%20Mundra-Anjar%20Industrial%20Belt." target="_blank" rel="noopener noreferrer" class="btn-corridor-wa" aria-label="WhatsApp Inquiry for Mundra-Anjar Industrial Belt"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Corridor 5: NH-41 Golden Highway -->
+        <article class="corridor-card" data-category="connectivity">
+          <div class="corridor-img-wrap">
+            <span class="corridor-badge-float"><i class="fa-solid fa-road"></i> NH-41 Expressway</span>
+            <img src="images/Golden Highway to the Horizon.png" alt="NH-41 Golden Highway to Horizon" class="corridor-img" loading="lazy">
+          </div>
+          <div class="corridor-info">
+            <span class="corridor-category-tag">National Highway Network</span>
+            <h3 class="corridor-title">NH-41 & Western Dedicated Freight Expressway</h3>
+            <p class="corridor-desc">Multi-lane national expressway corridor linking Gandhidham, Kandla, Mundra, and Ahmedabad with non-stop access for heavy logistics trailers and express freight transport.</p>
+            <div class="corridor-stats-row">
+              <span class="corridor-stat-item"><i class="fa-solid fa-route"></i> NH-41 & NH-8A Spoke</span>
+              <span class="corridor-stat-item"><i class="fa-solid fa-truck-fast"></i> Heavy Vehicle Friendly</span>
+            </div>
+            <div class="corridor-actions">
+              <button class="btn-corridor-inquire" onclick="openModalWithDetails('NH-41 Highway Logistics Frontage', 'National Highway 41 Corridor', 'Highway Commercial Land')">Inquire Details &rarr;</button>
+              <a href="https://wa.me/919825799754?text=Hello%20Shreeji,%20I%20am%20interested%20in%20Highway%20Frontage%20plots." target="_blank" rel="noopener noreferrer" class="btn-corridor-wa" aria-label="WhatsApp Inquiry for NH-41 Highway Frontage"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Corridor 6: Bhuj Rail Express -->
+        <article class="corridor-card" data-category="connectivity">
+          <div class="corridor-img-wrap">
+            <span class="corridor-badge-float"><i class="fa-solid fa-train-subway"></i> Rail Freight Hub</span>
+            <img src="images/Sunset Express Beside Bhuj Sign.png" alt="Bhuj Rail Express Sunset Corridor" class="corridor-img" loading="lazy">
+          </div>
+          <div class="corridor-info">
+            <span class="corridor-category-tag">Bhuj–Gandhidham Trunk Route</span>
+            <h3 class="corridor-title">Bhuj–Gandhidham Semi-High-Speed Rail Corridor</h3>
+            <p class="corridor-desc">Electrified broad-gauge rail connectivity hosting Vande Bharat expresses and round-the-clock dedicated goods trains linking Kutch industries directly to domestic markets.</p>
+            <div class="corridor-stats-row">
+              <span class="corridor-stat-item"><i class="fa-solid fa-train"></i> Electrified Broad Gauge</span>
+              <span class="corridor-stat-item"><i class="fa-solid fa-bolt"></i> Vande Bharat Route</span>
+            </div>
+            <div class="corridor-actions">
+              <button class="btn-corridor-inquire" onclick="openModalWithDetails('Bhuj-Gandhidham Rail Corridor Properties', 'Railway Junction Corridor', 'Industrial & Commercial')">Inquire Details &rarr;</button>
+              <a href="https://wa.me/919825799754?text=Hello%20Shreeji,%20I%20am%20interested%20in%20Rail%20Corridor%20properties." target="_blank" rel="noopener noreferrer" class="btn-corridor-wa" aria-label="WhatsApp Inquiry for Rail Corridor"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Corridor 7: Solar & Wind Renewable -->
+        <article class="corridor-card" data-category="renewable">
+          <div class="corridor-img-wrap">
+            <span class="corridor-badge-float"><i class="fa-solid fa-leaf"></i> 30 GW Mega Park</span>
+            <img src="images/Solar Panels and Wind Turbines at Sunset.png" alt="Solar Panels and Wind Turbines at Sunset" class="corridor-img" loading="lazy">
+          </div>
+          <div class="corridor-info">
+            <span class="corridor-category-tag">Khavda Green Energy Belt</span>
+            <h3 class="corridor-title">Khavda Hybrid Renewable & Clean Power Park</h3>
+            <p class="corridor-desc">Asia's largest hybrid solar-wind renewable energy zone driving massive clean power transmission, green hydrogen generation, and zero-carbon industrial investments.</p>
+            <div class="corridor-stats-row">
+              <span class="corridor-stat-item"><i class="fa-solid fa-sun"></i> Solar & Wind Hybrid</span>
+              <span class="corridor-stat-item"><i class="fa-solid fa-seedling"></i> Net-Zero Ready</span>
+            </div>
+            <div class="corridor-actions">
+              <button class="btn-corridor-inquire" onclick="openModalWithDetails('Khavda Renewable Energy Zone', 'Khavda Mega Park, Kutch', 'Green Energy Industrial Land')">Inquire Details &rarr;</button>
+              <a href="https://wa.me/919825799754?text=Hello%20Shreeji,%20I%20am%20interested%20in%20Renewable%20Energy%20Land." target="_blank" rel="noopener noreferrer" class="btn-corridor-wa" aria-label="WhatsApp Inquiry for Renewable Energy Land"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Corridor 8: Smart Kutch Urban Vision -->
+        <article class="corridor-card" data-category="urban">
+          <div class="corridor-img-wrap">
+            <span class="corridor-badge-float"><i class="fa-solid fa-building-columns"></i> Smart Commercial</span>
+            <img src="images/Kutch Future-Ready Urban Vision.png" alt="Smart Kutch Urban Vision" class="corridor-img" loading="lazy">
+          </div>
+          <div class="corridor-info">
+            <span class="corridor-category-tag">Gandhidham Next-Gen Development</span>
+            <h3 class="corridor-title">Smart Kutch Future-Ready Commercial Center</h3>
+            <p class="corridor-desc">Next-generation glass-facade corporate complexes, tech-enabled brokerage suites, and integrated business facilities tailored for maritime and financial headquarters.</p>
+            <div class="corridor-stats-row">
+              <span class="corridor-stat-item"><i class="fa-solid fa-gem"></i> Grade-A Architecture</span>
+              <span class="corridor-stat-item"><i class="fa-solid fa-wifi"></i> 100% Fiber & Backup</span>
+            </div>
+            <div class="corridor-actions">
+              <button class="btn-corridor-inquire" onclick="openModalWithDetails('Smart Kutch Commercial Center', 'Tagore Road Ext., Gandhidham', 'Corporate Floors')">Inquire Details &rarr;</button>
+              <a href="https://wa.me/919825799754?text=Hello%20Shreeji,%20I%20am%20interested%20in%20Smart%20Commercial%20Floors." target="_blank" rel="noopener noreferrer" class="btn-corridor-wa" aria-label="WhatsApp Inquiry for Smart Commercial Floors"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Corridor 9: Bhuj Heritage Panorama -->
+        <article class="corridor-card" data-category="urban">
+          <div class="corridor-img-wrap">
+            <span class="corridor-badge-float"><i class="fa-solid fa-landmark"></i> District Epicenter</span>
+            <img src="images/Golden-Hour Panorama of Bhuj and Fort.png" alt="Bhuj and Fort Golden Hour Panorama" class="corridor-img" loading="lazy">
+          </div>
+          <div class="corridor-info">
+            <span class="corridor-category-tag">Bhuj Heritage & Civic Hub</span>
+            <h3 class="corridor-title">Bhuj Heritage & District Administrative Epicenter</h3>
+            <p class="corridor-desc">Prime institutional, governmental, and commercial growth plots surrounding the historic district headquarters of Kutch, offering proven capital appreciation.</p>
+            <div class="corridor-stats-row">
+              <span class="corridor-stat-item"><i class="fa-solid fa-building-flag"></i> Collectorate & Civic Hub</span>
+              <span class="corridor-stat-item"><i class="fa-solid fa-chart-line"></i> High Capital Growth</span>
+            </div>
+            <div class="corridor-actions">
+              <button class="btn-corridor-inquire" onclick="openModalWithDetails('Bhuj Administrative Epicenter Land', 'Bhuj Hub, Kutch', 'Prime Land & Commercial')">Inquire Details &rarr;</button>
+              <a href="https://wa.me/919825799754?text=Hello%20Shreeji,%20I%20am%20interested%20in%20Bhuj%20Commercial%20properties." target="_blank" rel="noopener noreferrer" class="btn-corridor-wa" aria-label="WhatsApp Inquiry for Bhuj Commercial"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Corridor 10: Mandvi Coastal Beach Pier -->
+        <article class="corridor-card" data-category="tourism">
+          <div class="corridor-img-wrap">
+            <span class="corridor-badge-float"><i class="fa-solid fa-umbrella-beach"></i> Coastal Tourism</span>
+            <img src="images/Mandvi Sunset Beach and Heritage Pier.png" alt="Mandvi Sunset Beach and Heritage Pier" class="corridor-img" loading="lazy">
+          </div>
+          <div class="corridor-info">
+            <span class="corridor-category-tag">Mandvi Beach & Hospitality</span>
+            <h3 class="corridor-title">Mandvi Coastal Strip & Tourism Hospitality Hub</h3>
+            <p class="corridor-desc">Pristine shoreline resorts, heritage palace beachfront, and luxury tourism plots benefiting from soaring leisure travel and high-value coastal hospitality ventures.</p>
+            <div class="corridor-stats-row">
+              <span class="corridor-stat-item"><i class="fa-solid fa-water"></i> Arabian Sea Beachfront</span>
+              <span class="corridor-stat-item"><i class="fa-solid fa-hotel"></i> Luxury Resort Zoning</span>
+            </div>
+            <div class="corridor-actions">
+              <button class="btn-corridor-inquire" onclick="openModalWithDetails('Mandvi Coastal Tourism Land', 'Mandvi Beach Road', 'Hospitality & Resort Land')">Inquire Details &rarr;</button>
+              <a href="https://wa.me/919825799754?text=Hello%20Shreeji,%20I%20am%20interested%20in%20Mandvi%20Hospitality%20Land." target="_blank" rel="noopener noreferrer" class="btn-corridor-wa" aria-label="WhatsApp Inquiry for Mandvi Hospitality Land"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </article>
+
       </div>
     </div>
   </section>

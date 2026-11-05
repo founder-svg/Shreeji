@@ -5129,6 +5129,274 @@ float-top-right {
   }
 }
 
+/* ==========================================================================
+   KUTCH STRATEGIC INVESTMENT & INFRASTRUCTURE CORRIDORS SHOWCASE
+   High-Resolution Regional Development Grid & Dynamic Category Filtering
+   ========================================================================== */
+
+.corridors-section {
+  padding: 6rem 0 5.5rem 0;
+  background: radial-gradient(circle at 50% 10%, rgba(13, 27, 50, 0.95) 0%, rgba(8, 14, 28, 1) 100%);
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid rgba(217, 164, 65, 0.18);
+  border-bottom: 1px solid rgba(217, 164, 65, 0.18);
+}
+
+.corridors-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(217, 164, 65, 0.6), transparent);
+}
+
+.corridors-filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin: 2.2rem 0 3rem 0;
+}
+
+.corridor-filter-pill {
+  background: rgba(16, 27, 48, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #b3c5db;
+  padding: 0.65rem 1.35rem;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.corridor-filter-pill:hover {
+  background: rgba(29, 99, 255, 0.18);
+  border-color: rgba(0, 210, 255, 0.4);
+  color: #FFFFFF;
+  transform: translateY(-2px);
+}
+
+.corridor-filter-pill.active {
+  background: linear-gradient(135deg, #1D63FF 0%, #0099FF 100%);
+  border-color: #00D2FF;
+  color: #FFFFFF;
+  box-shadow: 0 4px 18px rgba(0, 153, 255, 0.35);
+  transform: translateY(-2px);
+}
+
+.corridors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 2rem;
+}
+
+.corridor-card {
+  background: rgba(14, 25, 45, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  position: relative;
+}
+
+.corridor-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(217, 164, 65, 0.45);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 25px rgba(217, 164, 65, 0.15);
+}
+
+.corridor-card.hidden {
+  display: none !important;
+}
+
+.corridor-img-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #050a14;
+}
+
+.corridor-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  display: block;
+}
+
+.corridor-card:hover .corridor-img {
+  transform: scale(1.06);
+}
+
+.corridor-badge-float {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(8, 16, 30, 0.88);
+  border: 1px solid rgba(217, 164, 65, 0.55);
+  color: #f7d58a;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  z-index: 2;
+}
+
+.corridor-info {
+  padding: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.corridor-category-tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #00D2FF;
+  letter-spacing: 0.07em;
+  margin-bottom: 0.45rem;
+  display: inline-block;
+}
+
+.corridor-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1.35;
+  margin: 0 0 0.65rem 0;
+}
+
+.corridor-desc {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: #a3b8cc;
+  margin: 0 0 1.25rem 0;
+  flex: 1;
+}
+
+.corridor-stats-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  margin-bottom: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 0.78rem;
+  color: #cbd8e6;
+  flex-wrap: wrap;
+}
+
+.corridor-stat-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.corridor-stat-item i {
+  color: #D9A441;
+}
+
+.corridor-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.btn-corridor-inquire {
+  flex: 1;
+  background: linear-gradient(135deg, #c59b27 0%, #e5b842 100%);
+  color: #071526;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 0.65rem 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(197, 155, 39, 0.25);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.btn-corridor-inquire:hover {
+  background: linear-gradient(135deg, #e5b842 0%, #f5cc5a 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(197, 155, 39, 0.4);
+}
+
+.btn-corridor-wa {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.65rem 1rem;
+  border-radius: 8px;
+  background: #25D366;
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
+}
+
+.btn-corridor-wa:hover {
+  background: #20ba59;
+  transform: translateY(-2px);
+  color: #FFFFFF;
+  box-shadow: 0 6px 18px rgba(37, 211, 102, 0.4);
+}
+
+@media (max-width: 768px) {
+  .corridors-section {
+    padding: 4rem 0 3.5rem 0;
+  }
+  .corridors-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .corridors-filter-bar {
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+  .corridor-filter-pill {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+}
+
 
 
 
