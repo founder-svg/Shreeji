@@ -108,7 +108,8 @@
             <a href="#properties-section" class="btn-spatial-secondary">View Projects</a>
           </div>
           <div class="spatial-segmented-control" id="spatialViewSwitcher">
-            <button class="segmented-btn active" type="button" onclick="switchSpatialMode('3d', this)">3D</button>
+            <button class="segmented-btn active" type="button" onclick="switchSpatialMode('estate', this)">Luxury Estate</button>
+            <button class="segmented-btn" type="button" onclick="switchSpatialMode('3d', this)">3D Masterplan</button>
             <button class="segmented-btn" type="button" onclick="switchSpatialMode('map', this)">Map</button>
             <button class="segmented-btn" type="button" onclick="switchSpatialMode('satellite', this)">Satellite</button>
           </div>
@@ -116,12 +117,12 @@
 
         <div class="spatial-hero-right reveal">
           <div class="spatial-visual-stage" id="spatialVisualStage">
-            <img src="images/shreeji-3d-spatial-masterplan.jpg" alt="Shreeji 3D Spatial Masterplan Model" class="spatial-visual-img" id="spatialMainImg">
+            <img src="images/hero-luxury-estate.jpg" alt="Shreeji Luxury Commercial Estate & Modern Villa Pavilion" class="spatial-visual-img" id="spatialMainImg">
             
             <!-- Interactive Floating Badge -->
             <div class="badge-interactive-view" style="cursor: pointer;" onclick="launch3DMapPortal('./3d-map/index.html')" title="Launch Interactive 3D Master Plan">
-              <i class="fa-solid fa-cube"></i>
-              <span id="spatialViewBadgeText">Launch 3D Master Plan</span>
+              <i class="fa-solid fa-shapes"></i>
+              <span id="spatialViewBadgeText">Shreeji Prime Estate View</span>
             </div>
 
             <!-- Floating Map HUD Controls -->
@@ -140,17 +141,17 @@
             </div>
 
             <!-- Interactive Pulsing 3D Hotspots with Tooltips -->
-            <div class="spatial-hotspot" style="top: 25%; left: 32%;">
-              <div class="hotspot-tooltip">🏢 Corporate Zone • 18-Story Glass Towers</div>
+            <div class="spatial-hotspot" style="top: 55%; left: 78%;">
+              <div class="hotspot-tooltip">🏢 Luxury Glass Showroom & Executive Pavilion</div>
             </div>
-            <div class="spatial-hotspot" style="top: 48%; left: 45%;">
-              <div class="hotspot-tooltip">🏬 Commercial Hub • Retail Plazas & Showrooms</div>
+            <div class="spatial-hotspot" style="top: 66%; left: 86%;">
+              <div class="hotspot-tooltip">🛋️ Executive Lounge & Meeting Deck</div>
             </div>
-            <div class="spatial-hotspot" style="top: 62%; left: 60%;">
-              <div class="hotspot-tooltip">🌊 Waterfront Canal • Landscaped Boulevard</div>
+            <div class="spatial-hotspot" style="top: 78%; left: 35%;">
+              <div class="hotspot-tooltip">🌿 Manicured Landscape & 40-Ft Setback Apron</div>
             </div>
-            <div class="spatial-hotspot" style="top: 75%; left: 24%;">
-              <div class="hotspot-tooltip">🚛 Logistics Hub • Direct Kandla Highway Apron</div>
+            <div class="spatial-hotspot" style="top: 62%; left: 24%;">
+              <div class="hotspot-tooltip">🌅 Sunset Orientation & Vastu Compliant Facing</div>
             </div>
           </div>
         </div>

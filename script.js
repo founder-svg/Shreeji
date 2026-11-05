@@ -1403,9 +1403,13 @@ window.switchSpatialMode = function(mode, btnEl) {
 
   const hotspots = stage ? stage.querySelectorAll('.spatial-hotspot') : [];
 
-  if (mode === '3d') {
+  if (mode === 'estate' || mode === 'luxury') {
+    if (mainImg) mainImg.src = 'images/hero-luxury-estate.jpg';
+    if (badgeText) badgeText.innerText = 'Shreeji Prime Estate View';
+    hotspots.forEach(h => h.style.display = 'flex');
+  } else if (mode === '3d') {
     if (mainImg) mainImg.src = 'images/shreeji-3d-spatial-masterplan.jpg';
-    if (badgeText) badgeText.innerText = '3D Model Interactive View';
+    if (badgeText) badgeText.innerText = '3D Model Masterplan View';
     hotspots.forEach(h => h.style.display = 'flex');
   } else if (mode === 'map') {
     if (mainImg) mainImg.src = 'images/hero-bg.png';
@@ -1822,6 +1826,12 @@ document.addEventListener('DOMContentLoaded', () => {
    ========================================================================== */
 
 const SHREEJI_TUNNEL_DATA = [
+  { 
+    title: "Luxury Commercial Villa & Pavilion", 
+    tag: "Prime Estate Development",
+    src: "images/hero-luxury-estate.jpg",
+    action: () => openModalWithDetails('Luxury Commercial Villa & Pavilion', 'Survey 374, Gandhidham & Adipur', 'Available for Lease & Investment')
+  },
   { 
     title: "Regal Farms 3D Masterplan", 
     tag: "Spatial Digital Twin",

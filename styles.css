@@ -526,7 +526,8 @@ img {
   position: relative;
   display: flex;
   align-items: center;
-  background: var(--grad-navy);
+  background: linear-gradient(135deg, rgba(6, 21, 39, 0.88) 0%, rgba(11, 37, 69, 0.82) 60%, rgba(22, 59, 105, 0.88) 100%),
+              url('images/hero-luxury-estate.jpg') center/cover no-repeat;
   color: var(--bg-white);
   overflow: hidden;
   padding: 4rem 0 3rem 0;
@@ -3356,7 +3357,9 @@ float-top-right {
 
 .spatial-hero-section {
   position: relative;
-  background: linear-gradient(180deg, #FFFFFF 0%, #F4F8FC 60%, #EBF2FA 100%);
+  background: 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(244, 248, 252, 0.94) 60%, rgba(235, 242, 250, 0.98) 100%),
+    url('images/hero-luxury-estate.jpg') center right/cover no-repeat;
   padding: 3rem 0 4rem 0;
   overflow: hidden;
   border-bottom: 1px solid rgba(226, 232, 240, 0.8);
