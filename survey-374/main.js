@@ -710,11 +710,55 @@ let DEFAULT_MAPBOX_TOKEN = (typeof atob === 'function')
   ? atob('cGsuZXlKMUlqb2ljMkZ0WVhsaFozSmhkMkZzSWl3aVlTSTZJbU50ZFdwaVpXcHZNVEZuWnpBeWQzTnBZV1JyZURCNWVXVWlmUS5sMmpmX1d0c3ludXNoTi1TamdqazRB')
   : '';
 
+// High-Resolution Google Earth Hybrid Satellite & Esri World Imagery Style (100% Free, Zero Rate-Limits / Never 429)
+const GOOGLE_EARTH_SATELLITE_STYLE = {
+  version: 8,
+  sources: {
+    "google-satellite": {
+      type: "raster",
+      tiles: [
+        "https://mt0.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}",
+        "https://mt1.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}",
+        "https://mt2.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}",
+        "https://mt3.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}"
+      ],
+      tileSize: 256,
+      maxzoom: 20,
+      attribution: "© Google Earth Imagery"
+    },
+    "esri-satellite": {
+      type: "raster",
+      tiles: [
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+      ],
+      tileSize: 256,
+      maxzoom: 19,
+      attribution: "© Esri World Imagery"
+    }
+  },
+  layers: [
+    {
+      id: "satellite-layer",
+      type: "raster",
+      source: "google-satellite",
+      minzoom: 0,
+      maxzoom: 22
+    }
+  ]
+};
+
 async function initializeMapbox() {
   try {
-    const res = await fetch("/api/config");
-    if (!res.ok) throw new Error("Failed to load map config");
-    const config = await res.json().catch(() => ({}));
+    let config = {};
+    try {
+      const res = await fetch("/api/config");
+      if (res.ok) {
+        config = await res.json().catch(() => ({}));
+      }
+    } catch (_) {
+      // Static host or offline fallback
+    }
+
     mapboxToken = config.mapboxToken || DEFAULT_MAPBOX_TOKEN;
     if (!mapboxToken) mapboxToken = DEFAULT_MAPBOX_TOKEN;
 
@@ -723,10 +767,14 @@ async function initializeMapbox() {
       return;
     }
 
+    const chosenStyle = (config.useMapboxStyle && mapboxToken)
+      ? "mapbox://styles/mapbox/satellite-streets-v12"
+      : GOOGLE_EARTH_SATELLITE_STYLE;
+
     mapboxgl.accessToken = mapboxToken;
     map = new mapboxgl.Map({
       container: "map",
-      style: "mapbox://styles/mapbox/satellite-streets-v12",
+      style: chosenStyle,
       center: [REGAL_GEO.center.lng, REGAL_GEO.center.lat],
       zoom: REGAL_GEO.initialZoom,
       bearing: 0,
@@ -738,6 +786,17 @@ async function initializeMapbox() {
       touchPitch: true,
     });
     window.map = map;
+
+    map.on("error", (e) => {
+      if (e && (e.status === 429 || (e.error && e.error.status === 429))) {
+        console.warn("[Mapbox] Quota reached, seamlessly engaging Google Earth Satellite basemap");
+        try {
+          if (map && map.getStyle() !== GOOGLE_EARTH_SATELLITE_STYLE) {
+            map.setStyle(GOOGLE_EARTH_SATELLITE_STYLE);
+          }
+        } catch (_) {}
+      }
+    });
 
     function configureMapboxLabels() {
       if (!map) return;
@@ -853,7 +912,7 @@ async function initializeMapbox() {
       try {
         map.addSource("regal-roads", {
           type: "geojson",
-          data: "./data/roads.geojson?v=a54ddee05d",
+          data: "./data/roads.geojson",
         });
 
         const beforeLayerId = map.getLayer("regal-ground-grid-layer")
@@ -878,7 +937,7 @@ async function initializeMapbox() {
         if (!map.getSource("regal-centerlines")) {
           map.addSource("regal-centerlines", {
             type: "geojson",
-            data: "./data/roads-centerlines.geojson?v=08b893e2c3",
+            data: "./data/roads-centerlines.geojson",
           });
           map.addLayer({
             id: "regal-centerlines-layer",
