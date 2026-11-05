@@ -926,6 +926,10 @@
 
     projectSelect?.addEventListener("change", (e) => {
       const val = e.target.value;
+      if (val === "survey-374") {
+        window.location.href = "../survey-374/index.html";
+        return;
+      }
       if (val === "regalfarms") {
         window.open("https://regalfarms.vercel.app/", "_blank", "noopener,noreferrer");
         projectSelect.value = state.currentProjectId;

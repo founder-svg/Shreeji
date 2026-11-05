@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Survey 374 - Nagavaladiya 3D Plot Layout | Shreeji Real Estate</title>
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=1.0, user-scalable=no" />
+  <meta name="description" content="Interactive 3D WebGL & Mapbox Satellite Digital Twin for Revenue Survey No. 374, Nagavaladiya, Kutch. Explore verified plot dimensions, boundaries, availability, and instant WhatsApp booking." />
+  <link rel="icon" href="../images/hero.png" />
+
+  <!-- UI STYLES -->
+  <link rel="stylesheet" href="./ui.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- Mapbox GL JS -->
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css" rel="stylesheet" />
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js"></script>
+
+  <!-- GSAP Animation Engine -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.182.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.182.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+
+<body>
+
+  <!-- ======================
+       MAPBOX SATELLITE BASEMAP
+  ======================= -->
+  <div id="map"></div>
+
+  <!-- ======================
+       TOP LEFT BRANDING
+  ======================= -->
+  <div class="ui-brand">
+    <a href="../index.html" class="ui-home-link" title="Return to Shreeji Main Site">
+      <div class="ui-brand-badge"><i class="fa-solid fa-shapes"></i></div>
+      <div class="ui-brand-text-wrap">
+        <span class="ui-brand-text">SHREEJI <span>REAL ESTATE</span></span>
+        <span class="ui-brand-sub">SURVEY 374 • NAGAVALADIYA</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- ======================
+       TOP LEFT COMPASS WIDGET
+  ======================= -->
+  <div class="ui-compass-container">
+    <button class="ui-compass-btn js-compass-btn" type="button" aria-label="Reset North" title="Reset North">
+      <div class="ui-compass-dial js-compass-dial">
+        <span class="ui-compass-cardinal ui-compass-n">N</span>
+        <span class="ui-compass-cardinal ui-compass-e">E</span>
+        <span class="ui-compass-cardinal ui-compass-s">S</span>
+        <span class="ui-compass-cardinal ui-compass-w">W</span>
+        <div class="ui-compass-needle">
+          <div class="ui-needle-north"></div>
+          <div class="ui-needle-south"></div>
+          <div class="ui-needle-pivot"></div>
+        </div>
+      </div>
+    </button>
+  </div>
+
+  <!-- ======================
+       TOP RIGHT ACTION BUTTONS
+  ======================= -->
+  <div class="ui-top-right">
+    <a href="../index.html" class="ui-circle-btn ui-standalone-top-btn" title="Back to Shreeji Home">
+      <i class="fa-solid fa-house" style="font-size: 15px; color: white;"></i>
+      <span class="ui-top-right-tooltip">Main Website</span>
+    </a>
+    <a href="./374_NAGAVALADIYA_NEW.dwg" download="374_NAGAVALADIYA_NEW.dwg" class="ui-circle-btn ui-standalone-top-btn" title="Download AutoCAD .DWG Source File" style="margin-left: 8px;">
+      <i class="fa-solid fa-file-arrow-down" style="font-size: 15px; color: #D9A441;"></i>
+      <span class="ui-top-right-tooltip">Download DWG</span>
+    </a>
+  </div>
+
+  <!-- ======================
+       CONTACTABLE PLOT FLOATING CARD (POPOVER)
+  ======================= -->
+  <div class="ui-selected-plot-card js-selected-plot-card" id="selectedPlotCard" hidden>
+    <div class="plot-card-header">
+      <span class="plot-card-badge"><i class="fa-solid fa-layer-group"></i> Survey 374</span>
+      <button class="plot-card-close js-plot-card-close" type="button" title="Close Card">&times;</button>
+    </div>
+    <h3 class="plot-card-title">Plot #<span id="plotCardNumber">-</span></h3>
+    <div class="plot-card-specs">
+      <div class="plot-spec-item">
+        <span class="spec-label">Area (Sq.Yd)</span>
+        <span class="spec-val" id="plotCardAreaSqYd">-</span>
+      </div>
+      <div class="plot-spec-item">
+        <span class="spec-label">Area (Sq.Mtr)</span>
+        <span class="spec-val" id="plotCardAreaSqM">-</span>
+      </div>
+      <div class="plot-spec-item">
+        <span class="spec-label">Status</span>
+        <span class="spec-val status-val" id="plotCardStatus">Available</span>
+      </div>
+      <div class="plot-spec-item">
+        <span class="spec-label">Facing / Road</span>
+        <span class="spec-val" id="plotCardFacing">30-40 Ft Road</span>
+      </div>
+      <div class="plot-spec-item full-width">
+        <span class="spec-label">Boundary Dimensions</span>
+        <span class="spec-val" id="plotCardDimensions" style="font-size: 12px; font-family: monospace;">-</span>
+      </div>
+    </div>
+    <button class="plot-card-action-btn" id="plotCardWaBtn" type="button">
+      <i class="fa-brands fa-whatsapp"></i> Inquire Plot on WhatsApp
+    </button>
+  </div>
+
+  <!-- ======================
+       RIGHT SIDE ACTION BUTTONS
+  ======================= -->
+  <div class="ui-right-stack">
+    <button class="ui-circle-btn js-2d-btn" type="button" aria-label="Toggle 2D/3D view" title="Toggle 2D/3D view"
+      aria-pressed="false">
+      <img src="./icons/3d.png" alt="3D" class="ui-icon" />
+    </button>
+    <div class="ui-stack-row">
+      <button class="ui-circle-btn js-whatsapp-btn" type="button" aria-label="Chat on WhatsApp"
+        title="Chat on WhatsApp">
+        <svg class="ui-icon" width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
+          <path
+            d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+        </svg>
+      </button>
+      <button class="ui-circle-btn js-home-btn" type="button" aria-label="Reset view" title="Reset view">
+        <img src="./icons/home.png" alt="Home" class="ui-icon" />
+      </button>
+    </div>
+    <div class="ui-stack-row">
+      <button class="ui-circle-btn js-instagram-btn" type="button" aria-label="Open Instagram profile"
+        title="Open Instagram profile">
+        <svg class="ui-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+          <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+        </svg>
+      </button>
+      <button class="share-btn ui-circle-btn js-share-btn" type="button" aria-label="Share site" title="Share site">
+        <img src="./icons/share.png" alt="Share" class="ui-icon" />
+      </button>
+    </div>
+  </div>
+
+  <!-- ======================
+       BOTTOM RIGHT UI PANEL
+  ======================= -->
+  <div class="ui-bottom-panel">
+
+    <!-- STATUS ROW -->
+    <div class="ui-status-row">
+      <div class="ui-status-area">
+        <div class="ui-status-legend js-status-legend" aria-hidden="true">
+          <div class="ui-status-legend-item">
+            <span class="ui-status-dot ui-status-dot-available" aria-hidden="true"></span>
+            <span>Available</span>
+          </div>
+          <div class="ui-status-legend-item">
+            <span class="ui-status-dot ui-status-dot-sold" aria-hidden="true"></span>
+            <span>Sold</span>
+          </div>
+          <div class="ui-status-legend-item">
+            <span class="ui-status-dot ui-status-dot-construction" aria-hidden="true"></span>
+            <span>Builder</span>
+          </div>
+        </div>
+        <button class="ui-status-toggle js-status-toggle" type="button" aria-pressed="false" aria-label="Toggle status"
+          title="Toggle status">
+          <span class="ui-status-label">Status</span>
+          <span class="ui-status-switch" aria-hidden="true">
+            <span class="ui-status-knob"></span>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ACTION GRID (Strict 3 columns x 2 rows) -->
+    <div class="ui-action-grid">
+      <!-- Row 1: Gallery, Search, GPS -->
+      <button class="ui-pill-btn js-gallery-btn" type="button" title="Gallery">
+        <img src="./icons/gallery.png" alt="Gallery" class="ui-pill-icon" />
+        <span>Gallery</span>
+      </button>
+
+      <div class="ui-pill-btn ui-search-pill" title="Search Plot">
+        <img src="./icons/loupe.png" alt="Search" class="ui-pill-icon" />
+        <input type="text" class="ui-search-input" placeholder="Search Plot #" autocomplete="off" />
+      </div>
+
+      <button class="ui-pill-btn js-gps-btn" type="button" title="GPS Navigation">
+        <svg class="ui-pill-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="7"></circle>
+          <line x1="12" y1="1" x2="12" y2="4"></line>
+          <line x1="12" y1="20" x2="12" y2="23"></line>
+          <line x1="1" y1="12" x2="4" y2="12"></line>
+          <line x1="20" y1="12" x2="23" y2="12"></line>
+          <circle cx="12" cy="12" r="2" fill="currentColor"></circle>
+        </svg>
+        <span>GPS</span>
+      </button>
+
+      <!-- Row 2: Brochure, Info, Locate -->
+      <button class="ui-pill-btn js-brochure-btn" type="button" title="Download Official Brochure">
+        <svg class="ui-pill-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z" />
+          <path d="M6 6h10" />
+          <path d="M6 10h10" />
+        </svg>
+        <span>Brochure</span>
+      </button>
+
+      <button class="ui-pill-btn js-info-btn" type="button" title="Project Info">
+        <img src="./icons/info.png" alt="Info" class="ui-pill-icon" />
+        <span>Info</span>
+      </button>
+
+      <button class="ui-pill-btn js-locate-btn" type="button" title="Locate on Map">
+        <img src="./icons/send.png" alt="Locate" class="ui-pill-icon" />
+        <span>Locate</span>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Modal Backdrop for Info & Gallery -->
+  <div class="ui-modal-backdrop" id="uiModalBackdrop" hidden>
+    <div class="ui-modal" role="dialog" aria-modal="true" aria-labelledby="uiModalTitle">
+      <div class="ui-modal-header">
+        <h2 id="uiModalTitle">Details</h2>
+        <button class="ui-modal-close" type="button" aria-label="Close">Close</button>
+      </div>
+      <div class="ui-modal-body" id="uiModalBody"></div>
+    </div>
+  </div>
+
+  <!-- Three.js App Module -->
+  <script type="module" src="./main.js"></script>
+</body>
+
+</html>
