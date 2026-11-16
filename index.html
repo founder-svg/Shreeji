@@ -189,6 +189,53 @@
     </div>
   </section>
 
+  <!-- City Master Maps (PDF) Section -->
+  <section class="section" id="cityMaps" style="background: linear-gradient(135deg, var(--primary-dark) 0%, #164770 50%, var(--primary) 100%); color: white;">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag gold" style="background: rgba(217, 164, 65, 0.15); color: var(--accent-gold-light); border-color: rgba(217, 164, 65, 0.3);" data-i18n="citymaps_tag">City Planning & Sector Maps</span>
+        <h2 class="section-title" style="color: white;" data-i18n="citymaps_title">Gandhidham & Adipur Commercial Maps (PDF)</h2>
+        <p class="section-subtitle" style="color: rgba(255,255,255,0.85);" data-i18n="citymaps_subtitle">Download and explore official town planning maps, sector layouts, and commercial market zones.</p>
+      </div>
+
+      <div class="services-grid" id="cityMapsGrid">
+        <div class="service-card reveal active" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.22); color: white; -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);">
+          <div style="font-size: 2.5rem; color: var(--accent-gold); margin-bottom: 1rem;"><i class="fa-solid fa-map-location-dot"></i></div>
+          <h3 style="color: white; font-size: 1.4rem; margin-bottom: 0.5rem;" data-i18n="gandhidham_map_title">Gandhidham Commercial Master Map</h3>
+          <p style="color: rgba(255,255,255,0.75); font-size: 0.9rem; margin-bottom: 1.5rem;" data-i18n="gandhidham_desc">Official sector boundaries (Sectors 1-12), Tagore Road commercial corridor, GIDC zones, and retail market layouts.</p>
+          <div style="display: flex; gap: 0.75rem; width: 100%; margin-top: auto;">
+            <a href="MASTER-PLAN.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="flex: 1; text-decoration: none; text-align: center;"><i class="fa-solid fa-file-pdf"></i> View PDF</a>
+            <a href="gandhidham/" class="btn btn-outline" style="border-color: rgba(255,255,255,0.4); color: white; text-align: center;"><i class="fa-solid fa-compass"></i> Guide</a>
+          </div>
+        </div>
+
+        <div class="service-card reveal active" style="background: rgba(29, 99, 255, 0.12); border: 1.5px solid rgba(0, 210, 255, 0.45); color: white; -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: 0 12px 32px rgba(0, 210, 255, 0.15); position: relative; overflow: hidden;">
+          <div style="position: absolute; top: 12px; right: 12px; background: linear-gradient(135deg, #1D63FF 0%, #00D2FF 100%); color: white; font-size: 0.72rem; font-weight: 800; padding: 0.25rem 0.65rem; border-radius: 999px; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.35rem;">
+            <i class="fa-solid fa-satellite"></i> LIVE 3D
+          </div>
+          <div style="font-size: 2.5rem; color: #00D2FF; margin-bottom: 1rem;"><i class="fa-solid fa-earth-asia"></i></div>
+          <h3 style="color: white; font-size: 1.4rem; margin-bottom: 0.5rem;">Regal Farms 3D Digital Twin Map</h3>
+          <p style="color: rgba(255,255,255,0.85); font-size: 0.9rem; margin-bottom: 1.5rem;">Full Mapbox satellite basemap with Three.js 3D plot layouts, real-time availability status, and GPS site navigation.</p>
+          <div style="display: flex; gap: 0.75rem; width: 100%; margin-top: auto;">
+            <button type="button" class="btn btn-primary" onclick="launch3DMapPortal('https://regalfarms.vercel.app/')" style="flex: 1; text-align: center; background: linear-gradient(135deg, #1D63FF 0%, #00D2FF 100%); border: none; cursor: pointer; color: white; font-weight: 700; box-shadow: 0 4px 16px rgba(0, 210, 255, 0.35);">
+              <i class="fa-solid fa-cube"></i> Launch 3D Plot Layout
+            </button>
+          </div>
+        </div>
+
+        <div class="service-card reveal active" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.22); color: white; -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);">
+          <div style="font-size: 2.5rem; color: var(--accent-emerald); margin-bottom: 1rem;"><i class="fa-solid fa-cube"></i></div>
+          <h3 style="color: white; font-size: 1.4rem; margin-bottom: 0.5rem;" data-i18n="adipur_map_title">Adipur 3D Ward & Commercial Map</h3>
+          <p style="color: rgba(255,255,255,0.75); font-size: 0.9rem; margin-bottom: 1.5rem;" data-i18n="adipur_desc">Interactive 3D SVG sector map for Wards 1A to 5B, Station Road commercial plots, and retail shopping hubs.</p>
+          <div style="display: flex; gap: 0.75rem; width: 100%; margin-top: auto;">
+            <a href="adipur/" class="btn btn-primary" style="flex: 1; text-decoration: none; text-align: center;"><i class="fa-solid fa-cube"></i> Open 3D Map</a>
+            <a href="MASTER-PLAN.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="border-color: rgba(255,255,255,0.4); color: white; text-align: center;"><i class="fa-solid fa-file-pdf"></i> PDF</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ==========================================================================
        POWERFUL TOOLS FOR SMARTER DECISIONS (4-CARD GRID)
        From Reference Design Screenshot
@@ -1084,55 +1131,6 @@
       </div>
     </div>
   </section>
-
-  <!-- City Master Maps (PDF) Section -->
-  <section class="section" id="cityMaps" style="background: linear-gradient(135deg, var(--primary-dark) 0%, #164770 50%, var(--primary) 100%); color: white;">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="section-tag gold" style="background: rgba(217, 164, 65, 0.15); color: var(--accent-gold-light); border-color: rgba(217, 164, 65, 0.3);" data-i18n="citymaps_tag">City Planning & Sector Maps</span>
-        <h2 class="section-title" style="color: white;" data-i18n="citymaps_title">Gandhidham & Adipur Commercial Maps (PDF)</h2>
-        <p class="section-subtitle" style="color: rgba(255,255,255,0.85);" data-i18n="citymaps_subtitle">Download and explore official town planning maps, sector layouts, and commercial market zones.</p>
-      </div>
-
-      <div class="services-grid" id="cityMapsGrid">
-        <div class="service-card reveal active" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.22); color: white; -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);">
-          <div style="font-size: 2.5rem; color: var(--accent-gold); margin-bottom: 1rem;"><i class="fa-solid fa-map-location-dot"></i></div>
-          <h3 style="color: white; font-size: 1.4rem; margin-bottom: 0.5rem;" data-i18n="gandhidham_map_title">Gandhidham Commercial Master Map</h3>
-          <p style="color: rgba(255,255,255,0.75); font-size: 0.9rem; margin-bottom: 1.5rem;" data-i18n="gandhidham_desc">Official sector boundaries (Sectors 1-12), Tagore Road commercial corridor, GIDC zones, and retail market layouts.</p>
-          <div style="display: flex; gap: 0.75rem; width: 100%; margin-top: auto;">
-            <a href="MASTER-PLAN.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="flex: 1; text-decoration: none; text-align: center;"><i class="fa-solid fa-file-pdf"></i> View PDF</a>
-            <a href="gandhidham/" class="btn btn-outline" style="border-color: rgba(255,255,255,0.4); color: white; text-align: center;"><i class="fa-solid fa-compass"></i> Guide</a>
-          </div>
-        </div>
-
-        <div class="service-card reveal active" style="background: rgba(29, 99, 255, 0.12); border: 1.5px solid rgba(0, 210, 255, 0.45); color: white; -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: 0 12px 32px rgba(0, 210, 255, 0.15); position: relative; overflow: hidden;">
-          <div style="position: absolute; top: 12px; right: 12px; background: linear-gradient(135deg, #1D63FF 0%, #00D2FF 100%); color: white; font-size: 0.72rem; font-weight: 800; padding: 0.25rem 0.65rem; border-radius: 999px; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.35rem;">
-            <i class="fa-solid fa-satellite"></i> LIVE 3D
-          </div>
-          <div style="font-size: 2.5rem; color: #00D2FF; margin-bottom: 1rem;"><i class="fa-solid fa-earth-asia"></i></div>
-          <h3 style="color: white; font-size: 1.4rem; margin-bottom: 0.5rem;">Regal Farms 3D Digital Twin Map</h3>
-          <p style="color: rgba(255,255,255,0.85); font-size: 0.9rem; margin-bottom: 1.5rem;">Full Mapbox satellite basemap with Three.js 3D plot layouts, real-time availability status, and GPS site navigation.</p>
-          <div style="display: flex; gap: 0.75rem; width: 100%; margin-top: auto;">
-            <button type="button" class="btn btn-primary" onclick="launch3DMapPortal('https://regalfarms.vercel.app/')" style="flex: 1; text-align: center; background: linear-gradient(135deg, #1D63FF 0%, #00D2FF 100%); border: none; cursor: pointer; color: white; font-weight: 700; box-shadow: 0 4px 16px rgba(0, 210, 255, 0.35);">
-              <i class="fa-solid fa-cube"></i> Launch 3D Plot Layout
-            </button>
-          </div>
-        </div>
-
-        <div class="service-card reveal active" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.22); color: white; -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);">
-          <div style="font-size: 2.5rem; color: var(--accent-emerald); margin-bottom: 1rem;"><i class="fa-solid fa-cube"></i></div>
-          <h3 style="color: white; font-size: 1.4rem; margin-bottom: 0.5rem;" data-i18n="adipur_map_title">Adipur 3D Ward & Commercial Map</h3>
-          <p style="color: rgba(255,255,255,0.75); font-size: 0.9rem; margin-bottom: 1.5rem;" data-i18n="adipur_desc">Interactive 3D SVG sector map for Wards 1A to 5B, Station Road commercial plots, and retail shopping hubs.</p>
-          <div style="display: flex; gap: 0.75rem; width: 100%; margin-top: auto;">
-            <a href="adipur/" class="btn btn-primary" style="flex: 1; text-decoration: none; text-align: center;"><i class="fa-solid fa-cube"></i> Open 3D Map</a>
-            <a href="MASTER-PLAN.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="border-color: rgba(255,255,255,0.4); color: white; text-align: center;"><i class="fa-solid fa-file-pdf"></i> PDF</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
 
   <!-- Consultancy Services Section -->
   <section class="section" id="services" style="background: var(--bg-white);">
