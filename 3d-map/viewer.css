@@ -131,6 +131,17 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
+.logo-tagline {
+  font-size: 0.65rem;
+  color: var(--accent-gold);
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: none;
+  margin-top: 2px;
+  display: block;
+  line-height: 1.1;
+}
+
 .loader-text {
   font-size: 0.9rem;
   color: var(--text-secondary);

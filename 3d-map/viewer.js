@@ -559,7 +559,7 @@
     const waPhone = "919825799754";
     const projectName = document.getElementById("header-project-name").textContent;
     const waText = encodeURIComponent(
-      `🏛️ *SHREEJI REAL ESTATE CONSULTANT*\n*New Commercial Plot Inquiry via 3D Map*\n----------------------------------------\n📍 *Project:* ${projectName}\n📐 *Plot Number:* #${plotName}\n📊 *Status:* ${statusConfig.name}\n💰 *Estimated Value:* ${total}\n----------------------------------------\nPlease share master plan layout, survey details & schedule site visit.`
+      `🏛️ *SWASTIK BY SHREEJI INFOTECH*\n*New Commercial Plot Inquiry via 3D Map*\n----------------------------------------\n📍 *Project:* ${projectName}\n📐 *Plot Number:* #${plotName}\n📊 *Status:* ${statusConfig.name}\n💰 *Estimated Value:* ${total}\n----------------------------------------\nPlease share master plan layout, survey details & schedule site visit.`
     );
     const waBtn = document.getElementById("btn-card-whatsapp");
     waBtn.href = `https://wa.me/${waPhone}?text=${waText}`;

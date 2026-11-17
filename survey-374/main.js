@@ -18,7 +18,7 @@ function escapeHtml(str) {
 let siteContent = {
   whatsapp: {
     phone: "919825799754",
-    message: "Hello Shreeji Real Estate, I am interested in Survey 374 Nagavaladiya plots."
+    message: "Hello Swastik by Shreeji Infotech, I am interested in Survey 374 Nagavaladiya plots."
   },
   instagram: {
     url: "https://www.instagram.com/regal_group_kutch/"
@@ -30,7 +30,7 @@ let siteContent = {
     description: "Revenue Survey No. 374, Nagavaladiya, Ta. Anjar, Kutch. RERA-approved master layout featuring wide internal roads, designer entrance arch, landscaped gardens, and high capital growth.",
     location: "State Highway 6, Nagavaladiya, Anjar / Gandhidham Region, Kutch, Gujarat",
     amenities: "Grand Arch Gate, Landscaped Gardens, Kids Play Area, Wide Asphalt Roads, 24/7 Security Cabin, Underground Utilities",
-    developer: "Shreeji Real Estate & Regal Group"
+    developer: "Swastik by Shreeji Infotech & Regal Group"
   },
   brochure: {
     url: "./media/brochure_1793904406706_Regal_Farm_.pdf",
@@ -3432,7 +3432,7 @@ function updateContactablePlotCard(mesh) {
     waBtn.onclick = (e) => {
       e.stopPropagation();
       const phone = String(siteContent.whatsapp?.phone || "919825799754").replace(/\D/g, "");
-      const msg = `Hello Shreeji Real Estate, I am interested in Plot #${plotId} (${areaSqYds} Sq.Yd / ${areaSqMt} Sq.M) at Survey 374, Nagavaladiya. Please share quotation and booking details.`;
+      const msg = `Hello Swastik by Shreeji Infotech, I am interested in Plot #${plotId} (${areaSqYds} Sq.Yd / ${areaSqMt} Sq.M) at Survey 374, Nagavaladiya. Please share quotation and booking details.`;
       const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
       window.open(url, "_blank", "noopener,noreferrer");
     };

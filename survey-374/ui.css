@@ -912,6 +912,14 @@ body {
   font-weight: 700;
 }
 
+.logo-tagline {
+  font-size: 10px;
+  color: #D9A441;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  line-height: 1.15;
+}
+
 .ui-brand-sub {
   color: #00D2FF;
   font-size: 9.5px;

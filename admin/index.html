@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shreeji Real Estate | Executive Administration Studio</title>
+  <title>Swastik by Shreeji Infotech | Executive Administration Studio</title>
   <!-- Shreeji Anti-Reverse Engineering & Client Security Armor -->
   <script src="../js/shreeji-security-shield.js"></script>
   <link rel="stylesheet" href="../styles.css" />
@@ -235,6 +235,14 @@
       font-weight: 800;
       font-size: 1.2rem;
       letter-spacing: 0.05em;
+    }
+
+    .logo-tagline {
+      font-size: 0.65rem;
+      color: var(--admin-gold);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      line-height: 1.1;
     }
 
     .sidebar-badge {
@@ -809,7 +817,8 @@
       <div class="login-brand-icon">
         <i class="fa-solid fa-shapes"></i>
       </div>
-      <h2 class="login-title">SHREEJI STUDIO</h2>
+      <h2 class="login-title">Swastik</h2>
+      <div class="logo-tagline" style="font-size: 0.75rem; color: var(--admin-gold); font-weight: 700; margin-top: -0.5rem; margin-bottom: 0.5rem;">by Shreeji Infotech</div>
       <p class="login-subtitle">Executive Real Estate &amp; AutoCAD Management</p>
 
       <!-- 1-Click Credential Hint -->
@@ -853,8 +862,9 @@
         <a href="../index.html" class="sidebar-brand">
           <div class="sidebar-logo-icon"><i class="fa-solid fa-shapes"></i></div>
           <div>
-            <div class="sidebar-title">SHREEJI</div>
-            <div class="sidebar-badge">STUDIO &bull; ADMIN PANEL</div>
+            <div class="sidebar-title">Swastik</div>
+            <div class="logo-tagline" style="font-size: 0.65rem; color: var(--admin-gold); font-weight: 600;">by Shreeji Infotech</div>
+            <div class="sidebar-badge" style="margin-top: 2px;">STUDIO &bull; ADMIN PANEL</div>
           </div>
         </a>
 
@@ -909,7 +919,7 @@
       <header class="workspace-header">
         <div class="header-title-wrap">
           <h1 id="paneHeadline">Dashboard Overview</h1>
-          <p id="paneSubheadline">Executive control room for Shreeji Real Estate, AutoCAD 3D layouts, and client
+          <p id="paneSubheadline">Executive control room for Swastik by Shreeji Infotech, AutoCAD 3D layouts, and client
             inquiries.</p>
         </div>
         <div class="header-actions">
@@ -1199,7 +1209,7 @@
               <p style="font-size: 0.8rem; color: #94A3B8; margin-top: 0.25rem;">
                 <i class="fa-solid fa-circle-info" style="color: var(--admin-gold);"></i>
                 <strong>Offline Policy:</strong> Physical KYC verification, title documentation, and token booking
-                payments are processed in person by Shreeji Advisory.
+                payments are processed in person by Swastik by Shreeji Infotech Advisory.
               </p>
             </div>
             <a href="../portal.html" target="_blank" rel="noopener noreferrer" class="btn-header-link"><i class="fa-solid fa-user-plus"></i> Open
@@ -1307,6 +1317,13 @@
           </div>
         </div>
       </section>
+
+      <!-- Footer Brand -->
+      <footer style="padding: 1.5rem; text-align: center; border-top: 1px solid var(--admin-border); margin-top: 2rem;">
+        <div style="font-family: var(--font-heading); font-weight: 800; font-size: 1.05rem; color: #FFFFFF;">Swastik</div>
+        <div class="logo-tagline" style="font-size: 0.65rem; color: var(--admin-gold); font-weight: 600;">by Shreeji Infotech</div>
+        <p style="color: #64748B; font-size: 0.78rem; margin-top: 0.4rem;">© 2026 Swastik by Shreeji Infotech Studio. Executive Control Center.</p>
+      </footer>
 
     </main>
   </div>
@@ -1535,11 +1552,11 @@
         if (targetBtn) targetBtn.classList.add('active');
 
         const headlines = {
-          'dashboard': ['Dashboard Overview', 'Executive control room for Shreeji Real Estate, AutoCAD 3D layouts, and client inquiries.'],
+          'dashboard': ['Dashboard Overview', 'Executive control room for Swastik by Shreeji Infotech, AutoCAD 3D layouts, and client inquiries.'],
           'cad-studio': ['AutoCAD 3D Maps Studio', 'Upload vector CAD files (.dwg, .dxf, .json, .glb) to update the interactive 3D map.'],
           'media-studio': ['Photos & Videos Studio', 'Upload high-resolution photos, drone video walkthroughs, and write detailed content below them.'],
           'inquiries': ['Client Property Inquiries & Leads', 'Manage client consultation requests, track sales follow-ups, and coordinate in-person site visits.'],
-          'whatsapp-leads': ['WhatsApp Dispatches & Sales Leads', 'Audit outgoing automated notifications dispatched to Shreeji sales (+91 98257 99754).'],
+          'whatsapp-leads': ['WhatsApp Dispatches & Sales Leads', 'Audit outgoing automated notifications dispatched to Swastik by Shreeji Infotech sales (+91 98257 99754).'],
           'plot-inventory': ['3D Plot Inventory Control', 'Toggle plot parcel statuses (Available, Booked, Sold) in real-time with instant 3D Map sync.']
         };
 
@@ -1986,7 +2003,7 @@
 
       tbody.innerHTML = inquiries.map(inq => {
         const cleanPhone = String(inq.phone || '').replace(/[^\d]/g, '');
-        const waText = encodeURIComponent(`Namaste ${inq.name || 'Client'}, this is Shreeji Real Estate Consultant following up on your property inquiry for ${inq.preferredLocation || 'Survey 374'}.`);
+        const waText = encodeURIComponent(`Namaste ${inq.name || 'Client'}, this is Swastik by Shreeji Infotech following up on your property inquiry for ${inq.preferredLocation || 'Survey 374'}.`);
         const waUrl = `https://wa.me/91${cleanPhone}?text=${waText}`;
 
         return `
@@ -2063,7 +2080,7 @@
             client_name: 'Rajesh K. Vaghela',
             client_phone: '9825012345',
             property_ref: 'Plot #14 (Survey 374)',
-            message_body: '🏛️ SHREEJI REAL ESTATE CONSULTANT - Verified Client KYC & Plot #14 Reservation',
+            message_body: '🏛️ SWASTIK BY SHREEJI INFOTECH - Verified Client KYC & Plot #14 Reservation',
             recipient_number: '919825799754',
             dispatch_url: 'https://wa.me/919825799754'
           },
@@ -2072,7 +2089,7 @@
             client_name: 'Harshil Joshi',
             client_phone: '9898011223',
             property_ref: 'Commercial Showroom Adipur',
-            message_body: '🏢 SHREEJI REAL ESTATE CONSULTANT - 1,500 Sq.Ft Showroom space inquiry',
+            message_body: '🏢 SWASTIK BY SHREEJI INFOTECH - 1,500 Sq.Ft Showroom space inquiry',
             recipient_number: '919825799754',
             dispatch_url: 'https://wa.me/919825799754'
           }

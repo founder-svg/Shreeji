@@ -460,8 +460,8 @@ document.addEventListener('DOMContentLoaded', () => {
       overview_legal_title: 'Verified Lease & Title',
       overview_legal_desc: '100% legally clear lease agreements, revenue validation, and hassle-free documentation.',
       story_tag: 'Who We Are',
-      story_headline: 'Shreeji Real Estate Consultancy',
-      story_paragraph: 'Shreeji Real Estate is your dedicated commercial property & rental consultancy headquartered in Gandhidham, Kutch, Gujarat. With 10+ years of local market leadership, we connect business owners, retail brands, and corporate tenants with top commercial rental spaces, offices, and plots in Gandhidham and Adipur.',
+      story_headline: 'Swastik by Shreeji Infotech',
+      story_paragraph: 'Swastik by Shreeji Infotech is your dedicated commercial property & rental consultancy headquartered in Gandhidham, Kutch, Gujarat. With 10+ years of local market leadership, we connect business owners, retail brands, and corporate tenants with top commercial rental spaces, offices, and plots in Gandhidham and Adipur.',
       areas_tag: 'Target Areas & Sector Maps',
       areas_title: 'Gandhidham & Adipur Sector Maps',
       areas_desc: 'Click below to open and view the official Master Plan PDF for Gandhidham and Adipur.',
@@ -539,8 +539,8 @@ document.addEventListener('DOMContentLoaded', () => {
       overview_legal_title: 'ચકાસાયેલ લીઝ અને દસ્તાવેજ',
       overview_legal_desc: '૧૦૦% કાયદાકીય રીતે સ્પષ્ટ લીઝ કરાર અને સરળ દસ્તાવેજીકરણ.',
       story_tag: 'અમારા વિશે',
-      story_headline: 'શ્રીજી રિયલ એસ્ટેટ કન્સલ્ટન્સી',
-      story_paragraph: 'શ્રીજી રિયલ એસ્ટેટ ગાંધીધામ, કચ્છમાં મુખ્ય મથક ધરાવતી તમારી સમર્પિત કોમર્શિયલ પ્રોપર્ટી અને રેન્ટલ કન્સલ્ટન્સી છે. ૧૦+ વર્ષથી વધુના સ્થાનિક અનુભવ સાથે, અમે વેપારીઓ, રિટેલ બ્રાન્ડ્સ અને કોર્પોરેટ ભાડૂઆતોને ગાંધીધામ અને આદિપુરમાં ઉત્કૃષ્ટ ભાડાની જગ્યાઓ પૂરી પાડીએ છીએ.',
+      story_headline: 'Swastik by Shreeji Infotech',
+      story_paragraph: 'Swastik by Shreeji Infotech ગાંધીધામ, કચ્છમાં મુખ્ય મથક ધરાવતી તમારી સમર્પિત કોમર્શિયલ પ્રોપર્ટી અને રેન્ટલ કન્સલ્ટન્સી છે. ૧૦+ વર્ષથી વધુના સ્થાનિક અનુભવ સાથે, અમે વેપારીઓ, રિટેલ બ્રાન્ડ્સ અને કોર્પોરેટ ભાડૂઆતોને ગાંધીધામ અને આદિપુરમાં ઉત્કૃષ્ટ ભાડાની જગ્યાઓ પૂરી પાડીએ છીએ.',
       areas_tag: 'લક્ષ્ય વિસ્તારો અને સેક્ટર નકશા',
       areas_title: 'ગાંધીધામ અને આદિપુર સેક્ટર નકશા',
       areas_desc: 'ગાંધીધામ અને આદિપુર માટે સત્તાવાર માસ્ટર પ્લાન પીડીએફ જોવા માટે નીચે ક્લિક કરો.',
@@ -618,8 +618,8 @@ document.addEventListener('DOMContentLoaded', () => {
       overview_legal_title: 'सत्यापित लीज और दस्तावेज',
       overview_legal_desc: '100% कानूनी रूप से स्पष्ट लीज समझौते और परेशानी मुक्त दस्तावेजीकरण।',
       story_tag: 'हमारे बारे में',
-      story_headline: 'श्रीजी रियल एस्टेट कंसल्टेंसी',
-      story_paragraph: 'श्रीजी रियल एस्टेट गांधीधाम, कच्छ में मुख्यालय वाली आपकी समर्पित कमर्शियल प्रॉपर्टी और रेंटल कंसल्टेंसी है। 10+ वर्षों के स्थानीय अनुभव के साथ, हम व्यापारियों, रिटेल ब्रांडों और कॉर्पोरेट किरायेदारों को गांधीधाम व आदिपुर में बेहतरीन किराए के स्थान प्रदान करते हैं।',
+      story_headline: 'Swastik by Shreeji Infotech',
+      story_paragraph: 'Swastik by Shreeji Infotech गांधीधाम, कच्छ में मुख्यालय वाली आपकी समर्पित कमर्शियल प्रॉपर्टी और रेंटल कंसल्टेंसी है। 10+ वर्षों के स्थानीय अनुभव के साथ, हम व्यापारियों, रिटेल ब्रांडों और कॉर्पोरेट किरायेदारों को गांधीधाम व आदिपुर में बेहतरीन किराए के स्थान प्रदान करते हैं।',
       areas_tag: 'लक्षित क्षेत्र और नक्शे',
       areas_title: 'गांधीधाम और आदिपुर सेक्टर नक्शे',
       areas_desc: 'गांधीधाम और आदिपुर के लिए आधिकारिक मास्टर प्लान पीडीएफ देखने के लिए नीचे क्लिक करें।',
@@ -757,8 +757,8 @@ document.addEventListener('DOMContentLoaded', () => {
       heroSubtitle: "Expert guidance for renting, leasing, buying, and listing commercial shops, corporate offices, showrooms, and commercial plots across Gandhidham & Adipur, Gujarat.",
       contactPhone: "+91 98257 99754",
       contactEmail: "shreejirealestate@gmail.com",
-      storyHeadline: "Shreeji Real Estate Consultancy",
-      storyParagraph: "Shreeji Real Estate is your dedicated commercial property & rental consultancy headquartered in Gandhidham, Kutch, Gujarat. With 10+ years of local market leadership, we connect business owners, retail brands, and corporate tenants with top commercial rental spaces, offices, and plots in Gandhidham and Adipur.",
+      storyHeadline: "Swastik by Shreeji Infotech",
+      storyParagraph: "Swastik by Shreeji Infotech is your dedicated commercial property & rental consultancy headquartered in Gandhidham, Kutch, Gujarat. With 10+ years of local market leadership, we connect business owners, retail brands, and corporate tenants with top commercial rental spaces, offices, and plots in Gandhidham and Adipur.",
       statYears: "10+",
       statAcres: "250+",
       statClients: "100+"
@@ -1183,7 +1183,7 @@ window.switchModalTab = function(type) {
     if (buyerForm) buyerForm.style.display = 'none';
     if (sellerForm) sellerForm.style.display = 'grid';
     if (modalTitle) modalTitle.textContent = 'List Your Commercial Property';
-    if (modalSub) modalSub.textContent = 'Partner with Shreeji to lease or sell to verified corporate & retail tenants.';
+    if (modalSub) modalSub.textContent = 'Partner with Swastik by Shreeji Infotech to lease or sell to verified corporate & retail tenants.';
   } else {
     if (buyTab) buyTab.classList.add('active');
     if (sellTab) sellTab.classList.remove('active');
@@ -1405,7 +1405,7 @@ window.switchSpatialMode = function(mode, btnEl) {
 
   if (mode === 'estate' || mode === 'luxury') {
     if (mainImg) mainImg.src = 'images/hero-luxury-estate.jpg';
-    if (badgeText) badgeText.innerText = 'Shreeji Prime Estate View';
+    if (badgeText) badgeText.innerText = 'Swastik Prime Estate View';
     hotspots.forEach(h => h.style.display = 'flex');
   } else if (mode === '3d') {
     if (mainImg) mainImg.src = 'images/shreeji-3d-spatial-masterplan.jpg';
@@ -1451,23 +1451,23 @@ const SHREEJI_VIDEOS = [
   {
     src: 'videos/shreeji-corporate-highrise.mp4',
     poster: 'images/commercial-tower.jpg',
-    badge: 'Shreeji Verified Asset • Gandhidham Corporate Highrise',
-    headline: 'Shreeji Corporate Highrise & Executive Plaza',
-    desc: 'Live aerial footage of prime commercial towers and Grade-A office suites along Tagore Road, Gandhidham. Exclusive Shreeji listing with direct developer advisory.'
+    badge: 'Swastik by Shreeji Infotech Verified Asset • Gandhidham Corporate Highrise',
+    headline: 'Swastik Corporate Highrise & Executive Plaza',
+    desc: 'Live aerial footage of prime commercial towers and Grade-A office suites along Tagore Road, Gandhidham. Exclusive Swastik by Shreeji Infotech listing with direct developer advisory.'
   },
   {
     src: 'videos/shreeji-retail-showroom.mp4',
     poster: 'images/retail-showroom.jpg',
-    badge: 'Shreeji Commercial Showroom • Station Road, Adipur',
-    headline: 'Shreeji Corner Retail Showroom & Market Hub',
-    desc: 'High-footfall double-height showroom with 35-ft glass frontage opposite central commercial hub in Adipur. Directly listed by Shreeji Real Estate Consultant.'
+    badge: 'Swastik Commercial Showroom • Station Road, Adipur',
+    headline: 'Swastik Corner Retail Showroom & Market Hub',
+    desc: 'High-footfall double-height showroom with 35-ft glass frontage opposite central commercial hub in Adipur. Directly listed by Swastik by Shreeji Infotech.'
   },
   {
     src: 'videos/shreeji-logistics-warehouse.mp4',
     poster: 'images/industrial-logistics.jpg',
-    badge: 'Shreeji Industrial Portfolio • Kandla Port Corridor',
-    headline: 'Shreeji PEB Logistics Warehouse Park',
-    desc: 'Heavy-duty 25,000 sq.ft engineered warehouse with automated dock levelers and container trailer aprons near Kandla Port. Certified title-clear Shreeji listing.'
+    badge: 'Swastik Industrial Portfolio • Kandla Port Corridor',
+    headline: 'Swastik PEB Logistics Warehouse Park',
+    desc: 'Heavy-duty 25,000 sq.ft engineered warehouse with automated dock levelers and container trailer aprons near Kandla Port. Certified title-clear Swastik by Shreeji Infotech listing.'
   }
 ];
 
@@ -1738,7 +1738,7 @@ window.launch3DMapPortal = function(url = './3d-map/index.html') {
   if (targetBadge) {
     const isCad = url.includes('3d-map');
     targetBadge.innerHTML = isCad 
-      ? '<i class="fa-solid fa-compass"></i> TARGET: SHREEJI 3D AUTOCAD MASTER PLAN'
+      ? '<i class="fa-solid fa-compass"></i> TARGET: SWASTIK BY SHREEJI INFOTECH 3D AUTOCAD MASTER PLAN'
       : '<i class="fa-solid fa-compass"></i> TARGET: REGAL FARMS 3D SPATIAL TWIN';
   }
 
