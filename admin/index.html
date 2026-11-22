@@ -2472,8 +2472,7 @@
       try {
         const res = await fetch(`${REGAL_API}/api/shreeji-admin/applications`, {
           headers: {
-            'Authorization': `Bearer ${token}`,
-            'x-admin-token': token
+            'Authorization': `Bearer ${token}`
           }
         });
 
