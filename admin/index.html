@@ -193,6 +193,7 @@
     /* Left Sidebar */
     .admin-sidebar {
       width: 270px;
+      height: 100vh;
       background: rgba(6, 21, 39, 0.95);
       -webkit-backdrop-filter: blur(20px);
       backdrop-filter: blur(20px);
@@ -206,6 +207,22 @@
       left: 0;
       z-index: 1000;
       padding: 1.5rem 1rem;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+    }
+
+    .admin-sidebar::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .admin-sidebar::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+    }
+
+    .admin-sidebar::-webkit-scrollbar-track {
+      background: transparent;
     }
 
     .sidebar-brand {
@@ -305,6 +322,8 @@
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
+      flex-shrink: 0;
+      margin-top: 1.5rem;
     }
 
     .user-pill {
@@ -889,7 +908,7 @@
             <i class="fa-solid fa-layer-group"></i> 3D Plot Inventory
           </button>
           <button class="nav-tab-btn" data-tab="regal-farms" onclick="switchAdminTab('regal-farms')">
-            <i class="fa-solid fa-wheat-awn" style="color: var(--admin-gold);"></i> Regal Farms Applications
+            <i class="fa-solid fa-wheat-awn" style="color: var(--admin-gold);"></i> Applications
           </button>
         </nav>
       </div>
@@ -1366,7 +1385,7 @@
         <div class="admin-card" id="regalDataCard" style="display: none;">
           <div class="card-header-row">
             <div class="card-title">
-              <i class="fa-solid fa-wheat-awn" style="color: var(--admin-gold);"></i> Regal Farms Applications
+              <i class="fa-solid fa-wheat-awn" style="color: var(--admin-gold);"></i> Applications
             </div>
             <div style="display: flex; gap: 0.75rem; align-items: center;">
               <button class="btn-action-primary" onclick="loadRegalApplications()" id="btnRefreshRegal" style="padding: 0.5rem 1rem; font-size: 0.85rem;">
@@ -1648,7 +1667,7 @@
           'inquiries': ['Client Property Inquiries & Leads', 'Manage client consultation requests, track sales follow-ups, and coordinate in-person site visits.'],
           'whatsapp-leads': ['WhatsApp Dispatches & Sales Leads', 'Audit outgoing automated notifications dispatched to Swastik by Shreeji Infotech sales (+91 98257 99754).'],
           'plot-inventory': ['3D Plot Inventory Control', 'Toggle plot parcel statuses (Available, Booked, Sold) in real-time with instant 3D Map sync.'],
-          'regal-farms': ['Regal Farms Applications', 'Review and process land plot applications submitted via Regal Farms platform.']
+          'regal-farms': ['Applications', 'Review and process applications submitted from the platform.']
         };
 
         if (headlines[tabName]) {
@@ -2366,27 +2385,38 @@
           })
         });
 
-        const data = await res.json().catch(() => ({}));
-
-        if (res.ok && (data.token || (data.data && data.data.token) || data.accessToken || data.success)) {
-          const token = data.token || (data.data && data.data.token) || data.accessToken || 'authorized';
-          sessionStorage.setItem('regal_admin_token', token);
-          userEl.value = '';
-          passEl.value = '';
-          showToast('Connected to Regal Farms API.');
-          updateRegalUI();
-          loadRegalApplications();
-        } else {
-          const msg = data.error || data.message || 'Wrong credentials. Please check your username/password.';
-          if (errEl) {
-            errEl.textContent = msg;
-            errEl.style.display = 'block';
+        if (res.ok) {
+          const data = await res.json().catch(() => ({}));
+          if (data.token || (data.data && data.data.token) || data.accessToken || data.success) {
+            const token = data.token || (data.data && data.data.token) || data.accessToken || 'authorized';
+            sessionStorage.setItem('regal_admin_token', token);
+            userEl.value = '';
+            passEl.value = '';
+            showToast('Connected to Regal Farms API.');
+            updateRegalUI();
+            loadRegalApplications();
+            return;
           }
+        }
+
+        const errData = await res.json().catch(() => ({}));
+        console.error('[Regal Login Error]', res.status, res.statusText, errData);
+
+        let msg = '';
+        if (res.status === 401) {
+          msg = 'Wrong username or password';
+        } else {
+          msg = `Server error (status ${res.status})`;
+        }
+
+        if (errEl) {
+          errEl.textContent = msg;
+          errEl.style.display = 'block';
         }
       } catch (err) {
         console.error('[Regal Login Error]', err);
         if (errEl) {
-          errEl.textContent = 'Network error: Unable to connect to Regal Farms API.';
+          errEl.textContent = 'Could not reach the server (check CORS / API URL)';
           errEl.style.display = 'block';
         }
       } finally {
