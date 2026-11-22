@@ -888,6 +888,9 @@
           <button class="nav-tab-btn" data-tab="plot-inventory" onclick="switchAdminTab('plot-inventory')">
             <i class="fa-solid fa-layer-group"></i> 3D Plot Inventory
           </button>
+          <button class="nav-tab-btn" data-tab="regal-farms" onclick="switchAdminTab('regal-farms')">
+            <i class="fa-solid fa-wheat-awn" style="color: var(--admin-gold);"></i> Regal Farms Applications
+          </button>
         </nav>
       </div>
 
@@ -971,6 +974,16 @@
             </div>
             <div class="metric-icon-wrap" style="background: rgba(37, 211, 102, 0.12); color: #25D366;">
               <i class="fa-brands fa-whatsapp"></i>
+            </div>
+          </div>
+
+          <div class="metric-card" onclick="switchAdminTab('regal-farms')" style="cursor: pointer;">
+            <div class="metric-card-info">
+              <h3>Regal Farms Applications</h3>
+              <p id="metricRegalApps">0</p>
+            </div>
+            <div class="metric-icon-wrap" style="background: rgba(217, 164, 65, 0.12); color: var(--admin-gold);">
+              <i class="fa-solid fa-wheat-awn"></i>
             </div>
           </div>
         </div>
@@ -1318,6 +1331,79 @@
         </div>
       </section>
 
+      <!-- ====================================================================
+           TAB 7: REGAL FARMS APPLICATIONS
+           ==================================================================== -->
+      <section id="pane-regal-farms" class="pane-section" style="display: none;">
+        <!-- Not Logged In: Login Form Card -->
+        <div class="admin-card" id="regalLoginCard" style="max-width: 480px; margin: 1rem auto 2rem auto;">
+          <div class="card-header-row">
+            <div class="card-title">
+              <i class="fa-solid fa-wheat-awn" style="color: var(--admin-gold);"></i> Regal Farms Admin Login
+            </div>
+          </div>
+          <p style="color: #94A3B8; font-size: 0.85rem; margin-bottom: 1.5rem;">
+            Authenticate with your Regal Farms administrator credentials to access real-time land plot applications.
+          </p>
+          <div id="regalLoginError" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35); color: #EF4444; padding: 0.75rem 1rem; border-radius: 10px; font-size: 0.85rem; margin-bottom: 1.25rem;">
+          </div>
+          <form id="regalLoginForm" onsubmit="handleRegalLoginSubmit(event)">
+            <div class="admin-input-group">
+              <label for="regalUser">Admin Username / Email</label>
+              <input type="text" id="regalUser" class="admin-control" placeholder="admin@regalfarms.com" required autocomplete="username">
+            </div>
+            <div class="admin-input-group">
+              <label for="regalPass">Admin Password</label>
+              <input type="password" id="regalPass" class="admin-control" placeholder="••••••••" required autocomplete="current-password">
+            </div>
+            <button type="submit" class="btn-action-primary" id="btnRegalLogin" style="width: 100%; justify-content: center; margin-top: 0.5rem;">
+              <i class="fa-solid fa-right-to-bracket"></i> Login to Regal Farms
+            </button>
+          </form>
+        </div>
+
+        <!-- Logged In: Applications Table -->
+        <div class="admin-card" id="regalDataCard" style="display: none;">
+          <div class="card-header-row">
+            <div class="card-title">
+              <i class="fa-solid fa-wheat-awn" style="color: var(--admin-gold);"></i> Regal Farms Applications
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: center;">
+              <button class="btn-action-primary" onclick="loadRegalApplications()" id="btnRefreshRegal" style="padding: 0.5rem 1rem; font-size: 0.85rem;">
+                <i class="fa-solid fa-rotate"></i> Refresh
+              </button>
+              <button class="btn-action-primary" onclick="logoutRegalAdmin()" style="padding: 0.5rem 1rem; font-size: 0.85rem; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: #EF4444;">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Disconnect
+              </button>
+            </div>
+          </div>
+
+          <div id="regalDataError" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35); color: #EF4444; padding: 0.75rem 1rem; border-radius: 10px; font-size: 0.85rem; margin-bottom: 1.25rem;">
+          </div>
+
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Name</th>
+                  <th>Phone</th>
+                  <th>Project Name</th>
+                  <th>City</th>
+                  <th>Billing Name</th>
+                  <th>Status</th>
+                  <th>DWG File</th>
+                  <th>Payment Proof</th>
+                </tr>
+              </thead>
+              <tbody id="regalApplicationsTableBody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
       <!-- Footer Brand -->
       <footer style="padding: 1.5rem; text-align: center; border-top: 1px solid var(--admin-border); margin-top: 2rem;">
         <div style="font-family: var(--font-heading); font-weight: 800; font-size: 1.05rem; color: #FFFFFF;">Swastik</div>
@@ -1339,6 +1425,7 @@
        ========================================================================== -->
   <script>
     (function () {
+      const REGAL_API = "https://regalfarms.vercel.app";
       const API_BASE = window.SHREEJI_API_BASE || (
         window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
           ? 'http://localhost:5000/api/v1'
@@ -1538,6 +1625,9 @@
         loadInquiries();
         loadWhatsappDispatches();
         loadPlotInventory();
+        if (sessionStorage.getItem('regal_admin_token')) {
+          loadRegalApplications();
+        }
       }
 
       // Tab Switching
@@ -1557,12 +1647,20 @@
           'media-studio': ['Photos & Videos Studio', 'Upload high-resolution photos, drone video walkthroughs, and write detailed content below them.'],
           'inquiries': ['Client Property Inquiries & Leads', 'Manage client consultation requests, track sales follow-ups, and coordinate in-person site visits.'],
           'whatsapp-leads': ['WhatsApp Dispatches & Sales Leads', 'Audit outgoing automated notifications dispatched to Swastik by Shreeji Infotech sales (+91 98257 99754).'],
-          'plot-inventory': ['3D Plot Inventory Control', 'Toggle plot parcel statuses (Available, Booked, Sold) in real-time with instant 3D Map sync.']
+          'plot-inventory': ['3D Plot Inventory Control', 'Toggle plot parcel statuses (Available, Booked, Sold) in real-time with instant 3D Map sync.'],
+          'regal-farms': ['Regal Farms Applications', 'Review and process land plot applications submitted via Regal Farms platform.']
         };
 
         if (headlines[tabName]) {
           document.getElementById('paneHeadline').textContent = headlines[tabName][0];
           document.getElementById('paneSubheadline').textContent = headlines[tabName][1];
+        }
+
+        if (tabName === 'regal-farms') {
+          updateRegalUI();
+          if (sessionStorage.getItem('regal_admin_token')) {
+            loadRegalApplications();
+          }
         }
       };
 
@@ -2227,8 +2325,233 @@
 
         const totalPlotsEl = document.getElementById('metricTotalPlots');
         if (totalPlotsEl) totalPlotsEl.textContent = 109;
+
+        const regalAppsEl = document.getElementById('metricRegalApps');
+        if (regalAppsEl && !sessionStorage.getItem('regal_admin_token')) {
+          regalAppsEl.textContent = '0';
+        }
       } catch (e) { }
     }
+
+    // ========================================================================
+    // REGAL FARMS APPLICATIONS LOGIC
+    // ========================================================================
+    window.handleRegalLoginSubmit = async function (e) {
+      e.preventDefault();
+      const userEl = document.getElementById('regalUser');
+      const passEl = document.getElementById('regalPass');
+      const errEl = document.getElementById('regalLoginError');
+      const submitBtn = document.getElementById('btnRegalLogin');
+
+      if (!userEl || !passEl) return;
+      const username = userEl.value.trim();
+      const password = passEl.value;
+
+      if (errEl) {
+        errEl.style.display = 'none';
+        errEl.textContent = '';
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Authenticating...';
+
+      try {
+        const res = await fetch(`${REGAL_API}/api/shreeji-admin/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username: username,
+            email: username,
+            password: password
+          })
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (res.ok && (data.token || (data.data && data.data.token) || data.accessToken || data.success)) {
+          const token = data.token || (data.data && data.data.token) || data.accessToken || 'authorized';
+          sessionStorage.setItem('regal_admin_token', token);
+          userEl.value = '';
+          passEl.value = '';
+          showToast('Connected to Regal Farms API.');
+          updateRegalUI();
+          loadRegalApplications();
+        } else {
+          const msg = data.error || data.message || 'Wrong credentials. Please check your username/password.';
+          if (errEl) {
+            errEl.textContent = msg;
+            errEl.style.display = 'block';
+          }
+        }
+      } catch (err) {
+        console.error('[Regal Login Error]', err);
+        if (errEl) {
+          errEl.textContent = 'Network error: Unable to connect to Regal Farms API.';
+          errEl.style.display = 'block';
+        }
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Login to Regal Farms';
+      }
+    };
+
+    window.logoutRegalAdmin = function () {
+      sessionStorage.removeItem('regal_admin_token');
+      updateRegalUI();
+      const countCard = document.getElementById('metricRegalApps');
+      if (countCard) countCard.textContent = '0';
+      showToast('Disconnected from Regal Farms.');
+    };
+
+    function updateRegalUI() {
+      const token = sessionStorage.getItem('regal_admin_token');
+      const loginCard = document.getElementById('regalLoginCard');
+      const dataCard = document.getElementById('regalDataCard');
+
+      if (token) {
+        if (loginCard) loginCard.style.display = 'none';
+        if (dataCard) dataCard.style.display = 'block';
+      } else {
+        if (loginCard) loginCard.style.display = 'block';
+        if (dataCard) dataCard.style.display = 'none';
+      }
+    }
+
+    window.loadRegalApplications = async function () {
+      const token = sessionStorage.getItem('regal_admin_token');
+      if (!token) {
+        updateRegalUI();
+        return;
+      }
+
+      const tbody = document.getElementById('regalApplicationsTableBody');
+      const dataErr = document.getElementById('regalDataError');
+      const countCard = document.getElementById('metricRegalApps');
+      const refreshBtn = document.getElementById('btnRefreshRegal');
+
+      if (dataErr) {
+        dataErr.style.display = 'none';
+        dataErr.textContent = '';
+      }
+
+      if (refreshBtn) {
+        refreshBtn.disabled = true;
+        refreshBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Refreshing...';
+      }
+
+      try {
+        const res = await fetch(`${REGAL_API}/api/shreeji-admin/applications`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'x-admin-token': token
+          }
+        });
+
+        if (res.status === 401 || res.status === 403) {
+          sessionStorage.removeItem('regal_admin_token');
+          updateRegalUI();
+          if (countCard) countCard.textContent = '0';
+          const loginErr = document.getElementById('regalLoginError');
+          if (loginErr) {
+            loginErr.textContent = 'Session expired. Please log in again.';
+            loginErr.style.display = 'block';
+          }
+          return;
+        }
+
+        if (!res.ok) {
+          const errJson = await res.json().catch(() => ({}));
+          const msg = errJson.error || errJson.message || `Error loading applications (${res.status})`;
+          if (dataErr) {
+            dataErr.textContent = msg;
+            dataErr.style.display = 'block';
+          }
+          return;
+        }
+
+        const result = await res.json();
+        let applications = [];
+        if (Array.isArray(result)) {
+          applications = result;
+        } else if (Array.isArray(result.applications)) {
+          applications = result.applications;
+        } else if (Array.isArray(result.data)) {
+          applications = result.data;
+        } else if (result.data && Array.isArray(result.data.applications)) {
+          applications = result.data.applications;
+        }
+
+        if (countCard) {
+          countCard.textContent = applications.length;
+        }
+
+        if (tbody) {
+          if (applications.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="9" style="text-align: center; color: #94A3B8; padding: 2rem;">No applications received yet.</td></tr>`;
+          } else {
+            tbody.innerHTML = applications.map(app => {
+              const dateRaw = app.createdAt || app.created_at || app.date || app.applicationDate;
+              let dateDisplay = '--';
+              if (dateRaw) {
+                try {
+                  const d = new Date(dateRaw);
+                  dateDisplay = isNaN(d.getTime()) ? String(dateRaw) : d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+                } catch (e) {
+                  dateDisplay = String(dateRaw);
+                }
+              }
+
+              const name = app.name || app.fullName || app.applicantName || app.clientName || '--';
+              const phone = app.phone || app.phoneNumber || app.mobile || '--';
+              const project = app.projectName || app.project_name || app.project || '--';
+              const city = app.city || app.applicantCity || '--';
+              const billing = app.billingName || app.billing_name || app.billing || '--';
+              const status = app.status || 'Pending';
+
+              const sLower = String(status).toLowerCase();
+              const statusClass = sLower.includes('approv') || sLower.includes('verif') || sLower.includes('success')
+                ? 'available'
+                : (sLower.includes('reject') ? 'sold' : 'booked');
+
+              const dwgUrl = app.dwgUrl || app.dwg_url || app.dwgFile || app.dwg_file || app.dwg || app.cadUrl || app.cadFile;
+              const dwgBtn = dwgUrl
+                ? `<a href="${dwgUrl}" target="_blank" download class="btn-action-primary" style="padding: 0.35rem 0.65rem; font-size: 0.75rem; text-decoration: none;"><i class="fa-solid fa-download"></i> DWG</a>`
+                : `<span style="color: #64748B; font-size: 0.78rem;">None</span>`;
+
+              const proofUrl = app.paymentProofUrl || app.payment_proof_url || app.paymentProof || app.payment_proof || app.receiptUrl || app.receipt;
+              const proofBtn = proofUrl
+                ? `<a href="${proofUrl}" target="_blank" rel="noopener noreferrer" class="btn-action-primary" style="padding: 0.35rem 0.65rem; font-size: 0.75rem; background: rgba(0, 210, 255, 0.15); border: 1px solid var(--admin-cyan); color: var(--admin-cyan); text-decoration: none;"><i class="fa-solid fa-eye"></i> View</a>`
+                : `<span style="color: #64748B; font-size: 0.78rem;">None</span>`;
+
+              return `
+                <tr>
+                  <td><span style="font-size: 0.78rem; color: #94A3B8;">${dateDisplay}</span></td>
+                  <td><strong>${name}</strong></td>
+                  <td><a href="tel:${phone}" style="color: inherit; text-decoration: none;">${phone}</a></td>
+                  <td>${project}</td>
+                  <td>${city}</td>
+                  <td>${billing}</td>
+                  <td><span class="status-badge ${statusClass}">${status}</span></td>
+                  <td>${dwgBtn}</td>
+                  <td>${proofBtn}</td>
+                </tr>
+              `;
+            }).join('');
+          }
+        }
+      } catch (err) {
+        console.error('[Regal Applications Error]', err);
+        if (dataErr) {
+          dataErr.textContent = 'Network error: Unable to load Regal Farms applications.';
+          dataErr.style.display = 'block';
+        }
+      } finally {
+        if (refreshBtn) {
+          refreshBtn.disabled = false;
+          refreshBtn.innerHTML = '<i class="fa-solid fa-rotate"></i> Refresh';
+        }
+      }
+    };
 
     function showToast(msg) {
       const toast = document.getElementById('adminToast');
