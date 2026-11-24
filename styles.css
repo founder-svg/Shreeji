@@ -1694,74 +1694,85 @@ float-top-right {
 
   /* Navigation & Header Mobile/Tablet Styling (switch at max-width 1024px) */
   /* 1. Compact Topbar on Mobile/Tablet */
-  .topbar {
-    padding: 0.35rem 0.5rem !important;
-    font-size: 0.78rem !important;
-    min-height: 30px !important;
+  .topbar-left {
+    display: none !important;
+  }
+
+  .topbar-right .topbar-item:not(:last-child) {
+    display: none !important;
   }
 
   .topbar-container {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    gap: 0.5rem !important;
+    justify-content: center !important;
   }
 
-  .topbar-left .topbar-item {
-    display: none !important; /* Hide Legal Title, location, hours so they don't push the header */
-  }
-
-  .topbar-badge {
-    white-space: nowrap !important;
-    font-size: 0.68rem !important;
-    padding: 0.15rem 0.5rem !important;
-  }
-
-  .topbar-right {
+  .topbar {
+    padding: 0.25rem 0.5rem !important;
+    min-height: 28px !important;
+    height: 28px !important;
     display: flex !important;
     align-items: center !important;
-    margin-left: auto !important;
   }
 
-  .topbar-right .topbar-item {
-    display: flex !important;
-    white-space: nowrap !important;
-    font-size: 0.78rem !important;
+  .header {
+    width: 100% !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1100 !important;
+    background: rgba(7, 30, 54, 0.96) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    backdrop-filter: blur(20px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
   }
 
-  /* 2. Header & Navbar: flex-wrap nowrap with gap, no collision */
+  .header .container {
+    padding: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  /* 1. Header is one row with flex-wrap: nowrap, align-items: center, gap 8px, padding 0 12px */
   .navbar {
-    padding: 0.6rem 0.5rem !important;
+    padding: 0 12px !important;
+    height: 60px !important;
+    min-height: 60px !important;
     position: relative !important;
     display: flex !important;
+    flex-direction: row !important;
     align-items: center !important;
-    justify-content: space-between !important;
     flex-wrap: nowrap !important;
-    gap: 0.5rem !important;
+    gap: 8px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
 
+  /* 3. Logo block: flex 1 1 auto, min-width 0. Order: logo block on the left */
   .logo {
+    order: 1 !important;
     display: flex !important;
     align-items: center !important;
-    gap: 0.5rem !important;
+    gap: 8px !important;
     min-width: 0 !important;
     flex: 1 1 auto !important;
     overflow: hidden !important;
     text-decoration: none !important;
+    z-index: 1 !important;
   }
 
   .logo-icon {
-    width: 36px !important;
-    height: 36px !important;
-    min-width: 36px !important;
-    min-height: 36px !important;
-    font-size: 1.1rem !important;
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    min-height: 38px !important;
+    border-radius: 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.15rem !important;
     flex-shrink: 0 !important;
   }
 
-  /* Logo text "Swastik" and tagline "by Shreeji Infotech" on 2 lines with ellipsis */
+  /* Logo text "Swastik" on line 1, "by Shreeji Infotech" on line 2 (10-11px, letter-spacing 0.5px), both white-space nowrap with text-overflow ellipsis */
   .logo-text {
     display: flex !important;
     flex-direction: column !important;
@@ -1779,23 +1790,27 @@ float-top-right {
   .logo-tagline,
   .logo-text span {
     display: block !important;
-    font-size: 0.62rem !important;
+    font-size: 11px !important;
+    letter-spacing: 0.5px !important;
+    line-height: 1.2 !important;
     color: var(--accent-gold) !important;
     font-weight: 600 !important;
-    line-height: 1.1 !important;
-    letter-spacing: 0.04em !important;
     white-space: nowrap !important;
     text-overflow: ellipsis !important;
     overflow: hidden !important;
     margin-top: 1px !important;
   }
 
+  /* Order: then the language switcher and search (margin-left: auto on the group before hamburger) */
   .nav-actions {
+    order: 2 !important;
+    margin-left: auto !important;
     display: flex !important;
     align-items: center !important;
-    gap: 0.4rem !important;
+    gap: 8px !important;
     flex-shrink: 0 !important;
     flex-wrap: nowrap !important;
+    z-index: 2 !important;
   }
 
   /* Hide Book Consultation / Contact in mobile header; show inside mobile hamburger menu */
@@ -1804,6 +1819,7 @@ float-top-right {
     display: none !important;
   }
 
+  /* 4. Language switcher: flex-shrink 0, compact on mobile (buttons 32px tall, 12px text, small padding) */
   .lang-switch {
     display: flex !important;
     align-items: center !important;
@@ -1816,18 +1832,20 @@ float-top-right {
   }
 
   .lang-btn {
-    padding: 0.25rem 0.45rem !important;
-    font-size: 0.75rem !important;
-    min-height: 34px !important;
+    padding: 0 6px !important;
+    font-size: 12px !important;
+    height: 32px !important;
+    min-height: 32px !important;
     min-width: unset !important;
+    line-height: 1 !important;
   }
 
   .hud-btn {
-    width: 38px !important;
-    height: 38px !important;
-    min-width: 38px !important;
-    min-height: 38px !important;
-    font-size: 0.95rem !important;
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    font-size: 14px !important;
     border-radius: 50% !important;
     padding: 0 !important;
     display: inline-flex !important;
@@ -1836,21 +1854,25 @@ float-top-right {
     flex-shrink: 0 !important;
   }
 
+  /* 2. Hamburger: 44x44px, never overlapped by any other element, z-index above header content. LAST item at far top-right corner */
   .mobile-menu-btn {
+    order: 3 !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 42px !important;
-    height: 42px !important;
-    min-width: 42px !important;
-    min-height: 42px !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
     border-radius: 10px !important;
     background: var(--bg-slate) !important;
     border: 1px solid var(--border-color) !important;
     color: var(--primary-dark) !important;
-    font-size: 1.2rem !important;
+    font-size: 1.25rem !important;
     cursor: pointer !important;
     flex-shrink: 0 !important;
+    z-index: 10 !important;
+    margin-left: 0 !important;
   }
 
   /* 3. Dark Backdrop behind Slide-in menu */
@@ -4548,18 +4570,18 @@ float-top-right {
 .map-badge-3d {
   background: linear-gradient(135deg, #1D63FF 0%, #00D2FF 100%);
   color: #FFFFFF !important;
-  font-size: 0.68rem;
+  font-size: 10px !important;
   font-weight: 800;
-  padding: 0.18rem 0.5rem;
-  border-radius: 6px;
-  margin-left: 0.45rem;
-  letter-spacing: 0.06em;
+  padding: 2px 5px !important;
+  border-radius: 4px !important;
+  margin-left: 4px !important;
+  letter-spacing: 0.04em !important;
   text-transform: uppercase;
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 2px !important;
   vertical-align: middle;
-  box-shadow: 0 0 12px rgba(0, 210, 255, 0.5);
+  box-shadow: 0 0 10px rgba(0, 210, 255, 0.4);
   animation: pulseMapBadge 2.2s infinite ease-in-out;
   transition: transform 0.2s ease;
 }
@@ -5756,6 +5778,278 @@ input[type="button"],
   }
 }
 
+/* Responsive Button Text for Book Consultation / Book Visit */
+.btn-text-short {
+  display: none !important;
+}
+.btn-text-full {
+  display: inline !important;
+}
+
+/* ==========================================================================
+   DESKTOP / LAPTOP HEADER (1025px and wider)
+   ========================================================================== */
+@media (min-width: 1025px) {
+  /* 1. Header container: max-width 100%, padding 0 24px, display flex, align-items center, flex-wrap nowrap, justify-content space-between */
+  .header {
+    width: 100% !important;
+  }
+
+  .header .container {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 24px !important;
+    margin: 0 auto !important;
+    box-sizing: border-box !important;
+  }
+
+  .navbar {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    flex-wrap: nowrap !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    gap: 32px !important;
+  }
+
+  /* 3. Logo block: flex-shrink 0, with a clear gap before "Home". "BY SHREEJI INFOTECH" must not touch the nav links */
+  .logo {
+    order: 1 !important;
+    flex-shrink: 0 !important;
+    flex: 0 0 auto !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    white-space: nowrap !important;
+    text-decoration: none !important;
+    margin: 0 !important;
+  }
+
+  .logo-icon {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    min-height: 42px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .logo-text {
+    display: flex !important;
+    flex-direction: column !important;
+    font-size: 1.4rem !important;
+    font-weight: 800 !important;
+    line-height: 1.1 !important;
+    white-space: nowrap !important;
+    color: #FFFFFF !important;
+  }
+
+  .logo-tagline,
+  .logo-text span {
+    font-size: 10.5px !important;
+    color: var(--accent-gold) !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.8px !important;
+    text-transform: uppercase !important;
+    white-space: nowrap !important;
+    display: block !important;
+    margin-top: 2px !important;
+  }
+
+  /* 2. Spacing: gap 32px between logo, nav links and right-side group. Nav links gap 20-24px. */
+  .nav-links {
+    order: 2 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    transform: none !important;
+    visibility: visible !important;
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+    gap: 20px !important;
+  }
+
+  /* 4. Nav links: font-size 14-15px, white-space nowrap, padding 6px 4px */
+  .nav-link {
+    font-size: 14.5px !important;
+    white-space: nowrap !important;
+    padding: 6px 4px !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    width: auto !important;
+    min-height: unset !important;
+    border-radius: 6px !important;
+  }
+
+  /* 2. Right group (language switcher, search, Book Consultation) gap 14-16px, flex-shrink 0 */
+  .nav-actions {
+    order: 3 !important;
+    margin-left: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 16px !important;
+    flex-shrink: 0 !important;
+    flex-wrap: nowrap !important;
+  }
+
+  /* 1. Nothing may overflow right edge, including "Book Consultation" button (fully visible, flex-shrink 0, white-space nowrap, text on one line) */
+  .btn-spatial-primary,
+  .nav-actions .btn-primary {
+    display: inline-flex !important;
+    align-items: center !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+    padding: 0.55rem 1.25rem !important;
+    font-size: 14.5px !important;
+    text-decoration: none !important;
+    gap: 0.4rem !important;
+  }
+
+  .mobile-menu-btn {
+    display: none !important;
+  }
+}
+
+/* 5. For widths 1025-1440px, reduce further to fit on one row: nav font 14px, link gap 16px, language switcher and Book Consultation buttons slightly smaller (padding 8px 16px, 14px text) */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  .navbar {
+    gap: 20px !important;
+  }
+
+  .nav-links {
+    gap: 16px !important;
+  }
+
+  .nav-link {
+    font-size: 14px !important;
+    padding: 6px 2px !important;
+  }
+
+  .nav-actions {
+    gap: 12px !important;
+  }
+
+  .lang-btn {
+    padding: 0.25rem 0.5rem !important;
+    font-size: 12px !important;
+    height: 30px !important;
+    min-height: 30px !important;
+  }
+
+  .btn-spatial-primary,
+  .nav-actions .btn-primary {
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+  }
+}
+
+/* 5. Under 1280px (1025-1280px): shorten button label to "Book Visit" and hide search icon until 1280px */
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .navbar .nav-actions .hud-btn {
+    display: none !important;
+  }
+
+  .navbar {
+    gap: 12px !important;
+  }
+
+  .nav-links {
+    gap: 10px !important;
+  }
+
+  .nav-link {
+    font-size: 13.5px !important;
+    padding: 6px 2px !important;
+  }
+
+  .logo {
+    gap: 8px !important;
+  }
+
+  .logo-icon {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+  }
+
+  .logo-text {
+    font-size: 1.25rem !important;
+  }
+
+  .logo-tagline,
+  .logo-text span {
+    font-size: 9.5px !important;
+    letter-spacing: 0.5px !important;
+  }
+
+  .lang-switch {
+    padding: 2px !important;
+    gap: 2px !important;
+  }
+
+  .lang-btn {
+    padding: 0.2rem 0.4rem !important;
+    font-size: 11.5px !important;
+    height: 28px !important;
+    min-height: 28px !important;
+  }
+
+  .btn-spatial-primary,
+  .nav-actions .btn-primary {
+    padding: 6px 12px !important;
+    font-size: 13.5px !important;
+    gap: 0.35rem !important;
+  }
+
+  .btn-text-full {
+    display: none !important;
+  }
+
+  .btn-text-short {
+    display: inline !important;
+  }
+}
+
+/* 5b. For tight widths 1025px - 1160px: ensure zero overflow with all 9 links */
+@media (min-width: 1025px) and (max-width: 1160px) {
+  .navbar {
+    gap: 8px !important;
+  }
+
+  .nav-links {
+    gap: 7px !important;
+  }
+
+  .nav-link {
+    font-size: 13px !important;
+    padding: 4px 1px !important;
+  }
+
+  .map-badge-3d {
+    font-size: 9px !important;
+    padding: 1px 4px !important;
+    margin-left: 2px !important;
+  }
+
+  .btn-spatial-primary,
+  .nav-actions .btn-primary {
+    padding: 6px 10px !important;
+    font-size: 13px !important;
+  }
+}
+
 /* 6. Tablet (481px - 1024px): 2 Columns Card Grids */
 @media (max-width: 1024px) and (min-width: 481px) {
   .properties-grid,
@@ -5825,24 +6119,27 @@ input[type="button"],
   }
 
   .navbar {
-    padding: 0.45rem 0.35rem !important;
-    gap: 0.35rem !important;
+    padding: 0 12px !important;
+    gap: 8px !important;
     flex-wrap: nowrap !important;
+    align-items: center !important;
   }
 
   .logo {
-    gap: 0.35rem !important;
+    order: 1 !important;
+    gap: 6px !important;
     min-width: 0 !important;
     flex: 1 1 auto !important;
     overflow: hidden !important;
   }
 
+  /* Under 480px: shrink logo icon to 36px */
   .logo-icon {
-    width: 32px !important;
-    height: 32px !important;
-    min-width: 32px !important;
-    min-height: 32px !important;
-    font-size: 0.95rem !important;
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    font-size: 1rem !important;
   }
 
   .logo-text {
@@ -5859,14 +6156,18 @@ input[type="button"],
 
   .logo-tagline,
   .logo-text span {
-    font-size: 0.58rem !important;
+    font-size: 10.5px !important;
+    letter-spacing: 0.5px !important;
+    line-height: 1.2 !important;
     white-space: nowrap !important;
     text-overflow: ellipsis !important;
     overflow: hidden !important;
   }
 
   .nav-actions {
-    gap: 0.25rem !important;
+    order: 2 !important;
+    margin-left: auto !important;
+    gap: 6px !important;
     flex-shrink: 0 !important;
     flex-wrap: nowrap !important;
   }
@@ -5880,18 +6181,20 @@ input[type="button"],
   }
 
   .lang-btn {
-    padding: 0.2rem 0.35rem !important;
-    font-size: 13px !important;
+    padding: 0 5px !important;
+    font-size: 12px !important;
+    height: 32px !important;
     min-height: 32px !important;
     min-width: unset !important;
     line-height: 1 !important;
   }
 
+  /* Under 480px: shrink search button to 36px */
   .hud-btn {
-    width: 34px !important;
-    height: 34px !important;
-    min-width: 34px !important;
-    min-height: 34px !important;
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
     font-size: 13px !important;
     border-radius: 50% !important;
     padding: 0 !important;
@@ -5901,19 +6204,49 @@ input[type="button"],
     flex-shrink: 0 !important;
   }
 
+  /* 2. Hamburger: 44x44px, never overlapped */
   .mobile-menu-btn {
-    width: 38px !important;
-    height: 38px !important;
-    min-width: 38px !important;
-    min-height: 38px !important;
+    order: 3 !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
     border-radius: 10px !important;
-    font-size: 1.1rem !important;
+    font-size: 1.25rem !important;
     flex-shrink: 0 !important;
+    z-index: 10 !important;
   }
 
   .container {
     padding-left: 0.75rem !important;
     padding-right: 0.75rem !important;
+  }
+}
+
+/* Search inside Hamburger Menu on Small Screens */
+.mobile-search-item {
+  display: none !important;
+}
+
+@media (max-width: 400px) {
+  /* 5. Under 400px: hide search button in header and show search inside hamburger menu */
+  .navbar .nav-actions .hud-btn {
+    display: none !important;
+  }
+
+  .mobile-search-item {
+    display: block !important;
+  }
+
+  .navbar {
+    padding: 0 10px !important;
+    gap: 6px !important;
+  }
+
+  .logo-tagline,
+  .logo-text span {
+    font-size: 10px !important;
+    letter-spacing: 0.5px !important;
   }
 }
 

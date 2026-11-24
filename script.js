@@ -26,6 +26,30 @@ function initMobileNav() {
       document.body.appendChild(backdrop);
     }
 
+    // 5. Show search inside hamburger menu when under 400px
+    const headerSearchBtn = document.querySelector('.navbar .hud-btn');
+    if (headerSearchBtn && !navLinks.querySelector('.mobile-search-item')) {
+      const searchLi = document.createElement('li');
+      searchLi.className = 'mobile-search-item';
+      searchLi.innerHTML = '<a href="#properties-section" class="nav-link mobile-search-link"><i class="fa-solid fa-magnifying-glass"></i> Search Properties</a>';
+      const searchAnchor = searchLi.querySelector('a');
+      if (searchAnchor) {
+        searchAnchor.addEventListener('click', (e) => {
+          const propSec = document.getElementById('properties-section');
+          if (propSec) {
+            e.preventDefault();
+            propSec.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      }
+      const consultLi = navLinks.querySelector('.mobile-only-link');
+      if (consultLi) {
+        navLinks.insertBefore(searchLi, consultLi);
+      } else {
+        navLinks.appendChild(searchLi);
+      }
+    }
+
     const openMenu = () => {
       navLinks.classList.add('active');
       backdrop.classList.add('active');
