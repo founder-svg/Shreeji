@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Noto+Sans+Gujarati:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet" />
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Swastik by Shreeji Infotech | Redirecting...</title>
@@ -34,17 +38,28 @@
         return;
       }
       
+      if (clean === '/404' || clean === '/404.html') {
+        return;
+      }
+      
       // Default fallback
       window.location.replace(window.location.origin + repoBase + '/index.html');
     })();
   </script>
+  <!-- Multi-Lingual Core Engine -->
+  <script src="./js/i18n.js"></script>
 </head>
 <body style="background: #061322; color: #FFFFFF; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
   <div style="text-align: center;">
     <h1 style="font-size: 2rem; font-weight: 800; margin: 0; color: #FFFFFF;">Swastik</h1>
     <div class="logo-tagline" style="font-size: 0.75rem; color: #C59B27; font-weight: 600; margin-top: 4px; margin-bottom: 1.5rem;">by Shreeji Infotech</div>
-    <p>Navigating to requested destination...</p>
-    <a href="./index.html" style="color: #00D2FF;">Click here if not redirected automatically</a>
+    <div class="lang-switch" style="display: inline-flex; align-items: center; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 2px; gap: 2px; margin-bottom: 1.5rem;">
+      <button type="button" class="lang-btn active" data-lang="en" style="padding: 0 8px; height: 30px; font-size: 12px; background: transparent; border: none; color: #FFF; border-radius: 6px; cursor: pointer;">EN</button>
+      <button type="button" class="lang-btn" data-lang="guj" style="padding: 0 8px; height: 30px; font-size: 12px; background: transparent; border: none; color: #FFF; border-radius: 6px; cursor: pointer;">ગુજ</button>
+      <button type="button" class="lang-btn" data-lang="hi" style="padding: 0 8px; height: 30px; font-size: 12px; background: transparent; border: none; color: #FFF; border-radius: 6px; cursor: pointer;">हिन्दी</button>
+    </div>
+    <p data-i18n="err404_message">Navigating to requested destination...</p>
+    <a href="./index.html" style="color: #00D2FF;" data-i18n="err404_btn_home">Click here if not redirected automatically</a>
   </div>
 </body>
 </html>

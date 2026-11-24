@@ -58,12 +58,16 @@ function initMobileNav() {
       if (icon) icon.className = 'fa-solid fa-xmark';
     };
 
-    const closeMenu = () => {
+    const closeMenu = (callback) => {
       navLinks.classList.remove('active');
       backdrop.classList.remove('active');
       document.body.classList.remove('menu-open');
+      document.body.style.overflow = '';
       const icon = mobileMenuBtn.querySelector('i');
       if (icon) icon.className = 'fa-solid fa-bars';
+      if (typeof callback === 'function') {
+        setTimeout(callback, 20);
+      }
     };
 
     // Toggle on hamburger button
@@ -77,7 +81,7 @@ function initMobileNav() {
     });
 
     // Close on backdrop tap
-    backdrop.addEventListener('click', closeMenu);
+    backdrop.addEventListener('click', () => closeMenu());
 
     // Close on Escape key
     document.addEventListener('keydown', (e) => {
@@ -86,10 +90,38 @@ function initMobileNav() {
       }
     });
 
-    // Close on any link click
+    // Close on any link click and navigate/scroll reliably
     navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        closeMenu();
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        // If it is a spatial/portal trigger (e.g. maps/survey), launch warp portal to Regal Farms
+        if (link.classList.contains('nav-map-trigger') || (href && (href.includes('3d-map') || href.includes('survey-374') || href.includes('regalfarms')))) {
+          e.preventDefault();
+          closeMenu(() => {
+            window.launch3DMapPortal('https://regalfarms.vercel.app/');
+          });
+          return;
+        }
+
+        // Handle in-page smooth scrolling anchor links
+        if (href && href.startsWith('#')) {
+          e.preventDefault();
+          const targetId = href.substring(1);
+          closeMenu(() => {
+            setTimeout(() => {
+              const targetEl = document.getElementById(targetId);
+              if (targetEl) {
+                targetEl.scrollIntoView({ behavior: 'smooth' });
+              } else if (targetId === 'contact') {
+                const footerEl = document.querySelector('.footer');
+                if (footerEl) footerEl.scrollIntoView({ behavior: 'smooth' });
+              }
+            }, 300);
+          });
+        } else {
+          // Normal page navigation
+          closeMenu();
+        }
       });
     });
   }
@@ -495,326 +527,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 9. Language Switcher (EN, GUJ, HI)
-  const langBtns = document.querySelectorAll('.lang-btn');
-
-  const dictionary = {
-    en: {
-      nav_home: 'Home',
-      nav_overview: 'Overview',
-      nav_target_areas: 'Target Areas',
-      nav_services: 'Services',
-      nav_process: 'Process',
-      nav_faq: 'FAQ',
-      nav_contact: 'Contact Us',
-      hero_badge: '<i class="fa-solid fa-building"></i> Premier Commercial Rental & Property Leasing',
-      hero_title: 'Your Premier Partner for <span>Rental Commercial Properties</span> in Gandhidham & Adipur',
-      hero_sub: 'Expert guidance for renting, leasing, buying, and listing commercial shops, corporate offices, showrooms, and commercial plots across Gandhidham & Adipur, Gujarat.',
-      buy_btn: '<i class="fa-solid fa-magnifying-glass-location"></i> Looking for Rental Commercial Space?',
-      sell_btn: '<i class="fa-solid fa-key"></i> Rent Out / List Your Property',
-      stat_exp_val: '10+ Years',
-      stat_exp_lbl: 'Commercial Experience',
-      stat_leased_val: '250+ Spaces',
-      stat_leased_lbl: 'Commercial Leased',
-      stat_clients_val: '100+ Clients',
-      stat_clients_lbl: 'Satisfied Businesses',
-      overview_shops_title: 'Rental Shops & Showrooms',
-      overview_shops_desc: 'High-footfall retail spaces and market showrooms in Gandhidham & Adipur.',
-      overview_offices_title: 'Corporate Office Spaces',
-      overview_offices_desc: 'Furnished and bare-shell office suites in commercial business complexes.',
-      overview_legal_title: 'Verified Lease & Title',
-      overview_legal_desc: '100% legally clear lease agreements, revenue validation, and hassle-free documentation.',
-      story_tag: 'Who We Are',
-      story_headline: 'Swastik by Shreeji Infotech',
-      story_paragraph: 'Swastik by Shreeji Infotech is your dedicated commercial property & rental consultancy headquartered in Gandhidham, Kutch, Gujarat. With 10+ years of local market leadership, we connect business owners, retail brands, and corporate tenants with top commercial rental spaces, offices, and plots in Gandhidham and Adipur.',
-      areas_tag: 'Target Areas & Sector Maps',
-      areas_title: 'Gandhidham & Adipur Sector Maps',
-      areas_desc: 'Click below to open and view the official Master Plan PDF for Gandhidham and Adipur.',
-      gandhidham_desc: 'Click to view the official Gandhidham Master Plan PDF with Tagore Road, Sector layouts, and commercial market zones.',
-      adipur_desc: 'Click to view the official Adipur Master Plan PDF with Station Road commercial plot grid and retail market maps.',
-      open_pdf_btn: 'Open Master Plan PDF ↗',
-      listings_tag: 'Verified Opportunities',
-      listings_title: 'Available Land & Property Listings',
-      listings_subtitle: 'Real-time verified commercial shops, offices, and plots in Gandhidham & Adipur.',
-      citymaps_tag: 'City Planning & Sector Maps',
-      citymaps_title: 'Gandhidham & Adipur Commercial Maps (PDF)',
-      citymaps_subtitle: 'Download and view official town planning maps, sector layouts, and commercial market zones.',
-      gandhidham_map_title: 'Gandhidham Commercial Master Map',
-      adipur_map_title: 'Adipur Commercial Market Map',
-      services_tag: 'Commercial Solutions',
-      services_title: 'Our Commercial Real Estate Services',
-      services_subtitle: 'Tailored services designed for commercial space tenants, property owners, and business investors in Gandhidham & Adipur.',
-      tenant_title: 'For Commercial Tenants',
-      tenant_desc: 'Finding high-performing retail shops, office suites, and commercial spaces on rent.',
-      landlord_title: 'For Commercial Landlords',
-      landlord_desc: 'Rent out your commercial shops, offices, or plots to corporate tenants with high rental yields.',
-      legal_title: 'Lease & Legal Compliance',
-      legal_desc: 'Navigating commercial municipal registrations, 11-month lease deeds, and property verification.',
-      process_tag: 'Structured Execution',
-      process_title: 'Our 5-Step Leasing & Buying Process',
-      process_subtitle: 'A seamless journey from site selection to contract registration and move-in execution.',
-      step1_title: '1. Requirement Audit',
-      step1_desc: 'Defining budget, footfall requirements, and layout space.',
-      step2_title: '2. Site Shortlisting',
-      step2_desc: 'Inspecting verified commercial shops & offices in Gandhidham & Adipur.',
-      step3_title: '3. Rent Negotiation',
-      step3_desc: 'Securing competitive lease rates and flexible security deposits.',
-      step4_title: '4. Legal Verification',
-      step4_desc: 'Title check, tax compliance, and 11-month Lease Deed registration.',
-      step5_title: '5. Handover & Move-In',
-      step5_desc: 'Key handover and utility setup support for immediate business operations.',
-      faq_tag: 'Clarifications',
-      faq_title: 'Commercial Property FAQ',
-      faq_subtitle: 'Frequently asked questions regarding commercial renting, lease terms, and documentation in Gandhidham & Adipur.',
-      faq_q1: 'What types of commercial rental properties do you offer in Gandhidham & Adipur?',
-      faq_a1: 'We specialize in high-footfall retail market shops, fully furnished & bare-shell corporate office space, high-visibility main market showrooms, and roadside commercial lease plots across Tagore Road, Main Market, Sector 1-12 in Gandhidham, and Station Road in Adipur.',
-      faq_q2: 'What is the standard lease deed duration and rental agreement process in Gandhidham?',
-      faq_a2: 'Commercial properties in Gandhidham & Adipur are typically leased under 11-month registered lease agreements or long-term 3-to-9 year corporate lease deeds with renewable escalation terms.',
-      faq_q3: 'How do you assist commercial tenants and landlords with legal due diligence?',
-      faq_a3: 'We handle 100% of title verification, property ownership checks, municipal tax clearance, tenant background verification, and formal registered lease deed drafting for smooth operations.',
-      faq_q4: 'What are the typical security deposit and brokerage terms for renting commercial spaces?',
-      faq_a4: 'Security deposits usually range from 3 to 6 months of rent depending on the location and property type, with flexible rent negotiation and transparent fee structures for both tenants and landlords.',
-      target_hero_badge: '<i class="fa-solid fa-map-location-dot"></i> Land Record Search',
-      target_hero_title: 'Target Areas & <span>Land Record Search</span>',
-      target_hero_sub: 'Step-by-step cascading land record search across Kutch District (Gujarat AnyRoR Model). Select a Taluka to unlock village and sector property filters.'
-    },
-    guj: {
-      nav_home: 'હોમ',
-      nav_overview: 'ઝાંખી',
-      nav_target_areas: 'લક્ષ્ય વિસ્તારો',
-      nav_services: 'સેવાઓ',
-      nav_process: 'પ્રક્રિયા',
-      nav_faq: 'પ્રશ્નોત્તરી',
-      nav_contact: 'સંપર્ક કરો',
-      hero_badge: '<i class="fa-solid fa-building"></i> પ્રીમિયર કોમર્શિયલ રેન્ટલ અને પ્રોપર્ટી લીઝિંગ',
-      hero_title: 'ગાંધીધામ અને આદિપુરમાં <span>કોમર્શિયલ પ્રોપર્ટી ભાડે આપવા અને લેવા</span> માટે વિશ્વાસપાત્ર પાર્ટનર',
-      hero_sub: 'ગાંધીધામ અને આદિપુરમાં તમામ કોમર્શિયલ દુકાનો, કોર્પોરેટ ઓફિસો, શોરૂમ અને કોમર્શિયલ પ્લોટ ભાડે લેવા-આપવા માટે નિષ્ણાત માર્ગદર્શન.',
-      buy_btn: '<i class="fa-solid fa-magnifying-glass-location"></i> કોમર્શિયલ જગ્યા ભાડે જોઈએ છે?',
-      sell_btn: '<i class="fa-solid fa-key"></i> તમારી પ્રોપર્ટી ભાડે મૂકો / યાદી કરો',
-      stat_exp_val: '૧૦+ વર્ષ',
-      stat_exp_lbl: 'કોમર્શિયલ અનુભવ',
-      stat_leased_val: '૨૫૦+ જગ્યાઓ',
-      stat_leased_lbl: 'લીઝ પર આપેલી પ્રોપર્ટી',
-      stat_clients_val: '૧૦૦+ ગ્રાહકો',
-      stat_clients_lbl: 'સંતુષ્ટ વ્યવસાયો',
-      overview_shops_title: 'ભાડાની દુકાનો અને શોરૂમ',
-      overview_shops_desc: 'ગાંધીધામ અને આદિપુરના મુખ્ય બજારોમાં વધુ ગ્રાહકો ધરાવતી જગ્યાઓ.',
-      overview_offices_title: 'કોર્પોરેટ ઓફિસ સ્પેસ',
-      overview_offices_desc: 'વ્યાપારી સંકુલમાં સુસજ્જ અને ખુલ્લી ઓફિસો.',
-      overview_legal_title: 'ચકાસાયેલ લીઝ અને દસ્તાવેજ',
-      overview_legal_desc: '૧૦૦% કાયદાકીય રીતે સ્પષ્ટ લીઝ કરાર અને સરળ દસ્તાવેજીકરણ.',
-      story_tag: 'અમારા વિશે',
-      story_headline: 'Swastik by Shreeji Infotech',
-      story_paragraph: 'Swastik by Shreeji Infotech ગાંધીધામ, કચ્છમાં મુખ્ય મથક ધરાવતી તમારી સમર્પિત કોમર્શિયલ પ્રોપર્ટી અને રેન્ટલ કન્સલ્ટન્સી છે. ૧૦+ વર્ષથી વધુના સ્થાનિક અનુભવ સાથે, અમે વેપારીઓ, રિટેલ બ્રાન્ડ્સ અને કોર્પોરેટ ભાડૂઆતોને ગાંધીધામ અને આદિપુરમાં ઉત્કૃષ્ટ ભાડાની જગ્યાઓ પૂરી પાડીએ છીએ.',
-      areas_tag: 'લક્ષ્ય વિસ્તારો અને સેક્ટર નકશા',
-      areas_title: 'ગાંધીધામ અને આદિપુર સેક્ટર નકશા',
-      areas_desc: 'ગાંધીધામ અને આદિપુર માટે સત્તાવાર માસ્ટર પ્લાન પીડીએફ જોવા માટે નીચે ક્લિક કરો.',
-      gandhidham_desc: 'ટાગોર રોડ, સેક્ટર લેઆઉટ અને વ્યાપારી વિસ્તારો સાથે સત્તાવાર ગાંધીધામ માસ્ટર પ્લાન પીડીએફ જોવા માટે ક્લિક કરો.',
-      adipur_desc: 'સ્ટેશન રોડ કોમર્શિયલ પ્લોટ ગ્રીડ અને માર્કેટ નકશા સાથે સત્તાવાર આદિપુર પીડીએફ જોવા માટે ક્લિક કરો.',
-      open_pdf_btn: 'માસ્ટર પ્લાન પીડીએફ ખોલો ↗',
-      listings_tag: 'ચકાસાયેલ તકો',
-      listings_title: 'ઉપલબ્ધ ભાડાની પ્રોપર્ટી યાદીઓ',
-      listings_subtitle: 'ગાંધીધામ અને આદિપુરમાં ઉપલબ્ધ ચકાસાયેલ દુકાનો, ઓફિસો અને પ્લોટ.',
-      citymaps_tag: 'સિટી પ્લાનિંગ અને સેક્ટર નકશા',
-      citymaps_title: 'ગાંધીધામ અને આદિપુર કોમર્શિયલ નકશા (PDF)',
-      citymaps_subtitle: 'સત્તાવાર નગર યોજના નકશા, સેક્ટર લેઆઉટ અને વ્યાપારી વિસ્તારો ડાઉનલોડ કરો.',
-      gandhidham_map_title: 'ગાંધીધામ કોમર્શિયલ માસ્ટર મેપ',
-      adipur_map_title: 'આદિપુર કોમર્શિયલ માર્કેટ મેપ',
-      services_tag: 'કોમર્શિયલ સોલ્યુશન્સ',
-      services_title: 'અમારી કોમર્શિયલ રિયલ એસ્ટેટ સેવાઓ',
-      services_subtitle: 'ગાંધીધામ અને આદિપુરમાં વ્યાપારી ભાડૂઆતો, માલિકો અને રોકાણકારો માટે વિશિષ્ટ સેવાઓ.',
-      tenant_title: 'વ્યાપારી ભાડૂઆતો માટે',
-      tenant_desc: 'ભાડેથી ઉત્કૃષ્ટ રિટેલ દુકાનો, ઓફિસો અને જગ્યાઓ શોધવી.',
-      landlord_title: 'કોમર્શિયલ માલિકો માટે',
-      landlord_desc: 'તમારી દુકાનો, ઓફિસો અથવા પ્લોટ કોર્પોરેટ ભાડૂઆતોને ભાડે આપો.',
-      legal_title: 'લીઝ અને કાનૂની સલાહ',
-      legal_desc: '૧૧ મહિનાના લીઝ ડીડ્સ, મ્યુનિસિપલ રજીસ્ટ્રેશન અને મિલકત ચકાસણી.',
-      process_tag: 'સુવ્યવસ્થિત પ્રક્રિયા',
-      process_title: 'અમારી ૫-પગલાની લીઝિંગ પ્રક્રિયા',
-      process_subtitle: 'પ્લોટ પસંદગીથી કરાર નોંધણી અને મુવ-ઇન સુધીની સરળ સફર.',
-      step1_title: '૧. જરૂરિયાત ઓડિટ',
-      step1_desc: 'બજેટ, ગ્રાહકોની આવનજાવન અને લેઆઉટ સ્પેસ નક્કી કરવી.',
-      step2_title: '૨. સાઇટ પસંદગી',
-      step2_desc: 'ગાંધીધામ અને આદિપુરમાં ચકાસાયેલ દુકાનો અને ઓફિસોનું નિરીક્ષણ.',
-      step3_title: '૩. ભાડા અંગે વાટાઘાટો',
-      step3_desc: 'ઉત્તમ લીઝ દર અને અનુકૂળ સિક્યોરિટી ડિપોઝિટ સુનિશ્ચિત કરવી.',
-      step4_title: '૪. કાનૂની ચકાસણી',
-      step4_desc: 'ટાઇટલ ચેક, ટેક્સ ચકાસણી અને ૧૧ મહિનાના લીઝ ડીડની નોંધણી.',
-      step5_title: '૫. કબજો અને મુવ-ઇન',
-      step5_desc: 'વ્યવસાય શરૂ કરવા માટે ચાવી સોંપણી અને સુવિધાઓનું સેટઅપ.',
-      faq_tag: 'સામાન્ય પ્રશ્નો',
-      faq_title: 'કોમર્શિયલ પ્રોપર્ટી પ્રશ્નોત્તરી',
-      faq_subtitle: 'ગાંધીધામ અને આદિપુરમાં ભાડાના કરાર અને દસ્તાવેજો અંગે વારંવાર પૂછાતા પ્રશ્નો.',
-      faq_q1: 'ગાંધીધામ અને આદિપુરમાં તમે કયા પ્રકારની ભાડાની કોમર્શિયલ પ્રોપર્ટી પૂરી પાડો છો?',
-      faq_a1: 'અમે ગાંધીધામમાં ટાગોર રોડ, સેક્ટર ૧-૧૨, મેઇન માર્કેટ અને આદિપુરમાં સ્ટેશન રોડ પર વધુ ગ્રાહકો ધરાવતી રિટેલ દુકાનો, સુસજ્જ કોર્પોરેટ ઓફિસો, માર્કેટ શોરૂમ અને કોમર્શિયલ પ્લોટ પૂરા પાડીએ છીએ.',
-      faq_q2: 'ગાંધીધામમાં ભાડાના કરાર અને લીઝ ડીડની સમયમર્યાદા શું હોય છે?',
-      faq_a2: 'ગાંધીધામ અને આદિપુરમાં કોમર્શિયલ પ્રોપર્ટી સામાન્ય રીતે ૧૧ મહિનાના નોંધાયેલા લીઝ કરાર અથવા ૩ થી ૯ વર્ષના કોર્પોરેટ લીઝ ડીડ હેઠળ ભાડે આપવામાં આવે છે.',
-      faq_q3: 'તમે ભાડૂઆતો અને માલિકોને કાનૂની ચકાસણીમાં કેવી રીતે મદદ કરો છો?',
-      faq_a3: 'અમે મિલકતની માલિકી ચકાસણી, ટાઇટલ ચેક, મ્યુનિસિપલ ટેક્સ ક્લિયરન્સ અને ૧૦૦% કાયદાકીય રજીસ્ટર્ડ લીઝ ડીડ તૈયાર કરીએ છીએ.',
-      faq_q4: 'કોમર્શિયલ જગ્યા ભાડે લેવા માટે સિક્યોરિટી ડિપોઝિટની શરતો શું હોય છે?',
-      faq_a4: 'સ્થળ અને પ્રોપર્ટીના પ્રકાર આધારે સામાન્ય રીતે ૩ થી ૬ મહિનાની સિક્યોરિટી ડિપોઝિટ હોય છે, જેમાં સરળ વાટાઘાટો અને પારદર્શક શરતો પૂરી પાડવામાં આવે છે.',
-      target_hero_badge: '<i class="fa-solid fa-map-location-dot"></i> જમીન રેકોર્ડ શોધો',
-      target_hero_title: 'લક્ષ્ય વિસ્તારો અને <span>જમીન શોધી બતાવો</span>',
-      target_hero_sub: 'કચ્છ જિલ્લામાં સ્ટેપ-બાય-સ્ટેપ કેસ્કેડિંગ લેન્ડ રેકોર્ડ સર્ચ (ગુજરાત AnyRoR મોડેલ). સરહદી તાલુકો પસંદ કરો અને ગામ અને ક્ષેત્ર ફિલ્ટર અનલૉક કરો.'
-    },
-    hi: {
-      nav_home: 'होम',
-      nav_overview: 'अवलोकन',
-      nav_target_areas: 'लक्षित क्षेत्र',
-      nav_services: 'सेवाएं',
-      nav_process: 'प्रक्रिया',
-      nav_faq: 'अक्सर पूछे जाने वाले सवाल',
-      nav_contact: 'संपर्क करें',
-      hero_badge: '<i class="fa-solid fa-building"></i> प्रमुख कमर्शियल रेंटल और लीजिंग कंसल्टेंसी',
-      hero_title: 'गांधीधाम और आदिपुर में <span>कमर्शियल प्रॉपर्टी किराए पर लेने व देने</span> हेतु आपका प्रमुख पार्टनर',
-      hero_sub: 'गांधीधाम और आदिपुर, गुजरात में कमर्शियल दुकानों, कॉर्पोरेट कार्यालयों, शोरूम और कमर्शियल प्लॉटों को किराए पर लेने व देने के लिए विशेषज्ञ मार्गदर्शन।',
-      buy_btn: '<i class="fa-solid fa-magnifying-glass-location"></i> क्या आपको कमर्शियल स्थान किराए पर चाहिए?',
-      sell_btn: '<i class="fa-solid fa-key"></i> अपनी प्रॉपर्टी किराए पर दें / लिस्ट करें',
-      stat_exp_val: '10+ वर्ष',
-      stat_exp_lbl: 'कमर्शियल अनुभव',
-      stat_leased_val: '250+ स्थान',
-      stat_leased_lbl: 'लीज पर दी गई प्रॉपर्टी',
-      stat_clients_val: '100+ ग्राहक',
-      stat_clients_lbl: 'संतुष्ट व्यवसाय',
-      overview_shops_title: 'किराए की दुकानें और शोरूम',
-      overview_shops_desc: 'गांधीधाम और आदिपुर के प्रमुख बाजारों में उच्च फुटफॉल वाले रेंटल रिटेल स्थान।',
-      overview_offices_title: 'कॉर्पोरेट ऑफिस स्पेस',
-      overview_offices_desc: 'कमर्शियल कॉम्प्लेक्स में पूरी तरह से सुसज्जित और खुली ऑफिस जगहें।',
-      overview_legal_title: 'सत्यापित लीज और दस्तावेज',
-      overview_legal_desc: '100% कानूनी रूप से स्पष्ट लीज समझौते और परेशानी मुक्त दस्तावेजीकरण।',
-      story_tag: 'हमारे बारे में',
-      story_headline: 'Swastik by Shreeji Infotech',
-      story_paragraph: 'Swastik by Shreeji Infotech गांधीधाम, कच्छ में मुख्यालय वाली आपकी समर्पित कमर्शियल प्रॉपर्टी और रेंटल कंसल्टेंसी है। 10+ वर्षों के स्थानीय अनुभव के साथ, हम व्यापारियों, रिटेल ब्रांडों और कॉर्पोरेट किरायेदारों को गांधीधाम व आदिपुर में बेहतरीन किराए के स्थान प्रदान करते हैं।',
-      areas_tag: 'लक्षित क्षेत्र और नक्शे',
-      areas_title: 'गांधीधाम और आदिपुर सेक्टर नक्शे',
-      areas_desc: 'गांधीधाम और आदिपुर के लिए आधिकारिक मास्टर प्लान पीडीएफ देखने के लिए नीचे क्लिक करें।',
-      gandhidham_desc: 'टैगोर रोड, सेक्टर लेआउट और कमर्शियल मार्केट जोन के साथ आधिकारिक गांधीधाम मास्टर प्लान पीडीएफ देखें।',
-      adipur_desc: 'स्टेशन रोड कमर्शियल प्लॉट ग्रिड और मार्केट मैप के साथ आधिकारिक आदिपुर पीडीएफ देखें।',
-      open_pdf_btn: 'मास्टर प्लान पीडीएफ खोलें ↗',
-      listings_tag: 'सत्यापित अवसर',
-      listings_title: 'उपलब्ध प्रॉपर्टी सूचियां',
-      listings_subtitle: 'गांधीधाम और आदिपुर में उपलब्ध सत्यापित कमर्शियल दुकानें, ऑफिस और प्लॉट।',
-      citymaps_tag: 'सिटी प्लानिंग और सेक्टर नक्शे',
-      citymaps_title: 'गांधीधाम और आदिपुर कमर्शियल नक्शे (PDF)',
-      citymaps_subtitle: 'आधिकारिक नगर योजना नक्शे, सेक्टर लेआउट और कमर्शियल क्षेत्र डाउनलोड करें।',
-      gandhidham_map_title: 'गांधीधाम कमर्शियल मास्टर मैप',
-      adipur_map_title: 'आदिपुर कमर्शियल मार्केट मैप',
-      services_tag: 'कमर्शियल समाधान',
-      services_title: 'हमारी कमर्शियल रियल एस्टेट सेवाएं',
-      services_subtitle: 'गांधीधाम और आदिपुर में किरायेदारों, मालिकों और निवेशकों के लिए विशेष सेवाएं।',
-      tenant_title: 'कमर्शियल किरायेदारों के लिए',
-      tenant_desc: 'किराए पर बेहतरीन रिटेल दुकानें, ऑफिस और कमर्शियल स्थान खोजना।',
-      landlord_title: 'कमर्शियल मालिकों के लिए',
-      landlord_desc: 'अपनी दुकानें, ऑफिस या प्लॉट कॉर्पोरेट किरायेदारों को किराए पर दें।',
-      legal_title: 'लीज और कानूनी अनुपालन',
-      legal_desc: '11 महीने के लीज डीड, नगर निगम पंजीकरण और संपत्ति सत्यापन।',
-      process_tag: 'व्यवस्थित प्रक्रिया',
-      process_title: 'हमारी 5-चरण लीजिंग प्रक्रिया',
-      process_subtitle: 'साइट चयन से लेकर अनुबंध पंजीकरण और कब्जे तक की आसान यात्रा।',
-      step1_title: '1. आवश्यकता ऑडिट',
-      step1_desc: 'बजट, फुटफॉल आवश्यकता और लेआउट स्पेस निर्धारित करना।',
-      step2_title: '2. साइट चयन',
-      step2_desc: 'गांधीधाम और आदिपुर में सत्यापित कमर्शियल दुकानों व ऑफिसों का निरीक्षण।',
-      step3_title: '3. किराया बातचीत',
-      step3_desc: 'प्रतिस्पर्धी लीज दरें और लचीली सुरक्षा जमा राशि सुरक्षित करना।',
-      step4_title: '4. कानूनी सत्यापन',
-      step4_desc: 'टाइटल जांच, टैक्स अनुपालन और 11 महीने का लीज डीड पंजीकरण।',
-      step5_title: '5. कब्जा और मूव-इन',
-      step5_desc: 'तत्काल व्यवसाय संचालन हेतु चाबी सौंपना और सेटअप सहायता।',
-      faq_tag: 'सामान्य प्रश्न',
-      faq_title: 'कमर्शियल प्रॉपर्टी प्रश्नोत्तरी',
-      faq_subtitle: 'गांधीधाम और आदिपुर में रेंटल एग्रीमेंट और दस्तावेजों के संबंध में अक्सर पूछे जाने वाले प्रश्न।',
-      faq_q1: 'गांधीधाम और आदिपुर में आप किस प्रकार की किराए की कमर्शियल प्रॉपर्टी प्रदान करते हैं?',
-      faq_a1: 'हम गांधीधाम में टैगोर रोड, मेन मार्केट, सेक्टर 1-12 और आदिपुर में स्टेशन रोड पर भारी फुटफॉल वाली रिटेल दुकानें, पूरी तरह सुसज्जित कॉर्पोरेट ऑफिस, शोरूम और कमर्शियल प्लॉट प्रदान करते हैं।',
-      faq_q2: 'गांधीधाम में रेंटल एग्रीमेंट और लीज डीड की अवधि क्या होती है?',
-      faq_a2: 'गांधीधाम और आदिपुर में कमर्शियल प्रॉपर्टी आमतौर पर 11 महीने के पंजीकृत लीज समझौते या 3 से 9 साल के कॉर्पोरेट लीज डीड के तहत किराए पर दी जाती हैं।',
-      faq_q3: 'आप किरायेदारों और मकान मालिकों को कानूनी सत्यापन में कैसे सहायता करते हैं?',
-      faq_a3: 'हम संपत्ति के स्वामित्व की जांच, टाइटल सत्यापन, नगर निगम टैक्स क्लीयरेंस और 100% कानूनी रूप से पंजीकृत लीज डीड तैयार करते हैं।',
-      faq_q4: 'कमर्शियल स्पेस किराए पर लेने हेतु सिक्योरिटी डिपॉजिट और शर्तें क्या हैं?',
-      faq_a4: 'स्थान और संपत्ति के प्रकार के आधार पर आमतौर पर 3 से 6 महीने का सिक्योरिटी डिपॉजिट होता है, जिसमें पारदर्शी बातचीत और आसान शर्तें शामिल हैं।',
-      target_hero_badge: '<i class="fa-solid fa-map-location-dot"></i> भूमि रिकॉर्ड खोज',
-      target_hero_title: 'टारगेट एरिया एवं <span>भूमि रिकॉर्ड खोज</span>',
-      target_hero_sub: 'कच्छ जिले में चरण-दर-चरण कैस्केडिंग भूमि रिकॉर्ड खोज (गुजरात AnyRoR मॉडल)। तालुका चुनें और ग्राम एवं क्षेत्र फ़िल्टर अनलॉक करें।'
-    }
-  };
-
-  // Multi-lingual dynamic land & commercial listings
-  const translatedListings = {
-    en: [
-      { id: 1, title: "1,200 Sq.Ft Furnished Office Space", location: "Tagor Road Commercial Complex, Gandhidham", tag: "Corporate Office", details: ["Air-conditioned with 15 workstations", "Private cabin, conference room & pantry", "100% power backup & elevator access"], btn: "Inquire Details & Rent" },
-      { id: 2, title: "850 Sq.Ft Ground Floor Market Shop", location: "Main Market Road, Sector 8, Gandhidham", tag: "Retail Shop", details: ["Heavy customer footfall area", "20-foot glass frontage for high brand visibility", "Suitable for retail brands, banks & cafes"], btn: "Inquire Details & Rent" },
-      { id: 3, title: "1,500 Sq.Ft Main Market Showroom", location: "Station Road Market, Adipur", tag: "Showroom", details: ["Prime corner shop location with top visibility", "Mezzanine floor for extra storage or office", "Ready for retail, apparel & electronics"], btn: "Inquire Details & Rent" },
-      { id: 4, title: "2,500 Sq.Ft Commercial Lease Plot", location: "Gandhidham Highway Junction", tag: "Commercial Plot", details: ["Wide road frontage for commercial display", "Available on long-term 5-year to 10-year lease", "Clear commercial municipal zoning"], btn: "Inquire Details & Rent" }
-    ],
-    guj: [
-      { id: 1, title: "૧,૨૦૦ સ્ક્વેર ફીટ સુસજ્જ ઓફિસ સ્પેસ", location: "ટાગોર રોડ કોમર્શિયલ કોમ્પ્લેક્સ, ગાંધીધામ", tag: "કોર્પોરેટ ઓફિસ", details: ["૧૫ વર્કસ્ટેશન સાથે એર-કન્ડિશન્ડ", "પ્રાઈવેટ કેબિન, કોન્ફરન્સ રૂમ અને પેન્ટ્રી", "૧૦૦% પાવર બેકઅપ અને લિફ્ટ સુવિધા"], btn: "વિગતો અને ભાડું મેળવો" },
-      { id: 2, title: "૮૫૦ સ્ક્વેર ફીટ ગ્રાઉન્ડ ફ્લોર માર્કેટ શોપ", location: "મેઇન માર્કેટ રોડ, સેક્ટર ૮, ગાંધીધામ", tag: "રિટેલ દુકાન", details: ["વધુ ગ્રાહકો ધરાવતો મુખ્ય વિસ્તાર", "ઉત્તમ દ્રશ્યતા માટે ૨૦-ફૂટ કાચનું ફ્રન્ટેજ", "રિટેલ બ્રાન્ડ્સ, બેંકો અને કેફે માટે યોગ્ય"], btn: "વિગતો અને ભાડું મેળવો" },
-      { id: 3, title: "૧,૫૦૦ સ્ક્વેર ફીટ માર્કેટ શોરૂમ", location: "સ્ટેશન રોડ માર્કેટ, આદિપુર", tag: "શોરૂમ", details: ["ઉત્કૃષ્ટ લોકેશન સાથે પ્રાઇમ કોર્નર દુકાન", "સ્ટોરેજ અથવા ઓફિસ માટે મેઝઝાનિન ફ્લોર", "રિટેલ અને ઈલેક્ટ્રોનિક્સ માટે તૈયાર"], btn: "વિગતો અને ભાડું મેળવો" },
-      { id: 4, title: "૨,૫૦૦ સ્ક્વેર ફીટ કોમર્શિયલ લીઝ પ્લોટ", location: "ગાંધીધામ હાઇવે જંકશન", tag: "કોમર્શિયલ પ્લોટ", details: ["વ્યાપારી પ્રદર્શન માટે પહોળો રોડ ફ્રન્ટેજ", "૫ થી ૧૦ વર્ષના લાંબા ગાળાના લીઝ પર ઉપલબ્ધ", "સ્પષ્ટ કોમર્શિયલ મ્યુનિસિપલ મંજૂરી"], btn: "વિગતો અને ભાડું મેળવો" }
-    ],
-    hi: [
-      { id: 1, title: "1,200 वर्ग फुट सुसज्जित ऑफिस स्पेस", location: "टैगोर रोड कमर्शियल कॉम्प्लेक्स, गांधीधाम", tag: "कॉर्पोरेट ऑफिस", details: ["15 वर्कस्टेशन के साथ पूरी तरह एसी", "निजी केबिन, कॉन्फ्रेंस रूम और पेंट्री", "100% पावर बैकअप और लिफ्ट सुविधा"], btn: "विवरण और किराया जानें" },
-      { id: 2, title: "850 वर्ग फुट ग्राउंड floor मार्केट शॉप", location: "मेन मार्केट रोड, सेक्टर 8, गांधीधाम", tag: "रिटेल दुकान", details: ["भारी ग्राहक फुटफॉल वाला मुख्य क्षेत्र", "बेहतर दृश्यता के लिए 20-फीट ग्लास फ्रंट", "रिटेल ब्रांड्स, बैंकों और कैफे के लिए उपयुक्त"], btn: "विवरण और किराया जानें" },
-      { id: 3, title: "1,500 वर्ग फुट मेन मार्केट शोरूम", location: "स्टेशन रोड मार्केट, आदिपुर", tag: "शोरूम", details: ["उत्कृष्ट दृश्यता वाली प्राइम कॉर्नर दुकान", "अतिरिक्त स्टोरेज या ऑफिस हेतु मेजेनाइन फ्लोर", "कपड़ों व इलेक्ट्रॉनिक्स रिटेल के लिए तैयार"], btn: "विवरण और किराया जानें" },
-      { id: 4, title: "2,500 वर्ग फुट कमर्शियल लीज प्लॉट", location: "गांधीधाम हाईवे जंक्शन", tag: "कमर्शियल प्लॉट", details: ["कमर्शियल प्रदर्शन के लिए चौड़ा रोड फ्रंट", "5 से 10 साल के लंबे समय के लीज पर उपलब्ध", "स्पष्ट कमर्शियल नगर निगम मंजूरी"], btn: "विवरण और किराया जानें" }
-    ]
-  };
-
-  function renderDynamicListings(lang = 'en') {
-    const dynamicListingsContainer = document.getElementById('dynamicListingsContainer');
-    if (!dynamicListingsContainer) return;
-
-    const currentLang = lang || localStorage.getItem('preferred_language') || 'en';
-    const listingsToRender = translatedListings[currentLang] || translatedListings.en;
-
-    dynamicListingsContainer.innerHTML = '';
-    listingsToRender.forEach(listing => {
-      const card = document.createElement('div');
-      card.className = 'service-card active';
-      card.style.borderTop = '6px solid var(--accent-gold)';
-      card.innerHTML = `
-        <div class="tag" style="background: var(--primary); color: white; margin-bottom: 1rem;">${listing.tag}</div>
-        <h3 style="font-size: 1.4rem; margin-bottom: 0.5rem; color: var(--primary-dark); font-weight: 700;">${listing.title}</h3>
-        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
-          <i class="fa-solid fa-location-dot" style="color: var(--accent-gold);"></i> ${listing.location}
-        </p>
-        <ul class="service-list" style="margin-bottom: 1.5rem;">
-          ${listing.details.map(detail => `<li><i class="fa-solid fa-circle-check" style="color: var(--accent-emerald);"></i> ${detail}</li>`).join('')}
-        </ul>
-        <button class="btn btn-primary" onclick="openModal('buy')" style="width: 100%; margin-top: auto;">${listing.btn}</button>
-      `;
-      dynamicListingsContainer.appendChild(card);
-    });
-  }
-
-  function applyLanguage(lang) {
-    const elements = document.querySelectorAll('[data-i18n]');
-    elements.forEach(el => {
-      const key = el.getAttribute('data-i18n');
-      if (dictionary[lang] && dictionary[lang][key]) {
-        el.innerHTML = dictionary[lang][key];
-      }
-    });
-    renderDynamicListings(lang);
-    localStorage.setItem('preferred_language', lang);
-  }
-
-  langBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      langBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const lang = btn.getAttribute('data-lang');
-      applyLanguage(lang);
-    });
-  });
-
-  const savedLang = localStorage.getItem('preferred_language') || 'en';
-  const targetBtn = document.querySelector(`.lang-btn[data-lang="${savedLang}"]`);
-  if (targetBtn) {
-    langBtns.forEach(b => b.classList.remove('active'));
-    targetBtn.classList.add('active');
-  }
-  applyLanguage(savedLang);
+  // 9. Language Switcher (Shared js/i18n.js)
+  // Handled centrally by js/i18n.js for instant switching and persistence across all pages
 
   const defaultSiteContent = {
     home: {
@@ -1209,7 +923,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Ensure current language is applied after all dynamic rendering
-  applyLanguage(savedLang);
+  if (window.applyLanguage) window.applyLanguage(localStorage.getItem('preferred_language') || 'en');
 });
 
 // ==========================================================================
@@ -1778,8 +1492,8 @@ function playSpatialChime() {
   }
 }
 
-window.launch3DMapPortal = function(url = './3d-map/index.html') {
-  portalActiveTargetUrl = url;
+window.launch3DMapPortal = function(url = 'https://regalfarms.vercel.app/') {
+  portalActiveTargetUrl = 'https://regalfarms.vercel.app/';
   const overlay = document.getElementById('spatialPortalOverlay');
   const core = document.getElementById('portalCoreWrapper');
   const fill = document.getElementById('portalProgressFill');
@@ -1795,16 +1509,13 @@ window.launch3DMapPortal = function(url = './3d-map/index.html') {
   }
 
   if (!overlay) {
-    window.location.href = url;
+    window.location.href = 'https://regalfarms.vercel.app/';
     return;
   }
 
-  // Update target badge depending on destination
+  // Update target badge
   if (targetBadge) {
-    const isCad = url.includes('3d-map');
-    targetBadge.innerHTML = isCad 
-      ? '<i class="fa-solid fa-compass"></i> TARGET: SWASTIK BY SHREEJI INFOTECH 3D AUTOCAD MASTER PLAN'
-      : '<i class="fa-solid fa-compass"></i> TARGET: REGAL FARMS 3D SPATIAL TWIN';
+    targetBadge.innerHTML = '<i class="fa-solid fa-compass"></i> TARGET: REGAL FARMS 3D SPATIAL TWIN';
   }
 
   // Reset animations
@@ -1839,23 +1550,25 @@ window.launch3DMapPortal = function(url = './3d-map/index.html') {
       if (step.progress === 100) {
         if (headline) headline.innerHTML = 'PORTAL ALIGNED &bull; WARPING';
         if (core) core.classList.add('warping');
+
+        // Automatically open Regal Farms site when reaching 100%
+        clearInterval(portalStepInterval);
+        portalAnimationTimer = setTimeout(() => {
+          window.executePortalRedirect('https://regalfarms.vercel.app/');
+        }, 300);
+        return;
       }
       currentStep++;
     } else {
       clearInterval(portalStepInterval);
     }
   }, 280);
-
-  // Smooth redirect after cinematic sequence (~1.3s)
-  portalAnimationTimer = setTimeout(() => {
-    window.executePortalRedirect();
-  }, 1320);
 };
 
 window.executePortalRedirect = function(targetOverride) {
   clearTimeout(portalAnimationTimer);
   clearInterval(portalStepInterval);
-  const target = targetOverride || portalActiveTargetUrl || './3d-map/index.html';
+  const target = 'https://regalfarms.vercel.app/';
   window.location.href = target;
 };
 
@@ -1879,8 +1592,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Don't intercept if ctrl/cmd key or middle click is used (allow new tab)
       if (e.metaKey || e.ctrlKey || e.button === 1) return;
       e.preventDefault();
-      const targetUrl = link.getAttribute('href') || './3d-map/index.html';
-      window.launch3DMapPortal(targetUrl);
+      window.launch3DMapPortal('https://regalfarms.vercel.app/');
     });
   });
 });

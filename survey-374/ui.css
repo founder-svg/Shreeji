@@ -1,3 +1,12 @@
+/* Multi-Lingual Typography Support */
+html[lang="gu"], html[lang="guj"], :lang(gu), :lang(guj) {
+  font-family: 'Noto Sans Gujarati', system-ui, -apple-system, sans-serif !important;
+}
+
+html[lang="hi"], :lang(hi) {
+  font-family: 'Noto Sans Devanagari', system-ui, -apple-system, sans-serif !important;
+}
+
 /* =========================
    GLOBAL
 ========================= */

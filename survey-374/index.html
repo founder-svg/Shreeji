@@ -2,6 +2,10 @@
 <html lang="en">
 
 <head>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Noto+Sans+Gujarati:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet" />
+
   <meta charset="UTF-8" />
   <title>Survey 374 - Nagavaladiya 3D Plot Layout | Swastik by Shreeji Infotech</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,6 +31,8 @@
     }
   }
   </script>
+  <!-- Multi-Lingual Core Engine -->
+  <script src="../js/i18n.js"></script>
 </head>
 
 <body>
@@ -73,13 +79,18 @@
        TOP RIGHT ACTION BUTTONS
   ======================= -->
   <div class="ui-top-right">
+        <div class="lang-switch" style="display: flex; align-items: center; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 2px; gap: 2px; margin-right: 8px;">
+          <button type="button" class="lang-btn active" data-lang="en" style="padding: 0 8px; height: 32px; font-size: 12px; background: transparent; border: none; color: #FFF; border-radius: 6px; cursor: pointer;">EN</button>
+          <button type="button" class="lang-btn" data-lang="guj" style="padding: 0 8px; height: 32px; font-size: 12px; background: transparent; border: none; color: #FFF; border-radius: 6px; cursor: pointer;">ગુજ</button>
+          <button type="button" class="lang-btn" data-lang="hi" style="padding: 0 8px; height: 32px; font-size: 12px; background: transparent; border: none; color: #FFF; border-radius: 6px; cursor: pointer;">हिन्दी</button>
+        </div>
     <a href="../index.html" class="ui-circle-btn ui-standalone-top-btn" title="Back to Swastik by Shreeji Infotech Home">
       <i class="fa-solid fa-house" style="font-size: 15px; color: white;"></i>
       <span class="ui-top-right-tooltip">Main Website</span>
     </a>
     <a href="./374_NAGAVALADIYA_NEW.dwg" download="374_NAGAVALADIYA_NEW.dwg" class="ui-circle-btn ui-standalone-top-btn" title="Download AutoCAD .DWG Source File" style="margin-left: 8px;">
       <i class="fa-solid fa-file-arrow-down" style="font-size: 15px; color: #D9A441;"></i>
-      <span class="ui-top-right-tooltip">Download DWG</span>
+      <span class="ui-top-right-tooltip" data-i18n="s374_dwg_btn">Download DWG</span>
     </a>
   </div>
 
@@ -115,7 +126,7 @@
       </div>
     </div>
     <button class="plot-card-action-btn" id="plotCardWaBtn" type="button">
-      <i class="fa-brands fa-whatsapp"></i> Inquire Plot on WhatsApp
+      <i class="fa-brands fa-whatsapp"></i> <span data-i18n="s374_inquire_btn">Inquire Plot on WhatsApp</span>
     </button>
   </div>
 

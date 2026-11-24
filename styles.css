@@ -1,10 +1,66 @@
-/* ==========================================================================
-   Shreeji Real Estate - Design System & Modern Stylesheet
+/* Section Anchors: scroll-margin-top equal to header height */
+section[id],
+#story,
+#properties-section,
+#kutchCorridors,
+#perspectiveTunnel,
+#cinemaSection,
+#contact,
+footer[id] {
+  scroll-margin-top: 80px !important;
+}
+
+@media (max-width: 1024px) {
+  section[id],
+  #story,
+  #properties-section,
+  #kutchCorridors,
+  #perspectiveTunnel,
+  #cinemaSection,
+  #contact,
+  footer[id] {
+    scroll-margin-top: 65px !important;
+  }
+}
    Concept 1: Regal Corporate Navy & Champagne Gold
    Palette: Imperial Navy (#0B2545), Midnight Obsidian (#061527), Champagne Gold (#C59B27)
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Noto+Sans+Gujarati:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+/* Multi-Lingual Typography Support */
+html[lang="gu"], html[lang="guj"], :lang(gu), :lang(guj) {
+  font-family: 'Noto Sans Gujarati', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif !important;
+}
+
+html[lang="hi"], :lang(hi) {
+  font-family: 'Noto Sans Devanagari', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif !important;
+}
+
+/* Guarantee Font Awesome icons retain their dedicated icon font-family and weights */
+.fa, .fas, .far, .fal, .fad, .fab, .fa-solid, .fa-regular, .fa-brands, [class*="fa-"] {
+  font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", "FontAwesome" !important;
+  font-style: normal !important;
+}
+.fa-brands, [class*="fa-brands"] {
+  font-family: "Font Awesome 6 Brands" !important;
+}
+.fa-solid, [class*="fa-solid"] {
+  font-weight: 900 !important;
+}
+
+html[lang="gu"] .btn-spatial-primary,
+html[lang="guj"] .btn-spatial-primary,
+html[lang="hi"] .btn-spatial-primary,
+html[lang="gu"] .btn,
+html[lang="guj"] .btn,
+html[lang="hi"] .btn,
+html[lang="gu"] .nav-link,
+html[lang="guj"] .nav-link,
+html[lang="hi"] .nav-link {
+  white-space: normal;
+  line-height: 1.25;
+}
 
 :root {
   /* Core Colors - Regal Corporate Navy & Champagne Gold */
@@ -1858,25 +1914,20 @@ float-top-right {
   .footer-grid { grid-template-columns: repeat(2, 1fr) !important; }
 
   /* Navigation & Header Mobile/Tablet Styling (switch at max-width 1024px) */
-  /* 1. Compact Topbar on Mobile/Tablet */
-  .topbar-left {
-    display: none !important;
-  }
-
-  .topbar-right .topbar-item:not(:last-child) {
-    display: none !important;
-  }
-
-  .topbar-container {
-    justify-content: center !important;
-  }
-
+  /* 1. Top Announcement Bar - Hidden on mobile and tablet (max-width 1024px) */
   .topbar {
-    padding: 0.25rem 0.5rem !important;
-    min-height: 28px !important;
-    height: 28px !important;
-    display: flex !important;
-    align-items: center !important;
+    display: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+  }
+
+  .topbar-container,
+  .topbar-left,
+  .topbar-right {
+    display: none !important;
   }
 
   .header {
@@ -1884,9 +1935,7 @@ float-top-right {
     position: sticky !important;
     top: 0 !important;
     z-index: 1100 !important;
-    background: rgba(7, 30, 54, 0.96) !important;
-    -webkit-backdrop-filter: blur(20px) !important;
-    backdrop-filter: blur(20px) !important;
+    background: #071E36 !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
   }
 
@@ -2047,8 +2096,6 @@ float-top-right {
     width: 100% !important;
     height: 100dvh !important;
     background: rgba(0, 0, 0, 0.65) !important;
-    -webkit-backdrop-filter: blur(4px) !important;
-    backdrop-filter: blur(4px) !important;
     z-index: 1250 !important;
     opacity: 0 !important;
     visibility: hidden !important;
@@ -2072,12 +2119,10 @@ float-top-right {
     width: min(85vw, 340px) !important;
     max-width: 340px !important;
     height: 100dvh !important;
-    height: 100vh !important;
-    height: 100dvh !important;
-    background: #061527 !important;
-    background: linear-gradient(180deg, #071E36 0%, #051323 100%) !important;
+    background: #0b1b33 !important;
+    background-color: #0b1b33 !important;
     border-right: 1px solid rgba(255, 255, 255, 0.12) !important;
-    box-shadow: 10px 0 35px rgba(0, 0, 0, 0.5) !important;
+    box-shadow: 10px 0 35px rgba(0, 0, 0, 0.7) !important;
     z-index: 1300 !important;
     overflow-y: auto !important;
     -webkit-overflow-scrolling: touch !important;
@@ -2087,6 +2132,11 @@ float-top-right {
     gap: 0.25rem !important;
     border-radius: 0 !important;
     border-bottom: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    -webkit-filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
 
     /* Closed state: transform translateX(-100%), visibility hidden */
     transform: translateX(-100%) !important;
@@ -2118,15 +2168,20 @@ float-top-right {
     min-height: 48px !important;
     padding: 0 1rem !important;
     font-size: 16px !important;
-    color: rgba(255, 255, 255, 0.9) !important;
+    color: #FFFFFF !important;
     white-space: nowrap !important;
     border-radius: 10px !important;
+    opacity: 1 !important;
+    filter: none !important;
+    -webkit-filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
     transition: background 0.2s ease, color 0.2s ease !important;
   }
 
   .nav-link:hover, .nav-link.active {
-    background: rgba(255, 255, 255, 0.08) !important;
-    color: var(--accent-gold-light) !important;
+    background: rgba(255, 255, 255, 0.12) !important;
+    color: #00D2FF !important;
   }
 
   /* Put the "Book Consultation" button at the bottom of the panel */
@@ -2135,6 +2190,8 @@ float-top-right {
     width: 100% !important;
     margin-top: auto !important;
     padding-top: 1.25rem !important;
+    opacity: 1 !important;
+    filter: none !important;
   }
 
   .mobile-only-link .nav-link {
@@ -2144,35 +2201,22 @@ float-top-right {
     justify-content: center !important;
     text-align: center !important;
     box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: flex !important;
+    filter: none !important;
   }
 
   body.menu-open {
     overflow: hidden !important;
+  }
+  .nav-backdrop {
     touch-action: none !important;
   }
 }
 
 @media (max-width: 768px) {
-  .topbar-left {
-    display: none !important;
-  }
-
-  .topbar-container {
-    justify-content: center !important;
-  }
-
-  .topbar-right {
-    margin: 0 auto !important;
-    justify-content: center !important;
-  }
-
-  .topbar {
-    padding: 0.25rem 0.5rem !important;
-    min-height: 28px !important;
-    height: 28px !important;
-    display: flex !important;
-    align-items: center !important;
-  }
+  /* Inherits max-width: 1024px topbar hidden */
 
   /* Navigation & Header Mobile Styling inherits max-width: 1024px slide-in panel */
   .dropdown-menu {
@@ -6000,22 +6044,7 @@ input[type="button"],
     gap: 1.25rem !important;
   }
 
-  /* Compact Topbar & Zero-Collision Navbar for < 480px */
-  .topbar-badge {
-    display: none !important;
-  }
-
-  .topbar-container {
-    justify-content: center !important;
-  }
-
-  .topbar-right {
-    margin: 0 auto !important;
-  }
-
-  .topbar {
-    padding: 0.25rem 0.5rem !important;
-  }
+  /* Zero-Collision Navbar for < 480px */
 
   .navbar {
     padding: 0 12px !important;

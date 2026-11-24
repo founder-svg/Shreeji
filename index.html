@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Noto+Sans+Gujarati:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet" />
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Swastik by Shreeji Infotech | Commercial Rental & Leasing in Gandhidham & Adipur</title>
@@ -14,6 +18,8 @@
   <script src="js/shreeji-security-shield.js"></script>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Multi-Lingual Core Engine -->
+  <script src="./js/i18n.js"></script>
 </head>
 <body>
 
@@ -21,7 +27,7 @@
   <div class="topbar">
     <div class="container topbar-container">
       <div class="topbar-left">
-        <span class="topbar-badge"><i class="fa-solid fa-stamp"></i> RERA REGISTERED</span>
+        <span class="topbar-badge" data-i18n="topbar_rera"><i class="fa-solid fa-stamp"></i> RERA REGISTERED</span>
         <div class="topbar-item">
           <i class="fa-solid fa-scale-balanced"></i>
           <span>100% Legal Title Due Diligence & 7/12 Clearance</span>
@@ -57,16 +63,16 @@
         </a>
         
         <ul class="nav-links" id="navLinks">
-          <li><a href="./index.html" class="nav-link active">Home</a></li>
-          <li><a href="#story" class="nav-link">About</a></li>
-          <li><a href="#properties-section" class="nav-link">Projects</a></li>
-          <li><a href="#kutchCorridors" class="nav-link">Corridors</a></li>
-          <li><a href="#perspectiveTunnel" class="nav-link">3D Models</a></li>
-          <li><a href="./survey-374/index.html" class="nav-link nav-map-trigger" title="Survey 374 3D Layout">Survey 374 <span class="map-badge-3d"><i class="fa-solid fa-satellite"></i> 3D</span></a></li>
-          <li><a href="./3d-map/index.html" class="nav-link nav-map-trigger" id="navMapLink">Maps <span class="map-badge-3d"><i class="fa-solid fa-cube"></i> 3D</span></a></li>
-          <li><a href="#cinemaSection" class="nav-link">Live Drone Video</a></li>
-          <li><a href="#contact" class="nav-link">Contact</a></li>
-          <li class="mobile-only-link"><a href="./portal.html" class="nav-link" style="color: #00D2FF !important; font-weight: 700;"><i class="fa-solid fa-calendar-check"></i> VIP Property Consultation</a></li>
+          <li><a href="./index.html" class="nav-link active" data-i18n="nav_home">Home</a></li>
+          <li><a href="#story" class="nav-link" data-i18n="nav_about">About</a></li>
+          <li><a href="#properties-section" class="nav-link" data-i18n="nav_projects">Projects</a></li>
+          <li><a href="#kutchCorridors" class="nav-link" data-i18n="nav_corridors">Corridors</a></li>
+          <li><a href="#perspectiveTunnel" class="nav-link" data-i18n="nav_3d_models">3D Models</a></li>
+          <li><a href="./survey-374/index.html" class="nav-link nav-map-trigger" title="Survey 374 3D Layout"><span data-i18n="nav_survey_374">Survey 374</span> <span class="map-badge-3d"><i class="fa-solid fa-satellite"></i> 3D</span></a></li>
+          <li><a href="./3d-map/index.html" class="nav-link nav-map-trigger" id="navMapLink"><span data-i18n="nav_maps">Maps</span> <span class="map-badge-3d"><i class="fa-solid fa-cube"></i> 3D</span></a></li>
+          <li><a href="#cinemaSection" class="nav-link" data-i18n="nav_drone_video">Live Drone Video</a></li>
+          <li><a href="#contact" class="nav-link" data-i18n="nav_contact">Contact</a></li>
+          <li class="mobile-only-link"><a href="./portal.html" class="nav-link" style="color: #00D2FF !important; font-weight: 700;"><i class="fa-solid fa-calendar-check"></i> <span data-i18n="nav_vip">VIP Property Consultation</span></a></li>
         </ul>
 
         <div class="nav-actions">
@@ -80,8 +86,8 @@
           </button>
           <a href="./portal.html" class="btn-spatial-primary">
             <i class="fa-solid fa-calendar-check"></i>
-            <span class="btn-text-full">Book Consultation</span>
-            <span class="btn-text-short">Book Visit</span>
+            <span class="btn-text-full" data-i18n="btn_book_consultation">Book Consultation</span>
+            <span class="btn-text-short" data-i18n="btn_book_visit">Book Visit</span>
           </a>
         </div>
 
@@ -100,25 +106,25 @@
     <div class="container">
       <div class="spatial-hero-grid">
         <div class="spatial-hero-left reveal">
-          <div class="spatial-badge-pill">
+          <div class="spatial-badge-pill" data-i18n="hero_spatial_badge">
             <i class="fa-solid fa-sparkles"></i> SPATIAL INTELLIGENCE PLATFORM
           </div>
-          <h1 class="spatial-hero-title">
+          <h1 class="spatial-hero-title" data-i18n="hero_spatial_title">
             See Every Detail.<br>
             <span class="gradient-blue-text">Understand Every Place.</span>
           </h1>
-          <p class="spatial-hero-desc">
+          <p class="spatial-hero-desc" data-i18n="hero_spatial_desc">
             Explore real-world commercial locations in Gandhidham & Adipur with interactive 3D models, high-resolution GIS maps and powerful spatial analytics.
           </p>
           <div class="spatial-cta-row">
-            <a href="#spatialTools" class="btn-spatial-primary">Explore Platform &rarr;</a>
-            <a href="#properties-section" class="btn-spatial-secondary">View Projects</a>
+            <a href="#spatialTools" class="btn-spatial-primary" data-i18n="hero_explore_platform">Explore Platform &rarr;</a>
+            <a href="#properties-section" class="btn-spatial-secondary" data-i18n="hero_view_projects">View Projects</a>
           </div>
           <div class="spatial-segmented-control" id="spatialViewSwitcher">
-            <button class="segmented-btn active" type="button" onclick="switchSpatialMode('estate', this)">Luxury Estate</button>
-            <button class="segmented-btn" type="button" onclick="switchSpatialMode('3d', this)">3D Masterplan</button>
-            <button class="segmented-btn" type="button" onclick="switchSpatialMode('map', this)">Map</button>
-            <button class="segmented-btn" type="button" onclick="switchSpatialMode('satellite', this)">Satellite</button>
+            <button class="segmented-btn active" type="button" onclick="switchSpatialMode('estate', this)" data-i18n="hero_tab_estate">Luxury Estate</button>
+            <button class="segmented-btn" type="button" onclick="switchSpatialMode('3d', this)" data-i18n="hero_tab_masterplan">3D Masterplan</button>
+            <button class="segmented-btn" type="button" onclick="switchSpatialMode('map', this)" data-i18n="hero_tab_map">Map</button>
+            <button class="segmented-btn" type="button" onclick="switchSpatialMode('satellite', this)" data-i18n="hero_tab_satellite">Satellite</button>
           </div>
         </div>
 
@@ -127,9 +133,9 @@
             <img src="images/hero-luxury-estate.jpg" alt="Swastik by Shreeji Infotech Luxury Commercial Estate & Modern Villa Pavilion" class="spatial-visual-img" id="spatialMainImg">
             
             <!-- Interactive Floating Badge -->
-            <div class="badge-interactive-view" style="cursor: pointer;" onclick="launch3DMapPortal('./3d-map/index.html')" title="Launch Interactive 3D Master Plan">
+            <div class="badge-interactive-view" style="cursor: pointer;" onclick="launch3DMapPortal('https://regalfarms.vercel.app/')" title="Launch Interactive 3D Master Plan">
               <i class="fa-solid fa-shapes"></i>
-              <span id="spatialViewBadgeText">Swastik Prime Estate View</span>
+              <span id="spatialViewBadgeText" data-i18n="hero_prime_view">Swastik Prime Estate View</span>
             </div>
 
             <!-- Floating Map HUD Controls -->
@@ -260,7 +266,7 @@
 
       <div class="spatial-tools-grid">
         <!-- Tool 1: 3D Models & Master Plan -->
-        <div class="spatial-tool-card reveal" onclick="launch3DMapPortal('./3d-map/index.html')" style="cursor: pointer;">
+        <div class="spatial-tool-card reveal" onclick="launch3DMapPortal('https://regalfarms.vercel.app/')" style="cursor: pointer;">
           <div class="tool-card-thumb-wrap">
             <img src="images/commercial-tower.jpg" alt="3D Model Visualization" class="tool-card-thumb">
             <span class="tool-badge-live" style="position: absolute; top: 10px; left: 10px; background: rgba(14, 34, 61, 0.85); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border: 1px solid rgba(0, 210, 255, 0.5); color: #00D2FF; font-size: 0.72rem; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 6px; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.4rem; z-index: 2;"><i class="fa-solid fa-cube"></i> INTERACTIVE 3D</span>
@@ -274,7 +280,7 @@
         </div>
 
         <!-- Tool 2: 3D Satellite Map & Master Plan -->
-        <div class="spatial-tool-card reveal" onclick="launch3DMapPortal('./survey-374/index.html')" style="cursor: pointer;">
+        <div class="spatial-tool-card reveal" onclick="launch3DMapPortal('https://regalfarms.vercel.app/')" style="cursor: pointer;">
           <div class="tool-card-thumb-wrap">
             <img src="survey-374/media/gallery_1793902327504_1001132653.png" alt="Survey 374 3D Satellite Digital Twin" class="tool-card-thumb">
             <span class="tool-badge-live" style="position: absolute; top: 10px; left: 10px; background: rgba(14, 34, 61, 0.85); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border: 1px solid rgba(217, 164, 65, 0.7); color: #D9A441; font-size: 0.72rem; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 6px; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.4rem; z-index: 2;"><i class="fa-solid fa-satellite"></i> SATELLITE 3D TWIN</span>
@@ -370,14 +376,14 @@
               <!-- Sequential Auto-Loop Pill -->
               <div class="cinema-loop-pill" title="Sequential continuous auto-play enabled (loops infinitely from last video back to first)">
                 <span class="loop-dot"></span>
-                <span>Sequential Auto-Loop</span>
+                <span data-i18n="cinema_autoloop_pill">Sequential Auto-Loop</span>
               </div>
 
               <!-- Video Sound Toggle -->
               <button type="button" class="cinema-sound-btn" id="btnVideoSound" onclick="window.shreejiToggleVideoAudio()" title="Mute/Unmute Video Audio">
                 <i class="fa-solid fa-volume-xmark" id="iconSoundMuted"></i>
                 <i class="fa-solid fa-volume-high" id="iconSoundActive" style="display: none;"></i>
-                <span id="lblSoundStatus">Unmute Video</span>
+                <span id="lblSoundStatus" data-i18n="cinema_unmute_btn">Unmute Video</span>
               </button>
 
               <!-- Studio Cinematic Music Toggle with Equalizer Wave -->
@@ -388,7 +394,7 @@
                   <span class="eq-bar bar-3"></span>
                   <span class="eq-bar bar-4"></span>
                 </span>
-                <span id="lblBgmStatus">Cinematic Music: OFF</span>
+                <span id="lblBgmStatus" data-i18n="cinema_music_btn">Cinematic Music: OFF</span>
               </button>
             </div>
           </div>
@@ -409,7 +415,7 @@
             </div>
             <div class="cinema-cta-wrap">
               <button type="button" class="btn-cinema-cta" onclick="openModalWithDetails('Live Drone Site Inspection', 'Gandhidham & Adipur Hub', 'Priority Consultation')">
-                <span>Book Site Inspection</span>
+                <span data-i18n="cinema_book_inspection">Book Site Inspection</span>
                 <i class="fa-solid fa-arrow-right"></i>
               </button>
             </div>
@@ -855,12 +861,12 @@
 
       <!-- Interactive Filter Pills -->
       <div class="property-filter-wrapper reveal">
-        <button class="filter-pill active" data-filter="all"><i class="fa-solid fa-border-all"></i> All Properties</button>
-        <button class="filter-pill" data-filter="office"><i class="fa-solid fa-building"></i> Corporate Offices</button>
-        <button class="filter-pill" data-filter="showroom"><i class="fa-solid fa-gem"></i> Showrooms</button>
-        <button class="filter-pill" data-filter="shop"><i class="fa-solid fa-store"></i> Market Shops</button>
+        <button class="filter-pill active" data-filter="all"><i class="fa-solid fa-border-all"></i> <span data-i18n="filter_all">All Properties</span></button>
+        <button class="filter-pill" data-filter="office"><i class="fa-solid fa-building"></i> <span data-i18n="filter_offices">Corporate Offices</span></button>
+        <button class="filter-pill" data-filter="showroom"><i class="fa-solid fa-gem"></i> <span data-i18n="filter_showrooms">Showrooms</span></button>
+        <button class="filter-pill" data-filter="shop"><i class="fa-solid fa-store"></i> <span data-i18n="filter_retail">Market Shops</span></button>
         <button class="filter-pill" data-filter="industrial"><i class="fa-solid fa-warehouse"></i> Port Logistics & GIDC</button>
-        <button class="filter-pill" data-filter="plot"><i class="fa-solid fa-map"></i> Commercial Plots</button>
+        <button class="filter-pill" data-filter="plot"><i class="fa-solid fa-map"></i> <span data-i18n="filter_plots">Commercial Plots</span></button>
       </div>
 
       <!-- Real Properties Showcase Grid -->
@@ -1325,7 +1331,7 @@
   </section>
 
   <!-- Contact Footer -->
-  <footer class="footer">
+  <footer class="footer" id="contact">
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
@@ -1533,11 +1539,8 @@
 
       <!-- Quick Actions -->
       <div class="portal-actions">
-        <button type="button" class="portal-skip-btn" onclick="executePortalRedirect('./3d-map/index.html')">
+        <button type="button" class="portal-skip-btn" onclick="executePortalRedirect('https://regalfarms.vercel.app/')">
           <span>Enter 3D CAD Map</span> <i class="fa-solid fa-arrow-right"></i>
-        </button>
-        <button type="button" class="portal-skip-btn" style="background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2);" onclick="executePortalRedirect('https://regalfarms.vercel.app/')">
-          <span>Regal Farms Vercel</span> <i class="fa-solid fa-arrow-up-right-from-square"></i>
         </button>
         <button type="button" class="portal-cancel-btn" onclick="closePortalOverlay()">
           Cancel

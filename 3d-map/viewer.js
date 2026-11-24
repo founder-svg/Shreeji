@@ -839,6 +839,17 @@
     const confirmBtn = document.getElementById("btnConfirmBookingInterest");
     const summary = document.getElementById("modalSelectedSummary");
 
+    const closeModal = (e) => {
+      if (e) {
+        if (typeof e.preventDefault === "function") e.preventDefault();
+        if (typeof e.stopPropagation === "function") e.stopPropagation();
+      }
+      modal.hidden = true;
+      document.body.style.overflow = '';
+    };
+
+    window.closeBookingModal = closeModal;
+
     bookBtn?.addEventListener("click", () => {
       if (!state.selectedMesh) return;
       const meta = state.selectedMesh.userData.meta || {};
@@ -866,12 +877,19 @@
       }
 
       modal.hidden = false;
+      document.body.style.overflow = 'hidden';
     });
 
-    const closeModal = () => { modal.hidden = true; };
     backdrop?.addEventListener("click", closeModal);
+    backdrop?.addEventListener("touchend", closeModal);
     closeBtn?.addEventListener("click", closeModal);
+    closeBtn?.addEventListener("touchend", closeModal);
     cancelBtn?.addEventListener("click", closeModal);
+    cancelBtn?.addEventListener("touchend", closeModal);
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !modal.hidden) closeModal(e);
+    });
 
     confirmBtn?.addEventListener("click", () => {
       const waBtn = document.getElementById("btn-card-whatsapp");
@@ -893,6 +911,8 @@
     document.getElementById("btn-camera-home").addEventListener("click", resetCameraHome);
     document.getElementById("compass-btn").addEventListener("click", alignCompassNorth);
     document.getElementById("btn-close-plot-card").addEventListener("click", closePlotCard);
+    document.getElementById("btn-close-plot-card").addEventListener("touchend", closePlotCard);
+    window.closePlotCard = closePlotCard;
 
     // Project Switcher
     const projectSelect = document.getElementById("project-select");

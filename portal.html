@@ -12,7 +12,7 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Noto+Sans+Gujarati:wght@400;500;600;700;800" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
   <style>
@@ -778,6 +778,8 @@
       }
     }
   </style>
+  <!-- Multi-Lingual Core Engine -->
+  <script src="./js/i18n.js"></script>
 </head>
 <body>
 
@@ -793,6 +795,11 @@
     </a>
 
     <div class="nav-actions">
+        <div class="lang-switch" style="display: flex; align-items: center; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 2px; gap: 2px;">
+          <button type="button" class="lang-btn active" data-lang="en" style="padding: 0 8px; height: 30px; font-size: 12px; background: transparent; border: none; color: #FFF; border-radius: 6px; cursor: pointer;">EN</button>
+          <button type="button" class="lang-btn" data-lang="guj" style="padding: 0 8px; height: 30px; font-size: 12px; background: transparent; border: none; color: #FFF; border-radius: 6px; cursor: pointer;">ગુજ</button>
+          <button type="button" class="lang-btn" data-lang="hi" style="padding: 0 8px; height: 30px; font-size: 12px; background: transparent; border: none; color: #FFF; border-radius: 6px; cursor: pointer;">हिन्दी</button>
+        </div>
       <div id="activeUserBadge" class="client-active-pill" style="display: none;">
         <i class="fa-solid fa-circle-check"></i>
         <span id="activeUserText">Logged In</span>
@@ -817,13 +824,13 @@
 
     <!-- Hero Title -->
     <section class="portal-hero">
-      <div class="portal-tag">
+      <div class="portal-tag" data-i18n="portal_brand_tag">
         <i class="fa-solid fa-sparkles"></i> VIP REAL ESTATE CONSULTATION
       </div>
-      <h1 class="portal-hero-title">
+      <h1 class="portal-hero-title" data-i18n="portal_welcome_title">
         Client Account &amp; <span class="gold-text">Property Consultation</span>
       </h1>
-      <p class="portal-hero-desc">
+      <p class="portal-hero-desc" data-i18n="portal_welcome_subtitle">
         Register your commercial property requirements, select 3D surveyed plot parcels, and connect directly with Swastik by Shreeji Infotech's executive sales team on WhatsApp.
       </p>
     </section>
@@ -832,15 +839,15 @@
     <div class="stepper-wrap">
       <div class="step-item active" id="stepper1" onclick="switchSection('auth')">
         <span class="step-circle">1</span>
-        <span>Client Account</span>
+        <span data-i18n="portal_step_1">Client Account</span>
       </div>
       <div class="step-item" id="stepper2" onclick="switchSection('kyc')">
         <span class="step-circle">2</span>
-        <span>Property Requirements</span>
+        <span data-i18n="portal_step_2">Property Requirements</span>
       </div>
       <div class="step-item" id="stepper3">
         <span class="step-circle">3</span>
-        <span>Sales Dispatch</span>
+        <span data-i18n="portal_step_3">Sales Dispatch</span>
       </div>
     </div>
 
@@ -853,13 +860,13 @@
     <section class="portal-card" id="cardAuth">
       <div class="card-header-row">
         <div class="card-title-group">
-          <h2 id="authCardTitle">Create Client User ID &amp; Password</h2>
-          <p id="authCardSub">Register once to access commercial surveyed drawings and submit verified parcel bookings.</p>
+          <h2 id="authCardTitle" data-i18n="portal_card_personal_title">Create Client User ID &amp; Password</h2>
+          <p id="authCardSub" data-i18n="portal_card_personal_desc">Register once to access commercial surveyed drawings and submit verified parcel bookings.</p>
         </div>
 
         <div class="auth-toggle-row">
-          <button type="button" class="auth-toggle-btn active" id="btnToggleRegister" onclick="setAuthMode('register')">Register</button>
-          <button type="button" class="auth-toggle-btn" id="btnToggleLogin" onclick="setAuthMode('login')">Sign In</button>
+          <button type="button" class="auth-toggle-btn active" id="btnToggleRegister" onclick="setAuthMode('register')" data-i18n="portal_register_tab">Register</button>
+          <button type="button" class="auth-toggle-btn" id="btnToggleLogin" onclick="setAuthMode('login')" data-i18n="portal_signin_tab">Sign In</button>
         </div>
       </div>
 
