@@ -32,16 +32,6 @@ function initMobileNav() {
       const searchLi = document.createElement('li');
       searchLi.className = 'mobile-search-item';
       searchLi.innerHTML = '<a href="#properties-section" class="nav-link mobile-search-link"><i class="fa-solid fa-magnifying-glass"></i> Search Properties</a>';
-      const searchAnchor = searchLi.querySelector('a');
-      if (searchAnchor) {
-        searchAnchor.addEventListener('click', (e) => {
-          const propSec = document.getElementById('properties-section');
-          if (propSec) {
-            e.preventDefault();
-            propSec.scrollIntoView({ behavior: 'smooth' });
-          }
-        });
-      }
       const consultLi = navLinks.querySelector('.mobile-only-link');
       if (consultLi) {
         navLinks.insertBefore(searchLi, consultLi);
@@ -50,25 +40,29 @@ function initMobileNav() {
       }
     }
 
+    let menuOpenedTime = 0;
+
     const openMenu = () => {
       navLinks.classList.add('active');
       backdrop.classList.add('active');
-      document.body.classList.add('menu-open');
+      menuOpenedTime = Date.now();
       const icon = mobileMenuBtn.querySelector('i');
       if (icon) icon.className = 'fa-solid fa-xmark';
     };
 
-    const closeMenu = (callback) => {
+    window.closeMenu = function(callback) {
       navLinks.classList.remove('active');
       backdrop.classList.remove('active');
       document.body.classList.remove('menu-open');
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
       const icon = mobileMenuBtn.querySelector('i');
       if (icon) icon.className = 'fa-solid fa-bars';
       if (typeof callback === 'function') {
         setTimeout(callback, 20);
       }
     };
+    const closeMenu = window.closeMenu;
 
     // Toggle on hamburger button
     mobileMenuBtn.addEventListener('click', (e) => {
@@ -90,40 +84,46 @@ function initMobileNav() {
       }
     });
 
-    // Close on any link click and navigate/scroll reliably
-    navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', (e) => {
-        const href = link.getAttribute('href');
-        // If it is a spatial/portal trigger (e.g. maps/survey), launch warp portal to Regal Farms
-        if (link.classList.contains('nav-map-trigger') || (href && (href.includes('3d-map') || href.includes('survey-374') || href.includes('regalfarms')))) {
-          e.preventDefault();
-          closeMenu(() => {
-            window.launch3DMapPortal('https://regalfarms.vercel.app/');
-          });
-          return;
-        }
-
-        // Handle in-page smooth scrolling anchor links
-        if (href && href.startsWith('#')) {
-          e.preventDefault();
-          const targetId = href.substring(1);
-          closeMenu(() => {
-            setTimeout(() => {
-              const targetEl = document.getElementById(targetId);
-              if (targetEl) {
-                targetEl.scrollIntoView({ behavior: 'smooth' });
-              } else if (targetId === 'contact') {
-                const footerEl = document.querySelector('.footer');
-                if (footerEl) footerEl.scrollIntoView({ behavior: 'smooth' });
-              }
-            }, 300);
-          });
+    // Self-correcting scroll that re-measures until the section is actually at the top
+    function goTo(id) {
+      var t = document.getElementById(id);
+      if (!t) {
+        console.error('Menu target not found:', id);
+        return;
+      }
+      if (typeof window.ScrollTrigger !== 'undefined' && typeof window.ScrollTrigger.refresh === 'function') {
+        window.ScrollTrigger.refresh();
+      }
+      var h = (document.querySelector('.header') || {}).offsetHeight || 0;
+      var tries = 0;
+      (function step() {
+        var delta = t.getBoundingClientRect().top - h;
+        if (Math.abs(delta) > 2 && tries++ < 25) {
+          window.scrollBy(0, delta);
+          setTimeout(step, 60);
         } else {
-          // Normal page navigation
-          closeMenu();
+          history.replaceState(null, '', '#' + id);
         }
-      });
-    });
+      })();
+    }
+    window.goTo = goTo;
+
+    // Capture-phase click listener for menu links: runs before anything else can block it
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest('.nav-menu a[href], .mobile-menu a[href], nav a[href], .nav-links a[href]');
+      if (!a || window.innerWidth > 1024) return;
+      var href = a.getAttribute('href') || '';
+      var hashIndex = href.indexOf('#');
+      var isSamePage = href.startsWith('#') || (hashIndex > -1 && href.split('#')[0].replace(/^\.?\//, '') === (location.pathname.split('/').pop() || 'index.html'));
+      if (!isSamePage) return; // other pages navigate normally
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      var id = href.slice(hashIndex + 1);
+      closeMenu(); // existing close function; also remove body.menu-open and any scroll lock
+      setTimeout(function () {
+        goTo(id);
+      }, 350);
+    }, true);
   }
 }
 

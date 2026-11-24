@@ -2079,38 +2079,44 @@ float-top-right {
     min-width: 44px !important;
     min-height: 44px !important;
     border-radius: 10px !important;
-    background: var(--bg-slate) !important;
-    border: 1px solid var(--border-color) !important;
-    color: var(--primary-dark) !important;
+    background: #f1f5f9 !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0b1b33 !important;
     font-size: 1.25rem !important;
     cursor: pointer !important;
     flex-shrink: 0 !important;
-    z-index: 10 !important;
+    z-index: 1350 !important;
     margin-left: 0 !important;
   }
 
-  /* 3. Dark Backdrop behind Slide-in menu */
+  /* 3. Transparent Backdrop behind Slide-in menu (invisible tap-to-close layer, no grey overlay) */
   .nav-backdrop {
     position: fixed !important;
     inset: 0 !important;
     width: 100% !important;
-    height: 100dvh !important;
-    background: rgba(0, 0, 0, 0.65) !important;
+    height: 100% !important;
+    background: transparent !important;
+    background-color: transparent !important;
     z-index: 1250 !important;
     opacity: 0 !important;
     visibility: hidden !important;
     pointer-events: none !important;
-    transition: opacity 0.3s ease, visibility 0.3s ease !important;
+    filter: none !important;
+    -webkit-filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    transition: opacity 0.2s ease, visibility 0.2s ease !important;
   }
 
-  .nav-backdrop.active,
-  body.menu-open .nav-backdrop {
+  .nav-backdrop.active {
     opacity: 1 !important;
     visibility: visible !important;
     pointer-events: auto !important;
+    background: transparent !important;
+    background-color: transparent !important;
   }
 
-  /* 4. Slide-in panel fixed to the left edge */
+  /* 4. Slide-in panel fixed to the left edge: Crisp White Theme */
   .nav-links {
     position: fixed !important;
     top: 0 !important;
@@ -2119,17 +2125,17 @@ float-top-right {
     width: min(85vw, 340px) !important;
     max-width: 340px !important;
     height: 100dvh !important;
-    background: #0b1b33 !important;
-    background-color: #0b1b33 !important;
-    border-right: 1px solid rgba(255, 255, 255, 0.12) !important;
-    box-shadow: 10px 0 35px rgba(0, 0, 0, 0.7) !important;
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    border-right: 1px solid #e2e8f0 !important;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.12) !important;
     z-index: 1300 !important;
     overflow-y: auto !important;
     -webkit-overflow-scrolling: touch !important;
-    padding: 1.75rem 1.25rem 2rem 1.25rem !important;
+    padding: 1.5rem 1.25rem 2rem 1.25rem !important;
     display: flex !important;
     flex-direction: column !important;
-    gap: 0.25rem !important;
+    gap: 0 !important;
     border-radius: 0 !important;
     border-bottom: none !important;
     opacity: 1 !important;
@@ -2137,25 +2143,27 @@ float-top-right {
     -webkit-filter: none !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
+    pointer-events: auto !important;
 
-    /* Closed state: transform translateX(-100%), visibility hidden */
+    /* Closed state */
     transform: translateX(-100%) !important;
     visibility: hidden !important;
-    transition: transform 0.3s ease, visibility 0.3s ease !important;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s ease !important;
     will-change: transform;
   }
 
-  /* Open state: translateX(0) */
+  /* Open state */
   .nav-links.active {
     transform: translateX(0) !important;
     visibility: visible !important;
   }
 
-  /* Menu Links: left-aligned, one per row, 16px text, 48px row height, white-space nowrap */
+  /* Menu Links: left-aligned, 16px text, 48px row height, thin light-gray divider */
   .nav-links > li {
     width: 100% !important;
     list-style: none !important;
     display: block !important;
+    border-bottom: 1px solid #f1f5f9 !important;
   }
 
   .nav-link {
@@ -2166,52 +2174,54 @@ float-top-right {
     width: 100% !important;
     height: 48px !important;
     min-height: 48px !important;
-    padding: 0 1rem !important;
+    padding: 0 0.75rem !important;
     font-size: 16px !important;
-    color: #FFFFFF !important;
+    font-weight: 600 !important;
+    color: #0b1b33 !important;
     white-space: nowrap !important;
-    border-radius: 10px !important;
+    border-radius: 8px !important;
     opacity: 1 !important;
     filter: none !important;
     -webkit-filter: none !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
+    pointer-events: auto !important;
     transition: background 0.2s ease, color 0.2s ease !important;
   }
 
   .nav-link:hover, .nav-link.active {
-    background: rgba(255, 255, 255, 0.12) !important;
-    color: #00D2FF !important;
+    background: #f8fafc !important;
+    color: #1D63FF !important;
   }
 
-  /* Put the "Book Consultation" button at the bottom of the panel */
+  /* 3D Badges maintain vivid blue color inside white menu */
+  .nav-link .map-badge-3d {
+    background: rgba(29, 99, 255, 0.12) !important;
+    color: #1D63FF !important;
+    border: 1px solid rgba(29, 99, 255, 0.3) !important;
+  }
+
+  /* VIP Property Consultation button: solid blue with white text at bottom */
   .mobile-only-link {
     display: block !important;
     width: 100% !important;
     margin-top: auto !important;
     padding-top: 1.25rem !important;
-    opacity: 1 !important;
-    filter: none !important;
+    border-bottom: none !important;
   }
 
   .mobile-only-link .nav-link {
-    background: linear-gradient(135deg, #1D63FF 0%, #00D2FF 100%) !important;
-    color: #FFFFFF !important;
+    background: linear-gradient(135deg, #1D63FF 0%, #00B4D8 100%) !important;
+    color: #ffffff !important;
     font-weight: 700 !important;
     justify-content: center !important;
     text-align: center !important;
-    box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3) !important;
+    border-radius: 10px !important;
+    box-shadow: 0 4px 14px rgba(29, 99, 255, 0.3) !important;
     opacity: 1 !important;
     visibility: visible !important;
     display: flex !important;
     filter: none !important;
-  }
-
-  body.menu-open {
-    overflow: hidden !important;
-  }
-  .nav-backdrop {
-    touch-action: none !important;
   }
 }
 
