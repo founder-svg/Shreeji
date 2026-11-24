@@ -53,8 +53,10 @@
   -webkit-font-smoothing: antialiased;
 }
 
+html,
 body {
-  width: 100vw;
+  width: 100%;
+  max-width: 100%;
   height: 100vh;
   overflow: hidden;
   background-color: var(--bg-primary);
@@ -693,16 +695,19 @@ body {
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-drawer);
   padding: 1.75rem 1.5rem;
-  display: flex;
+  display: none;
   flex-direction: column;
   z-index: 30;
   transform: translateX(calc(100% + 2rem));
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   overflow-y: auto;
+  pointer-events: none;
 }
 
 .plot-card-drawer.open {
   transform: translateX(0);
+  pointer-events: auto;
+  display: flex;
 }
 
 .drawer-header {
@@ -1036,6 +1041,34 @@ body {
 /* ==========================================================================
    MOBILE & RESPONSIVE BREAKPOINTS (320px - 1440px+)
    ========================================================================== */
+@media (max-width: 1024px) {
+  .viewer-header {
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    left: 0.75rem;
+    right: 0.75rem;
+    top: 0.75rem;
+  }
+
+  .header-actions {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    max-width: 100%;
+  }
+
+  .hud-btn-group {
+    flex-wrap: wrap;
+  }
+
+  .hud-select {
+    font-size: 16px !important;
+  }
+
+  .search-input {
+    font-size: 16px !important;
+  }
+}
+
 @media (max-width: 768px) {
   .viewer-header {
     flex-direction: column;
@@ -1084,8 +1117,12 @@ body {
   .hud-select {
     max-width: 150px;
     padding: 0.35rem 0.5rem;
-    font-size: 0.78rem;
+    font-size: 16px !important;
     height: 38px;
+  }
+
+  .search-input {
+    font-size: 16px !important;
   }
 
   .search-hud-container {
@@ -1134,17 +1171,21 @@ body {
     border-radius: 20px 20px 0 0;
     transform: translateY(100%);
     overflow-y: auto;
+    pointer-events: none;
+    display: none;
   }
 
   .plot-card-drawer.open {
     transform: translateY(0);
+    pointer-events: auto;
+    display: flex;
   }
 }
 
 @media (max-width: 480px) {
   .hud-select {
     max-width: 130px;
-    font-size: 0.72rem;
+    font-size: 16px !important;
   }
 
   .search-hud-container {

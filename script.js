@@ -270,19 +270,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function switchTab(mode) {
     if (mode === 'sell') {
-      sellTab.classList.add('active');
-      buyTab.classList.remove('active');
-      sellerForm.style.display = 'grid';
-      buyerForm.style.display = 'none';
-      modalTitle.innerText = 'Looking to Sell Land in Kutch?';
-      modalSub.innerText = 'Get a free valuation and connect with serious commercial buyers.';
+      if (sellTab) sellTab.classList.add('active');
+      if (buyTab) buyTab.classList.remove('active');
+      if (sellerForm) sellerForm.style.display = 'grid';
+      if (buyerForm) buyerForm.style.display = 'none';
+      if (modalTitle) modalTitle.innerText = 'Looking to Sell Land in Kutch?';
+      if (modalSub) modalSub.innerText = 'Get a free valuation and connect with serious commercial buyers.';
     } else {
-      buyTab.classList.add('active');
-      sellTab.classList.remove('active');
-      buyerForm.style.display = 'grid';
-      sellerForm.style.display = 'none';
-      modalTitle.innerText = 'Looking to Buy Land in Kutch?';
-      modalSub.innerText = 'Access verified GIDC, NA, and Port-adjacent commercial plots.';
+      if (buyTab) buyTab.classList.add('active');
+      if (sellTab) sellTab.classList.remove('active');
+      if (buyerForm) buyerForm.style.display = 'grid';
+      if (sellerForm) sellerForm.style.display = 'none';
+      if (modalTitle) modalTitle.innerText = 'Looking to Buy Land in Kutch?';
+      if (modalSub) modalSub.innerText = 'Access verified GIDC, NA, and Port-adjacent commercial plots.';
     }
   }
 

@@ -673,6 +673,24 @@ body {
   }
 }
 
+@media (max-width: 1024px) {
+  .ui-search-pill .ui-search-input {
+    font-size: 16px !important;
+  }
+
+  .ui-selected-plot-card {
+    top: auto !important;
+    bottom: calc(var(--ui-bottom-edge, 12px) + 115px) !important;
+    left: 10px !important;
+    right: 10px !important;
+    width: auto !important;
+    max-width: calc(100vw - 20px) !important;
+    max-height: 45vh !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
 @media (max-width: 768px) {
   .ui-brand {
     top: 10px;
