@@ -335,6 +335,8 @@ img {
   gap: 0.85rem;
   font-family: var(--font-heading);
   text-decoration: none;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .logo-icon {
@@ -384,7 +386,8 @@ img {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1.5rem;
+  white-space: nowrap;
 }
 
 .mobile-only-link {
@@ -397,6 +400,7 @@ img {
   position: relative;
   padding: 0.5rem 0;
   font-size: 0.95rem;
+  white-space: nowrap;
 }
 
 .nav-link:hover, .nav-link.active {
@@ -1683,10 +1687,114 @@ float-top-right {
     max-width: 100%;
     height: 400px;
   }
-  .hero-title { font-size: 2.8rem; }
-  .process-steps { grid-template-columns: repeat(3, 1fr); }
+  .hero-title { font-size: clamp(2.2rem, 5vw, 2.8rem); }
+  .process-steps { grid-template-columns: repeat(2, 1fr) !important; }
   .process-line { display: none; }
-  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .footer-grid { grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* Navigation & Header Mobile/Tablet Styling (switch at max-width 1024px) */
+  .navbar {
+    padding: 0.75rem 0.5rem;
+    position: relative;
+  }
+
+  .logo {
+    flex-shrink: 0;
+  }
+
+  .logo-text {
+    font-size: 1.25rem;
+    white-space: nowrap;
+  }
+
+  .logo-icon {
+    width: 38px;
+    height: 38px;
+    font-size: 1.15rem;
+  }
+
+  .nav-actions {
+    display: flex !important;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* Hide Book Consultation / Contact in mobile header; show inside mobile hamburger menu */
+  .nav-actions .btn-primary,
+  .nav-actions .btn-spatial-primary {
+    display: none !important;
+  }
+
+  .lang-switch {
+    padding: 2px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+  }
+
+  .lang-btn {
+    padding: 0.3rem 0.55rem;
+    font-size: 0.75rem;
+    min-height: 36px;
+  }
+
+  .mobile-menu-btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    min-height: 44px;
+    border-radius: 10px;
+    background: var(--bg-slate);
+    border: 1px solid var(--border-color);
+    color: var(--primary-dark);
+    font-size: 1.2rem;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: rgba(7, 49, 64, 0.98);
+    -webkit-backdrop-filter: blur(25px);
+    backdrop-filter: blur(25px);
+    flex-direction: column;
+    padding: 1.75rem 1.5rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border-bottom: 3px solid var(--accent-gold);
+    border-radius: 0 0 20px 20px;
+    gap: 1rem;
+    z-index: 1200;
+  }
+
+  .nav-links.active {
+    display: flex !important;
+  }
+
+  .mobile-only-link {
+    display: block !important;
+    width: 100%;
+  }
+
+  .nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-size: 1.1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    width: 100%;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-link:hover, .nav-link.active {
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--accent-gold-light) !important;
+  }
 }
 
 @media (max-width: 768px) {
@@ -5405,6 +5513,341 @@ float-top-right {
   .corridor-filter-pill {
     white-space: nowrap;
     flex-shrink: 0;
+  }
+}
+
+/* ==========================================================================
+   GLOBAL RESPONSIVE SYSTEM (Mobile 320-480px, Tablet 481-1024px, Large Screens 1440px+)
+   ========================================================================== */
+
+/* 1. Global Overflow, Box-Sizing & Root Font-Size (16px, not scaled with vw) */
+html {
+  font-size: 16px;
+}
+
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+  width: 100%;
+  position: relative;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* 2. Responsive Media */
+img, video {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+iframe, embed, object {
+  max-width: 100% !important;
+}
+
+.cinema-video-wrap iframe,
+.video-responsive-wrap iframe,
+iframe[src*="youtube"],
+iframe[src*="vimeo"] {
+  aspect-ratio: 16 / 9;
+  width: 100% !important;
+  height: auto !important;
+}
+
+/* 3. Fluid Typography & Spacing with clamp() */
+/* Capped so desktop sizes match original design: page headings max 32px, card titles max 14px, stat numbers max 32px */
+h1, .hero-title, .spatial-hero-title, .tunnel-hero-heading {
+  font-size: clamp(1.75rem, 3vw, 32px) !important;
+  line-height: 1.2 !important;
+}
+
+h2, .section-title, .portal-hero-title {
+  font-size: clamp(1.4rem, 2.5vw, 32px) !important;
+  line-height: 1.22 !important;
+}
+
+h3, .card-title, .corridor-title, .tool-card-title {
+  font-size: clamp(12px, 1.2vw, 14px) !important;
+}
+
+.stat-number, .stat-value {
+  font-size: clamp(24px, 2.5vw, 32px) !important;
+}
+
+section, .section, .spatial-hero-section, .corridors-section, .hero, .tunnel-spatial-section {
+  padding-top: clamp(2.5rem, 4vw, 4rem) !important;
+  padding-bottom: clamp(2.5rem, 4vw, 4rem) !important;
+}
+
+/* 4. Touch Targets (Minimum 44px) */
+button,
+.btn,
+.btn-primary,
+.btn-secondary,
+.btn-spatial-primary,
+.btn-action-primary,
+.mobile-menu-btn,
+.hud-btn,
+.nav-link,
+a.btn,
+input[type="submit"],
+input[type="button"],
+.modal-tab {
+  min-height: 44px;
+}
+
+/* 5. Desktop (1025px+): 4 Columns Card Grids & Desktop Sizing Cap */
+@media (min-width: 1025px) {
+  /* Page headings capped at max 32px */
+  h1, .hero-title, .spatial-hero-title, .tunnel-hero-heading,
+  h2, .section-title, .portal-hero-title,
+  .header-title-wrap h1 {
+    font-size: 32px !important;
+    line-height: 1.25 !important;
+  }
+
+  /* Card titles capped at max 14px */
+  h3, .card-title, .corridor-title, .tool-card-title,
+  .property-title, .service-card h3, .overview-card h3, .metric-card-info h3 {
+    font-size: 14px !important;
+    line-height: 1.35 !important;
+  }
+
+  /* Stat numbers capped at max 32px */
+  .stat-number, .stat-value, .metric-card-info p {
+    font-size: 32px !important;
+    line-height: 1.15 !important;
+  }
+
+  /* Body text 14-16px */
+  body, p, li, .hero-subtitle, .section-subtitle,
+  .story-text p, .footer-desc, .overview-desc, .portal-desc {
+    font-size: 15px !important;
+    line-height: 1.6 !important;
+  }
+
+  /* Buttons 14-15px */
+  button,
+  .btn,
+  .btn-primary,
+  .btn-secondary,
+  .btn-spatial-primary,
+  .btn-action-primary,
+  .nav-tab-btn,
+  .btn-header-link,
+  a.btn {
+    font-size: 14.5px !important;
+  }
+
+  .properties-grid,
+  .services-grid,
+  .overview-grid,
+  .spatial-tools-grid,
+  .corridors-grid,
+  .wards-grid,
+  .target-cards-grid,
+  .cascading-filter-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 1.5rem !important;
+  }
+
+  .nav-links {
+    white-space: nowrap !important;
+  }
+}
+
+/* 6. Tablet (481px - 1024px): 2 Columns Card Grids */
+@media (max-width: 1024px) and (min-width: 481px) {
+  .properties-grid,
+  .services-grid,
+  .overview-grid,
+  .spatial-tools-grid,
+  .corridors-grid,
+  .wards-grid,
+  .target-cards-grid,
+  .cascading-filter-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1.5rem !important;
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 2rem !important;
+  }
+
+  .hero-grid,
+  .spatial-hero-grid,
+  .story-grid,
+  .form-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* 7. Mobile (320px - 480px): 1 Column Card Grids & Full-Width Stacking */
+@media (max-width: 480px) {
+  .properties-grid,
+  .services-grid,
+  .overview-grid,
+  .spatial-tools-grid,
+  .corridors-grid,
+  .wards-grid,
+  .target-cards-grid,
+  .cascading-filter-grid,
+  .footer-grid,
+  .hero-grid,
+  .spatial-hero-grid,
+  .story-grid,
+  .form-grid,
+  .form-grid-2,
+  .form-grid-3,
+  .process-steps,
+  .cinema-playlist-grid,
+  .carousel-slide-item {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+  }
+
+  /* Compact Navbar & Zero-Overflow for 320px */
+  .navbar {
+    padding: 0.5rem 0.25rem !important;
+  }
+
+  .logo {
+    gap: 0.45rem !important;
+    min-width: 0 !important;
+    flex-shrink: 1 !important;
+  }
+
+  .logo-text {
+    font-size: 1.15rem !important;
+    white-space: nowrap !important;
+  }
+
+  .logo-tagline {
+    font-size: 0.56rem !important;
+    white-space: nowrap !important;
+  }
+
+  .logo-icon {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 1rem !important;
+    flex-shrink: 0 !important;
+  }
+
+  .nav-actions {
+    gap: 0.3rem !important;
+    flex-shrink: 0 !important;
+  }
+
+  .lang-switch {
+    padding: 2px !important;
+    gap: 2px !important;
+  }
+
+  .lang-btn {
+    padding: 0.25rem 0.4rem !important;
+    font-size: 0.7rem !important;
+    min-height: 32px !important;
+  }
+
+  .hud-btn {
+    width: 34px !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    font-size: 0.85rem !important;
+    border-radius: 50% !important;
+    padding: 0 !important;
+  }
+
+  .mobile-menu-btn {
+    width: 38px !important;
+    height: 38px !important;
+    min-height: 38px !important;
+    font-size: 1.05rem !important;
+  }
+
+  .container {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+}
+
+/* 8. Mobile Font Size (at least 16px) & Modals */
+@media (max-width: 768px) {
+  body, p, li, input, select, textarea {
+    font-size: 16px !important;
+  }
+
+  .nav-link, .dropdown-item, .modal-tab {
+    font-size: 16px !important;
+  }
+
+  .modal-overlay {
+    padding: 0 !important;
+    align-items: flex-end !important;
+  }
+
+  .modal-container,
+  .modal-content,
+  .modal-3d-container {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    max-height: 100vh !important;
+    height: auto !important;
+    border-radius: 20px 20px 0 0 !important;
+    margin: 0 !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .modal-body {
+    max-height: calc(100vh - 120px) !important;
+    overflow-y: auto !important;
+    padding: 1.25rem 1rem !important;
+  }
+
+  .form-control,
+  .admin-control,
+  .login-input,
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="password"],
+  select,
+  textarea {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Floating WhatsApp button not covering form fields */
+  body.modal-open .whatsapp-float,
+  .modal-overlay.active ~ .whatsapp-float,
+  body:has(.modal-overlay.active) .whatsapp-float {
+    display: none !important;
+  }
+
+  .whatsapp-float {
+    bottom: 1.25rem !important;
+    right: 1.25rem !important;
+    z-index: 99 !important;
+    width: 50px !important;
+    height: 50px !important;
+  }
+}
+
+/* 9. Large Screens (1440px+ and 1920px+) */
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1400px !important;
+  }
+}
+
+@media (min-width: 1920px) {
+  .container {
+    max-width: 1600px !important;
   }
 }
 

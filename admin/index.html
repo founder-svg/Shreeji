@@ -17,6 +17,10 @@
     rel="stylesheet" />
 
   <style>
+    html {
+      font-size: 16px;
+    }
+
     :root {
       --admin-navy-dark: #061527;
       --admin-navy: #0B2545;
@@ -194,6 +198,8 @@
     /* Left Sidebar */
     .admin-sidebar {
       width: 270px;
+      min-width: 270px;
+      max-width: 270px;
       height: 100vh;
       background: rgba(6, 21, 39, 0.95);
       -webkit-backdrop-filter: blur(20px);
@@ -288,13 +294,14 @@
       color: #94A3B8;
       background: transparent;
       border: 1px solid transparent;
-      font-size: 0.92rem;
+      font-size: 14.5px !important;
       font-weight: 600;
       cursor: pointer;
       text-decoration: none;
       text-align: left;
       width: 100%;
       transition: all 0.2s ease;
+      font-family: inherit;
     }
 
     .nav-tab-btn i {
@@ -369,14 +376,14 @@
 
     .header-title-wrap h1 {
       font-family: var(--font-heading);
-      font-size: 1.85rem;
+      font-size: 32px !important;
       font-weight: 800;
       margin-bottom: 0.25rem;
     }
 
     .header-title-wrap p {
       color: #94A3B8;
-      font-size: 0.88rem;
+      font-size: 14px !important;
     }
 
     .header-actions {
@@ -395,7 +402,7 @@
       border-radius: 10px;
       color: #FFFFFF;
       text-decoration: none;
-      font-size: 0.85rem;
+      font-size: 14.5px !important;
       font-weight: 600;
       transition: all 0.2s ease;
     }
@@ -408,7 +415,7 @@
     /* Metric Cards */
     .metrics-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 1.25rem;
       margin-bottom: 2rem;
     }
@@ -417,10 +424,12 @@
       background: var(--admin-card-bg);
       border: 1px solid var(--admin-border);
       border-radius: 18px;
-      padding: 1.5rem;
+      padding: 1.25rem 1.5rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 1rem;
+      min-width: 0;
       transition: all 0.2s ease;
     }
 
@@ -429,30 +438,45 @@
       transform: translateY(-2px);
     }
 
+    .metric-card-info {
+      min-width: 0;
+      flex: 1 1 auto;
+      overflow: hidden;
+    }
+
     .metric-card-info h3 {
-      font-size: 0.8rem;
+      font-size: 12px !important;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.5px !important;
       color: #94A3B8;
       margin-bottom: 0.35rem;
+      white-space: normal !important;
+      word-break: normal !important;
+      overflow-wrap: break-word !important;
+      line-height: 1.35 !important;
     }
 
     .metric-card-info p {
       font-family: var(--font-heading);
-      font-size: 2rem;
+      font-size: 32px !important;
       font-weight: 800;
       color: #FFFFFF;
+      line-height: 1.1;
+      margin: 0;
     }
 
     .metric-icon-wrap {
-      width: 50px;
-      height: 50px;
+      width: 48px;
+      height: 48px;
+      min-width: 48px;
+      min-height: 48px;
       border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.4rem;
+      font-size: 1.35rem;
+      flex-shrink: 0 !important;
     }
 
     /* Content Cards / Forms */
@@ -804,24 +828,127 @@
       font-size: 0.9rem;
     }
 
-    @media (max-width: 900px) {
+    .admin-sidebar-toggle-btn {
+      display: none;
+    }
+
+    @media (max-width: 1024px) {
       .admin-sidebar {
+        width: 100% !important;
+        height: auto !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        z-index: 1200 !important;
+        padding: 0.85rem 1.25rem !important;
+        border-right: none !important;
+        border-bottom: 1px solid var(--admin-border) !important;
+        overflow-y: visible !important;
+      }
+
+      .sidebar-brand-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         width: 100%;
-        height: auto;
-        position: relative;
-        border-right: none;
-        border-bottom: 1px solid var(--admin-border);
+      }
+
+      .sidebar-brand {
+        border-bottom: none !important;
+        padding: 0 !important;
+      }
+
+      .admin-sidebar-toggle-btn {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        min-height: 44px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid var(--admin-border);
+        border-radius: 10px;
+        color: #FFFFFF;
+        font-size: 1.25rem;
+        cursor: pointer;
+      }
+
+      .admin-sidebar .sidebar-nav,
+      .admin-sidebar .sidebar-bottom {
+        display: none !important;
+      }
+
+      .admin-sidebar.open {
+        background: rgba(6, 21, 39, 0.98) !important;
+        height: 100vh !important;
+        max-height: 100vh !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .admin-sidebar.open .sidebar-nav {
+        display: flex !important;
+        margin-top: 1rem;
+        gap: 0.4rem;
+      }
+
+      .admin-sidebar.open .sidebar-bottom {
+        display: flex !important;
+        margin-top: 1.5rem;
+        padding-bottom: 2rem;
       }
 
       .admin-workspace {
-        margin-left: 0;
-        padding: 1.5rem 1rem;
+        margin-left: 0 !important;
+        padding: 5.5rem 1rem 2rem 1rem !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+        box-sizing: border-box !important;
+      }
+
+      .metrics-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1rem !important;
       }
 
       .form-grid-2,
       .form-grid-3 {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
       }
+    }
+
+    @media (max-width: 480px) {
+      .metrics-grid {
+        grid-template-columns: 1fr !important;
+      }
+      .workspace-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+      .card-header-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+      }
+      .admin-card {
+        padding: 1.25rem 1rem !important;
+      }
+    }
+
+    .admin-table-wrap {
+      width: 100% !important;
+      max-width: 100% !important;
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch;
+      border: 1px solid var(--admin-border);
+      border-radius: 14px;
+    }
+
+    .admin-table {
+      width: 100%;
+      min-width: 650px;
     }
   </style>
 </head>
@@ -877,16 +1004,21 @@
   <div class="admin-app-layout" id="adminAppLayout">
 
     <!-- Sidebar Navigation -->
-    <aside class="admin-sidebar">
+    <aside class="admin-sidebar" id="adminSidebar">
       <div>
-        <a href="../index.html" class="sidebar-brand">
-          <div class="sidebar-logo-icon"><i class="fa-solid fa-shapes"></i></div>
-          <div>
-            <div class="sidebar-title">Swastik</div>
-            <div class="logo-tagline" style="font-size: 0.65rem; color: var(--admin-gold); font-weight: 600;">by Shreeji Infotech</div>
-            <div class="sidebar-badge" style="margin-top: 2px;">STUDIO &bull; ADMIN PANEL</div>
-          </div>
-        </a>
+        <div class="sidebar-brand-wrapper">
+          <a href="../index.html" class="sidebar-brand">
+            <div class="sidebar-logo-icon"><i class="fa-solid fa-shapes"></i></div>
+            <div>
+              <div class="sidebar-title">Swastik</div>
+              <div class="logo-tagline" style="font-size: 0.65rem; color: var(--admin-gold); font-weight: 600;">by Shreeji Infotech</div>
+              <div class="sidebar-badge" style="margin-top: 2px;">STUDIO &bull; ADMIN PANEL</div>
+            </div>
+          </a>
+          <button type="button" class="admin-sidebar-toggle-btn" id="adminSidebarToggle" onclick="toggleAdminSidebar()" aria-label="Toggle Navigation">
+            <i class="fa-solid fa-bars" id="adminToggleIcon"></i>
+          </button>
+        </div>
 
         <nav class="sidebar-nav">
           <button class="nav-tab-btn active" data-tab="dashboard" onclick="switchAdminTab('dashboard')">
@@ -1650,6 +1782,17 @@
         }
       }
 
+      // Mobile Sidebar Toggle
+      window.toggleAdminSidebar = function () {
+        const sb = document.getElementById('adminSidebar');
+        const icon = document.getElementById('adminToggleIcon');
+        if (!sb) return;
+        sb.classList.toggle('open');
+        if (icon) {
+          icon.className = sb.classList.contains('open') ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+        }
+      };
+
       // Tab Switching
       window.switchAdminTab = function (tabName) {
         document.querySelectorAll('.pane-section').forEach(p => p.style.display = 'none');
@@ -1660,6 +1803,14 @@
 
         const targetBtn = document.querySelector(`.nav-tab-btn[data-tab="${tabName}"]`);
         if (targetBtn) targetBtn.classList.add('active');
+
+        // On mobile, close sidebar when tab is switched
+        const sb = document.getElementById('adminSidebar');
+        if (sb && sb.classList.contains('open')) {
+          sb.classList.remove('open');
+          const icon = document.getElementById('adminToggleIcon');
+          if (icon) icon.className = 'fa-solid fa-bars';
+        }
 
         const headlines = {
           'dashboard': ['Dashboard Overview', 'Executive control room for Swastik by Shreeji Infotech, AutoCAD 3D layouts, and client inquiries.'],

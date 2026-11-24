@@ -696,6 +696,31 @@ body {
   }
 }
 
+@media (max-width: 480px) {
+  .ui-brand {
+    transform: scale(0.85);
+    transform-origin: top left;
+  }
+
+  .ui-top-right {
+    transform: scale(0.85);
+    transform-origin: top right;
+  }
+
+  .ui-modal {
+    max-height: 50vh !important;
+    overflow-y: auto !important;
+  }
+
+  .ui-bottom-panel {
+    max-height: 40vh;
+  }
+}
+
+#map, .mapboxgl-canvas {
+  touch-action: none !important;
+}
+
 /* =========================
    MODAL
 ========================= */

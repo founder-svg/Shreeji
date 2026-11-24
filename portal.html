@@ -217,7 +217,7 @@
 
     .portal-hero-title {
       font-family: var(--font-heading);
-      font-size: 2.35rem;
+      font-size: 32px;
       font-weight: 800;
       line-height: 1.2;
       margin-bottom: 0.6rem;
@@ -666,21 +666,110 @@
       display: block;
     }
 
+    @media (max-width: 1024px) {
+      .portal-container {
+        padding: 2rem 1.25rem;
+      }
+      .portal-nav {
+        padding: 0.75rem 1rem;
+      }
+    }
+
     @media (max-width: 768px) {
+      body, p, li, input, select, textarea {
+        font-size: 16px !important;
+      }
       .form-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
       }
       .form-group.full-width {
-        grid-column: span 1;
+        grid-column: span 1 !important;
       }
       .plot-selected-box {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr !important;
       }
       .portal-hero-title {
-        font-size: 1.75rem;
+        font-size: clamp(1.6rem, 5vw, 2.2rem) !important;
       }
       .portal-card {
-        padding: 1.5rem;
+        padding: 1.25rem 1rem !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+      }
+      .modal-box {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        max-height: 100vh !important;
+        height: auto !important;
+        border-radius: 20px 20px 0 0 !important;
+        margin: 0 !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch;
+      }
+      .form-control,
+      input[type="text"],
+      input[type="tel"],
+      input[type="email"],
+      select,
+      textarea {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        min-height: 44px;
+      }
+      button, .btn, .nav-btn, .submit-btn {
+        min-height: 44px !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .brand-title {
+        font-size: 1.15rem;
+      }
+      .brand-sub {
+        display: none;
+      }
+      .nav-btn span {
+        display: none;
+      }
+      .nav-btn {
+        padding: 0.5rem;
+        min-height: 44px;
+        min-width: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .portal-nav {
+        padding: 0.6rem 0.75rem;
+      }
+      .brand-group {
+        gap: 0.5rem;
+      }
+      .brand-icon {
+        width: 34px;
+        height: 34px;
+        font-size: 1rem;
+      }
+    }
+
+    @media (min-width: 1025px) {
+      .portal-hero-title {
+        font-size: 32px !important;
+      }
+      .btn-submit-kyc,
+      .btn-whatsapp-dispatch,
+      .submit-btn,
+      button,
+      .btn,
+      .nav-btn {
+        font-size: 14.5px !important;
+      }
+    }
+
+    @media (min-width: 1440px) {
+      .portal-container {
+        max-width: 1100px;
       }
     }
   </style>
