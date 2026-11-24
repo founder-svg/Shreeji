@@ -78,7 +78,7 @@
           <button class="hud-btn" style="border-radius: 50%;" onclick="document.getElementById('properties-section').scrollIntoView({behavior: 'smooth'})" title="Search Properties">
             <i class="fa-solid fa-magnifying-glass"></i>
           </button>
-          <a href="./portal.html" class="btn-spatial-primary" style="padding: 0.55rem 1.35rem; font-size: 0.88rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;">
+          <a href="./portal.html" class="btn-spatial-primary">
             <i class="fa-solid fa-calendar-check"></i>
             <span class="btn-text-full">Book Consultation</span>
             <span class="btn-text-short">Book Visit</span>
@@ -336,14 +336,22 @@
 
       <div class="cinema-theater-box reveal" id="cinemaTheaterBox">
         <div class="cinema-video-wrap">
-          <video id="spotlightVideo" class="cinema-player" src="videos/shreeji-corporate-highrise.mp4" poster="images/commercial-tower.jpg" playsinline preload="auto" muted onclick="window.shreejiToggleVideoPlayback()">
-            <source src="videos/shreeji-corporate-highrise.mp4" type="video/mp4">
-            <source src="videos/shreeji-retail-showroom.mp4" type="video/mp4">
-            Your browser does not support high-definition HTML5 video.
-          </video>
+          <div class="cinema-video-stage">
+            <video id="spotlightVideo" class="cinema-player" src="videos/shreeji-corporate-highrise.mp4" poster="images/commercial-tower.jpg" playsinline preload="auto" muted onclick="window.shreejiToggleVideoPlayback()">
+              <source src="videos/shreeji-corporate-highrise.mp4" type="video/mp4">
+              <source src="videos/shreeji-retail-showroom.mp4" type="video/mp4">
+              Your browser does not support high-definition HTML5 video.
+            </video>
+            <div class="cinema-overlay-gradient"></div>
+
+            <!-- Center Big Play Button Overlay -->
+            <button type="button" class="cinema-center-play" id="cinemaCenterPlayBtn" onclick="window.shreejiToggleVideoPlayback()" aria-label="Play or Pause Video">
+              <i class="fa-solid fa-play" id="iconPlayTriangle" style="font-size: 1.85rem; margin-left: 4px;"></i>
+              <i class="fa-solid fa-pause" id="iconPauseBars" style="font-size: 1.85rem; display: none;"></i>
+            </button>
+          </div>
           <!-- Hidden Audio Element for Cinematic Music Track -->
           <audio id="cinemaBgmAudio" src="audio/shreeji-cinematic-theme.mp3" loop preload="auto"></audio>
-          <div class="cinema-overlay-gradient"></div>
 
           <!-- Top bar with Shreeji brand, live badge, loop indicator & audio switches -->
           <div class="cinema-top-bar">
