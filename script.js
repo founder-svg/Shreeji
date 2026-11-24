@@ -2,41 +2,82 @@
    Shreeji Real Estate - Interactive JavaScript
    ========================================================================== */
 
-document.addEventListener('DOMContentLoaded', () => {
-  // 1. Sticky Header & Mobile Menu
+function initMobileNav() {
+  // 1. Sticky Header & Mobile Slide-In Navigation Panel
   const header = document.getElementById('header');
   const mobileMenuBtn = document.getElementById('mobileMenuBtn');
   const navLinks = document.getElementById('navLinks');
 
   window.addEventListener('scroll', () => {
     if (window.scrollY > 40) {
-      header.classList.add('scrolled');
+      if (header) header.classList.add('scrolled');
     } else {
-      header.classList.remove('scrolled');
+      if (header) header.classList.remove('scrolled');
     }
   });
 
   if (mobileMenuBtn && navLinks) {
-    mobileMenuBtn.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
+    // 1. Dark Backdrop behind slide-in menu
+    let backdrop = document.getElementById('navBackdrop');
+    if (!backdrop) {
+      backdrop = document.createElement('div');
+      backdrop.id = 'navBackdrop';
+      backdrop.className = 'nav-backdrop';
+      document.body.appendChild(backdrop);
+    }
+
+    const openMenu = () => {
+      navLinks.classList.add('active');
+      backdrop.classList.add('active');
+      document.body.classList.add('menu-open');
       const icon = mobileMenuBtn.querySelector('i');
-      if (icon) {
-        if (navLinks.classList.contains('active')) {
-          icon.className = 'fa-solid fa-xmark';
-        } else {
-          icon.className = 'fa-solid fa-bars';
-        }
+      if (icon) icon.className = 'fa-solid fa-xmark';
+    };
+
+    const closeMenu = () => {
+      navLinks.classList.remove('active');
+      backdrop.classList.remove('active');
+      document.body.classList.remove('menu-open');
+      const icon = mobileMenuBtn.querySelector('i');
+      if (icon) icon.className = 'fa-solid fa-bars';
+    };
+
+    // Toggle on hamburger button
+    mobileMenuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (navLinks.classList.contains('active')) {
+        closeMenu();
+      } else {
+        openMenu();
       }
     });
 
-    document.querySelectorAll('.nav-link:not(.dropdown-toggle)').forEach(link => {
+    // Close on backdrop tap
+    backdrop.addEventListener('click', closeMenu);
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && navLinks.classList.contains('active')) {
+        closeMenu();
+      }
+    });
+
+    // Close on any link click
+    navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
-        navLinks.classList.remove('active');
-        const icon = mobileMenuBtn.querySelector('i');
-        if (icon) icon.className = 'fa-solid fa-bars';
+        closeMenu();
       });
     });
   }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initMobileNav);
+} else {
+  initMobileNav();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
 
   // 2. Active Nav Link Highlighting based on current pathname
   const currentPath = window.location.pathname.toLowerCase().replace(/\/$/, '') || '/';

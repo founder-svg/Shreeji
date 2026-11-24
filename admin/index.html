@@ -828,83 +828,257 @@
       font-size: 0.9rem;
     }
 
+    /* Mobile Header & Backdrop (desktop hidden) */
+    .admin-mobile-header {
+      display: none;
+    }
+
+    .admin-sidebar-backdrop {
+      display: none;
+    }
+
     .admin-sidebar-toggle-btn {
       display: none;
     }
 
+    .admin-sidebar-close-btn {
+      display: none;
+    }
+
     @media (max-width: 1024px) {
-      .admin-sidebar {
-        width: 100% !important;
-        height: auto !important;
+      body.admin-menu-open {
+        overflow: hidden !important;
+      }
+
+      .admin-mobile-header {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
         position: fixed !important;
         top: 0 !important;
         left: 0 !important;
         right: 0 !important;
-        z-index: 1200 !important;
-        padding: 0.85rem 1.25rem !important;
-        border-right: none !important;
+        height: 60px !important;
+        background: rgba(6, 21, 39, 0.98) !important;
+        -webkit-backdrop-filter: blur(20px) !important;
+        backdrop-filter: blur(20px) !important;
         border-bottom: 1px solid var(--admin-border) !important;
-        overflow-y: visible !important;
+        padding: 0 1rem !important;
+        z-index: 1200 !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
       }
 
-      .sidebar-brand-wrapper {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-      }
-
-      .sidebar-brand {
+      .admin-mobile-header .sidebar-brand {
         border-bottom: none !important;
         padding: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 0.65rem !important;
+        text-decoration: none !important;
       }
 
       .admin-sidebar-toggle-btn {
         display: flex !important;
-        align-items: center;
-        justify-content: center;
-        width: 44px;
-        height: 44px;
-        min-height: 44px;
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid var(--admin-border);
-        border-radius: 10px;
-        color: #FFFFFF;
-        font-size: 1.25rem;
-        cursor: pointer;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 42px !important;
+        height: 42px !important;
+        min-width: 42px !important;
+        min-height: 42px !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid var(--admin-border) !important;
+        border-radius: 10px !important;
+        color: #FFFFFF !important;
+        font-size: 1.25rem !important;
+        cursor: pointer !important;
+        transition: background 0.2s ease, border-color 0.2s ease !important;
       }
 
-      .admin-sidebar .sidebar-nav,
-      .admin-sidebar .sidebar-bottom {
-        display: none !important;
+      .admin-sidebar-toggle-btn:hover {
+        background: rgba(255, 255, 255, 0.14) !important;
+        border-color: rgba(255, 255, 255, 0.25) !important;
       }
 
-      .admin-sidebar.open {
-        background: rgba(6, 21, 39, 0.98) !important;
+      .admin-sidebar-backdrop {
+        display: block !important;
+        position: fixed !important;
+        inset: 0 !important;
+        background: rgba(0, 0, 0, 0.65) !important;
+        -webkit-backdrop-filter: blur(4px) !important;
+        backdrop-filter: blur(4px) !important;
+        z-index: 1250 !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+        transition: opacity 0.3s ease, visibility 0.3s ease !important;
+      }
+
+      .admin-sidebar-backdrop.active {
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+      }
+
+      /* 1. Sidebar must be closed on page load: position fixed, left 0, top 0, height 100dvh, width min(85vw, 300px), transform translateX(-100%), visibility hidden */
+      .admin-sidebar {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        bottom: 0 !important;
+        width: min(85vw, 300px) !important;
+        max-width: 300px !important;
         height: 100vh !important;
-        max-height: 100vh !important;
+        height: 100dvh !important;
+        background: rgba(6, 21, 39, 0.98) !important;
+        background: linear-gradient(180deg, #071E36 0%, #051323 100%) !important;
+        -webkit-backdrop-filter: blur(25px) !important;
+        backdrop-filter: blur(25px) !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.12) !important;
+        border-bottom: none !important;
+        box-shadow: 10px 0 35px rgba(0, 0, 0, 0.5) !important;
+        z-index: 1300 !important;
+        padding: 1.25rem 1rem 1.5rem 1rem !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
         overflow-y: auto !important;
-        -webkit-overflow-scrolling: touch;
+        -webkit-overflow-scrolling: touch !important;
+        scrollbar-width: thin !important;
+        scrollbar-color: rgba(255, 255, 255, 0.15) transparent !important;
+
+        /* Closed state on page load */
+        transform: translateX(-100%) !important;
+        visibility: hidden !important;
+        transition: transform 0.3s ease, visibility 0.3s ease !important;
+        will-change: transform;
       }
 
-      .admin-sidebar.open .sidebar-nav {
+      /* Open state: translateX(0) with 0.3s ease transition */
+      .admin-sidebar.open {
+        transform: translateX(0) !important;
+        visibility: visible !important;
+      }
+
+      .sidebar-brand-wrapper {
         display: flex !important;
-        margin-top: 1rem;
-        gap: 0.4rem;
+        align-items: center !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+        padding-bottom: 1rem !important;
+        border-bottom: 1px solid var(--admin-border) !important;
       }
 
-      .admin-sidebar.open .sidebar-bottom {
+      .sidebar-brand-wrapper .sidebar-brand {
+        border-bottom: none !important;
+        padding: 0 !important;
+      }
+
+      .admin-sidebar-close-btn {
         display: flex !important;
-        margin-top: 1.5rem;
-        padding-bottom: 2rem;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 36px !important;
+        height: 36px !important;
+        min-width: 36px !important;
+        min-height: 36px !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid var(--admin-border) !important;
+        border-radius: 8px !important;
+        color: #FFFFFF !important;
+        font-size: 1.15rem !important;
+        cursor: pointer !important;
+        transition: background 0.2s ease !important;
       }
 
+      .admin-sidebar-close-btn:hover {
+        background: rgba(255, 255, 255, 0.16) !important;
+      }
+
+      /* Menu items and text fully visible when open */
+      .admin-sidebar .sidebar-nav {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.4rem !important;
+        margin-top: 1.25rem !important;
+        flex-grow: 1 !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+
+      .admin-sidebar .sidebar-bottom {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+        margin-top: 1.5rem !important;
+        padding-top: 1rem !important;
+        border-top: 1px solid var(--admin-border) !important;
+        flex-shrink: 0 !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+
+      .admin-sidebar .nav-tab-btn {
+        display: flex !important;
+        align-items: center !important;
+        color: #94A3B8 !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        width: 100% !important;
+        text-align: left !important;
+        font-size: 14.5px !important;
+        padding: 0.75rem 1rem !important;
+      }
+
+      .admin-sidebar .nav-tab-btn.active,
+      .admin-sidebar .nav-tab-btn:hover {
+        color: #00D2FF !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+
+      .admin-sidebar .user-pill {
+        display: flex !important;
+        align-items: center !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+
+      /* 4. Main content takes full width on mobile (no left margin or padding reserved for sidebar) */
       .admin-workspace {
         margin-left: 0 !important;
-        padding: 5.5rem 1rem 2rem 1rem !important;
+        padding: calc(60px + 1.25rem) 1rem 2rem 1rem !important;
         width: 100% !important;
-        max-width: 100vw !important;
+        max-width: 100% !important;
         box-sizing: border-box !important;
+      }
+
+      /* 5. Shorten header tagline on mobile so "STUDIO • ADMIN PANEL" fits on one line */
+      .sidebar-brand-text {
+        min-width: 0 !important;
+        overflow: hidden !important;
+      }
+
+      .sidebar-badge {
+        font-size: 0.58rem !important;
+        letter-spacing: 0.03em !important;
+        white-space: nowrap !important;
+        text-overflow: ellipsis !important;
+        overflow: hidden !important;
+        line-height: 1.2 !important;
+      }
+
+      .logo-tagline {
+        font-size: 0.62rem !important;
+        white-space: nowrap !important;
+        text-overflow: ellipsis !important;
+        overflow: hidden !important;
+        line-height: 1.2 !important;
+      }
+
+      .sidebar-title {
+        font-size: 1.15rem !important;
+        line-height: 1.15 !important;
+        white-space: nowrap !important;
       }
 
       .metrics-grid {
@@ -1003,20 +1177,38 @@
        ========================================================================== -->
   <div class="admin-app-layout" id="adminAppLayout">
 
-    <!-- Sidebar Navigation -->
+    <!-- Mobile Top Navigation Header (max-width 1024px) -->
+    <header class="admin-mobile-header" id="adminMobileHeader">
+      <a href="../index.html" class="sidebar-brand">
+        <div class="sidebar-logo-icon"><i class="fa-solid fa-shapes"></i></div>
+        <div class="sidebar-brand-text">
+          <div class="sidebar-title">Swastik</div>
+          <div class="logo-tagline">by Shreeji Infotech</div>
+          <div class="sidebar-badge">STUDIO &bull; ADMIN PANEL</div>
+        </div>
+      </a>
+      <button type="button" class="admin-sidebar-toggle-btn" id="adminSidebarToggle" onclick="toggleAdminSidebar()" aria-label="Toggle Navigation">
+        <i class="fa-solid fa-bars" id="adminToggleIcon"></i>
+      </button>
+    </header>
+
+    <!-- Dark Backdrop for Slide-In Mobile Sidebar -->
+    <div class="admin-sidebar-backdrop" id="adminSidebarBackdrop" onclick="closeAdminSidebar()"></div>
+
+    <!-- Sidebar Navigation Drawer -->
     <aside class="admin-sidebar" id="adminSidebar">
       <div>
         <div class="sidebar-brand-wrapper">
           <a href="../index.html" class="sidebar-brand">
             <div class="sidebar-logo-icon"><i class="fa-solid fa-shapes"></i></div>
-            <div>
+            <div class="sidebar-brand-text">
               <div class="sidebar-title">Swastik</div>
-              <div class="logo-tagline" style="font-size: 0.65rem; color: var(--admin-gold); font-weight: 600;">by Shreeji Infotech</div>
-              <div class="sidebar-badge" style="margin-top: 2px;">STUDIO &bull; ADMIN PANEL</div>
+              <div class="logo-tagline">by Shreeji Infotech</div>
+              <div class="sidebar-badge">STUDIO &bull; ADMIN PANEL</div>
             </div>
           </a>
-          <button type="button" class="admin-sidebar-toggle-btn" id="adminSidebarToggle" onclick="toggleAdminSidebar()" aria-label="Toggle Navigation">
-            <i class="fa-solid fa-bars" id="adminToggleIcon"></i>
+          <button type="button" class="admin-sidebar-close-btn" id="adminSidebarClose" onclick="closeAdminSidebar()" aria-label="Close Navigation">
+            <i class="fa-solid fa-xmark"></i>
           </button>
         </div>
 
@@ -1782,16 +1974,63 @@
         }
       }
 
-      // Mobile Sidebar Toggle
+      // Mobile Admin Sidebar Controls
+      window.openAdminSidebar = function () {
+        const sb = document.getElementById('adminSidebar');
+        const backdrop = document.getElementById('adminSidebarBackdrop');
+        const icon = document.getElementById('adminToggleIcon');
+        if (sb) sb.classList.add('open');
+        if (backdrop) backdrop.classList.add('active');
+        document.body.classList.add('admin-menu-open');
+        if (icon) icon.className = 'fa-solid fa-xmark';
+      };
+
+      window.closeAdminSidebar = function () {
+        const sb = document.getElementById('adminSidebar');
+        const backdrop = document.getElementById('adminSidebarBackdrop');
+        const icon = document.getElementById('adminToggleIcon');
+        if (sb) sb.classList.remove('open');
+        if (backdrop) backdrop.classList.remove('active');
+        document.body.classList.remove('admin-menu-open');
+        if (icon) icon.className = 'fa-solid fa-bars';
+      };
+
       window.toggleAdminSidebar = function () {
         const sb = document.getElementById('adminSidebar');
-        const icon = document.getElementById('adminToggleIcon');
         if (!sb) return;
-        sb.classList.toggle('open');
-        if (icon) {
-          icon.className = sb.classList.contains('open') ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+        if (sb.classList.contains('open')) {
+          window.closeAdminSidebar();
+        } else {
+          window.openAdminSidebar();
         }
       };
+
+      // Close on Escape key
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+          const sb = document.getElementById('adminSidebar');
+          if (sb && sb.classList.contains('open')) {
+            window.closeAdminSidebar();
+          }
+        }
+      });
+
+      // Close on resize above 1024px
+      window.addEventListener('resize', function () {
+        if (window.innerWidth > 1024) {
+          window.closeAdminSidebar();
+        }
+      });
+
+      // Close on menu item or bottom link click inside sidebar
+      document.addEventListener('click', function (e) {
+        if (window.innerWidth <= 1024) {
+          const clickedNavItem = e.target.closest('#adminSidebar .nav-tab-btn, #adminSidebar a');
+          if (clickedNavItem) {
+            window.closeAdminSidebar();
+          }
+        }
+      });
 
       // Tab Switching
       window.switchAdminTab = function (tabName) {
@@ -1805,11 +2044,8 @@
         if (targetBtn) targetBtn.classList.add('active');
 
         // On mobile, close sidebar when tab is switched
-        const sb = document.getElementById('adminSidebar');
-        if (sb && sb.classList.contains('open')) {
-          sb.classList.remove('open');
-          const icon = document.getElementById('adminToggleIcon');
-          if (icon) icon.className = 'fa-solid fa-bars';
+        if (window.innerWidth <= 1024) {
+          window.closeAdminSidebar();
         }
 
         const headlines = {

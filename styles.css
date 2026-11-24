@@ -1693,30 +1693,109 @@ float-top-right {
   .footer-grid { grid-template-columns: repeat(2, 1fr) !important; }
 
   /* Navigation & Header Mobile/Tablet Styling (switch at max-width 1024px) */
+  /* 1. Compact Topbar on Mobile/Tablet */
+  .topbar {
+    padding: 0.35rem 0.5rem !important;
+    font-size: 0.78rem !important;
+    min-height: 30px !important;
+  }
+
+  .topbar-container {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+  }
+
+  .topbar-left .topbar-item {
+    display: none !important; /* Hide Legal Title, location, hours so they don't push the header */
+  }
+
+  .topbar-badge {
+    white-space: nowrap !important;
+    font-size: 0.68rem !important;
+    padding: 0.15rem 0.5rem !important;
+  }
+
+  .topbar-right {
+    display: flex !important;
+    align-items: center !important;
+    margin-left: auto !important;
+  }
+
+  .topbar-right .topbar-item {
+    display: flex !important;
+    white-space: nowrap !important;
+    font-size: 0.78rem !important;
+  }
+
+  /* 2. Header & Navbar: flex-wrap nowrap with gap, no collision */
   .navbar {
-    padding: 0.75rem 0.5rem;
-    position: relative;
+    padding: 0.6rem 0.5rem !important;
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    flex-wrap: nowrap !important;
+    gap: 0.5rem !important;
   }
 
   .logo {
-    flex-shrink: 0;
-  }
-
-  .logo-text {
-    font-size: 1.25rem;
-    white-space: nowrap;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+    overflow: hidden !important;
+    text-decoration: none !important;
   }
 
   .logo-icon {
-    width: 38px;
-    height: 38px;
-    font-size: 1.15rem;
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    font-size: 1.1rem !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Logo text "Swastik" and tagline "by Shreeji Infotech" on 2 lines with ellipsis */
+  .logo-text {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+    font-size: 1.15rem !important;
+    font-weight: 800 !important;
+    line-height: 1.15 !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+    color: #FFFFFF !important;
+  }
+
+  .logo-tagline,
+  .logo-text span {
+    display: block !important;
+    font-size: 0.62rem !important;
+    color: var(--accent-gold) !important;
+    font-weight: 600 !important;
+    line-height: 1.1 !important;
+    letter-spacing: 0.04em !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+    overflow: hidden !important;
+    margin-top: 1px !important;
   }
 
   .nav-actions {
     display: flex !important;
-    align-items: center;
-    gap: 0.5rem;
+    align-items: center !important;
+    gap: 0.4rem !important;
+    flex-shrink: 0 !important;
+    flex-wrap: nowrap !important;
   }
 
   /* Hide Book Consultation / Contact in mobile header; show inside mobile hamburger menu */
@@ -1726,169 +1805,189 @@ float-top-right {
   }
 
   .lang-switch {
-    padding: 2px;
-    background: rgba(0, 0, 0, 0.05);
-    border-radius: 8px;
+    display: flex !important;
+    align-items: center !important;
+    padding: 2px !important;
+    background: rgba(0, 0, 0, 0.25) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 8px !important;
+    gap: 2px !important;
+    flex-shrink: 0 !important;
   }
 
   .lang-btn {
-    padding: 0.3rem 0.55rem;
-    font-size: 0.75rem;
-    min-height: 36px;
+    padding: 0.25rem 0.45rem !important;
+    font-size: 0.75rem !important;
+    min-height: 34px !important;
+    min-width: unset !important;
+  }
+
+  .hud-btn {
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    min-height: 38px !important;
+    font-size: 0.95rem !important;
+    border-radius: 50% !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
   }
 
   .mobile-menu-btn {
     display: flex !important;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    min-height: 44px;
-    border-radius: 10px;
-    background: var(--bg-slate);
-    border: 1px solid var(--border-color);
-    color: var(--primary-dark);
-    font-size: 1.2rem;
-    cursor: pointer;
-    flex-shrink: 0;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    min-height: 42px !important;
+    border-radius: 10px !important;
+    background: var(--bg-slate) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--primary-dark) !important;
+    font-size: 1.2rem !important;
+    cursor: pointer !important;
+    flex-shrink: 0 !important;
   }
 
+  /* 3. Dark Backdrop behind Slide-in menu */
+  .nav-backdrop {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    background: rgba(0, 0, 0, 0.65) !important;
+    -webkit-backdrop-filter: blur(4px) !important;
+    backdrop-filter: blur(4px) !important;
+    z-index: 1250 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transition: opacity 0.3s ease, visibility 0.3s ease !important;
+  }
+
+  .nav-backdrop.active,
+  body.menu-open .nav-backdrop {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+
+  /* 4. Slide-in panel fixed to the left edge */
   .nav-links {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: rgba(7, 49, 64, 0.98);
-    -webkit-backdrop-filter: blur(25px);
-    backdrop-filter: blur(25px);
-    flex-direction: column;
-    padding: 1.75rem 1.5rem;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-    border-bottom: 3px solid var(--accent-gold);
-    border-radius: 0 0 20px 20px;
-    gap: 1rem;
-    z-index: 1200;
-  }
-
-  .nav-links.active {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    width: min(85vw, 340px) !important;
+    max-width: 340px !important;
+    height: 100dvh !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    background: #061527 !important;
+    background: linear-gradient(180deg, #071E36 0%, #051323 100%) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 10px 0 35px rgba(0, 0, 0, 0.5) !important;
+    z-index: 1300 !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: 1.75rem 1.25rem 2rem 1.25rem !important;
     display: flex !important;
+    flex-direction: column !important;
+    gap: 0.25rem !important;
+    border-radius: 0 !important;
+    border-bottom: none !important;
+
+    /* Closed state: transform translateX(-100%), visibility hidden */
+    transform: translateX(-100%) !important;
+    visibility: hidden !important;
+    transition: transform 0.3s ease, visibility 0.3s ease !important;
+    will-change: transform;
   }
 
-  .mobile-only-link {
+  /* Open state: translateX(0) */
+  .nav-links.active {
+    transform: translateX(0) !important;
+    visibility: visible !important;
+  }
+
+  /* Menu Links: left-aligned, one per row, 16px text, 48px row height, white-space nowrap */
+  .nav-links > li {
+    width: 100% !important;
+    list-style: none !important;
     display: block !important;
-    width: 100%;
   }
 
   .nav-link {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+    width: 100% !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    padding: 0 1rem !important;
+    font-size: 16px !important;
     color: rgba(255, 255, 255, 0.9) !important;
-    font-size: 1.1rem;
-    padding: 0.75rem 1rem;
-    border-radius: 10px;
-    width: 100%;
-    min-height: 44px;
-    display: flex;
-    align-items: center;
+    white-space: nowrap !important;
+    border-radius: 10px !important;
+    transition: background 0.2s ease, color 0.2s ease !important;
   }
 
   .nav-link:hover, .nav-link.active {
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.08) !important;
     color: var(--accent-gold-light) !important;
+  }
+
+  /* Put the "Book Consultation" button at the bottom of the panel */
+  .mobile-only-link {
+    display: block !important;
+    width: 100% !important;
+    margin-top: auto !important;
+    padding-top: 1.25rem !important;
+  }
+
+  .mobile-only-link .nav-link {
+    background: linear-gradient(135deg, #1D63FF 0%, #00D2FF 100%) !important;
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+    justify-content: center !important;
+    text-align: center !important;
+    box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3) !important;
+  }
+
+  body.menu-open {
+    overflow: hidden !important;
+    touch-action: none !important;
   }
 }
 
 @media (max-width: 768px) {
-  /* Navigation & Header Mobile Styling */
-  .navbar {
-    padding: 0.75rem 0.5rem;
-    position: relative;
+  .topbar-left {
+    display: none !important;
   }
 
-  .logo-text {
-    font-size: 1.2rem;
+  .topbar-container {
+    justify-content: center !important;
   }
 
-  .logo-icon {
-    width: 36px;
-    height: 36px;
-    font-size: 1.1rem;
+  .topbar-right {
+    margin: 0 auto !important;
+    justify-content: center !important;
   }
 
-  .nav-actions {
+  .topbar {
+    padding: 0.25rem 0.5rem !important;
+    min-height: 28px !important;
+    height: 28px !important;
     display: flex !important;
-    align-items: center;
-    gap: 0.4rem;
+    align-items: center !important;
   }
 
-  .nav-actions .btn-primary {
-    display: none; /* Mobile user accesses contact in mobile drawer */
-  }
-
-  .lang-switch {
-    padding: 2px;
-    background: rgba(0, 0, 0, 0.05);
-    border-radius: 8px;
-  }
-
-  .lang-btn {
-    padding: 0.3rem 0.55rem;
-    font-size: 0.75rem;
-  }
-
-  .mobile-menu-btn {
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    background: var(--bg-slate);
-    border: 1px solid var(--border-color);
-    color: var(--primary-dark);
-    font-size: 1.2rem;
-    cursor: pointer;
-  }
-
-  .nav-links {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: rgba(7, 49, 64, 0.98);
-    -webkit-backdrop-filter: blur(25px);
-    backdrop-filter: blur(25px);
-    flex-direction: column;
-    padding: 1.75rem 1.5rem;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-    border-bottom: 3px solid var(--accent-gold);
-    border-radius: 0 0 20px 20px;
-    gap: 1rem;
-    z-index: 1200;
-  }
-
-  .nav-links.active {
-    display: flex !important;
-  }
-
-  .mobile-only-link {
-    display: block !important;
-    width: 100%;
-  }
-
-  .nav-link {
-    color: rgba(255, 255, 255, 0.9) !important;
-    font-size: 1.1rem;
-    padding: 0.75rem 1rem;
-    border-radius: 10px;
-    width: 100%;
-  }
-
-  .nav-link:hover, .nav-link.active {
-    background: rgba(255, 255, 255, 0.12);
-    color: var(--accent-gold-light) !important;
-  }
-
+  /* Navigation & Header Mobile Styling inherits max-width: 1024px slide-in panel */
   .dropdown-menu {
     position: static;
     display: flex;
@@ -5708,64 +5807,108 @@ input[type="button"],
     gap: 1.25rem !important;
   }
 
-  /* Compact Navbar & Zero-Overflow for 320px */
+  /* Compact Topbar & Zero-Collision Navbar for < 480px */
+  .topbar-badge {
+    display: none !important;
+  }
+
+  .topbar-container {
+    justify-content: center !important;
+  }
+
+  .topbar-right {
+    margin: 0 auto !important;
+  }
+
+  .topbar {
+    padding: 0.25rem 0.5rem !important;
+  }
+
   .navbar {
-    padding: 0.5rem 0.25rem !important;
+    padding: 0.45rem 0.35rem !important;
+    gap: 0.35rem !important;
+    flex-wrap: nowrap !important;
   }
 
   .logo {
-    gap: 0.45rem !important;
+    gap: 0.35rem !important;
     min-width: 0 !important;
-    flex-shrink: 1 !important;
-  }
-
-  .logo-text {
-    font-size: 1.15rem !important;
-    white-space: nowrap !important;
-  }
-
-  .logo-tagline {
-    font-size: 0.56rem !important;
-    white-space: nowrap !important;
+    flex: 1 1 auto !important;
+    overflow: hidden !important;
   }
 
   .logo-icon {
     width: 32px !important;
     height: 32px !important;
-    font-size: 1rem !important;
-    flex-shrink: 0 !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    font-size: 0.95rem !important;
+  }
+
+  .logo-text {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+    font-size: 1.05rem !important;
+    line-height: 1.15 !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .logo-tagline,
+  .logo-text span {
+    font-size: 0.58rem !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+    overflow: hidden !important;
   }
 
   .nav-actions {
-    gap: 0.3rem !important;
+    gap: 0.25rem !important;
     flex-shrink: 0 !important;
+    flex-wrap: nowrap !important;
   }
 
   .lang-switch {
+    display: flex !important;
+    align-items: center !important;
     padding: 2px !important;
     gap: 2px !important;
+    flex-shrink: 0 !important;
   }
 
   .lang-btn {
-    padding: 0.25rem 0.4rem !important;
-    font-size: 0.7rem !important;
+    padding: 0.2rem 0.35rem !important;
+    font-size: 13px !important;
     min-height: 32px !important;
+    min-width: unset !important;
+    line-height: 1 !important;
   }
 
   .hud-btn {
     width: 34px !important;
     height: 34px !important;
+    min-width: 34px !important;
     min-height: 34px !important;
-    font-size: 0.85rem !important;
+    font-size: 13px !important;
     border-radius: 50% !important;
     padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
   }
 
   .mobile-menu-btn {
     width: 38px !important;
     height: 38px !important;
+    min-width: 38px !important;
     min-height: 38px !important;
-    font-size: 1.05rem !important;
+    border-radius: 10px !important;
+    font-size: 1.1rem !important;
+    flex-shrink: 0 !important;
   }
 
   .container {
