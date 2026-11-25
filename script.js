@@ -84,46 +84,45 @@ function initMobileNav() {
       }
     });
 
-    // Self-correcting scroll that re-measures until the section is actually at the top
-    function goTo(id) {
-      var t = document.getElementById(id);
-      if (!t) {
-        console.error('Menu target not found:', id);
-        return;
-      }
-      if (typeof window.ScrollTrigger !== 'undefined' && typeof window.ScrollTrigger.refresh === 'function') {
-        window.ScrollTrigger.refresh();
-      }
-      var h = (document.querySelector('.header') || {}).offsetHeight || 0;
-      var tries = 0;
-      (function step() {
-        var delta = t.getBoundingClientRect().top - h;
-        if (Math.abs(delta) > 2 && tries++ < 25) {
-          window.scrollBy(0, delta);
-          setTimeout(step, 60);
-        } else {
-          history.replaceState(null, '', '#' + id);
-        }
-      })();
-    }
-    window.goTo = goTo;
-
-    // Capture-phase click listener for menu links: runs before anything else can block it
+    // Click handler for in-page hash links inside .nav-links
     document.addEventListener('click', function (e) {
-      var a = e.target.closest('.nav-menu a[href], .mobile-menu a[href], nav a[href], .nav-links a[href]');
-      if (!a || window.innerWidth > 1024) return;
+      if (window.innerWidth > 1024) return; // Desktop stays unchanged
+
+      var a = e.target.closest('.nav-links a[href^="#"], .nav-links a[href*="index.html#"]');
+      if (!a) return;
+
       var href = a.getAttribute('href') || '';
       var hashIndex = href.indexOf('#');
+      if (hashIndex === -1) return;
+
       var isSamePage = href.startsWith('#') || (hashIndex > -1 && href.split('#')[0].replace(/^\.?\//, '') === (location.pathname.split('/').pop() || 'index.html'));
       if (!isSamePage) return; // other pages navigate normally
+
       e.preventDefault();
-      e.stopImmediatePropagation();
       var id = href.slice(hashIndex + 1);
-      closeMenu(); // existing close function; also remove body.menu-open and any scroll lock
+
+      closeMenu();
+      document.body.classList.remove('menu-open');
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.touchAction = '';
+      document.documentElement.style.overflow = '';
+      document.documentElement.style.position = '';
+      document.documentElement.style.top = '';
+      document.documentElement.style.touchAction = '';
+
       setTimeout(function () {
-        goTo(id);
-      }, 350);
-    }, true);
+        if (id) {
+          if (window.location.hash === '#' + id) {
+            var target = document.getElementById(id);
+            if (target) target.scrollIntoView({ block: 'start' });
+          } else {
+            window.location.hash = id;
+          }
+        }
+      }, 300);
+    });
   }
 }
 
